@@ -25,6 +25,7 @@ public class MaandSlechteNaamTest {
     private String reden;
     private static Maand maand;
 
+    // @ JASPER: Deze test is overbodig geworden omdat we gebruik maken van int 1 - 12 en de namen laten genereren via Month en Locale (ISO)
     public MaandSlechteNaamTest(String parameter, String reden) {
         this.parameter = parameter;
         this.reden = reden;
@@ -49,7 +50,7 @@ public class MaandSlechteNaamTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void setNaamVerwerptSlechteNaam() {
-        maand.setNaam(parameter);
+        //maand.setNaam(parameter);
     }
 
     

@@ -1,6 +1,7 @@
 package domein;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class Land {
 
@@ -12,12 +13,20 @@ public class Land {
     }
 
     public void setNaam(String naam) {
+        if (naam == null)
+            throw new IllegalArgumentException("De locatie van een klimatogram mag niet null zijn.");
+        naam = naam.trim();
+        if (naam.isEmpty())
+            throw new IllegalArgumentException("De locatie van een klimatogram mag niet leeg zijn.");
+        if (Pattern.compile(".*[^\'áàäâÅçÇëéèêïîíñöóôüûúa-zA-Z -].*").matcher(naam).matches())
+        {
+            throw new IllegalArgumentException("De naam van een locatie mag enkel letters, spaties en koppeltekens bevatten.");
+        }
         this.naam = naam;
     }
 
     public Land() {
-        // TODO - implement Land.Land
-        throw new UnsupportedOperationException();
+        klimatogrammen = new LinkedList<>();
     }
 
     /**
@@ -25,8 +34,8 @@ public class Land {
      * @param naam
      */
     public Land(String naam) {
-        // TODO - implement Land.Land
-        throw new UnsupportedOperationException();
+        this();
+        setNaam(naam);
     }
 
     /**
@@ -34,8 +43,18 @@ public class Land {
      * @param klimatogram
      */
     public void voegKlimatogramToe(Klimatogram klimatogram) {
-        // TODO - implement Land.voegKlimatogramToe
-        throw new UnsupportedOperationException();
+        if (klimatogram == null)
+        {
+            throw new IllegalArgumentException("Klimatogram met waarde null kan niet aan land toegevoegd worden.");
+        }
+        for (Klimatogram k : klimatogrammen)
+        {
+            if (k.getLocatie().equals(klimatogram.getLocatie()))
+            {
+                throw new IllegalArgumentException("Dit klimatogram werd reeds toegevoegd aan dit land.");
+            }
+        }
+        klimatogrammen.add(klimatogram);
     }
 
     public Collection<Klimatogram> getKlimatogrammen() {
