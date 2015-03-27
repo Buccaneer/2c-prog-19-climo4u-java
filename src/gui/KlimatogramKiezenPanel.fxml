@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<fx:root prefHeight="800.0" prefWidth="412.0" type="Pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="26.0" layoutY="98.0" text="Werelddeel" />
+      <Label layoutX="26.0" layoutY="145.0" text="Land" />
+      <Label layoutX="24.0" layoutY="195.0" text="Locaties" />
+      <Label layoutX="24.0" layoutY="22.0" text="Klimatogrammenbeheer">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Label>
+      <ComboBox layoutX="106.0" layoutY="94.0" prefHeight="25.0" prefWidth="200.0" />
+      <ComboBox layoutX="106.0" layoutY="141.0" prefHeight="25.0" prefWidth="200.0" />
+      <ScrollPane layoutX="108.0" layoutY="195.0" prefHeight="232.0" prefWidth="200.0">
+         <content>
+            <ListView prefHeight="228.0" prefWidth="200.0" />
+         </content>
+      </ScrollPane>
+      <Button layoutX="338.0" layoutY="94.0" mnemonicParsing="false" text="+" />
+      <Button layoutX="370.0" layoutY="94.0" mnemonicParsing="false" text=" - " />
+      <Button layoutX="338.0" layoutY="141.0" mnemonicParsing="false" text="+" />
+      <Button layoutX="370.0" layoutY="141.0" mnemonicParsing="false" text=" - " />
+      <Button layoutX="108.0" layoutY="660.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Terug naar menu" />
+      <Button layoutX="106.0" layoutY="489.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Klimatogram toevoegen" />
+      <Button layoutX="108.0" layoutY="545.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Klimatogram wijzigen" />
+      <Button layoutX="106.0" layoutY="603.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Klimatogram verwijderen" />
+   </children>
+</fx:root>
