@@ -2,11 +2,17 @@ package domein;
 
 import java.util.*;
 import java.util.regex.Pattern;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "continenten")
 public class Continent
 {
-
+   
+    @OneToMany(mappedBy = "continent",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Collection<Land> landen;
+    @Column(name="Naam", length = 128)
+    @Id
     private String naam;
 
     public String getNaam()
@@ -65,6 +71,7 @@ public class Continent
                 throw new IllegalArgumentException("Dit land werd reeds toegevoegd aan dit continent.");
             }
         }
+        land.setContinent(this);
         landen.add(land);
     }
 

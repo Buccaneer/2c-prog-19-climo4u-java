@@ -2,10 +2,20 @@ package domein;
 
 import java.util.*;
 import java.util.regex.Pattern;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "landen")
 public class Land {
 
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "land")
     private Collection<Klimatogram> klimatogrammen;
+    
+    @JoinColumn(name="Continent_Naam")
+    @ManyToOne(optional = true) // Fout in db dotnet maar goed.
+    private Continent continent;
+    @Column(name = "Naam", length = 40)
+    @Id
     private String naam;
 
     public String getNaam() {
@@ -38,6 +48,12 @@ public class Land {
         setNaam(naam);
     }
 
+    void setContinent(Continent continent) {
+        this.continent = continent;
+    }
+    
+    
+
     /**
      *
      * @param klimatogram
@@ -54,6 +70,7 @@ public class Land {
                 throw new IllegalArgumentException("Dit klimatogram werd reeds toegevoegd aan dit land.");
             }
         }
+        klimatogram.setLand(this);
         klimatogrammen.add(klimatogram);
     }
 

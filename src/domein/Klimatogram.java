@@ -2,15 +2,30 @@ package domein;
 
 import java.util.*;
 import java.util.regex.Pattern;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "klimatogrammen")
 public class Klimatogram {
 
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "klimatogram")
     private Collection<Maand> maanden;
+    
+    @JoinColumn(name="Land_Naam",nullable = false)
+    @ManyToOne(optional = false)
+    private Land land;
+    @Column(name="BeginJaar", nullable = false)
     private int beginJaar;
+    @Column(name="EindJaar", nullable = false)
     private int eindJaar;
+    @Column(name="Latitude" )
     private double latitude;
+    @Column(name="Locatie",length = 40)
+    @Id
     private String locatie;
+    @Column(name="Longitude")
     private double longitude;
+    @Column(name="Station", length = 10)
     private String station;
 
     public int getBeginJaar() {
@@ -23,6 +38,12 @@ public class Klimatogram {
             throw new IllegalArgumentException("Het beginjaar moet tussen 1800 en " + (huidigJaar - 10) + " liggen.");
         this.beginJaar = beginJaar;
     }
+
+    void setLand(Land land) {
+        this.land = land;
+    }
+    
+    
 
     public int getEindJaar() {
         return this.eindJaar;
@@ -98,6 +119,7 @@ public class Klimatogram {
         for (int i = 1; i <= 12; i++)
         {
             Maand m = new Maand();
+           m.setKlimatogram(this);
             m.setNaam(i);
             maanden.add(m);
         }
