@@ -16,3 +16,4 @@ hs_err_pid*
 /vpproject/
 /build/
 !/jars/mockito-all-1.9.5-rc1(1).jar
+/dist/
