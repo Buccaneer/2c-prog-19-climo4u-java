@@ -1,0 +1,30 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 28-mrt-2015, 13:44:49
+    Author     : Annemie
+*/
+
+
+
+.button{
+   -fx-background-color: #2FADDE; 
+   -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-border-radius: 4px;
+    
+}
+
+#verwijderenknop{
+    -fx-background-color: #b94a48;
+    -fx-border-radius: 4px;
+    
+}
+
+#toevoegenknop{
+    -fx-background-color: #468847;
+    -fx-border-radius: 4px;
+}

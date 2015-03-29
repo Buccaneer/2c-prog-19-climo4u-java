@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<fx:root prefHeight="775.0" prefWidth="820.0" type="Pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView fx:id="maandTable" layoutX="32.0" layoutY="70.0" prefHeight="206.0" prefWidth="327.0">
+        <columns>
+          <TableColumn fx:id="maandColumn" prefWidth="80.33332824707031" text="Maand" />
+          <TableColumn fx:id="neerslagColumn" prefWidth="121.0" text="Neerslag in mm" />
+            <TableColumn fx:id="temperatuurColumn" prefWidth="127.0" text="Temperatuur in °C" />
+        </columns>
+      </TableView>
+      <Label layoutX="32.0" layoutY="30.0" text="Gegevens klimatogram">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="388.0" layoutY="74.0" text="Station" />
+      <Label layoutX="387.0" layoutY="118.0" prefHeight="17.0" prefWidth="74.0" text="Coördinaten" />
+      <Label layoutX="387.0" layoutY="167.0" text="Periode" />
+      <Label layoutX="384.0" layoutY="259.0" text="Totale jaarneerslag" />
+      <Label layoutX="384.0" layoutY="214.0" text="Gemiddelde jaartemperatuur" />
+      <TextField fx:id="gemiddeldeTempTxf" layoutX="556.0" layoutY="210.0" prefHeight="25.0" prefWidth="232.0" />
+      <TextField fx:id="stationTxf" layoutX="556.0" layoutY="70.0" prefHeight="25.0" prefWidth="232.0" />
+      <TextField fx:id="coordinaten1Txf" layoutX="556.0" layoutY="114.0" prefHeight="25.0" prefWidth="74.0" />
+      <TextField fx:id="beginperiodeTxf" layoutX="556.0" layoutY="163.0" prefHeight="25.0" prefWidth="109.0" />
+      <TextField fx:id="totaleNeerslagTxf" layoutX="556.0" layoutY="255.0" prefHeight="25.0" prefWidth="232.0" />
+      <ComboBox fx:id="halfrondCmb" layoutX="738.0" layoutY="114.0" prefHeight="25.0" prefWidth="25.0" />
+      <AreaChart layoutX="32.0" layoutY="361.0" prefHeight="400.0" prefWidth="750.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </AreaChart>
+      <Label layoutX="32.0" layoutY="326.0" text="Voorbeeld klimatogram">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="coordinaten2Txf" layoutX="646.0" layoutY="114.0" prefHeight="25.0" prefWidth="74.0" />
+      <TextField fx:id="eindperiodeTxf" layoutX="678.0" layoutY="163.0" prefHeight="25.0" prefWidth="109.0" />
+   </children>
+</fx:root>
