@@ -1,13 +1,11 @@
 .mtj.tmp/
  
- # Package Files #
- *.war
- *.ear
+# Package Files #
+*.war
+*.ear
  
- @@ -15,4 +14,5 @@ hs_err_pid*
- /build.xml
- /nbproject/
- /vpproject/
--/build/
-+/build/
-+!/jars/mockito-all-1.9.5-rc1(1).jar
+ 
+/build.xml
+/nbproject/
+/vpproject/
+/build/
