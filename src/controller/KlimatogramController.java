@@ -163,4 +163,14 @@ public class KlimatogramController {
         continentenRepository = continentDao;
     }
     
+    public ObservableList<KlimatogramDto> getKlimatogrammen()
+    {
+        throw new UnsupportedOperationException();
+    }
+    
+    public void wijzigKlimatogram(KlimatogramDto klimatogramDto)
+    {
+        throw new UnsupportedOperationException();
+    }
+
 }

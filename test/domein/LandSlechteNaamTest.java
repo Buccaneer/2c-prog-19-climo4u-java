@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domein;
 
 import java.util.Arrays;
@@ -44,7 +39,7 @@ public class LandSlechteNaamTest {
 
     @Parameters
     public static Collection<Object[]> getTestParameters() {
-        return Arrays.asList(new Object[]{"#land","numerieke waarden en ongeldige tekens"}, new Object[]{"F_r_a_n_k_e", "Ongeldige tekens"}, new Object[]{"","lege string"}, new Object[]{null,"null"}, new Object[] {"         ","lege string"});
+        return Arrays.asList(new Object[]{"#land","numerieke waarden en ongeldige tekens"}, new Object[]{"F_r_a_n_k_e", "Ongeldige tekens"}, new Object[]{"","lege string"}, new Object[]{null,"null"}, new Object[] {"         ","lege string"}, new Object[] {"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","meer dan 40 chars"});
     }
 
     @Test(expected = IllegalArgumentException.class)

@@ -31,6 +31,10 @@ public class Continent
         {
             throw new IllegalArgumentException("Naam van een continent mag niet leeg zijn.");
         }
+        if (naam.length() > 40)
+        {
+            throw new IllegalArgumentException("De naam van een continent mag maximaal 40 tekens bevatten.");
+        }
         if (Pattern.compile(".*[^ëa-zA-Z\\s-].*").matcher(naam).matches())
         {
             throw new IllegalArgumentException("De naam van een continent mag enkel letters, spaties en koppeltekens bevatten.");

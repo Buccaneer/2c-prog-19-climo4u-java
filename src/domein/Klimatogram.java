@@ -76,10 +76,10 @@ public class Klimatogram {
         locatie = locatie.trim();
         if (locatie.isEmpty())
             throw new IllegalArgumentException("De locatie van een klimatogram mag niet leeg zijn.");
+        if (locatie.length() > 40)
+            throw new IllegalArgumentException("De naam van een locatie mag maximaal 40 tekens bevatten.");
         if (Pattern.compile(".*[^\'áàäâÅçÇëéèêïîíñöóôüûúa-zA-Z -].*").matcher(locatie).matches())
-        {
             throw new IllegalArgumentException("De naam van een locatie mag enkel letters, spaties en koppeltekens bevatten.");
-        }
         this.locatie = locatie;
     }
 
@@ -103,6 +103,10 @@ public class Klimatogram {
         station = station.trim();
         if (station.isEmpty())
             throw new IllegalArgumentException("Het station van een klimatogram mag niet leeg zijn.");
+        if (station.length() > 5)
+        {
+            throw new IllegalArgumentException("Het station van een klimatogram mag maximaal 5 tekens bevatten.");
+        }
         if (Pattern.compile(".*[^0-9].*").matcher(station).matches())
         {
             throw new IllegalArgumentException("Een station mag enkel cijfers bevatten.");

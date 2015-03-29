@@ -9,12 +9,12 @@ import persistentie.GenericDao;
  *
  * @author Jasper De Vrient
  */
-public class ContinentDoaMockFactory {
+public class ContinentDaoMockFactory {
     @Mock
     private GenericDao<Continent, String> continentDao;
     private List<Continent> continenten;
     
-    public ContinentDoaMockFactory() {
+    public ContinentDaoMockFactory() {
         continenten = new ArrayList<>();
         Continent c = new Continent("Europa");
         Land l = new Land("België");

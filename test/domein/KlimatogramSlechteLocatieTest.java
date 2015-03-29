@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domein;
 
 import java.util.Arrays;
@@ -14,18 +9,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-/**
- *
- * @author Jasper De Vrient
- */
 @RunWith(Parameterized.class)
-public class KlimatogramSlecteLocatieOfStationTest {
+public class KlimatogramSlechteLocatieTest {
 
     private String parameter;
     private String reden;
     private static Klimatogram klimatogram;
 
-    public KlimatogramSlecteLocatieOfStationTest(String parameter, String reden) {
+    public KlimatogramSlechteLocatieTest(String parameter, String reden) {
         this.parameter = parameter;
         this.reden = reden;
 
@@ -44,7 +35,7 @@ public class KlimatogramSlecteLocatieOfStationTest {
 
     @Parameters
     public static Collection<Object[]> getTestParameters() {
-        return Arrays.asList(new Object[]{"#Continent1","numerieke waarden en ongeldige tekens"}, new Object[]{"Zuid_America", "Ongeldige tekens"}, new Object[]{"","lege string"}, new Object[]{null,"null"}, new Object[] {"         ","lege string"});
+        return Arrays.asList(new Object[]{"#Continent1","numerieke waarden en ongeldige tekens"}, new Object[]{"Zuid_America", "Ongeldige tekens"}, new Object[]{"","lege string"}, new Object[]{null,"null"}, new Object[] {"         ","lege string"}, new Object[] {"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","meer dan 40 chars"});
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -57,8 +48,4 @@ public class KlimatogramSlecteLocatieOfStationTest {
         Klimatogram c = new Klimatogram(parameter);
     }
     
-        @Test(expected = IllegalArgumentException.class)
-    public void setStationVerwerptSlechtStation() {
-        klimatogram.setStation(parameter);
-    }
 }
