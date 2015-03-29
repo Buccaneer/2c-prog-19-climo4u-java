@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 
 <fx:root prefHeight="800.0" prefWidth="1240.0" type="GridPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
@@ -18,37 +18,24 @@
    <children>
       <MenuBar>
         <menus>
-          <Menu mnemonicParsing="false" text="Klimatogrammen">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Determineren">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Klassenlijsten">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Toetsen">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Uitloggen">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
+          <Menu fx:id="mnuKlimatogrammen" mnemonicParsing="false" text="Klimatogrammen" />
+          <Menu fx:id="mnuDetermineren" mnemonicParsing="false" text="Determineren" />
+          <Menu fx:id="mnuKlaslijsten" mnemonicParsing="false" text="Klassenlijsten" />
+            <Menu fx:id="mnuToetsen" mnemonicParsing="false" text="Toetsen" />
         </menus>
       </MenuBar>
-      <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0" GridPane.rowIndex="1">
+      <MenuBar>
+        <menus>
+          <Menu fx:id="mnuUitloggen" mnemonicParsing="false" text="Uitloggen" />
+        </menus>
+         <GridPane.margin>
+            <Insets left="1156.0" />
+         </GridPane.margin>
+      </MenuBar>
+      <SplitPane fx:id="splSplitPane" dividerPositions="0.3360258481421648" prefHeight="160.0" prefWidth="200.0" GridPane.rowIndex="1">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="773.0" prefWidth="412.0" />
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="820.0" />
+            <Pane fx:id="pnlLinks" layoutX="21.0" layoutY="93.0" prefHeight="200.0" prefWidth="200.0" />
+            <Pane fx:id="pnlRechts" layoutX="129.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" />
         </items>
       </SplitPane>
    </children>

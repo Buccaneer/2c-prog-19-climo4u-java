@@ -5,23 +5,47 @@
  */
 package gui;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import controller.KlimatogramController;
+import java.io.IOException;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
  *
  * @author Annemie
  */
-public class KlimatogramFrameController implements Initializable {
+public class KlimatogramFrameController extends GridPane{
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+    private KlimatogramController controller;
+    
+    @FXML
+    private SplitPane splSplitPane;
+    
+    @FXML
+    private Pane pnlLinks;
+    
+    @FXML
+    private Pane pnlRechts;
+    
+    public KlimatogramFrameController(KlimatogramController controller) {
+        this.controller = controller;
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("KlimatogramFrame.fxml"));
+        loader.setRoot(this);
+        loader.setController(this);
+        try {
+            loader.load();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        
+        pnlLinks.getChildren().add(new KlimatogramKiezenPanelController(this.controller));
+        pnlRechts.getChildren().add(new KlimatogramDetailPanelController());
+    }
+    
     
 }

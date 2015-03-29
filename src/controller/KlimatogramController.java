@@ -15,6 +15,10 @@ public class KlimatogramController {
     protected Land geselecteerdLand;
     protected Klimatogram geselecteerdKlimatogram;
 
+    public KlimatogramController() {
+        continentenRepository = new GenericDaoJpa<>(Continent.class);
+    }
+    
     /**
      *
      * @param continent
@@ -51,6 +55,8 @@ public class KlimatogramController {
             throw new IllegalArgumentException("Continent bestaat niet");
         }
         geselecteerdContinent=cont;
+        geselecteerdKlimatogram=null;
+        geselecteerdLand=null;
     }
 
     public ObservableList<LandDto> getLanden() {
@@ -65,6 +71,20 @@ public class KlimatogramController {
             landenDto.add(land);
         }
         return landenDto;
+    }
+    
+    public ObservableList<KlimatogramDto> getLocaties(){
+        if(geselecteerdLand == null){
+            throw new IllegalArgumentException("Land moet eerst geselecteerd worden");
+        }
+        Collection<Klimatogram> klimatogrammen = geselecteerdLand.getKlimatogrammen();
+        ObservableList<KlimatogramDto> klimatogrammenDto = FXCollections.observableArrayList();
+        for(Klimatogram k : klimatogrammen){
+            KlimatogramDto klimatogram = new KlimatogramDto();
+            klimatogram.setLocatie(k.getLocatie());
+            klimatogrammenDto.add(klimatogram);
+        }
+        return klimatogrammenDto;
     }
 
     /**
@@ -84,6 +104,7 @@ public class KlimatogramController {
             throw new IllegalArgumentException("Land bestaat niet");
         }
         geselecteerdLand=la;
+        geselecteerdKlimatogram=null;
     }
 
     /**
@@ -141,5 +162,5 @@ public class KlimatogramController {
     public void setContinentRepository(GenericDao<Continent, String> continentDao) {
         continentenRepository = continentDao;
     }
-
+    
 }

@@ -23,7 +23,7 @@ public class Klimatogram {
     @Column(name="Locatie",length = 40)
     @Id
     private String locatie;
-    @Column(name="Longitude")
+    @Column(name="Longitute")
     private double longitude;
     @Column(name="Station", length = 10)
     private String station;

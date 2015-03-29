@@ -8,10 +8,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <fx:root prefHeight="775.0" prefWidth="820.0" type="Pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView fx:id="maandTable" layoutX="32.0" layoutY="70.0" prefHeight="206.0" prefWidth="327.0">
+      <TableView fx:id="tblMaanden" layoutX="32.0" layoutY="70.0" prefHeight="206.0" prefWidth="327.0">
         <columns>
           <TableColumn fx:id="maandColumn" prefWidth="80.33332824707031" text="Maand" />
           <TableColumn fx:id="neerslagColumn" prefWidth="121.0" text="Neerslag in mm" />
@@ -24,30 +23,29 @@
          </font>
       </Label>
       <Label layoutX="388.0" layoutY="74.0" text="Station" />
-      <Label layoutX="387.0" layoutY="118.0" prefHeight="17.0" prefWidth="74.0" text="Coördinaten" />
-      <Label layoutX="387.0" layoutY="167.0" text="Periode" />
-      <Label layoutX="384.0" layoutY="259.0" text="Totale jaarneerslag" />
-      <Label layoutX="384.0" layoutY="214.0" text="Gemiddelde jaartemperatuur" />
-      <TextField fx:id="gemiddeldeTempTxf" layoutX="556.0" layoutY="210.0" prefHeight="25.0" prefWidth="232.0" />
-      <TextField fx:id="stationTxf" layoutX="556.0" layoutY="70.0" prefHeight="25.0" prefWidth="232.0" />
-      <TextField fx:id="coordinaten1Txf" layoutX="556.0" layoutY="114.0" prefHeight="25.0" prefWidth="74.0" />
-      <TextField fx:id="beginperiodeTxf" layoutX="556.0" layoutY="163.0" prefHeight="25.0" prefWidth="109.0" />
-      <TextField fx:id="totaleNeerslagTxf" layoutX="556.0" layoutY="255.0" prefHeight="25.0" prefWidth="232.0" />
-      <ComboBox fx:id="halfrondCmb" layoutX="738.0" layoutY="114.0" prefHeight="25.0" prefWidth="25.0" />
-      <AreaChart layoutX="32.0" layoutY="361.0" prefHeight="400.0" prefWidth="750.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </AreaChart>
+      <Label layoutX="387.0" layoutY="111.0" prefHeight="17.0" prefWidth="74.0" text="Latitude" />
+      <Label layoutX="387.0" layoutY="188.0" text="Periode" />
+      <Label layoutX="387.0" layoutY="262.0" text="Totale jaarneerslag" />
+      <Label layoutX="387.0" layoutY="225.0" text="Gemiddelde jaartemperatuur" />
+      <TextField fx:id="txfGemiddeldeTemperatuur" layoutX="559.0" layoutY="221.0" prefHeight="25.0" prefWidth="232.0" />
+      <TextField fx:id="txfStation" layoutX="559.0" layoutY="70.0" prefHeight="25.0" prefWidth="232.0" />
+      <TextField fx:id="txfLatitudeUren" layoutX="559.0" layoutY="107.0" prefHeight="25.0" prefWidth="50.0" />
+      <TextField fx:id="txfBeginPeriode" layoutX="559.0" layoutY="184.0" prefHeight="25.0" prefWidth="109.0" />
+      <TextField fx:id="txfTotaleJaarneerslag" layoutX="559.0" layoutY="258.0" prefHeight="25.0" prefWidth="232.0" />
+      <ComboBox fx:id="halfrondCmb" layoutX="741.0" layoutY="107.0" prefHeight="25.0" prefWidth="25.0" />
       <Label layoutX="32.0" layoutY="326.0" text="Voorbeeld klimatogram">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="coordinaten2Txf" layoutX="646.0" layoutY="114.0" prefHeight="25.0" prefWidth="74.0" />
-      <TextField fx:id="eindperiodeTxf" layoutX="678.0" layoutY="163.0" prefHeight="25.0" prefWidth="109.0" />
+      <TextField fx:id="txfLatitudeMinuten" layoutX="617.0" layoutY="107.0" prefHeight="25.0" prefWidth="50.0" />
+      <TextField fx:id="txfEindPeriode" layoutX="681.0" layoutY="184.0" prefHeight="25.0" prefWidth="109.0" />
+      <Pane fx:id="pnlKlimatogram" layoutX="26.0" layoutY="368.0" prefHeight="385.0" prefWidth="775.0" />
+      <TextField fx:id="txfLatitudeSeconden" layoutX="675.0" layoutY="107.0" prefHeight="25.0" prefWidth="50.0" />
+      <TextField fx:id="txfLongitudeSeconden" layoutX="675.0" layoutY="145.0" prefHeight="25.0" prefWidth="50.0" />
+      <TextField fx:id="txfLongitudeMinuten" layoutX="617.0" layoutY="145.0" prefHeight="25.0" prefWidth="50.0" />
+      <ComboBox fx:id="halfrondCmb1" layoutX="741.0" layoutY="145.0" prefHeight="25.0" prefWidth="25.0" />
+      <TextField fx:id="txfLongitudeUren" layoutX="559.0" layoutY="145.0" prefHeight="25.0" prefWidth="50.0" />
+      <Label layoutX="387.0" layoutY="149.0" prefHeight="17.0" prefWidth="74.0" text="Longitude" />
    </children>
 </fx:root>
