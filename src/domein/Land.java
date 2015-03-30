@@ -28,6 +28,10 @@ public class Land {
         naam = naam.trim();
         if (naam.isEmpty())
             throw new IllegalArgumentException("De locatie van een klimatogram mag niet leeg zijn.");
+        if (naam.length() > 40)
+        {
+            throw new IllegalArgumentException("De naam van een land mag maximaal 40 tekens bevatten.");
+        }
         if (Pattern.compile(".*[^\'áàäâÅçÇëéèêïîíñöóôüûúa-zA-Z -].*").matcher(naam).matches())
         {
             throw new IllegalArgumentException("De naam van een locatie mag enkel letters, spaties en koppeltekens bevatten.");
@@ -48,7 +52,7 @@ public class Land {
         setNaam(naam);
     }
 
-    void setContinent(Continent continent) {
+   public void setContinent(Continent continent) {
         this.continent = continent;
     }
     

@@ -199,24 +199,15 @@ public class KlimatogramController implements Subject{
     public void setContinentRepository(GenericDao<Continent, String> continentDao) {
         continentenRepository = continentDao;
     }
-
-    @Override
-    public void addObserver(Observer o) {
-        observers.add(o);
+    
+    public ObservableList<KlimatogramDto> getKlimatogrammen()
+    {
+        throw new UnsupportedOperationException();
+    }
+    
+    public void wijzigKlimatogram(KlimatogramDto klimatogramDto)
+    {
+        throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void removeObserver(Observer observer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void notifyObservers() {
-        
-    }
-
-    @Override
-    public void notifyObservers(Object object) {
-        observers.forEach(o->o.update(object));
-    }
 }

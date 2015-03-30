@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Maand {
 
     @Column(name = "MaandId")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int maandId;
     
@@ -54,7 +54,7 @@ public class Maand {
         this.temperatuur = temperatuur;
     }
 
-    void setKlimatogram(Klimatogram aThis) {
+   public  void setKlimatogram(Klimatogram aThis) {
       klimatogram = aThis;
     }
 
