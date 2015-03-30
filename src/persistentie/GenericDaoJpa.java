@@ -43,7 +43,9 @@ public class GenericDaoJpa<T, K> implements GenericDao<T, K> {
      * @param item
      */
     public void insert(T item) {
+        startTransaction();
         em.persist(item);
+        commitTransaction();
     }
 
     /**
@@ -51,7 +53,9 @@ public class GenericDaoJpa<T, K> implements GenericDao<T, K> {
      * @param item
      */
     public void delete(T item) {
+        startTransaction();
         em.remove(em.merge(item));
+        commitTransaction();
     }
 
     /**
@@ -78,8 +82,14 @@ public class GenericDaoJpa<T, K> implements GenericDao<T, K> {
      *
      * @param item
      */
-    public T update(T item) {
+    public T update(T item) 
+    {
         return em.merge(item);
+    }
+    
+    public void saveChanges() {
+        startTransaction();
+        commitTransaction();
     }
 
 }

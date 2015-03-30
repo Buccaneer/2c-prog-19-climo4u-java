@@ -18,10 +18,11 @@ public class StartUp {
         
         List<Continent> continents = dao.getAll();
 
+        Continent continent = dao.get("continent");
         
-  
-            for (Continent c : continents)
-            System.out.println(c.getNaam());
+        continent.setNaam("Het continent");
+        
+        dao.saveChanges();
 
         GenericDaoJpa.closePersistency();
     }
