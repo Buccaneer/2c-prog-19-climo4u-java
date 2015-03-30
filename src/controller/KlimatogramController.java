@@ -1,13 +1,22 @@
 package controller;
 
-import persistentie.*;
-import domein.*;
-import dto.*;
+import domein.Continent;
+import domein.Klimatogram;
+import domein.Land;
+import domein.Maand;
+import dto.ContinentDto;
+import dto.KlimatogramDto;
+import dto.LandDto;
+import dto.MaandDto;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import persistentie.GenericDao;
+import persistentie.GenericDaoJpa;
+
+
 
 public class KlimatogramController implements Subject{
     
@@ -208,6 +217,26 @@ public class KlimatogramController implements Subject{
     public void wijzigKlimatogram(KlimatogramDto klimatogramDto)
     {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+       
+    }
+
+    @Override
+    public void notifyObservers(Object object) {
+       observers.forEach(o->o.update(object));
     }
 
 }
