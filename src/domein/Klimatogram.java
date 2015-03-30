@@ -39,11 +39,9 @@ public class Klimatogram {
         this.beginJaar = beginJaar;
     }
 
-public    void setLand(Land land) {
+    public void setLand(Land land) {
         this.land = land;
     }
-    
-    
 
     public int getEindJaar() {
         return this.eindJaar;
@@ -78,8 +76,8 @@ public    void setLand(Land land) {
             throw new IllegalArgumentException("De locatie van een klimatogram mag niet leeg zijn.");
         if (locatie.length() > 40)
             throw new IllegalArgumentException("De naam van een locatie mag maximaal 40 tekens bevatten.");
-        if (Pattern.compile(".*[^\'áàäâÅçÇëéèêïîíñöóôüûúa-zA-Z, -].*").matcher(locatie).matches())
-            throw new IllegalArgumentException("De naam van een locatie mag enkel letters, spaties en koppeltekens bevatten.");
+        if (Pattern.compile(".*[^\'áàäâÅçÇëéèêïîíñöóôüûúa-zA-Z ,-].*").matcher(locatie).matches())
+            throw new IllegalArgumentException("De naam van een locatie mag enkel letters, kommas, apostrofes, spaties en koppeltekens bevatten.");
         this.locatie = locatie;
     }
 
@@ -136,6 +134,6 @@ public    void setLand(Land land) {
     public Klimatogram(String locatie) {
         this();
         setLocatie(locatie);
-    }
+    } 
 
 }

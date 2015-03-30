@@ -117,7 +117,7 @@ public class KlimatogramControllerTest
         klim.setLatitude(2.222);
         klim.setLongitude(4.0444);
         klim.setLocatie("Frankrijk");
-        klim.setStation("111222");
+        klim.setStation("11222");
         klim.maanden = new ArrayList<MaandDto>();
         for (int i = 0; i < 12; ++i)
         {
@@ -228,8 +228,17 @@ public class KlimatogramControllerTest
         klim.setEindJaar(2001);
         klim.setLatitude(2.222);
         klim.setLongitude(4.0444);
-        klim.setStation("111222");
-
+        klim.setStation("11222");
+        List<MaandDto> maanden = new ArrayList<MaandDto>();
+        for (int i = 0; i < 12; i++)
+        {
+            MaandDto m = new MaandDto();
+            m.setNaam(i + "");
+            m.setNeerslag(i);
+            m.setTemperatuur(i);
+            maanden.add(m);
+        }
+        klim.maanden = maanden;
         controller.voegKlimatogramToe(klim);
 
     }
@@ -247,8 +256,17 @@ public class KlimatogramControllerTest
         klim.setEindJaar(2001);
         klim.setLatitude(2.222);
         klim.setLongitude(4.0444);
-        klim.setStation("111222");
-        klim.maanden = new ArrayList<MaandDto>();
+        klim.setStation("11222");
+        List<MaandDto> maanden = new ArrayList<MaandDto>();
+        for (int i = 0; i < 12; i++)
+        {
+            MaandDto m = new MaandDto();
+            m.setNaam(i + "");
+            m.setNeerslag(i);
+            m.setTemperatuur(i);
+            maanden.add(m);
+        }
+        klim.maanden = maanden;
 
         controller.voegKlimatogramToe(klim);
 
@@ -271,7 +289,7 @@ public class KlimatogramControllerTest
         controller.geselecteerdLand = dmf.maakLandMock("TestLand", klimatogrammen);
         for (int i = 0; i < 5; i++)
         {
-            assertEquals(locaties[i], controller.getKlimatogrammen().get(i));
+            assertEquals(locaties[i], controller.getKlimatogrammen().get(i).getLocatie());
         }
     }
     
@@ -279,14 +297,24 @@ public class KlimatogramControllerTest
     public void wijzigKlimatogramWijzigtKlimatogram() //UC2, NV10
     {
         KlimatogramDto kDto = new KlimatogramDto();
-        kDto.setBeginJaar(1800);
+        kDto.setBeginJaar(1900);
         kDto.setEindJaar(2000);
         kDto.setLatitude(0);
         kDto.setLongitude(0);
         kDto.setLocatie("LegoLand");
         kDto.setStation("01234");
+        List<MaandDto> maanden = new ArrayList<MaandDto>();
+        for (int i = 0; i < 12; i++)
+        {
+            MaandDto m = new MaandDto();
+            m.setNaam(i + "");
+            m.setNeerslag(i);
+            m.setTemperatuur(i);
+            maanden.add(m);
+        }
+        kDto.maanden = maanden;
         Klimatogram k = new Klimatogram();
-        k.setBeginJaar(1900);
+        k.setBeginJaar(1950);
         k.setEindJaar(2010);
         k.setLatitude(10);
         k.setLongitude(10);
@@ -294,12 +322,39 @@ public class KlimatogramControllerTest
         k.setStation("43210");
         controller.geselecteerdKlimatogram = k;
         controller.wijzigKlimatogram(kDto);
-        assertEquals(1800, controller.geselecteerdKlimatogram.getBeginJaar());
+        assertEquals(1900, controller.geselecteerdKlimatogram.getBeginJaar());
         assertEquals(2000, controller.geselecteerdKlimatogram.getEindJaar());
         assertEquals(0.0, controller.geselecteerdKlimatogram.getLatitude(), 0.01);
         assertEquals(0.0, controller.geselecteerdKlimatogram.getLongitude(), 0.01);
         assertEquals("LegoLand", controller.geselecteerdKlimatogram.getLocatie());
         assertEquals("01234", controller.geselecteerdKlimatogram.getStation());
+    }
+    
+    @Test
+    public void verwijderKlimatogramVerwijdertKlimatogram() //UC2, AV8A
+    {
+        KlimatogramDto kDto = new KlimatogramDto();
+        kDto.setBeginJaar(1900);
+        kDto.setEindJaar(2000);
+        kDto.setLatitude(0);
+        kDto.setLongitude(0);
+        kDto.setLocatie("LegoStad");
+        kDto.setStation("01234");
+        List<MaandDto> maanden = new ArrayList<MaandDto>();
+        for (int i = 0; i < 12; i++)
+        {
+            MaandDto m = new MaandDto();
+            m.setNaam(i + "");
+            m.setNeerslag(i);
+            m.setTemperatuur(i);
+            maanden.add(m);
+        }
+        kDto.maanden = maanden;
+        controller.geselecteerdLand = new Land("LegoLand");
+        controller.voegKlimatogramToe(kDto);
+        assertEquals(kDto.getLocatie(), controller.getKlimatogrammen().get(0).getLocatie());
+        controller.verwijderKlimatogram("LegoStad");
+        assertTrue(controller.getKlimatogrammen().isEmpty());
     }
 
 }

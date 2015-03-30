@@ -54,7 +54,7 @@ public class Maand {
         this.temperatuur = temperatuur;
     }
 
-   public  void setKlimatogram(Klimatogram aThis) {
+   public void setKlimatogram(Klimatogram aThis) {
       klimatogram = aThis;
     }
 
