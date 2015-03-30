@@ -34,8 +34,6 @@ public interface GenericDao<T,K> {
 	 * 
 	 * @param item
 	 */
-	T update(T item);
-        
-        void saveChanges();
+	void update(T item);
 
 }

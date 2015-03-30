@@ -52,7 +52,7 @@ public class Land {
         setNaam(naam);
     }
 
-    void setContinent(Continent continent) {
+   public void setContinent(Continent continent) {
         this.continent = continent;
     }
     

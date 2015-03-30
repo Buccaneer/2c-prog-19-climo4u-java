@@ -82,14 +82,9 @@ public class GenericDaoJpa<T, K> implements GenericDao<T, K> {
      *
      * @param item
      */
-    public T update(T item) 
-    {
-        return em.merge(item);
-    }
-    
-    public void saveChanges() {
-        startTransaction();
-        commitTransaction();
+    public void update(T item) 
+    {delete(item);
+        insert(item);
     }
 
 }

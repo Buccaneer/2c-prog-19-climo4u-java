@@ -39,7 +39,7 @@ public class Klimatogram {
         this.beginJaar = beginJaar;
     }
 
-    void setLand(Land land) {
+public    void setLand(Land land) {
         this.land = land;
     }
     
@@ -78,7 +78,7 @@ public class Klimatogram {
             throw new IllegalArgumentException("De locatie van een klimatogram mag niet leeg zijn.");
         if (locatie.length() > 40)
             throw new IllegalArgumentException("De naam van een locatie mag maximaal 40 tekens bevatten.");
-        if (Pattern.compile(".*[^\'áàäâÅçÇëéèêïîíñöóôüûúa-zA-Z -].*").matcher(locatie).matches())
+        if (Pattern.compile(".*[^\'áàäâÅçÇëéèêïîíñöóôüûúa-zA-Z, -].*").matcher(locatie).matches())
             throw new IllegalArgumentException("De naam van een locatie mag enkel letters, spaties en koppeltekens bevatten.");
         this.locatie = locatie;
     }
