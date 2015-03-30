@@ -28,6 +28,7 @@ public class DomeinMockFactory
     
     public Land maakLandMock(String naam, Collection<Klimatogram> klimatogrammen) {
         MockitoAnnotations.initMocks(this);
+        l = new Land();
         Mockito.when(l.getKlimatogrammen()).thenReturn(klimatogrammen);
         Mockito.when(l.getNaam()).thenReturn(naam);
         return l;
@@ -46,6 +47,7 @@ public class DomeinMockFactory
     public Klimatogram maakKlimatogramMock(String locatie, Collection<Maand> maanden)
     {
         MockitoAnnotations.initMocks(this);
+        k = new Klimatogram();
         Mockito.when(k.getBeginJaar()).thenReturn(1970);
         Mockito.when(k.getEindJaar()).thenReturn(2000);
         Mockito.when(k.getLatitude()).thenReturn(0.0);
@@ -78,6 +80,7 @@ public class DomeinMockFactory
     public Maand maakMaandMock(int maand, int neerslag, double temperatuur)
     {
         MockitoAnnotations.initMocks(this);
+        m = new Maand();
         Mockito.when(m.getNaam()).thenReturn(Month.of(maand).getDisplayName(TextStyle.FULL, Locale.forLanguageTag("nl_BE")));
         Mockito.when(m.getNeerslag()).thenReturn(neerslag);
         Mockito.when(m.getTemperatuur()).thenReturn(temperatuur);

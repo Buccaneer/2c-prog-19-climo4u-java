@@ -7,6 +7,7 @@ package gui;
 
 import controller.KlimatogramController;
 import dto.ContinentDto;
+import dto.KlimatogramDto;
 import dto.LandDto;
 import java.io.IOException;
 import java.util.Arrays;
@@ -67,6 +68,13 @@ public class KlimatogramKiezenPanelController extends Pane {
                  controller.getLocaties().forEach(l->locaties.add(l.getLocatie()));
                  lstLocaties.setItems(locaties);
              }
+        });
+        lstLocaties.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue)->{
+            if(newValue != null){
+                KlimatogramDto dto = new KlimatogramDto();
+                dto.setLocatie(newValue.toString());
+                controller.selecteerKlimatogram(dto);
+            }
         });
     }
 }

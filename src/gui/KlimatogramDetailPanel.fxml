@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root prefHeight="775.0" prefWidth="820.0" type="Pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root disable="true" prefHeight="775.0" prefWidth="820.0" type="Pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TableView fx:id="tblMaanden" layoutX="32.0" layoutY="70.0" prefHeight="206.0" prefWidth="327.0">
         <columns>
@@ -40,12 +40,14 @@
       </Label>
       <TextField fx:id="txfLatitudeMinuten" layoutX="617.0" layoutY="107.0" prefHeight="25.0" prefWidth="50.0" />
       <TextField fx:id="txfEindPeriode" layoutX="681.0" layoutY="184.0" prefHeight="25.0" prefWidth="109.0" />
-      <Pane fx:id="pnlKlimatogram" layoutX="26.0" layoutY="368.0" prefHeight="385.0" prefWidth="775.0" />
+      <Pane fx:id="pnlKlimatogram" layoutX="21.0" layoutY="368.0" prefHeight="385.0" prefWidth="752.0" />
       <TextField fx:id="txfLatitudeSeconden" layoutX="675.0" layoutY="107.0" prefHeight="25.0" prefWidth="50.0" />
       <TextField fx:id="txfLongitudeSeconden" layoutX="675.0" layoutY="145.0" prefHeight="25.0" prefWidth="50.0" />
       <TextField fx:id="txfLongitudeMinuten" layoutX="617.0" layoutY="145.0" prefHeight="25.0" prefWidth="50.0" />
       <ComboBox fx:id="halfrondCmb1" layoutX="741.0" layoutY="145.0" prefHeight="25.0" prefWidth="25.0" />
       <TextField fx:id="txfLongitudeUren" layoutX="559.0" layoutY="145.0" prefHeight="25.0" prefWidth="50.0" />
       <Label layoutX="387.0" layoutY="149.0" prefHeight="17.0" prefWidth="74.0" text="Longitude" />
+      <Button fx:id="btnOpslaan" layoutX="651.0" layoutY="294.0" mnemonicParsing="false" text="Opslaan" visible="false" />
+      <Button fx:id="btnAnnuleren" layoutX="719.0" layoutY="294.0" mnemonicParsing="false" text="Annuleren" visible="false" />
    </children>
 </fx:root>

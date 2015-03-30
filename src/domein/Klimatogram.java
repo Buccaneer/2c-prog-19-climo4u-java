@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Klimatogram {
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "klimatogram")
-    private Collection<Maand> maanden;
+    private List<Maand> maanden;
     
     @JoinColumn(name="Land_Naam",nullable = false)
     @ManyToOne(optional = false)
@@ -39,9 +39,11 @@ public class Klimatogram {
         this.beginJaar = beginJaar;
     }
 
-    void setLand(Land land) {
+public    void setLand(Land land) {
         this.land = land;
     }
+    
+    
 
     public int getEindJaar() {
         return this.eindJaar;
@@ -76,8 +78,8 @@ public class Klimatogram {
             throw new IllegalArgumentException("De locatie van een klimatogram mag niet leeg zijn.");
         if (locatie.length() > 40)
             throw new IllegalArgumentException("De naam van een locatie mag maximaal 40 tekens bevatten.");
-        if (Pattern.compile(".*[^\'áàäâÅçÇëéèêïîíñöóôüûúa-zA-Z ,-].*").matcher(locatie).matches())
-            throw new IllegalArgumentException("De naam van een locatie mag enkel letters, kommas, apostrofes, spaties en koppeltekens bevatten.");
+        if (Pattern.compile(".*[^\'áàäâÅçÇëéèêïîíñöóôüûúa-zA-Z, -].*").matcher(locatie).matches())
+            throw new IllegalArgumentException("De naam van een locatie mag enkel letters, spaties en koppeltekens bevatten.");
         this.locatie = locatie;
     }
 
@@ -112,7 +114,7 @@ public class Klimatogram {
         this.station = station;
     }
 
-    public Collection<Maand> getMaanden() {
+    public List<Maand> getMaanden() {
         return maanden;
     }
     
@@ -134,6 +136,6 @@ public class Klimatogram {
     public Klimatogram(String locatie) {
         this();
         setLocatie(locatie);
-    } 
+    }
 
 }

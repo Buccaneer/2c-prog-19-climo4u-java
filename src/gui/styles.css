@@ -28,3 +28,15 @@ and open the template in the editor.
     -fx-background-color: #468847;
     -fx-border-radius: 4px;
 }
+
+.chart-plot-background { 
+  -fx-background-color: transparent; 
+}
+
+.default-color0.chart-series-line { 
+  -fx-stroke: red; 
+}
+
+.chart-bar{
+    -fx-bar-fill:blue;
+}

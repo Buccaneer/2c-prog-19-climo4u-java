@@ -4,7 +4,7 @@ import java.util.*;
 
 public class KlimatogramDto {
 
-	public Collection<MaandDto> maanden;
+	public List<MaandDto> maanden;
 	private int beginJaar;
 	private int eindJaar;
 	private double latitude;
