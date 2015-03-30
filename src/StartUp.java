@@ -29,7 +29,7 @@ public class StartUp extends Application{
 
         stage.show();
         
-       // scene.getStylesheets().add("/gui/styles.css");
+        scene.getStylesheets().add("/gui/styles.css");
     }
     
      public static void main(String... args) {

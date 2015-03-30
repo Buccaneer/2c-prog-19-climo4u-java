@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Klimatogram {
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "klimatogram")
-    private Collection<Maand> maanden;
+    private List<Maand> maanden;
     
     @JoinColumn(name="Land_Naam",nullable = false)
     @ManyToOne(optional = false)
@@ -110,7 +110,7 @@ public class Klimatogram {
         this.station = station;
     }
 
-    public Collection<Maand> getMaanden() {
+    public List<Maand> getMaanden() {
         return maanden;
     }
     

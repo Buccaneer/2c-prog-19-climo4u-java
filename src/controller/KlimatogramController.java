@@ -3,19 +3,22 @@ package controller;
 import persistentie.*;
 import domein.*;
 import dto.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class KlimatogramController {
-
+public class KlimatogramController implements Subject{
+    
+    private List<Observer> observers;
     private GenericDao<Continent,String> continentenRepository;
     protected Continent geselecteerdContinent;
     protected Land geselecteerdLand;
     protected Klimatogram geselecteerdKlimatogram;
 
     public KlimatogramController() {
+        observers=new ArrayList<>();
         continentenRepository = new GenericDaoJpa<>(Continent.class);
     }
     
@@ -87,6 +90,36 @@ public class KlimatogramController {
         return klimatogrammenDto;
     }
 
+    public void selecteerKlimatogram(KlimatogramDto klimatogram){
+        if(geselecteerdLand == null){
+            throw new IllegalArgumentException("Land moet eerst geselecteerd worden");
+        }
+        if(klimatogram == null || klimatogram.getLocatie() == null){
+            throw new IllegalArgumentException("Locatie moet correct ingevuld zijn");
+        }
+        Klimatogram klim = geselecteerdLand.getKlimatogrammen().stream().filter(kl->kl.getLocatie().equalsIgnoreCase(klimatogram.getLocatie())).findFirst().get();
+        if(klim == null){
+            throw new IllegalArgumentException("Klimatogram bestaat niet");
+        }
+        geselecteerdKlimatogram=klim;
+        KlimatogramDto kl = new KlimatogramDto();
+        kl.setBeginJaar(geselecteerdKlimatogram.getBeginJaar());
+        kl.setEindJaar(geselecteerdKlimatogram.getEindJaar());
+        kl.setLatitude(geselecteerdKlimatogram.getLatitude());
+        kl.setLongitude(geselecteerdKlimatogram.getLongitude());
+        kl.setStation(geselecteerdKlimatogram.getStation());
+        List<MaandDto> maanden = new ArrayList<>();
+        geselecteerdKlimatogram.getMaanden().stream().forEach(m->{
+            MaandDto maand = new MaandDto();
+            maand.setNaam(m.getNaam());
+            maand.setNeerslag(m.getNeerslag());
+            maand.setTemperatuur(m.getTemperatuur());
+            maanden.add(maand);
+        });
+        kl.maanden = maanden;
+        notifyObservers(kl);
+    }
+    
     /**
      *
      * @param land
@@ -121,6 +154,10 @@ public class KlimatogramController {
         klim.setLatitude(klimatogram.getLatitude());
         klim.setLongitude(klimatogram.getLongitude());
         klim.setStation(klimatogram.getStation());
+        for (int i = 0; i < 12; i++){
+            klim.getMaanden().get(i).setNeerslag(klimatogram.maanden.get(i).getNeerslag());
+            klim.getMaanden().get(i).setTemperatuur(klimatogram.maanden.get(i).getTemperatuur());
+        }
         geselecteerdLand.voegKlimatogramToe(klim);
         continentenRepository.update(geselecteerdContinent);
         geselecteerdKlimatogram=klim;
@@ -162,5 +199,24 @@ public class KlimatogramController {
     public void setContinentRepository(GenericDao<Continent, String> continentDao) {
         continentenRepository = continentDao;
     }
-    
+
+    @Override
+    public void addObserver(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyObservers() {
+        
+    }
+
+    @Override
+    public void notifyObservers(Object object) {
+        observers.forEach(o->o.update(object));
+    }
 }
