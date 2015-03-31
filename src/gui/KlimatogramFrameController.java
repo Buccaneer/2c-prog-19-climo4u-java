@@ -43,8 +43,10 @@ public class KlimatogramFrameController extends GridPane{
             throw new RuntimeException(ex);
         }
         KlimatogramDetailPanelController rechtsePaneel = new KlimatogramDetailPanelController(this.controller);
+        KlimatogramKiezenPanelController linksePaneel = new KlimatogramKiezenPanelController(this.controller);
         this.controller.addObserver(rechtsePaneel);
-        pnlLinks.getChildren().add(new KlimatogramKiezenPanelController(this.controller));
+        this.controller.addObserver(linksePaneel);
+        pnlLinks.getChildren().add(linksePaneel);
         pnlRechts.getChildren().add(rechtsePaneel);
     }
     
