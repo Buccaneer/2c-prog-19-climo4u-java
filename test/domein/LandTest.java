@@ -40,4 +40,13 @@ public class LandTest {
        land.voegKlimatogramToe(null);
     }
     
+    @Test
+    public void klimatogramVerwijderenWerkt()
+    {
+        land.getKlimatogrammen().add(new Klimatogram("Test"));
+        assertTrue(!land.getKlimatogrammen().isEmpty());
+        land.verwijderKlimatogram("Test");
+        assertTrue(land.getKlimatogrammen().isEmpty());
+    }
+    
 }
