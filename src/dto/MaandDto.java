@@ -1,33 +1,55 @@
 package dto;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import org.eclipse.persistence.internal.xr.sxf.SimpleXMLFormatProject;
+import sun.awt.im.SimpleInputMethodWindow;
+
 public class MaandDto {
 
-	private String naam;
-	private int neerslag;
-	private double temperatuur;
+    private SimpleStringProperty naam = new SimpleStringProperty();
+    private SimpleIntegerProperty neerslag = new SimpleIntegerProperty();
+    private SimpleDoubleProperty temperatuur = new SimpleDoubleProperty();
 
-	public String getNaam() {
-		return this.naam;
-	}
+    public MaandDto (){}
+    public MaandDto(String naam){
+        setNaam(naam);
+    }
+    
+    public String getNaam() {
+        return this.naam.get();
+    }
 
-	public void setNaam(String naam) {
-		this.naam = naam;
-	}
+    public void setNaam(String naam) {
+        this.naam.set(naam);
+    }
 
-	public int getNeerslag() {
-		return this.neerslag;
-	}
+    public int getNeerslag() {
+        return this.neerslag.getValue();
+    }
 
-	public void setNeerslag(int neerslag) {
-		this.neerslag = neerslag;
-	}
+    public void setNeerslag(int neerslag) {
+        this.neerslag.set(neerslag);
+    }
 
-	public double getTemperatuur() {
-		return this.temperatuur;
-	}
+    public double getTemperatuur() {
+        return this.temperatuur.getValue();
+    }
 
-	public void setTemperatuur(double temperatuur) {
-		this.temperatuur = temperatuur;
-	}
+    public void setTemperatuur(double temperatuur) {
+        this.temperatuur.set(temperatuur);
+    }
 
+    public SimpleStringProperty naamProperty() {
+        return naam;
+    }
+
+    public SimpleDoubleProperty temperatuurProperty() {
+        return temperatuur;
+    }
+
+    public SimpleIntegerProperty neerslagProperty() {
+        return neerslag;
+    }
 }

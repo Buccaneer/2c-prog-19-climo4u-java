@@ -1,10 +1,10 @@
 package dto;
 
-import java.util.*;
+import javafx.collections.ObservableList;
 
 public class KlimatogramDto {
 
-	public List<MaandDto> maanden;
+	public ObservableList<MaandDto> maanden;
 	private int beginJaar;
 	private int eindJaar;
 	private double latitude;

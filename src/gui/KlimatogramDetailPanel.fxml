@@ -10,11 +10,11 @@
 
 <fx:root disable="true" prefHeight="775.0" prefWidth="820.0" type="Pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView fx:id="tblMaanden" layoutX="32.0" layoutY="70.0" prefHeight="206.0" prefWidth="327.0">
+      <TableView fx:id="tblMaanden" editable="true" layoutX="32.0" layoutY="70.0" prefHeight="206.0" prefWidth="327.0">
         <columns>
-          <TableColumn fx:id="maandColumn" prefWidth="80.33332824707031" text="Maand" />
-          <TableColumn fx:id="neerslagColumn" prefWidth="121.0" text="Neerslag in mm" />
-            <TableColumn fx:id="temperatuurColumn" prefWidth="127.0" text="Temperatuur in °C" />
+          <TableColumn fx:id="maandColumn" prefWidth="80.33332824707031" resizable="false" sortable="false" text="Maand" />
+          <TableColumn fx:id="neerslagColumn" prefWidth="112.0" resizable="false" sortable="false" text="Neerslag in mm" />
+            <TableColumn fx:id="temperatuurColumn" prefWidth="136.0" resizable="false" sortable="false" text="Temperatuur in °C" />
         </columns>
       </TableView>
       <Label layoutX="32.0" layoutY="30.0" text="Gegevens klimatogram">
@@ -27,11 +27,11 @@
       <Label layoutX="387.0" layoutY="188.0" text="Periode" />
       <Label layoutX="387.0" layoutY="262.0" text="Totale jaarneerslag" />
       <Label layoutX="387.0" layoutY="225.0" text="Gemiddelde jaartemperatuur" />
-      <TextField fx:id="txfGemiddeldeTemperatuur" layoutX="559.0" layoutY="221.0" prefHeight="25.0" prefWidth="232.0" />
+      <TextField fx:id="txfGemiddeldeTemperatuur" disable="true" editable="false" layoutX="559.0" layoutY="221.0" prefHeight="25.0" prefWidth="232.0" />
       <TextField fx:id="txfStation" layoutX="559.0" layoutY="70.0" prefHeight="25.0" prefWidth="232.0" />
       <TextField fx:id="txfLatitudeUren" layoutX="559.0" layoutY="107.0" prefHeight="25.0" prefWidth="50.0" />
       <TextField fx:id="txfBeginPeriode" layoutX="559.0" layoutY="184.0" prefHeight="25.0" prefWidth="109.0" />
-      <TextField fx:id="txfTotaleJaarneerslag" layoutX="559.0" layoutY="258.0" prefHeight="25.0" prefWidth="232.0" />
+      <TextField fx:id="txfTotaleJaarneerslag" disable="true" editable="false" layoutX="559.0" layoutY="258.0" prefHeight="25.0" prefWidth="232.0" />
       <ComboBox fx:id="halfrondCmb" layoutX="741.0" layoutY="107.0" prefHeight="25.0" prefWidth="25.0" />
       <Label layoutX="32.0" layoutY="326.0" text="Voorbeeld klimatogram">
          <font>

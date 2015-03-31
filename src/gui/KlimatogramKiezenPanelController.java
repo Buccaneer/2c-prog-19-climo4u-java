@@ -10,9 +10,9 @@ import dto.ContinentDto;
 import dto.KlimatogramDto;
 import dto.LandDto;
 import java.io.IOException;
-import java.util.Arrays;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
@@ -57,6 +57,7 @@ public class KlimatogramKiezenPanelController extends Pane {
                 controller.getLanden().forEach(l->landen.add(l.getNaam()));
                 cboLand.setItems(landen);
                 lstLocaties.setItems(FXCollections.observableArrayList());
+                clearList();
             }
         });
         cboLand.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue)->{
@@ -67,6 +68,7 @@ public class KlimatogramKiezenPanelController extends Pane {
                  ObservableList<String> locaties = FXCollections.observableArrayList();
                  controller.getLocaties().forEach(l->locaties.add(l.getLocatie()));
                  lstLocaties.setItems(locaties);
+                 clearList();
              }
         });
         lstLocaties.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue)->{
@@ -76,5 +78,15 @@ public class KlimatogramKiezenPanelController extends Pane {
                 controller.selecteerKlimatogram(dto);
             }
         });
+    }
+    
+    @FXML
+    public void voegKlimatogramToe(ActionEvent event){
+        clearList();
+        controller.notifyObservers("voegToe");
+    }
+    
+    public void clearList(){
+        lstLocaties.getSelectionModel().clearSelection();
     }
 }

@@ -143,7 +143,7 @@ public class KlimatogramController implements Subject
             maand.setTemperatuur(m.getTemperatuur());
             maanden.add(maand);
         });
-        kl.maanden = maanden;
+        kl.maanden = FXCollections.observableArrayList(maanden);
         notifyObservers(kl);
     }
 
@@ -312,6 +312,10 @@ public class KlimatogramController implements Subject
         geselecteerdLand.verwijderKlimatogram(locatie);
         continentenRepository.update(geselecteerdContinent);
     }
+    
+    public boolean klimatogramGeselecteerd(){
+        return geselecteerdKlimatogram!= null;
+    }
 
     @Override
     public void addObserver(Observer observer)
@@ -334,7 +338,7 @@ public class KlimatogramController implements Subject
     @Override
     public void notifyObservers(Object object)
     {
-        observers.forEach(o -> o.update(object));
+        observers.forEach(o->o.update(object));
     }
 
 }
