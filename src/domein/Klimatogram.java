@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "klimatogrammen")
-public class Klimatogram {
+public class Klimatogram implements Cloneable {
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "klimatogram")
     private List<Maand> maanden;
@@ -32,6 +32,28 @@ public class Klimatogram {
         return this.beginJaar;
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+         Klimatogram kk = new Klimatogram(locatie);
+        kk.beginJaar = (beginJaar);
+        kk.eindJaar = (eindJaar);
+        kk.latitude = (latitude);
+        kk.longitude =  (longitude);
+        kk.station = station;
+        int index = 0;
+       
+        List<Maand> maanden =(List<Maand>) kk.getMaanden();
+        for (Maand m : maanden) {
+            Maand n =(Maand) m.clone();
+            n.setKlimatogram(kk);
+            maanden.set(index++, n);
+            
+        }
+        return kk;
+    }
+
+    
+    
     public void setBeginJaar(int beginJaar) {
         int huidigJaar = Calendar.getInstance().get(Calendar.YEAR);
         if (beginJaar < 1800 || beginJaar > huidigJaar - 10)
@@ -39,7 +61,7 @@ public class Klimatogram {
         this.beginJaar = beginJaar;
     }
 
-    public void setLand(Land land) {
+     void setLand(Land land) {
         this.land = land;
     }
 
@@ -96,8 +118,8 @@ public class Klimatogram {
     }
 
     public void setStation(String station) {
-        if (station == null)
-            throw new IllegalArgumentException("Het station van een klimatogram mag niet null zijn.");
+        //if (station == null)
+        //    throw new IllegalArgumentException("Het station van een klimatogram mag niet null zijn.");
         station = station.trim();
         if (station.isEmpty())
             throw new IllegalArgumentException("Het station van een klimatogram mag niet leeg zijn.");

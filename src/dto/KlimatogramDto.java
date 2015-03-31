@@ -1,10 +1,11 @@
 package dto;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class KlimatogramDto {
 
-	public ObservableList<MaandDto> maanden;
+	public ObservableList<MaandDto> maanden = FXCollections.observableArrayList();
 	private int beginJaar;
 	private int eindJaar;
 	private double latitude;

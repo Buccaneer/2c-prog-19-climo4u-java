@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "continenten")
-public class Continent
+public class Continent implements Cloneable
 {
    
     @OneToMany(mappedBy = "continent",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
@@ -20,6 +20,19 @@ public class Continent
         return this.naam;
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+           Continent f = new Continent(naam);
+        for (Land l : landen) {
+            Land ll =(Land) l.clone();
+            ll.setContinent(f);
+            f.voegLandToe(ll);
+        }
+        return f;
+    }
+    
+    
+    
     public void setNaam(String naam)
     {
         if (naam == null)

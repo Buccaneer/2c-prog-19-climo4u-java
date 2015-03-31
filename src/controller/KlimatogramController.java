@@ -158,49 +158,75 @@ public class KlimatogramController implements Subject {
         }
         VerkeerdeInputException vie = new VerkeerdeInputException();
         Klimatogram klim = new Klimatogram();
-        try {
+        try
+        {
             klim.setBeginJaar(klimatogramDto.getBeginJaar());
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             vie.add("beginJaar", e);
         }
-        try {
+        try
+        {
             klim.setEindJaar(klimatogramDto.getEindJaar());
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             vie.add("eindJaar", e);
         }
-        try {
+        try
+        {
             klim.setLatitude(klimatogramDto.getLatitude());
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             vie.add("latitude", e);
         }
-        try {
+        try
+        {
             klim.setLongitude(klimatogramDto.getLongitude());
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             vie.add("longitude", e);
         }
-        try {
+        try
+        {
             klim.setLocatie(klimatogramDto.getLocatie());
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             vie.add("locatie", e);
         }
-        try {
+        try
+        {
             klim.setStation(klimatogramDto.getStation());
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             vie.add("station", e);
         }
-        for (int i = 0; i < 12; i++) {
-            try {
+        for (int i = 0; i < 12; i++)
+        {
+            try
+            {
                 klim.getMaanden().get(i).setNeerslag(klimatogramDto.maanden.get(i).getNeerslag());
-            } catch (IllegalArgumentException e) {
+            }
+            catch (IllegalArgumentException e)
+            {
                 vie.add("neerslagMaand" + (i + 1), e);
             }
-            try {
+            try
+            {
                 klim.getMaanden().get(i).setTemperatuur(klimatogramDto.maanden.get(i).getTemperatuur());
-            } catch (IllegalArgumentException e) {
+            }
+            catch (IllegalArgumentException e)
+            {
                 vie.add("temperatuurMaand" + (i + 1), e);
             }
         }
-        if (!vie.isEmpty()) {
+        if (!vie.isEmpty())
+        {
             throw vie;
         }
         geselecteerdLand.voegKlimatogramToe(klim);
@@ -264,71 +290,128 @@ public class KlimatogramController implements Subject {
         return klimatogrammenDto.sorted((KlimatogramDto o1, KlimatogramDto o2) -> o1.getLocatie().compareTo(o2.getLocatie()));
     }
 
-    public void wijzigKlimatogram(KlimatogramDto klimatogramDto) throws IllegalArgumentException, VerkeerdeInputException {
-        if (geselecteerdKlimatogram == null) {
+    public void wijzigKlimatogram(KlimatogramDto klimatogramDto) throws IllegalArgumentException, VerkeerdeInputException
+    {
+        boolean locatieGewijzigd = false;
+        if (geselecteerdKlimatogram == null)
+        {
             throw new IllegalArgumentException("Klimatogram moet eerst geselecteerd worden");
         }
-        if (klimatogramDto == null) {
+        if (klimatogramDto == null)
+        {
             throw new IllegalArgumentException("Klimatogram moet correct ingevuld zijn");
         }
         VerkeerdeInputException vie = new VerkeerdeInputException();
-        try {
+        if (!geselecteerdKlimatogram.getLocatie().equals(klimatogramDto.getLocatie()))
+        {
+            try
+            {
+                geselecteerdKlimatogram.setLocatie(klimatogramDto.getLocatie());
+                locatieGewijzigd = true;
+            }
+            catch (IllegalArgumentException e)
+            {
+                vie.add("locatie", e);
+            }
+        }
+        try
+        {
             geselecteerdKlimatogram.setBeginJaar(klimatogramDto.getBeginJaar());
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             vie.add("beginJaar", e);
         }
-        try {
+        try
+        {
             geselecteerdKlimatogram.setEindJaar(klimatogramDto.getEindJaar());
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             vie.add("eindJaar", e);
         }
-        try {
+        try
+        {
             geselecteerdKlimatogram.setLatitude(klimatogramDto.getLatitude());
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             vie.add("latitude", e);
         }
-        try {
+        try
+        {
             geselecteerdKlimatogram.setLongitude(klimatogramDto.getLongitude());
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             vie.add("longitude", e);
         }
-        try {
-            geselecteerdKlimatogram.setLocatie(klimatogramDto.getLocatie());
-        } catch (IllegalArgumentException e) {
-            vie.add("locatie", e);
-        }
-        try {
+        try
+        {
             geselecteerdKlimatogram.setStation(klimatogramDto.getStation());
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             vie.add("station", e);
         }
-        for (int i = 0; i < 12; i++) {
-            try {
+        for (int i = 0; i < 12; i++)
+        {
+            try
+            {
                 geselecteerdKlimatogram.getMaanden().get(i).setNeerslag(klimatogramDto.maanden.get(i).getNeerslag());
-            } catch (IllegalArgumentException e) {
+            }
+            catch (IllegalArgumentException e)
+            {
                 vie.add("neerslagMaand" + (i + 1), e);
             }
-            try {
+            try
+            {
                 geselecteerdKlimatogram.getMaanden().get(i).setTemperatuur(klimatogramDto.maanden.get(i).getTemperatuur());
-            } catch (IllegalArgumentException e) {
+            }
+            catch (IllegalArgumentException e)
+            {
                 vie.add("temperatuurMaand" + (i + 1), e);
             }
         }
-        if (!vie.isEmpty()) {
+        if (!vie.isEmpty())
+        {
             throw vie;
         }
-        continentenRepository.update(geselecteerdContinent);
+
+        if (locatieGewijzigd)
+        {
+            try
+            {
+                Klimatogram k = (Klimatogram) geselecteerdKlimatogram.clone();
+                geselecteerdLand.verwijderKlimatogram(geselecteerdKlimatogram.getLocatie());
+                GenericDaoJpa.detach(geselecteerdKlimatogram);
+                continentenRepository.update(geselecteerdContinent);
+                geselecteerdLand.voegKlimatogramToe(k);
+                continentenRepository.update(geselecteerdContinent);
+            }
+            catch (Exception ex)
+            {
+                throw new IllegalArgumentException(ex.getMessage());
+            }
+        }
+        else
+        {
+            continentenRepository.update(geselecteerdContinent);
+        }
     }
 
-    public void verwijderKlimatogram(String locatie) throws IllegalArgumentException {
-        if (geselecteerdKlimatogram == null) {
+    public void verwijderKlimatogram(String locatie) throws IllegalArgumentException
+    {
+        if (geselecteerdKlimatogram == null)
+        {
             throw new IllegalArgumentException("Klimatogram moet eerst geselecteerd worden");
         }
         geselecteerdLand.verwijderKlimatogram(locatie);
         continentenRepository.update(geselecteerdContinent);
     }
 
-    public boolean klimatogramGeselecteerd() {
+    public boolean klimatogramGeselecteerd()
+    {
         return geselecteerdKlimatogram != null;
     }
 
@@ -352,7 +435,8 @@ public class KlimatogramController implements Subject {
     }
 
     @Override
-    public void notifyObservers(Object object) {
+    public void notifyObservers(Object object)
+    {
         observers.forEach(o -> o.update(object));
     }
 

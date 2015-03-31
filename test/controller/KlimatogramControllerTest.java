@@ -3,6 +3,8 @@ package controller;
 import domein.*;
 import dto.*;
 import java.util.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import mock.ContinentDaoMockFactory;
 import mock.DomeinMockFactory;
 import org.junit.Test;
@@ -118,7 +120,7 @@ public class KlimatogramControllerTest
         klim.setLongitude(4.0444);
         klim.setLocatie("Frankrijk");
         klim.setStation("11222");
-        klim.maanden = new ArrayList<MaandDto>();
+        klim.maanden = FXCollections.observableArrayList();
         for (int i = 0; i < 12; ++i)
         {
             MaandDto dto = new MaandDto();
@@ -229,7 +231,7 @@ public class KlimatogramControllerTest
         klim.setLatitude(2.222);
         klim.setLongitude(4.0444);
         klim.setStation("11222");
-        List<MaandDto> maanden = new ArrayList<MaandDto>();
+        ObservableList<MaandDto> maanden = FXCollections.observableArrayList();
         for (int i = 0; i < 12; i++)
         {
             MaandDto m = new MaandDto();
@@ -257,7 +259,7 @@ public class KlimatogramControllerTest
         klim.setLatitude(2.222);
         klim.setLongitude(4.0444);
         klim.setStation("11222");
-        List<MaandDto> maanden = new ArrayList<MaandDto>();
+        ObservableList<MaandDto> maanden = FXCollections.observableArrayList();
         for (int i = 0; i < 12; i++)
         {
             MaandDto m = new MaandDto();
@@ -294,7 +296,7 @@ public class KlimatogramControllerTest
     }
     
     @Test
-    public void wijzigKlimatogramWijzigtKlimatogram() //UC2, NV10
+    public void wijzigKlimatogramWijzigtKlimatogramZonderLocatie() //UC2, NV10
     {
         KlimatogramDto kDto = new KlimatogramDto();
         kDto.setBeginJaar(1900);
@@ -303,7 +305,7 @@ public class KlimatogramControllerTest
         kDto.setLongitude(0);
         kDto.setLocatie("LegoLand");
         kDto.setStation("01234");
-        List<MaandDto> maanden = new ArrayList<MaandDto>();
+        ObservableList<MaandDto> maanden = FXCollections.observableArrayList();
         for (int i = 0; i < 12; i++)
         {
             MaandDto m = new MaandDto();
@@ -318,7 +320,7 @@ public class KlimatogramControllerTest
         k.setEindJaar(2010);
         k.setLatitude(10);
         k.setLongitude(10);
-        k.setLocatie("LegoWereld");
+        k.setLocatie("LegoLand");
         k.setStation("43210");
         controller.geselecteerdKlimatogram = k;
         controller.wijzigKlimatogram(kDto);
@@ -327,6 +329,45 @@ public class KlimatogramControllerTest
         assertEquals(0.0, controller.geselecteerdKlimatogram.getLatitude(), 0.01);
         assertEquals(0.0, controller.geselecteerdKlimatogram.getLongitude(), 0.01);
         assertEquals("LegoLand", controller.geselecteerdKlimatogram.getLocatie());
+        assertEquals("01234", controller.geselecteerdKlimatogram.getStation());
+    }
+    
+    @Test
+    public void wijzigKlimatogramWijzigtKlimatogramMetLocatie() //UC2, NV10
+    {
+        KlimatogramDto kDto = new KlimatogramDto();
+        kDto.setBeginJaar(1900);
+        kDto.setEindJaar(2000);
+        kDto.setLatitude(0);
+        kDto.setLongitude(0);
+        kDto.setLocatie("LegoStad");
+        kDto.setStation("01234");
+        ObservableList<MaandDto> maanden = FXCollections.observableArrayList();
+        for (int i = 0; i < 12; i++)
+        {
+            MaandDto m = new MaandDto();
+            m.setNaam(i + "");
+            m.setNeerslag(i);
+            m.setTemperatuur(i);
+            maanden.add(m);
+        }
+        kDto.maanden = maanden;
+        Klimatogram k = new Klimatogram();
+        k.setBeginJaar(1950);
+        k.setEindJaar(2010);
+        k.setLatitude(10);
+        k.setLongitude(10);
+        k.setLocatie("LegoLocatie");
+        k.setStation("43210");
+        controller.geselecteerdLand = new Land("TestLand");
+        controller.geselecteerdLand.voegKlimatogramToe(k);
+        controller.geselecteerdKlimatogram = k;
+        controller.wijzigKlimatogram(kDto);
+        assertEquals(1900, controller.geselecteerdKlimatogram.getBeginJaar());
+        assertEquals(2000, controller.geselecteerdKlimatogram.getEindJaar());
+        assertEquals(0.0, controller.geselecteerdKlimatogram.getLatitude(), 0.01);
+        assertEquals(0.0, controller.geselecteerdKlimatogram.getLongitude(), 0.01);
+        assertEquals("LegoStad", controller.geselecteerdKlimatogram.getLocatie());
         assertEquals("01234", controller.geselecteerdKlimatogram.getStation());
     }
     
@@ -340,7 +381,7 @@ public class KlimatogramControllerTest
         kDto.setLongitude(0);
         kDto.setLocatie("LegoStad");
         kDto.setStation("01234");
-        List<MaandDto> maanden = new ArrayList<MaandDto>();
+        ObservableList<MaandDto> maanden = FXCollections.observableArrayList();
         for (int i = 0; i < 12; i++)
         {
             MaandDto m = new MaandDto();
