@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "maanden")
-public class Maand {
+public class Maand implements Cloneable {
 
     @Column(name = "MaandId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +29,17 @@ public class Maand {
     public String getNaam() {
         return this.naam;
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Maand n = new Maand();
+        n.naam = naam;
+        n.neerslag = neerslag;
+        n.temperatuur = temperatuur;
+        return n;
+    }
+    
+    
 
     public void setNaam(int maand) {
         if (maand < 1 || maand > 12)
@@ -54,7 +65,7 @@ public class Maand {
         this.temperatuur = temperatuur;
     }
 
-   public void setKlimatogram(Klimatogram aThis) {
+    void setKlimatogram(Klimatogram aThis) {
       klimatogram = aThis;
     }
 
