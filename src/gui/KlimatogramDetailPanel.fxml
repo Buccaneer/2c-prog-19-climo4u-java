@@ -48,6 +48,7 @@
       <TextField fx:id="txfLongitudeUren" layoutX="559.0" layoutY="176.0" prefHeight="25.0" prefWidth="50.0" />
       <Label layoutX="387.0" layoutY="180.0" prefHeight="17.0" prefWidth="74.0" text="Longitude" />
       <Button fx:id="btnOpslaan" layoutX="651.0" layoutY="329.0" mnemonicParsing="false" onAction="#opslaan" text="Opslaan" visible="false" />
+      <Button fx:id="btnWijzig" layoutX="651.0" layoutY="329.0" mnemonicParsing="false" onAction="#wijzig" text="Wijzig" visible="false" />
       <Button fx:id="btnAnnuleren" layoutX="719.0" layoutY="329.0" mnemonicParsing="false" onAction="#annuleren" text="Annuleren" visible="false" />
       <Label layoutX="388.0" layoutY="69.0" text="Locatie" />
       <TextField fx:id="txfLocatie" layoutX="559.0" layoutY="65.0" prefHeight="25.0" prefWidth="232.0" />

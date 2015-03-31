@@ -89,6 +89,13 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
             controller.notifyObservers("voegToe");
         }
     }
+    
+        @FXML
+    public void verwijderKlimatogram(ActionEvent event) {
+        if (controller.klimatogramGeselecteerd()) {
+            controller.verwijderKlimatogram(lstLocaties.getSelectionModel().getSelectedItem().toString());
+        }
+    }
 
     public void clearList() {
         lstLocaties.getSelectionModel().clearSelection();
@@ -100,6 +107,14 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
             if (object.toString().equals("menu")) {
                 this.setDisable(false);
             }
+        }
+    }
+    
+    @FXML
+    public void wijzigKlimatogram(ActionEvent event){
+        if(controller.klimatogramGeselecteerd()){
+            this.setDisable(true);
+            controller.notifyObservers("wijzig");
         }
     }
 }

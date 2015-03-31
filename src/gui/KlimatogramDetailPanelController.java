@@ -41,7 +41,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
     private ComboBox cboLat, cboLong;
 
     @FXML
-    private Button btnAnnuleren, btnOpslaan;
+    private Button btnAnnuleren, btnOpslaan,btnWijzig;
 
     @FXML
     private TextField txfStation, txfLatitudeUren, txfLatitudeMinuten, txfLatitudeSeconden, txfLongitudeUren, txfLongitudeMinuten, txfLongitudeSeconden, txfBeginPeriode, txfEindPeriode, txfGemiddeldeTemperatuur, txfTotaleJaarneerslag, txfLocatie;
@@ -63,6 +63,8 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
 
     private ObservableList<MaandDto> maanden = FXCollections.observableArrayList();
 
+    private KlimatogramDto klimatogram;
+
     public KlimatogramDetailPanelController(KlimatogramController controller) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("KlimatogramDetailPanel.fxml"));
         loader.setRoot(this);
@@ -76,7 +78,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         this.controller = controller;
         cboLat.setItems(FXCollections.observableArrayList(Arrays.asList(new String[]{"N", "Z"})));
         cboLong.setItems(FXCollections.observableArrayList(Arrays.asList(new String[]{"O", "W"})));
-         maanden.add(new MaandDto("Januari"));
+        maanden.add(new MaandDto("Januari"));
         maanden.add(new MaandDto("Februari"));
         maanden.add(new MaandDto("Maart"));
         maanden.add(new MaandDto("April"));
@@ -95,11 +97,16 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         if (object instanceof String) {
             if (object.toString().equals("voegToe")) {
                 voegKlimatogramToe();
+            } if (object.toString().equals("wijzig")) {
+                wijzigKlimatogram();
             }
-        } else {
+            
+        }else{
             vulIn(object);
         }
     }
+
+    
 
     private double berekenJaartemperatuur(List<MaandDto> maanden) {
         return maanden.stream().mapToDouble(m -> m.getTemperatuur()).average().getAsDouble();
@@ -110,9 +117,9 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
     }
 
     public void vulIn(Object object) {
-        KlimatogramDto klimatogram = (KlimatogramDto) object;
+        klimatogram = (KlimatogramDto) object;
         txfLocatie.setText(klimatogram.getLocatie());
-       txfStation.setText(klimatogram.getStation());
+        txfStation.setText(klimatogram.getStation());
         txfBeginPeriode.setText(String.format("%d", klimatogram.getBeginJaar()));
         txfEindPeriode.setText(String.format("%d", klimatogram.getEindJaar()));
         double temperatuur = berekenJaartemperatuur(klimatogram.maanden);
@@ -174,7 +181,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
                         } catch (NumberFormatException ex) {
 
                         }
-                        KlimatogramDto klimatogram = new KlimatogramDto();
+                        klimatogram = new KlimatogramDto();
                         klimatogram.maanden = FXCollections.observableArrayList(maanden);
                         StackPane chart = new KlimatogramGrafiek().createChart(klimatogram);
                         pnlKlimatogram.getChildren().clear();
@@ -199,7 +206,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
 
                         }
 
-                        KlimatogramDto klimatogram = new KlimatogramDto();
+                        klimatogram = new KlimatogramDto();
                         klimatogram.maanden = FXCollections.observableArrayList(maanden);
                         StackPane chart = new KlimatogramGrafiek().createChart(klimatogram);
                         pnlKlimatogram.getChildren().clear();
@@ -216,7 +223,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
 
     }
 
-    public void clear(){
+    public void clear() {
         txfStation.clear();
         txfBeginPeriode.clear();
         txfEindPeriode.clear();
@@ -232,11 +239,11 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         txfLocatie.clear();
         pnlKlimatogram.getChildren().clear();
     }
-    
+
     @FXML
     public void opslaan(ActionEvent event) {
 
-        KlimatogramDto klimatogram = new KlimatogramDto();
+        klimatogram = new KlimatogramDto();
         klimatogram.setStation(txfStation.getText());
         klimatogram.setBeginJaar(Integer.parseInt(txfBeginPeriode.getText()));
         klimatogram.setEindJaar(Integer.parseInt(txfEindPeriode.getText()));
@@ -269,6 +276,15 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         controller.voegKlimatogramToe(klimatogram);
         this.setDisable(true);
         controller.notifyObservers("menu");
+        
+    }
+    
+    @FXML
+    public void wijzig(ActionEvent event) {
+        controller.wijzigKlimatogram(klimatogram);
+        this.setDisable(true);
+        controller.notifyObservers("menu");
+        
     }
 
     @FXML
@@ -278,7 +294,39 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         controller.notifyObservers("menu");
     }
 
+    @FXML
     public void wijzigKlimatogram() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        btnAnnuleren.setVisible(true);
+        btnWijzig.setVisible(true);
+        klimatogram.setStation(txfStation.getText());
+        klimatogram.setBeginJaar(Integer.parseInt(txfBeginPeriode.getText()));
+        klimatogram.setEindJaar(Integer.parseInt(txfEindPeriode.getText()));
+        klimatogram.setLocatie(txfLocatie.getText());
+
+        double longitudeUren = Double.parseDouble(txfLongitudeUren.getText());
+        double longitudeMin = Double.parseDouble(txfLongitudeMinuten.getText());
+        double longitudeSec = Double.parseDouble(txfLongitudeSeconden.getText());
+        String noordZuid = cboLong.getSelectionModel().getSelectedItem().toString();
+
+        double longitude = longitudeUren + longitudeMin / 60 + longitudeSec / 3600;
+
+        if (noordZuid.equals("Z")) {
+            longitude *= -1;
+        }
+
+        klimatogram.setLongitude(longitude);
+
+        double latitudeUren = Double.parseDouble(txfLatitudeUren.getText());
+        double latitudeMin = Double.parseDouble(txfLatitudeMinuten.getText());
+        double latitudeSec = Double.parseDouble(txfLatitudeSeconden.getText());
+        String oostWest = cboLong.getSelectionModel().getSelectedItem().toString();
+
+        double latitude = latitudeUren + latitudeMin / 60 + latitudeSec / 3600;
+        if (oostWest.equals("O")) {
+            latitude *= -1;
+        }
+        klimatogram.setLatitude(latitude);
+        klimatogram.maanden = maanden;
+       this.setDisable(false);
     }
 }
