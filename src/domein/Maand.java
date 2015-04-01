@@ -44,7 +44,8 @@ public class Maand implements Cloneable {
     public void setNaam(int maand) {
         if (maand < 1 || maand > 12)
             throw new IllegalArgumentException("Het nummer van een maand moet tussen 1 en 12 liggen.");
-        naam = Month.of(maand).getDisplayName(TextStyle.FULL, new Locale("nl","NL"));
+        String m = Month.of(maand).getDisplayName(TextStyle.FULL, new Locale("nl","NL"));
+        naam = m.substring(0,1).toUpperCase() + m.substring(1);
     }
 
     public int getNeerslag() {

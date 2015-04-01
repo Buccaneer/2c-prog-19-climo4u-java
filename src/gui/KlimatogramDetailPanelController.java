@@ -78,18 +78,18 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         this.controller = controller;
         cboLat.setItems(FXCollections.observableArrayList(Arrays.asList(new String[]{"N", "Z"})));
         cboLong.setItems(FXCollections.observableArrayList(Arrays.asList(new String[]{"O", "W"})));
-        maanden.add(new MaandDto("Januari", 0,0));
-        maanden.add(new MaandDto("Februari",0,0));
-        maanden.add(new MaandDto("Maart",0,0));
-        maanden.add(new MaandDto("April",0,0));
-        maanden.add(new MaandDto("Mei",0,0));
-        maanden.add(new MaandDto("Juni",0,0));
-        maanden.add(new MaandDto("Juli",0,0));
-        maanden.add(new MaandDto("Augustus",0,0));
-        maanden.add(new MaandDto("September",0,0));
-        maanden.add(new MaandDto("Oktober",0,0));
-        maanden.add(new MaandDto("November",0,0));
-        maanden.add(new MaandDto("December",0,0));
+        maanden.add(new MaandDto("Januari", 0, 0));
+        maanden.add(new MaandDto("Februari", 0, 0));
+        maanden.add(new MaandDto("Maart", 0, 0));
+        maanden.add(new MaandDto("April", 0, 0));
+        maanden.add(new MaandDto("Mei", 0, 0));
+        maanden.add(new MaandDto("Juni", 0, 0));
+        maanden.add(new MaandDto("Juli", 0, 0));
+        maanden.add(new MaandDto("Augustus", 0, 0));
+        maanden.add(new MaandDto("September", 0, 0));
+        maanden.add(new MaandDto("Oktober", 0, 0));
+        maanden.add(new MaandDto("November", 0, 0));
+        maanden.add(new MaandDto("December", 0, 0));
         temperatuurColumn.setCellFactory(TextFieldTableCell.<MaandDto, Double>forTableColumn(new DoubleConverter()));
 
         temperatuurColumn.setOnEditCommit(
@@ -111,7 +111,6 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
                         txfGemiddeldeTemperatuur.setText(String.valueOf(berekenJaartemperatuur(maanden)));
                         txfTotaleJaarneerslag.setText(String.valueOf(berekenTotaleNeerslag(maanden)));
                     }
-
                 }
         );
 
@@ -199,7 +198,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         txfLongitudeUren.setText(String.format("%.0f", degrees));
         txfLongitudeMinuten.setText(String.format("%.0f", minutes));
         txfLongitudeSeconden.setText(String.format("%.0f", seconds));
-        maanden=klimatogram.maanden;
+        maanden = klimatogram.maanden;
         tblMaanden.setItems(maanden);
         maandColumn.setCellValueFactory(cellData -> cellData.getValue().naamProperty());
         temperatuurColumn.setCellValueFactory(cellData -> cellData.getValue().temperatuurProperty().asObject());
@@ -220,7 +219,6 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         tblMaanden.setItems(FXCollections.observableArrayList(maanden));
         maandColumn.setCellValueFactory(cellData -> cellData.getValue().naamProperty());
 
-        
         btnAnnuleren.setVisible(true);
         btnOpslaan.setVisible(true);
         this.setDisable(false);
@@ -250,10 +248,10 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         controller.voegKlimatogramToe(klimatogram);
         this.setDisable(true);
         controller.notifyObservers("menu");
-
+        verbergKnoppen();
     }
-    
-    public void zetWaardenInDto(){
+
+    public void zetWaardenInDto() {
         klimatogram = new KlimatogramDto();
         klimatogram.setStation(txfStation.getText());
         klimatogram.setBeginJaar(Integer.parseInt(txfBeginPeriode.getText()));
@@ -292,7 +290,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         controller.wijzigKlimatogram(klimatogram);
         this.setDisable(true);
         controller.notifyObservers("menu");
-
+        verbergKnoppen();
     }
 
     @FXML
@@ -300,6 +298,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         this.setDisable(true);
         clear();
         controller.notifyObservers("menu");
+        verbergKnoppen();
     }
 
     @FXML
@@ -336,5 +335,11 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         klimatogram.setLatitude(latitude);
         klimatogram.maanden = maanden;
         this.setDisable(false);
+    }
+
+    public void verbergKnoppen() {
+        btnAnnuleren.setVisible(false);
+        btnOpslaan.setVisible(false);
+        btnWijzig.setVisible(false);
     }
 }
