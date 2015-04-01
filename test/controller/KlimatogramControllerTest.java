@@ -161,12 +161,6 @@ public class KlimatogramControllerTest
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void kanGeefLandenNietOpvragenVoorSelecteerContinent()
-    {
-        controller.getLanden();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
     public void kanGeefMaandenNietOpvragenVoorVoegKlimatogramToe()
     {
         controller.getMaanden();

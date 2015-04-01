@@ -62,6 +62,8 @@ public class KlimatogramController implements Subject {
         }
         
         continentenRepository.insert(cont);
+        continenten.clear();
+        continenten=getContinenten();
     }
 
     public ObservableList<ContinentDto> getContinenten() {
@@ -259,6 +261,8 @@ public class KlimatogramController implements Subject {
         Land l = new Land(land.getNaam());
         geselecteerdContinent.voegLandToe(l);
         continentenRepository.update(geselecteerdContinent);
+        landen.clear();
+        geselecteerdContinent.getLanden().forEach(la -> landen.add(new LandDto(la.getNaam())));
     }
 
     /**
