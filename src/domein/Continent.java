@@ -14,6 +14,17 @@ public class Continent implements Cloneable
     @Column(name="Naam", length = 128)
     @Id
     private String naam;
+    
+    @JoinTable(name= "GraadContinent", joinColumns = {
+        @JoinColumn(name="Continent_Naam", referencedColumnName="Naam")
+    },
+            
+            inverseJoinColumns=
+                    {@JoinColumn(name="Graad_Nummer", referencedColumnName="Nummer"), 
+                    @JoinColumn(name="Graad_Jaar",referencedColumnName = "Jaar")}
+    )
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Graad> graden;
 
     public String getNaam()
     {
@@ -29,6 +40,31 @@ public class Continent implements Cloneable
             f.voegLandToe(ll);
         }
         return f;
+    }
+
+    public List<Graad> getGraden() {
+        return graden;
+    }
+    
+    public void voegGraadToe(Graad graad) {
+        graden.add(graad);
+    }
+    
+    public void verwijderGraad(Graad graad) {
+        ListIterator<Graad> gi = graden.listIterator();
+        
+        while (gi.hasNext()) {
+            Graad g = gi.next();
+            if (g.equals(graad)) {
+                gi.remove();
+                
+            }
+        }
+        
+    }
+
+    public void setGraden(List<Graad> graden) {
+        this.graden = graden;
     }
     
     
@@ -58,6 +94,7 @@ public class Continent implements Cloneable
     public Continent()
     {
         landen = new LinkedList<>();
+        graden = new  LinkedList<>();
         naam = "NIEUW CONTINENT";
     }
 
@@ -95,6 +132,19 @@ public class Continent implements Cloneable
     public List<Land> getLanden()
     {
         return landen;
+    }
+
+    public void verwijderLand(String naam) {
+        Land land = null;
+       for (Land l : landen) {
+           if (l.getNaam().equals(naam)){
+               land = l;
+               break;
+           }
+       }
+       if (land !=null) {
+           landen.remove(land);
+       }
     }
 
 }
