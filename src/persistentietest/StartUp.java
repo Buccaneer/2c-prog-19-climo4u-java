@@ -28,14 +28,25 @@ public class StartUp {
         kc.setContinentRepository(dao);
 
         List<ContinentDto>cds = kc.getContinenten();
+       
+       kc.selecteerContinent(cds.get(0));
+   //     kc.verwijderContinent(cds.get(0));
         
-        for (ContinentDto cd : cds) {
-            System.out.println(cd.getNaam());
-            for (Map.Entry<String, Boolean> e : cd.getGraden().entrySet()) {
-                System.out.printf("%s %b\n",e.getKey(), e.getValue());
-            }
-        }
+       List<LandDto> landen = kc.getLanden();
+//        
+//        
+       System.out.println(landen.get(0).getNaam());
+     //   kc.verwijderLand(landen.get(0));
         
+        kc.selecteerLand(landen.get(0));
+//        
+        List<KlimatogramDto> klims = kc.getKlimatogrammen();
+//        
+        kc.selecteerKlimatogram(klims.get(0));
+//       
+        
+        System.out.println(klims.get(0).getLocatie());
+        kc.verwijderKlimatogram(klims.get(0).getLocatie());
         GenericDaoJpa.closePersistency();
     }
 

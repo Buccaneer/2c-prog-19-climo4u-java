@@ -25,6 +25,8 @@ public class KlimatogramController implements Subject {
     private List<Observer> observers;
     private GenericDao<Continent, String> continentenRepository;
     private GenericDao<Graad, String> graadRepository = new GenericDaoJpa<>(Graad.class);
+    private GenericDao<Land, String> landenRepository = new GenericDaoJpa<>(Land.class);
+    private GenericDao<Klimatogram, String> klimatogramRepository = new GenericDaoJpa<>(Klimatogram.class);
     protected Continent geselecteerdContinent;
     protected Land geselecteerdLand;
     protected Klimatogram geselecteerdKlimatogram;
@@ -372,16 +374,19 @@ public class KlimatogramController implements Subject {
         if (geselecteerdKlimatogram == null) {
             throw new IllegalArgumentException("Klimatogram moet eerst geselecteerd worden");
         }
-        geselecteerdLand.verwijderKlimatogram(locatie);
-        continentenRepository.update(geselecteerdContinent);
+        Klimatogram k = geselecteerdLand.verwijderKlimatogram(locatie);
+        klimatogramRepository.delete(k);
+
     }
 
     public void verwijderLand(LandDto land) {
         if (geselecteerdContinent == null) {
             throw new IllegalArgumentException("Continent moet eerst geselecteerd worden");
         }
-        geselecteerdContinent.verwijderLand(land.getNaam());
-        continentenRepository.update(geselecteerdContinent);
+
+        Land l = geselecteerdContinent.verwijderLand(land.getNaam());
+
+        landenRepository.delete(l);
 
         geselecteerdLand = null;
 
@@ -391,6 +396,8 @@ public class KlimatogramController implements Subject {
         Continent c = continentenRepository.get(continent.getNaam());
 
         if (c != null) {
+            GenericDaoJpa.detach(c);
+
             continentenRepository.delete(c);
         }
     }

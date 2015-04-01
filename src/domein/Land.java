@@ -3,6 +3,7 @@ package domein;
 import java.util.*;
 import java.util.regex.Pattern;
 import javax.persistence.*;
+import persistentie.GenericDaoJpa;
 
 @Entity
 @Table(name = "landen")
@@ -100,7 +101,7 @@ public class Land implements Cloneable
         klimatogrammen.add(klimatogram);
     }
 
-    public void verwijderKlimatogram(String locatie)
+    public Klimatogram verwijderKlimatogram(String locatie)
     {
         if (locatie == null)
         {
@@ -113,10 +114,11 @@ public class Land implements Cloneable
             if (k.getLocatie().equals(locatie))
             {
                 iterator.remove();
-                break;
+                return k;
+            
             } 
         }
-
+return null;
     }
 
     public Collection<Klimatogram> getKlimatogrammen()

@@ -86,7 +86,6 @@ public class GenericDaoJpa<T, K> implements GenericDao<T, K> {
      */
     public void update(T item) {
         startTransaction();
-        em.persist(item);
         commitTransaction();
     }
 
