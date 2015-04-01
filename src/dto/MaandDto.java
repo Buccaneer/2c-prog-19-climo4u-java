@@ -13,7 +13,7 @@ public class MaandDto {
     private SimpleDoubleProperty temperatuur = new SimpleDoubleProperty();
 
     public MaandDto (){}
-    public MaandDto(String naam){
+    public MaandDto(String naam, int neerslag, int temperatuur){
         setNaam(naam);
     }
     

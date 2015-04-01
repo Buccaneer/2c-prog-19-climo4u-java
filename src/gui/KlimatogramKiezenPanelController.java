@@ -11,14 +11,13 @@ import dto.ContinentDto;
 import dto.KlimatogramDto;
 import dto.LandDto;
 import java.io.IOException;
-import java.util.stream.Collectors;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 /**
@@ -32,9 +31,12 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
     private ComboBox<ContinentDto> cboWerelddeel;
     @FXML
     private ComboBox<LandDto> cboLand;
-
+    @FXML
+    private Button btnLandOk, btnLandCancel, btnWerelddeelOk, btnWerelddeelCancel;
     @FXML
     private ListView<KlimatogramDto> lstLocaties;
+    @FXML
+    private TextField txfLand, txfWerelddeel;
 
     private KlimatogramController controller;
 
@@ -104,6 +106,66 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
         if (controller.klimatogramGeselecteerd()) {
             this.setDisable(true);
             controller.notifyObservers("wijzig");
+        }
+    }
+
+    @FXML
+    public void werelddeelOk(ActionEvent event) {
+        if (btnWerelddeelOk.getText().equals("+")) {
+            cboWerelddeel.setVisible(false);
+            txfWerelddeel.setVisible(true);
+            btnWerelddeelOk.setText("v");
+            btnWerelddeelCancel.setText("x");
+        } else {
+            controller.voegContinentToe(new ContinentDto(txfWerelddeel.getText()));
+            txfWerelddeel.clear();
+            cboWerelddeel.setVisible(true);
+            txfWerelddeel.setVisible(false);
+            btnWerelddeelOk.setText("+");
+            btnWerelddeelCancel.setText("-");
+        }
+    }
+
+    @FXML
+    public void werelddeelCancel(ActionEvent event) {
+        if (btnWerelddeelCancel.getText().equals("-")) {
+            //wereldeel verwijderen
+        } else {
+            txfWerelddeel.clear();
+            cboWerelddeel.setVisible(true);
+            txfWerelddeel.setVisible(false);
+            btnWerelddeelOk.setText("+");
+            btnWerelddeelCancel.setText("-");
+        }
+    }
+
+    @FXML
+    public void landOk(ActionEvent event) {
+        if (btnLandOk.getText().equals("+")) {
+            cboLand.setVisible(false);
+            txfLand.setVisible(true);
+            btnLandOk.setText("v");
+            btnLandCancel.setText("x");
+        } else {
+            controller.voegLandToe(new LandDto(txfLand.getText()));
+            txfLand.clear();
+            cboLand.setVisible(true);
+            txfLand.setVisible(false);
+            btnLandOk.setText("+");
+            btnLandCancel.setText("-");
+        }
+    }
+
+    @FXML
+    public void landCancel(ActionEvent event) {
+        if (btnLandCancel.getText().equals("-")) {
+
+        } else {
+            txfLand.clear();
+            cboLand.setVisible(true);
+            txfLand.setVisible(false);
+            btnLandOk.setText("+");
+            btnLandCancel.setText("-");
         }
     }
 }

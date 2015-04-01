@@ -41,7 +41,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
     private ComboBox cboLat, cboLong;
 
     @FXML
-    private Button btnAnnuleren, btnOpslaan,btnWijzig;
+    private Button btnAnnuleren, btnOpslaan, btnWijzig;
 
     @FXML
     private TextField txfStation, txfLatitudeUren, txfLatitudeMinuten, txfLatitudeSeconden, txfLongitudeUren, txfLongitudeMinuten, txfLongitudeSeconden, txfBeginPeriode, txfEindPeriode, txfGemiddeldeTemperatuur, txfTotaleJaarneerslag, txfLocatie;
@@ -78,18 +78,18 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         this.controller = controller;
         cboLat.setItems(FXCollections.observableArrayList(Arrays.asList(new String[]{"N", "Z"})));
         cboLong.setItems(FXCollections.observableArrayList(Arrays.asList(new String[]{"O", "W"})));
-        maanden.add(new MaandDto("Januari"));
-        maanden.add(new MaandDto("Februari"));
-        maanden.add(new MaandDto("Maart"));
-        maanden.add(new MaandDto("April"));
-        maanden.add(new MaandDto("Mei"));
-        maanden.add(new MaandDto("Juni"));
-        maanden.add(new MaandDto("Juli"));
-        maanden.add(new MaandDto("Augustus"));
-        maanden.add(new MaandDto("September"));
-        maanden.add(new MaandDto("Oktober"));
-        maanden.add(new MaandDto("November"));
-        maanden.add(new MaandDto("December"));
+        maanden.add(new MaandDto("Januari", 0,0));
+        maanden.add(new MaandDto("Februari",0,0));
+        maanden.add(new MaandDto("Maart",0,0));
+        maanden.add(new MaandDto("April",0,0));
+        maanden.add(new MaandDto("Mei",0,0));
+        maanden.add(new MaandDto("Juni",0,0));
+        maanden.add(new MaandDto("Juli",0,0));
+        maanden.add(new MaandDto("Augustus",0,0));
+        maanden.add(new MaandDto("September",0,0));
+        maanden.add(new MaandDto("Oktober",0,0));
+        maanden.add(new MaandDto("November",0,0));
+        maanden.add(new MaandDto("December",0,0));
     }
 
     @Override
@@ -97,16 +97,15 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         if (object instanceof String) {
             if (object.toString().equals("voegToe")) {
                 voegKlimatogramToe();
-            } if (object.toString().equals("wijzig")) {
+            }
+            if (object.toString().equals("wijzig")) {
                 wijzigKlimatogram();
             }
-            
-        }else{
+
+        } else {
             vulIn(object);
         }
     }
-
-    
 
     private double berekenJaartemperatuur(List<MaandDto> maanden) {
         return maanden.stream().mapToDouble(m -> m.getTemperatuur()).average().getAsDouble();
@@ -166,6 +165,10 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
 
     public void voegKlimatogramToe() {
         clear();
+        maanden.stream().forEach(m -> {
+            m.setNeerslag(0);
+            m.setTemperatuur(0);
+        });
         tblMaanden.setItems(FXCollections.observableArrayList(maanden));
         maandColumn.setCellValueFactory(cellData -> cellData.getValue().naamProperty());
 
@@ -276,15 +279,15 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         controller.voegKlimatogramToe(klimatogram);
         this.setDisable(true);
         controller.notifyObservers("menu");
-        
+
     }
-    
+
     @FXML
     public void wijzig(ActionEvent event) {
         controller.wijzigKlimatogram(klimatogram);
         this.setDisable(true);
         controller.notifyObservers("menu");
-        
+
     }
 
     @FXML
@@ -327,6 +330,6 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         }
         klimatogram.setLatitude(latitude);
         klimatogram.maanden = maanden;
-       this.setDisable(false);
+        this.setDisable(false);
     }
 }
