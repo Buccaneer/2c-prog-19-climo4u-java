@@ -15,7 +15,7 @@ public class GenericDaoJpa<T, K> implements GenericDao<T, K> {
     public static void closePersistency() {
         em.close();
         emf.close();
-        
+
     }
 
     public static void startTransaction() {
@@ -46,7 +46,7 @@ public class GenericDaoJpa<T, K> implements GenericDao<T, K> {
     public void insert(T item) {
         startTransaction();
         em.persist(item);
-        
+
         commitTransaction();
     }
 
@@ -84,12 +84,12 @@ public class GenericDaoJpa<T, K> implements GenericDao<T, K> {
      *
      * @param item
      */
-    public void update(T item) 
-    {delete(item);
-        insert(item);
+    public void update(T item) {
+        startTransaction();
+        em.persist(item);
+        commitTransaction();
     }
 
-    
     public static void detach(Object obj) {
         em.detach(obj);
     }
