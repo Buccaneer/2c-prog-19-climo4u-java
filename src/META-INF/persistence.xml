@@ -6,6 +6,7 @@
     <class>domein.Klimatogram</class>
     <class>domein.Land</class>
     <class>domein.Maand</class>
+    <class>domein.Graad</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost\SQLEXPRESS:1433;databaseName=Projecten2Groep19_db"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>
