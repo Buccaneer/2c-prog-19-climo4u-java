@@ -86,7 +86,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
     @FXML
     public void verwijderKlimatogram(ActionEvent event) {
         if (controller.klimatogramGeselecteerd()) {
-            controller.verwijderKlimatogram(lstLocaties.getSelectionModel().getSelectedItem().toString());
+            controller.verwijderKlimatogram(lstLocaties.getSelectionModel().getSelectedItem().getLocatie());
         }
     }
 

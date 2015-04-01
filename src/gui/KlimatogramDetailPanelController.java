@@ -90,6 +90,54 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         maanden.add(new MaandDto("Oktober",0,0));
         maanden.add(new MaandDto("November",0,0));
         maanden.add(new MaandDto("December",0,0));
+        temperatuurColumn.setCellFactory(TextFieldTableCell.<MaandDto, Double>forTableColumn(new DoubleConverter()));
+
+        temperatuurColumn.setOnEditCommit(
+                new EventHandler<CellEditEvent<MaandDto, Double>>() {
+                    @Override
+                    public void handle(CellEditEvent<MaandDto, Double> t) {
+                        try {
+                            ((MaandDto) t.getTableView().getItems().get(
+                                    t.getTablePosition().getRow())).setTemperatuur(t.getNewValue());
+                        } catch (NumberFormatException ex) {
+                            System.out.println("hallo");
+                        }
+                        klimatogram = new KlimatogramDto();
+                        klimatogram.maanden = FXCollections.observableArrayList(maanden);
+                        StackPane chart = new KlimatogramGrafiek().createChart(klimatogram);
+                        pnlKlimatogram.getChildren().clear();
+                        chart.setPrefSize(pnlKlimatogram.getPrefWidth(), pnlKlimatogram.getPrefHeight());
+                        pnlKlimatogram.getChildren().add(chart);
+                        txfGemiddeldeTemperatuur.setText(String.valueOf(berekenJaartemperatuur(maanden)));
+                        txfTotaleJaarneerslag.setText(String.valueOf(berekenTotaleNeerslag(maanden)));
+                    }
+
+                }
+        );
+
+        neerslagColumn.setCellFactory(TextFieldTableCell.<MaandDto, Integer>forTableColumn(new IntegerConverter()));
+        neerslagColumn.setOnEditCommit(
+                new EventHandler<CellEditEvent<MaandDto, Integer>>() {
+                    @Override
+                    public void handle(CellEditEvent<MaandDto, Integer> t) {
+                        try {
+                            ((MaandDto) t.getTableView().getItems().get(
+                                    t.getTablePosition().getRow())).setNeerslag(t.getNewValue());
+                        } catch (NumberFormatException ex) {
+
+                        }
+
+                        klimatogram = new KlimatogramDto();
+                        klimatogram.maanden = FXCollections.observableArrayList(maanden);
+                        StackPane chart = new KlimatogramGrafiek().createChart(klimatogram);
+                        pnlKlimatogram.getChildren().clear();
+                        chart.setPrefSize(pnlKlimatogram.getPrefWidth(), pnlKlimatogram.getPrefHeight());
+                        pnlKlimatogram.getChildren().add(chart);
+                        txfGemiddeldeTemperatuur.setText(String.valueOf(berekenJaartemperatuur(maanden)));
+                        txfTotaleJaarneerslag.setText(String.valueOf(berekenTotaleNeerslag(maanden)));
+                    }
+                }
+        );
     }
 
     @Override
@@ -151,8 +199,8 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         txfLongitudeUren.setText(String.format("%.0f", degrees));
         txfLongitudeMinuten.setText(String.format("%.0f", minutes));
         txfLongitudeSeconden.setText(String.format("%.0f", seconds));
-
-        tblMaanden.setItems(klimatogram.maanden);
+        maanden=klimatogram.maanden;
+        tblMaanden.setItems(maanden);
         maandColumn.setCellValueFactory(cellData -> cellData.getValue().naamProperty());
         temperatuurColumn.setCellValueFactory(cellData -> cellData.getValue().temperatuurProperty().asObject());
         neerslagColumn.setCellValueFactory(cellData -> cellData.getValue().neerslagProperty().asObject());
@@ -172,54 +220,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         tblMaanden.setItems(FXCollections.observableArrayList(maanden));
         maandColumn.setCellValueFactory(cellData -> cellData.getValue().naamProperty());
 
-        temperatuurColumn.setCellFactory(TextFieldTableCell.<MaandDto, Double>forTableColumn(new DoubleConverter()));
-
-        temperatuurColumn.setOnEditCommit(
-                new EventHandler<CellEditEvent<MaandDto, Double>>() {
-                    @Override
-                    public void handle(CellEditEvent<MaandDto, Double> t) {
-                        try {
-                            ((MaandDto) t.getTableView().getItems().get(
-                                    t.getTablePosition().getRow())).setTemperatuur(t.getNewValue());
-                        } catch (NumberFormatException ex) {
-                            System.out.println("hallo");
-                        }
-                        klimatogram = new KlimatogramDto();
-                        klimatogram.maanden = FXCollections.observableArrayList(maanden);
-                        StackPane chart = new KlimatogramGrafiek().createChart(klimatogram);
-                        pnlKlimatogram.getChildren().clear();
-                        chart.setPrefSize(pnlKlimatogram.getPrefWidth(), pnlKlimatogram.getPrefHeight());
-                        pnlKlimatogram.getChildren().add(chart);
-                        txfGemiddeldeTemperatuur.setText(String.valueOf(berekenJaartemperatuur(maanden)));
-                        txfTotaleJaarneerslag.setText(String.valueOf(berekenTotaleNeerslag(maanden)));
-                    }
-
-                }
-        );
-
-        neerslagColumn.setCellFactory(TextFieldTableCell.<MaandDto, Integer>forTableColumn(new IntegerConverter()));
-        neerslagColumn.setOnEditCommit(
-                new EventHandler<CellEditEvent<MaandDto, Integer>>() {
-                    @Override
-                    public void handle(CellEditEvent<MaandDto, Integer> t) {
-                        try {
-                            ((MaandDto) t.getTableView().getItems().get(
-                                    t.getTablePosition().getRow())).setNeerslag(t.getNewValue());
-                        } catch (NumberFormatException ex) {
-
-                        }
-
-                        klimatogram = new KlimatogramDto();
-                        klimatogram.maanden = FXCollections.observableArrayList(maanden);
-                        StackPane chart = new KlimatogramGrafiek().createChart(klimatogram);
-                        pnlKlimatogram.getChildren().clear();
-                        chart.setPrefSize(pnlKlimatogram.getPrefWidth(), pnlKlimatogram.getPrefHeight());
-                        pnlKlimatogram.getChildren().add(chart);
-                        txfGemiddeldeTemperatuur.setText(String.valueOf(berekenJaartemperatuur(maanden)));
-                        txfTotaleJaarneerslag.setText(String.valueOf(berekenTotaleNeerslag(maanden)));
-                    }
-                }
-        );
+        
         btnAnnuleren.setVisible(true);
         btnOpslaan.setVisible(true);
         this.setDisable(false);
@@ -245,7 +246,14 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
 
     @FXML
     public void opslaan(ActionEvent event) {
+        zetWaardenInDto();
+        controller.voegKlimatogramToe(klimatogram);
+        this.setDisable(true);
+        controller.notifyObservers("menu");
 
+    }
+    
+    public void zetWaardenInDto(){
         klimatogram = new KlimatogramDto();
         klimatogram.setStation(txfStation.getText());
         klimatogram.setBeginJaar(Integer.parseInt(txfBeginPeriode.getText()));
@@ -276,14 +284,11 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         }
         klimatogram.setLatitude(latitude);
         klimatogram.maanden = maanden;
-        controller.voegKlimatogramToe(klimatogram);
-        this.setDisable(true);
-        controller.notifyObservers("menu");
-
     }
 
     @FXML
     public void wijzig(ActionEvent event) {
+        zetWaardenInDto();
         controller.wijzigKlimatogram(klimatogram);
         this.setDisable(true);
         controller.notifyObservers("menu");

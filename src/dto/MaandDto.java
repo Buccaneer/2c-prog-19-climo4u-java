@@ -22,7 +22,7 @@ public class MaandDto {
     }
 
     public void setNaam(String naam) {
-        this.naam.set(naam);
+        this.naam.setValue(naam);
     }
 
     public int getNeerslag() {
