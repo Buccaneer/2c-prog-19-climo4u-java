@@ -3,6 +3,7 @@ package domein;
 import java.util.*;
 import java.util.regex.Pattern;
 import javax.persistence.*;
+import persistentie.GenericDaoJpa;
 
 @Entity
 @Table(name = "continenten")
@@ -134,7 +135,7 @@ public class Continent implements Cloneable
         return landen;
     }
 
-    public void verwijderLand(String naam) {
+    public Land verwijderLand(String naam) {
         Land land = null;
        for (Land l : landen) {
            if (l.getNaam().equals(naam)){
@@ -144,7 +145,9 @@ public class Continent implements Cloneable
        }
        if (land !=null) {
            landen.remove(land);
+       return land;
        }
+       return null;
     }
 
 }
