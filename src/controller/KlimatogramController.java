@@ -23,10 +23,14 @@ public class KlimatogramController implements Subject {
     protected Continent geselecteerdContinent;
     protected Land geselecteerdLand;
     protected Klimatogram geselecteerdKlimatogram;
+    private ObservableList<String> continenten, landen, locaties;
 
     public KlimatogramController() {
         observers = new ArrayList<>();
         continentenRepository = new GenericDaoJpa<>(Continent.class);
+        continenten = FXCollections.observableArrayList();
+        landen = FXCollections.observableArrayList();
+        locaties = FXCollections.observableArrayList();
     }
 
     /**
@@ -41,15 +45,10 @@ public class KlimatogramController implements Subject {
         continentenRepository.insert(cont);
     }
 
-    public ObservableList<ContinentDto> getContinenten() {
+    public ObservableList<String> getContinenten() {
         List<Continent> continenten = continentenRepository.getAll();
-        ObservableList<ContinentDto> continentenDto = FXCollections.observableArrayList();
-        for (Continent c : continenten) {
-            ContinentDto continent = new ContinentDto();
-            continent.setNaam(c.getNaam());
-            continentenDto.add(continent);
-        }
-        return continentenDto;
+        continenten.forEach(c -> this.continenten.add(c.getNaam()));
+        return this.continenten;
     }
 
     /**
@@ -65,36 +64,19 @@ public class KlimatogramController implements Subject {
             throw new IllegalArgumentException("Continent bestaat niet");
         }
         geselecteerdContinent = cont;
+        landen.clear();
+        locaties.clear();
+        geselecteerdContinent.getLanden().forEach(l -> landen.add(l.getNaam()));
         geselecteerdKlimatogram = null;
         geselecteerdLand = null;
     }
 
-    public ObservableList<LandDto> getLanden() {
-        if (geselecteerdContinent == null) {
-            throw new IllegalArgumentException("Continent moet eerst geselecteerd worden");
-        }
-        Collection<Land> landen = geselecteerdContinent.getLanden();
-        ObservableList<LandDto> landenDto = FXCollections.observableArrayList();
-        for (Land l : landen) {
-            LandDto land = new LandDto();
-            land.setNaam(l.getNaam());
-            landenDto.add(land);
-        }
-        return landenDto;
+    public ObservableList<String> getLanden() {
+        return landen;
     }
 
-    public ObservableList<KlimatogramDto> getLocaties() {
-        if (geselecteerdLand == null) {
-            throw new IllegalArgumentException("Land moet eerst geselecteerd worden");
-        }
-        Collection<Klimatogram> klimatogrammen = geselecteerdLand.getKlimatogrammen();
-        ObservableList<KlimatogramDto> klimatogrammenDto = FXCollections.observableArrayList();
-        for (Klimatogram k : klimatogrammen) {
-            KlimatogramDto klimatogram = new KlimatogramDto();
-            klimatogram.setLocatie(k.getLocatie());
-            klimatogrammenDto.add(klimatogram);
-        }
-        return klimatogrammenDto;
+    public ObservableList<String> getLocaties() {
+        return locaties;
     }
 
     public void selecteerKlimatogram(KlimatogramDto klimatogram) {
@@ -145,6 +127,8 @@ public class KlimatogramController implements Subject {
             throw new IllegalArgumentException("Land bestaat niet");
         }
         geselecteerdLand = la;
+        locaties.clear();
+        geselecteerdLand.getKlimatogrammen().forEach(k -> locaties.add(k.getLocatie()));
         geselecteerdKlimatogram = null;
     }
 
@@ -158,75 +142,49 @@ public class KlimatogramController implements Subject {
         }
         VerkeerdeInputException vie = new VerkeerdeInputException();
         Klimatogram klim = new Klimatogram();
-        try
-        {
+        try {
             klim.setBeginJaar(klimatogramDto.getBeginJaar());
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             vie.add("beginJaar", e);
         }
-        try
-        {
+        try {
             klim.setEindJaar(klimatogramDto.getEindJaar());
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             vie.add("eindJaar", e);
         }
-        try
-        {
+        try {
             klim.setLatitude(klimatogramDto.getLatitude());
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             vie.add("latitude", e);
         }
-        try
-        {
+        try {
             klim.setLongitude(klimatogramDto.getLongitude());
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             vie.add("longitude", e);
         }
-        try
-        {
+        try {
             klim.setLocatie(klimatogramDto.getLocatie());
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             vie.add("locatie", e);
         }
-        try
-        {
+        try {
             klim.setStation(klimatogramDto.getStation());
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             vie.add("station", e);
         }
-        for (int i = 0; i < 12; i++)
-        {
-            try
-            {
+        for (int i = 0; i < 12; i++) {
+            try {
                 klim.getMaanden().get(i).setNeerslag(klimatogramDto.maanden.get(i).getNeerslag());
-            }
-            catch (IllegalArgumentException e)
-            {
+            } catch (IllegalArgumentException e) {
                 vie.add("neerslagMaand" + (i + 1), e);
             }
-            try
-            {
+            try {
                 klim.getMaanden().get(i).setTemperatuur(klimatogramDto.maanden.get(i).getTemperatuur());
-            }
-            catch (IllegalArgumentException e)
-            {
+            } catch (IllegalArgumentException e) {
                 vie.add("temperatuurMaand" + (i + 1), e);
             }
         }
-        if (!vie.isEmpty())
-        {
+        if (!vie.isEmpty()) {
             throw vie;
         }
         geselecteerdLand.voegKlimatogramToe(klim);
@@ -290,135 +248,96 @@ public class KlimatogramController implements Subject {
         return klimatogrammenDto.sorted((KlimatogramDto o1, KlimatogramDto o2) -> o1.getLocatie().compareTo(o2.getLocatie()));
     }
 
-    public void wijzigKlimatogram(KlimatogramDto klimatogramDto) throws IllegalArgumentException, VerkeerdeInputException
-    {
+    public void wijzigKlimatogram(KlimatogramDto klimatogramDto) throws IllegalArgumentException, VerkeerdeInputException {
         boolean locatieGewijzigd = false;
-        if (geselecteerdKlimatogram == null)
-        {
+        if (geselecteerdKlimatogram == null) {
             throw new IllegalArgumentException("Klimatogram moet eerst geselecteerd worden");
         }
-        if (klimatogramDto == null)
-        {
+        if (klimatogramDto == null) {
             throw new IllegalArgumentException("Klimatogram moet correct ingevuld zijn");
         }
         VerkeerdeInputException vie = new VerkeerdeInputException();
-        if (!geselecteerdKlimatogram.getLocatie().equals(klimatogramDto.getLocatie()))
-        {
-            try
-            {
+        if (!geselecteerdKlimatogram.getLocatie().equals(klimatogramDto.getLocatie())) {
+            try {
                 geselecteerdKlimatogram.setLocatie(klimatogramDto.getLocatie());
                 locatieGewijzigd = true;
-            }
-            catch (IllegalArgumentException e)
-            {
+            } catch (IllegalArgumentException e) {
                 vie.add("locatie", e);
             }
         }
-        try
-        {
+        try {
             geselecteerdKlimatogram.setBeginJaar(klimatogramDto.getBeginJaar());
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             vie.add("beginJaar", e);
         }
-        try
-        {
+        try {
             geselecteerdKlimatogram.setEindJaar(klimatogramDto.getEindJaar());
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             vie.add("eindJaar", e);
         }
-        try
-        {
+        try {
             geselecteerdKlimatogram.setLatitude(klimatogramDto.getLatitude());
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             vie.add("latitude", e);
         }
-        try
-        {
+        try {
             geselecteerdKlimatogram.setLongitude(klimatogramDto.getLongitude());
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             vie.add("longitude", e);
         }
-        try
-        {
+        try {
             geselecteerdKlimatogram.setStation(klimatogramDto.getStation());
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             vie.add("station", e);
         }
-        for (int i = 0; i < 12; i++)
-        {
-            try
-            {
+        for (int i = 0; i < 12; i++) {
+            try {
                 geselecteerdKlimatogram.getMaanden().get(i).setNeerslag(klimatogramDto.maanden.get(i).getNeerslag());
-            }
-            catch (IllegalArgumentException e)
-            {
+            } catch (IllegalArgumentException e) {
                 vie.add("neerslagMaand" + (i + 1), e);
             }
-            try
-            {
+            try {
                 geselecteerdKlimatogram.getMaanden().get(i).setTemperatuur(klimatogramDto.maanden.get(i).getTemperatuur());
-            }
-            catch (IllegalArgumentException e)
-            {
+            } catch (IllegalArgumentException e) {
                 vie.add("temperatuurMaand" + (i + 1), e);
             }
         }
-        if (!vie.isEmpty())
-        {
+        if (!vie.isEmpty()) {
             throw vie;
         }
 
-        if (locatieGewijzigd)
-        {
-            try
-            {
+        if (locatieGewijzigd) {
+            try {
                 Klimatogram k = (Klimatogram) geselecteerdKlimatogram.clone();
                 geselecteerdLand.verwijderKlimatogram(geselecteerdKlimatogram.getLocatie());
                 GenericDaoJpa.detach(geselecteerdKlimatogram);
                 continentenRepository.update(geselecteerdContinent);
                 geselecteerdLand.voegKlimatogramToe(k);
                 continentenRepository.update(geselecteerdContinent);
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 throw new IllegalArgumentException(ex.getMessage());
             }
-        }
-        else
-        {
+        } else {
             continentenRepository.update(geselecteerdContinent);
         }
     }
 
-    public void verwijderKlimatogram(String locatie) throws IllegalArgumentException
-    {
-        if (geselecteerdKlimatogram == null)
-        {
+    public void verwijderKlimatogram(String locatie) throws IllegalArgumentException {
+        if (geselecteerdKlimatogram == null) {
             throw new IllegalArgumentException("Klimatogram moet eerst geselecteerd worden");
         }
         geselecteerdLand.verwijderKlimatogram(locatie);
         continentenRepository.update(geselecteerdContinent);
     }
 
-    public boolean klimatogramGeselecteerd()
-    {
+    public boolean klimatogramGeselecteerd() {
         return geselecteerdKlimatogram != null;
     }
 
-    public boolean landGeselecteerd(){
-        return geselecteerdLand!=null;
+    public boolean landGeselecteerd() {
+        return geselecteerdLand != null;
     }
-    
+
     @Override
     public void addObserver(Observer observer) {
         observers.add(observer);
@@ -435,8 +354,7 @@ public class KlimatogramController implements Subject {
     }
 
     @Override
-    public void notifyObservers(Object object)
-    {
+    public void notifyObservers(Object object) {
         observers.forEach(o -> o.update(object));
     }
 

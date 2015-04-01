@@ -10,7 +10,7 @@ public class Continent implements Cloneable
 {
    
     @OneToMany(mappedBy = "continent",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Collection<Land> landen;
+    private List<Land> landen;
     @Column(name="Naam", length = 128)
     @Id
     private String naam;
@@ -92,7 +92,7 @@ public class Continent implements Cloneable
         landen.add(land);
     }
 
-    public Collection<Land> getLanden()
+    public List<Land> getLanden()
     {
         return landen;
     }

@@ -11,6 +11,7 @@ import dto.ContinentDto;
 import dto.KlimatogramDto;
 import dto.LandDto;
 import java.io.IOException;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,19 +47,16 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
             throw new RuntimeException(ex);
         }
 
-        ObservableList<String> continenten = FXCollections.observableArrayList();
-        controller.getContinenten().forEach(c -> continenten.add(c.getNaam()));
-        cboWerelddeel.setItems(continenten);
+        cboWerelddeel.setItems(controller.getContinenten());
+        cboLand.setItems(controller.getLanden());
+        lstLocaties.setItems(controller.getLocaties());
+
         cboWerelddeel.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue != null) {
                 ContinentDto dto = new ContinentDto();
                 dto.setNaam(newValue.toString());
                 controller.selecteerContinent(dto);
-                ObservableList<String> landen = FXCollections.observableArrayList();
-                controller.getLanden().forEach(l -> landen.add(l.getNaam()));
-                cboLand.setItems(landen);
-                lstLocaties.setItems(FXCollections.observableArrayList());
-                clearList();
+                clearSelectie();
             }
         });
         cboLand.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -66,10 +64,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
                 LandDto dto = new LandDto();
                 dto.setNaam(newValue.toString());
                 controller.selecteerLand(dto);
-                ObservableList<String> locaties = FXCollections.observableArrayList();
-                controller.getLocaties().forEach(l -> locaties.add(l.getLocatie()));
-                lstLocaties.setItems(locaties);
-                clearList();
+                clearSelectie();
             }
         });
         lstLocaties.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -85,19 +80,19 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
     public void voegKlimatogramToe(ActionEvent event) {
         if (controller.landGeselecteerd()) {
             this.setDisable(true);
-            clearList();
+            clearSelectie();
             controller.notifyObservers("voegToe");
         }
     }
-    
-        @FXML
+
+    @FXML
     public void verwijderKlimatogram(ActionEvent event) {
         if (controller.klimatogramGeselecteerd()) {
             controller.verwijderKlimatogram(lstLocaties.getSelectionModel().getSelectedItem().toString());
         }
     }
 
-    public void clearList() {
+    public void clearSelectie() {
         lstLocaties.getSelectionModel().clearSelection();
     }
 
@@ -109,10 +104,10 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
             }
         }
     }
-    
+
     @FXML
-    public void wijzigKlimatogram(ActionEvent event){
-        if(controller.klimatogramGeselecteerd()){
+    public void wijzigKlimatogram(ActionEvent event) {
+        if (controller.klimatogramGeselecteerd()) {
             this.setDisable(true);
             controller.notifyObservers("wijzig");
         }
