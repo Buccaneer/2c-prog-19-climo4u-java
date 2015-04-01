@@ -23,7 +23,9 @@ public class KlimatogramController implements Subject {
     protected Continent geselecteerdContinent;
     protected Land geselecteerdLand;
     protected Klimatogram geselecteerdKlimatogram;
-    private ObservableList<String> continenten, landen, locaties;
+    private ObservableList<ContinentDto> continenten;
+    private ObservableList<LandDto> landen;
+    private ObservableList<KlimatogramDto> locaties;
 
     public KlimatogramController() {
         observers = new ArrayList<>();
@@ -45,9 +47,9 @@ public class KlimatogramController implements Subject {
         continentenRepository.insert(cont);
     }
 
-    public ObservableList<String> getContinenten() {
+    public ObservableList<ContinentDto> getContinenten() {
         List<Continent> continenten = continentenRepository.getAll();
-        continenten.forEach(c -> this.continenten.add(c.getNaam()));
+        continenten.forEach(c-> this.continenten.add(new ContinentDto(c.getNaam())));
         return this.continenten;
     }
 
@@ -66,16 +68,16 @@ public class KlimatogramController implements Subject {
         geselecteerdContinent = cont;
         landen.clear();
         locaties.clear();
-        geselecteerdContinent.getLanden().forEach(l -> landen.add(l.getNaam()));
+        geselecteerdContinent.getLanden().forEach(l -> landen.add(new LandDto(l.getNaam())));
         geselecteerdKlimatogram = null;
         geselecteerdLand = null;
     }
 
-    public ObservableList<String> getLanden() {
+    public ObservableList<LandDto> getLanden() {
         return landen;
     }
 
-    public ObservableList<String> getLocaties() {
+    public ObservableList<KlimatogramDto> getLocaties() {
         return locaties;
     }
 
@@ -128,7 +130,7 @@ public class KlimatogramController implements Subject {
         }
         geselecteerdLand = la;
         locaties.clear();
-        geselecteerdLand.getKlimatogrammen().forEach(k -> locaties.add(k.getLocatie()));
+        geselecteerdLand.getKlimatogrammen().forEach(k -> locaties.add(new KlimatogramDto(k.getLocatie())));
         geselecteerdKlimatogram = null;
     }
 

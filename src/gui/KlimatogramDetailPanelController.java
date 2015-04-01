@@ -179,7 +179,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
                             ((MaandDto) t.getTableView().getItems().get(
                                     t.getTablePosition().getRow())).setTemperatuur(t.getNewValue());
                         } catch (NumberFormatException ex) {
-
+                            System.out.println("hallo");
                         }
                         klimatogram = new KlimatogramDto();
                         klimatogram.maanden = FXCollections.observableArrayList(maanden);

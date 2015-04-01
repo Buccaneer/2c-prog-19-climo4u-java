@@ -29,10 +29,12 @@ import javafx.scene.layout.Pane;
 public class KlimatogramKiezenPanelController extends Pane implements Observer {
 
     @FXML
-    private ComboBox cboWerelddeel, cboLand;
+    private ComboBox<ContinentDto> cboWerelddeel;
+    @FXML
+    private ComboBox<LandDto> cboLand;
 
     @FXML
-    private ListView lstLocaties;
+    private ListView<KlimatogramDto> lstLocaties;
 
     private KlimatogramController controller;
 
@@ -53,25 +55,19 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
 
         cboWerelddeel.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue != null) {
-                ContinentDto dto = new ContinentDto();
-                dto.setNaam(newValue.toString());
-                controller.selecteerContinent(dto);
+                controller.selecteerContinent(newValue);
                 clearSelectie();
             }
         });
         cboLand.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue != null) {
-                LandDto dto = new LandDto();
-                dto.setNaam(newValue.toString());
-                controller.selecteerLand(dto);
+                controller.selecteerLand(newValue);
                 clearSelectie();
             }
         });
         lstLocaties.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue != null) {
-                KlimatogramDto dto = new KlimatogramDto();
-                dto.setLocatie(newValue.toString());
-                controller.selecteerKlimatogram(dto);
+                controller.selecteerKlimatogram(newValue);
             }
         });
     }
@@ -98,10 +94,8 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
 
     @Override
     public void update(Object object) {
-        if (object instanceof String) {
-            if (object.toString().equals("menu")) {
-                this.setDisable(false);
-            }
+        if (object.toString().equals("menu")) {
+            this.setDisable(false);
         }
     }
 
