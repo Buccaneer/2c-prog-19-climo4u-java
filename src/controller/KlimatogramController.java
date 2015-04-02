@@ -11,6 +11,7 @@ import dto.LandDto;
 import dto.MaandDto;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -24,21 +25,18 @@ public class KlimatogramController implements Subject {
     private List<Observer> observers;
     private GenericDao<Continent, String> continentenRepository;
     private GenericDao<Graad, String> graadRepository = new GenericDaoJpa<>(Graad.class);
-    private  GenericDao<Land,String> landenRepository = new GenericDaoJpa<>(Land.class);
-      private  GenericDao<Klimatogram,String> klimatogramRepository = new GenericDaoJpa<>(Klimatogram.class);
+    private GenericDao<Land, String> landenRepository = new GenericDaoJpa<>(Land.class);
+    private GenericDao<Klimatogram, String> klimatogramRepository = new GenericDaoJpa<>(Klimatogram.class);
     protected Continent geselecteerdContinent;
     protected Land geselecteerdLand;
     protected Klimatogram geselecteerdKlimatogram;
-    private ObservableList<ContinentDto> continenten;
-    private ObservableList<LandDto> landen;
-    private ObservableList<KlimatogramDto> locaties;
+    private ObservableList<ContinentDto> continenten = FXCollections.observableArrayList();
+    private ObservableList<LandDto> landen = FXCollections.observableArrayList();
+    private ObservableList<KlimatogramDto> locaties = FXCollections.observableArrayList();
 
     public KlimatogramController() {
         observers = new ArrayList<>();
         continentenRepository = new GenericDaoJpa<>(Continent.class);
-        continenten = FXCollections.observableArrayList();
-        landen = FXCollections.observableArrayList();
-        locaties = FXCollections.observableArrayList();
     }
 
     /**
@@ -50,9 +48,9 @@ public class KlimatogramController implements Subject {
             throw new IllegalArgumentException("Continent moet correct ingevuld zijn");
         }
         Continent cont = new Continent(continent.getNaam());
-        
+
         List<Graad> graden = graadRepository.getAll();
-        for (Entry<String,Boolean> obj : continent.getGraden().entrySet()) {
+        for (Entry<String, Boolean> obj : continent.getGraden().entrySet()) {
             if (obj.getValue() == true) {
                 Optional<Graad> graad = graden.stream().filter(g -> g.toString().equals(obj.getKey())).findFirst();
                 if (graad.isPresent()) {
@@ -60,26 +58,27 @@ public class KlimatogramController implements Subject {
                 }
             }
         }
-        
+
         continentenRepository.insert(cont);
         continenten.clear();
-        continenten=getContinenten();
+        continenten = getContinenten();
     }
 
     public ObservableList<ContinentDto> getContinenten() {
         List<Continent> continenten = continentenRepository.getAll();
         List<Graad> graden = graadRepository.getAll();
         this.continenten.clear();
-   for (Continent continent : continenten) {
-       ContinentDto continentDto = new ContinentDto(continent.getNaam());
-       for (Graad graad : graden)
-           continentDto.verwijderGraad(graad.toString());
-       
-       for (Graad graad : continent.getGraden()) {
-           continentDto.voegGraadToe(graad.toString());
-       }
-       this.continenten.add(continentDto);
-   }
+        for (Continent continent : continenten) {
+            ContinentDto continentDto = new ContinentDto(continent.getNaam());
+            for (Graad graad : graden) {
+                continentDto.verwijderGraad(graad.toString());
+            }
+
+            for (Graad graad : continent.getGraden()) {
+                continentDto.voegGraadToe(graad.toString());
+            }
+            this.continenten.add(continentDto);
+        }
         return this.continenten;
     }
 
@@ -104,15 +103,16 @@ public class KlimatogramController implements Subject {
     }
 
     public ContinentDto maakNieuwContinentDto() {
-        ContinentDto dto  = new ContinentDto();
-        
+        ContinentDto dto = new ContinentDto();
+
         List<Graad> graden = graadRepository.getAll();
-        for (Graad graad : graden)
+        for (Graad graad : graden) {
             dto.verwijderGraad(graad.toString());
-        
+        }
+
         return dto;
     }
-    
+
     public ObservableList<LandDto> getLanden() {
         return landen;
     }
@@ -232,6 +232,8 @@ public class KlimatogramController implements Subject {
         geselecteerdLand.voegKlimatogramToe(klim);
         continentenRepository.update(geselecteerdContinent);
         geselecteerdKlimatogram = klim;
+        locaties.clear();
+        geselecteerdLand.getKlimatogrammen().forEach(k -> locaties.add(new KlimatogramDto(k.getLocatie())));
     }
 
     public ObservableList<MaandDto> getMaanden() {
@@ -364,40 +366,42 @@ public class KlimatogramController implements Subject {
         } else {
             continentenRepository.update(geselecteerdContinent);
         }
+        locaties.clear();
+        geselecteerdLand.getKlimatogrammen().forEach(k -> locaties.add(new KlimatogramDto(k.getLocatie())));
     }
 
     public void verwijderKlimatogram(String locatie) throws IllegalArgumentException {
         if (geselecteerdKlimatogram == null) {
             throw new IllegalArgumentException("Klimatogram moet eerst geselecteerd worden");
         }
-      Klimatogram k =  geselecteerdLand.verwijderKlimatogram(locatie);
-      klimatogramRepository.delete(k);
-
+        Klimatogram k = geselecteerdLand.verwijderKlimatogram(locatie);
+        klimatogramRepository.delete(k);
+        locaties.clear();
+        geselecteerdLand.getKlimatogrammen().forEach(klim -> locaties.add(new KlimatogramDto(klim.getLocatie())));
     }
-    
-    public void verwijderLand(LandDto land)  {
+
+    public void verwijderLand(LandDto land) {
         if (geselecteerdContinent == null) {
-             throw new IllegalArgumentException("Continent moet eerst geselecteerd worden");
+            throw new IllegalArgumentException("Continent moet eerst geselecteerd worden");
         }
-        
-        
-      Land l = geselecteerdContinent.verwijderLand(land.getNaam());
-       
-       
-        
+
+        Land l = geselecteerdContinent.verwijderLand(land.getNaam());
+
         landenRepository.delete(l);
         geselecteerdLand = null;
-  
+        landen.clear();
+        geselecteerdContinent.getLanden().forEach(la -> landen.add(new LandDto(la.getNaam())));
     }
-    
+
     public void verwijderContinent(ContinentDto continent) {
         Continent c = continentenRepository.get(continent.getNaam());
-   
-        
-        if (c!=null) {
-                 GenericDaoJpa.detach(c);
+
+        if (c != null) {
+            GenericDaoJpa.detach(c);
             continentenRepository.delete(c);
         }
+        continenten.clear();
+        continenten = getContinenten();
     }
 
     public boolean klimatogramGeselecteerd() {
@@ -416,11 +420,6 @@ public class KlimatogramController implements Subject {
     @Override
     public void removeObserver(Observer observer) {
         observers.remove(observer);
-    }
-
-    @Override
-    public void notifyObservers() {
-
     }
 
     @Override

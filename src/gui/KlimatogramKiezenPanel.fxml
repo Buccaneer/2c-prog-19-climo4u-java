@@ -7,32 +7,32 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root prefHeight="800.0" prefWidth="412.0" type="Pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="740.0" prefWidth="412.0" type="Pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="26.0" layoutY="98.0" text="Werelddeel" />
-      <Label layoutX="26.0" layoutY="145.0" text="Land" />
-      <Label layoutX="24.0" layoutY="195.0" text="Locaties" />
-      <Label layoutX="24.0" layoutY="22.0" text="Klimatogrammenbeheer">
+      <Label layoutX="26.0" layoutY="82.0" text="Werelddeel" />
+      <Label layoutX="26.0" layoutY="129.0" text="Land" />
+      <Label layoutX="24.0" layoutY="179.0" text="Locaties" />
+      <Label layoutX="24.0" layoutY="6.0" text="Klimatogrammenbeheer">
          <font>
             <Font size="34.0" />
          </font>
       </Label>
-      <ComboBox fx:id="cboWerelddeel" layoutX="106.0" layoutY="94.0" prefHeight="25.0" prefWidth="200.0" />
-      <ComboBox fx:id="cboLand" layoutX="106.0" layoutY="141.0" prefHeight="25.0" prefWidth="200.0" />
-      <ScrollPane layoutX="108.0" layoutY="195.0" prefHeight="232.0" prefWidth="200.0">
+      <ComboBox fx:id="cboWerelddeel" layoutX="106.0" layoutY="79.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button id="ok" fx:id="btnWerelddeelOk" layoutX="326.0" layoutY="78.0" mnemonicParsing="false" onAction="#werelddeelOk" prefWidth="27.0" text="+" />
+      <Button id="cancel" fx:id="btnWerelddeelCancel" layoutX="362.0" layoutY="78.0" mnemonicParsing="false" onAction="#werelddeelCancel" prefHeight="25.0" prefWidth="27.0" text="-" />
+      <ComboBox fx:id="cboLand" layoutX="106.0" layoutY="125.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button id="ok" fx:id="btnLandOk" layoutX="326.0" layoutY="125.0" mnemonicParsing="false" onAction="#landOk" prefHeight="25.0" prefWidth="27.0" text="+" />
+      <Button id="cancel" fx:id="btnLandCancel" layoutX="361.0" layoutY="125.0" mnemonicParsing="false" onAction="#landCancel" prefHeight="25.0" prefWidth="27.0" text="-" />
+      <ScrollPane layoutX="108.0" layoutY="179.0" prefHeight="232.0" prefWidth="200.0">
          <content>
             <ListView fx:id="lstLocaties" prefHeight="228.0" prefWidth="200.0" />
          </content>
       </ScrollPane>
-      <Button fx:id="btnWerelddeelOk" layoutX="326.0" layoutY="94.0" mnemonicParsing="false" onAction="#werelddeelOk" prefWidth="27.0" text="+" />
-      <Button fx:id="btnLandOk" layoutX="326.0" layoutY="141.0" mnemonicParsing="false" onAction="#landOk" prefHeight="25.0" prefWidth="27.0" text="+" />
-      <Button fx:id="btnTerug" layoutX="108.0" layoutY="660.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Terug naar menu" />
-      <Button fx:id="btnKlimatogramToevoegen" layoutX="106.0" layoutY="489.0" mnemonicParsing="false" onAction="#voegKlimatogramToe" prefHeight="25.0" prefWidth="200.0" text="Klimatogram toevoegen" />
-      <Button fx:id="btnKlimatogramWijzigen" layoutX="108.0" layoutY="547.0" mnemonicParsing="false" onAction="#wijzigKlimatogram" prefHeight="25.0" prefWidth="200.0" text="Klimatogram wijzigen" />
-      <Button fx:id="btnKlimatogramVerwijderen" layoutX="106.0" layoutY="603.0" mnemonicParsing="false" onAction="#verwijderKlimatogram" prefHeight="25.0" prefWidth="200.0" text="Klimatogram verwijderen" />
-      <Button fx:id="btnLandCancel" layoutX="361.0" layoutY="141.0" mnemonicParsing="false" onAction="#landCancel" prefHeight="25.0" prefWidth="27.0" text="-" />
-      <Button fx:id="btnWerelddeelCancel" layoutX="362.0" layoutY="94.0" mnemonicParsing="false" onAction="#werelddeelCancel" prefHeight="25.0" prefWidth="27.0" text="-" />
-      <TextField fx:id="txfWerelddeel" layoutX="106.0" layoutY="94.0" prefHeight="25.0" prefWidth="200.0" visible="false" />
-      <TextField fx:id="txfLand" layoutX="106.0" layoutY="141.0" prefHeight="25.0" prefWidth="200.0" visible="false" />
+      <Button fx:id="btnKlimatogramToevoegen" layoutX="105.0" layoutY="470.0" mnemonicParsing="false" onAction="#voegKlimatogramToe" prefHeight="25.0" prefWidth="200.0" text="Klimatogram toevoegen" />
+      <Button fx:id="btnKlimatogramWijzigen" layoutX="107.0" layoutY="526.0" mnemonicParsing="false" onAction="#wijzigKlimatogram" prefHeight="25.0" prefWidth="200.0" text="Klimatogram wijzigen" />
+      <Button fx:id="btnKlimatogramVerwijderen" layoutX="105.0" layoutY="582.0" mnemonicParsing="false" onAction="#verwijderKlimatogram" prefHeight="25.0" prefWidth="200.0" text="Klimatogram verwijderen" />
+      <Button fx:id="btnTerug" layoutX="107.0" layoutY="639.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Terug naar menu" />
+      <TextField fx:id="txfWerelddeel" layoutX="106.0" layoutY="78.0" prefHeight="25.0" prefWidth="200.0" visible="false" />
+      <TextField fx:id="txfLand" layoutX="106.0" layoutY="125.0" prefHeight="25.0" prefWidth="200.0" visible="false" />
    </children>
 </fx:root>

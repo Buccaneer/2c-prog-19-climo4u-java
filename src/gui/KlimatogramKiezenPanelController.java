@@ -86,7 +86,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
     @FXML
     public void verwijderKlimatogram(ActionEvent event) {
         if (controller.klimatogramGeselecteerd()) {
-            controller.verwijderKlimatogram(lstLocaties.getSelectionModel().getSelectedItem().toString());
+            controller.verwijderKlimatogram(lstLocaties.getSelectionModel().getSelectedItem().getLocatie());
         }
     }
 
@@ -129,7 +129,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
     @FXML
     public void werelddeelCancel(ActionEvent event) {
         if (btnWerelddeelCancel.getText().equals("-")) {
-            //wereldeel verwijderen
+            controller.verwijderContinent(cboWerelddeel.getSelectionModel().getSelectedItem());
         } else {
             txfWerelddeel.clear();
             cboWerelddeel.setVisible(true);
@@ -159,7 +159,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
     @FXML
     public void landCancel(ActionEvent event) {
         if (btnLandCancel.getText().equals("-")) {
-
+            controller.verwijderLand(cboLand.getSelectionModel().getSelectedItem());
         } else {
             txfLand.clear();
             cboLand.setVisible(true);
