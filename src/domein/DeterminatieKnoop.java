@@ -1,5 +1,7 @@
 package domein;
 
+import dto.DeterminatieKnoopDto;
+
 public abstract class DeterminatieKnoop {
 
 	private int id;

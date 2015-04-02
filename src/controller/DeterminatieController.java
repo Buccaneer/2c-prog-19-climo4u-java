@@ -1,13 +1,16 @@
 package controller;
 
 import domein.*;
+import dto.DeterminatieTabelDto;
+import dto.GraadDto;
+import javafx.collections.ObservableList;
 import persistentie.*;
 
 public class DeterminatieController {
 
 	private DeterminatieTabel geselecteerdeDeterminatieTabel;
-	private GenericDaoJpa<DeterminatieTabel, Integer> determinatieTabelDao;
-	private GenericDaoJpa<DeterminatieKnoop, Integer> determinatieKnoopDao;
+	private GenericDao<DeterminatieTabel, Integer> determinatieTabelDao;
+	private GenericDao<DeterminatieKnoop, Integer> determinatieKnoopDao;
 
 	public ObservableList<GraadDto> getGraden() {
 		// TODO - implement DeterminatieController.getGraden

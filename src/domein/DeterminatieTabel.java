@@ -1,5 +1,7 @@
 package domein;
 
+import dto.DeterminatieTabelDto;
+
 public class DeterminatieTabel {
 
 	private DeterminatieKnoop beginKnoop;

@@ -3,8 +3,6 @@ package dto;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import org.eclipse.persistence.internal.xr.sxf.SimpleXMLFormatProject;
-import sun.awt.im.SimpleInputMethodWindow;
 
 public class MaandDto {
 
