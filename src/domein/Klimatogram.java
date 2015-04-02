@@ -122,7 +122,7 @@ public class Klimatogram implements Cloneable {
         //    throw new IllegalArgumentException("Het station van een klimatogram mag niet null zijn.");
         station = station.trim();
         if (station.isEmpty())
-            throw new IllegalArgumentException("Het station van een klimatogram mag niet leeg zijn.");
+            this.station=null;
         if (station.length() > 5)
         {
             throw new IllegalArgumentException("Het station van een klimatogram mag maximaal 5 tekens bevatten.");
