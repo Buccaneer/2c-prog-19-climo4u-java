@@ -18,11 +18,11 @@
          </font>
       </Label>
       <ComboBox fx:id="cboWerelddeel" layoutX="106.0" layoutY="79.0" prefHeight="25.0" prefWidth="200.0" />
-      <Button fx:id="btnWerelddeelOk" layoutX="326.0" layoutY="78.0" mnemonicParsing="false" onAction="#werelddeelOk" prefWidth="27.0" text="+" />
-      <Button fx:id="btnWerelddeelCancel" layoutX="362.0" layoutY="78.0" mnemonicParsing="false" onAction="#werelddeelCancel" prefHeight="25.0" prefWidth="27.0" text="-" />
+      <Button id="ok" fx:id="btnWerelddeelOk" layoutX="326.0" layoutY="78.0" mnemonicParsing="false" onAction="#werelddeelOk" prefWidth="27.0" text="+" />
+      <Button id="cancel" fx:id="btnWerelddeelCancel" layoutX="362.0" layoutY="78.0" mnemonicParsing="false" onAction="#werelddeelCancel" prefHeight="25.0" prefWidth="27.0" text="-" />
       <ComboBox fx:id="cboLand" layoutX="106.0" layoutY="125.0" prefHeight="25.0" prefWidth="200.0" />
-      <Button fx:id="btnLandOk" layoutX="326.0" layoutY="125.0" mnemonicParsing="false" onAction="#landOk" prefHeight="25.0" prefWidth="27.0" text="+" />
-      <Button fx:id="btnLandCancel" layoutX="361.0" layoutY="125.0" mnemonicParsing="false" onAction="#landCancel" prefHeight="25.0" prefWidth="27.0" text="-" />
+      <Button id="ok" fx:id="btnLandOk" layoutX="326.0" layoutY="125.0" mnemonicParsing="false" onAction="#landOk" prefHeight="25.0" prefWidth="27.0" text="+" />
+      <Button id="cancel" fx:id="btnLandCancel" layoutX="361.0" layoutY="125.0" mnemonicParsing="false" onAction="#landCancel" prefHeight="25.0" prefWidth="27.0" text="-" />
       <ScrollPane layoutX="108.0" layoutY="179.0" prefHeight="232.0" prefWidth="200.0">
          <content>
             <ListView fx:id="lstLocaties" prefHeight="228.0" prefWidth="200.0" />
