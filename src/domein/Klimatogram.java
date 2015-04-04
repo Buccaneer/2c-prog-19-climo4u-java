@@ -47,7 +47,6 @@ public class Klimatogram implements Cloneable {
             Maand n =(Maand) m.clone();
             n.setKlimatogram(kk);
             maanden.set(index++, n);
-            
         }
         return kk;
     }

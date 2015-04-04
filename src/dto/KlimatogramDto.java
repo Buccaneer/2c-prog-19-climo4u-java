@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 
 public class KlimatogramDto {
 
-    public ObservableList<MaandDto> maanden = FXCollections.observableArrayList();
+    public ObservableList<MaandDto> maanden;
     private int beginJaar;
     private int eindJaar;
     private double latitude;
@@ -14,9 +14,11 @@ public class KlimatogramDto {
     private String station;
 
     public KlimatogramDto() {
+        this.maanden = FXCollections.observableArrayList();
     }
     
     public KlimatogramDto(String locatie){
+        this.maanden = FXCollections.observableArrayList();
         this.locatie=locatie;
     }
 
@@ -27,6 +29,7 @@ public class KlimatogramDto {
         this.locatie = locatie;
         this.longitude = longitude;
         this.station = station;
+        this.maanden = FXCollections.observableArrayList();
     }
 
     public int getBeginJaar() {

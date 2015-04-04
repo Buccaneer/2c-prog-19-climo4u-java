@@ -6,14 +6,14 @@ import java.util.Map.Entry;
 public class VerkeerdeInputException extends IllegalArgumentException
 {
     
-    private HashMap<String, IllegalArgumentException> exceptions = new HashMap();
+    private HashMap<String, Exception> exceptions = new HashMap();
     
-    public HashMap<String, IllegalArgumentException> getExceptions()
+    public HashMap<String, Exception> getExceptions()
     {
         return exceptions;
     }
     
-    public boolean add(String key, IllegalArgumentException exception)
+    public boolean add(String key, Exception exception)
     {
         if (key == null || exception == null)
             return false;
@@ -21,12 +21,12 @@ public class VerkeerdeInputException extends IllegalArgumentException
         return true;
     }
     
-    public IllegalArgumentException get(String key)
+    public Exception get(String key)
     {
         return exceptions.get(key);
     }
     
-    public Set<Entry<String, IllegalArgumentException>> getEntries()
+    public Set<Entry<String, Exception>> getEntries()
     {
         return exceptions.entrySet();
     }

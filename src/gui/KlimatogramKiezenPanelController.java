@@ -22,6 +22,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.StatusBar;
 
@@ -37,7 +40,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
     @FXML
     private ComboBox<LandDto> cboLand;
     @FXML
-    private Button btnLandOk, btnLandCancel, btnWerelddeelOk, btnWerelddeelCancel;
+    private Button btnLandOk, btnLandCancel, btnWerelddeelOk, btnWerelddeelCancel, btnKlimatogramToevoegen, btnKlimatogramWijzigen, btnKlimatogramVerwijderen,btnTerug;
     @FXML
     private ListView<KlimatogramDto> lstLocaties;
     @FXML
@@ -62,22 +65,37 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
         lstLocaties.setItems(controller.getLocaties());
 
         cboWerelddeel.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            clearErrors();
             if (newValue != null) {
                 controller.selecteerContinent(newValue);
                 clearSelectie();
             }
         });
         cboLand.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            clearErrors();
             if (newValue != null) {
                 controller.selecteerLand(newValue);
                 clearSelectie();
             }
         });
         lstLocaties.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            clearErrors();
             if (newValue != null) {
                 controller.selecteerKlimatogram(newValue);
             }
         });
+
+        btnKlimatogramToevoegen.setGraphic(new ImageView(new Image("/content/images/plus.png")));
+        btnKlimatogramVerwijderen.setGraphic(new ImageView(new Image("/content/images/min.png")));
+        btnKlimatogramWijzigen.setGraphic(new ImageView(new Image("/content/images/edit.png")));
+        setTooltip(btnKlimatogramToevoegen, "Klimatogram toevoegen");
+        setTooltip(btnKlimatogramVerwijderen, "Klimatogram verwijderen");
+        setTooltip(btnKlimatogramWijzigen, "Klimatogram wijzigen");
+        setTooltip(btnLandOk, "Land toevoegen");
+        setTooltip(btnLandCancel, "Land verwijderen");
+        setTooltip(btnWerelddeelOk, "Werelddeel toevoegen");
+        setTooltip(btnWerelddeelCancel, "Werelddeel verwijderen");
+        setTooltip(btnTerug, "Terug naar het hoofdmenu");
     }
 
     @FXML
@@ -127,14 +145,16 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
 
     @FXML
     public void werelddeelOk(ActionEvent event) {
+        clearErrors();
         if (btnWerelddeelOk.getText().equals("+")) {
             cboWerelddeel.setVisible(false);
             txfWerelddeel.setVisible(true);
             btnWerelddeelOk.setText("v");
             btnWerelddeelCancel.setText("x");
+            setTooltip(btnWerelddeelOk, "Opslaan");
+            setTooltip(btnWerelddeelCancel, "Annuleren");
         } else {
             try {
-                clearErrors();
                 controller.voegContinentToe(new ContinentDto(txfWerelddeel.getText()));
                 txfWerelddeel.clear();
                 cboWerelddeel.setVisible(true);
@@ -151,13 +171,18 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
 
     @FXML
     public void werelddeelCancel(ActionEvent event) {
+        clearErrors();
         if (btnWerelddeelCancel.getText().equals("-")) {
             try {
-                clearErrors();
-                Optional<ButtonType> result = maakAlert("Werelddeel verwijderen", "Werelddeel verwijderen", "Bent u zeker dat u dit werelddeel wilt verwijderen? Alle landen en klimatogrammen zullen mee verwijderd worden.");
-                if (result.get().getButtonData() == ButtonData.YES) {
-                    controller.verwijderContinent(cboWerelddeel.getSelectionModel().getSelectedItem());
+                if (controller.werelddeelGeselecteerd()) {
+                    Optional<ButtonType> result = maakAlert("Werelddeel verwijderen", "Werelddeel verwijderen", "Bent u zeker dat u dit werelddeel wilt verwijderen? Alle landen en klimatogrammen zullen mee verwijderd worden.");
+                    if (result.get().getButtonData() == ButtonData.YES) {
+                        controller.verwijderContinent(cboWerelddeel.getSelectionModel().getSelectedItem());
+                    }
+                } else {
+                    statusBar.setText("U moet eerst een werelddeel selecteren");
                 }
+
             } catch (IllegalArgumentException e) {
                 statusBar.setText(e.getMessage());
             } catch (NullPointerException e) {
@@ -169,25 +194,28 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
             txfWerelddeel.setVisible(false);
             btnWerelddeelOk.setText("+");
             btnWerelddeelCancel.setText("-");
+            setTooltip(btnWerelddeelOk, "Werelddeel toevoegen");
+            setTooltip(btnWerelddeelCancel, "Werelddeel verwijderen");
         }
     }
 
     @FXML
     public void landOk(ActionEvent event) {
+        clearErrors();
         if (btnLandOk.getText().equals("+")) {
             if (controller.werelddeelGeselecteerd()) {
-                clearErrors();
                 cboLand.setVisible(false);
                 txfLand.setVisible(true);
                 btnLandOk.setText("v");
                 btnLandCancel.setText("x");
+                setTooltip(btnLandOk, "Opslaan");
+                setTooltip(btnLandCancel, "Wijzigen");
             } else {
                 statusBar.setText("U moet eerst een werelddeel selecteren");
             }
 
         } else {
             try {
-                clearErrors();
                 controller.voegLandToe(new LandDto(txfLand.getText()));
                 txfLand.clear();
                 cboLand.setVisible(true);
@@ -204,12 +232,16 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
 
     @FXML
     public void landCancel(ActionEvent event) {
+        clearErrors();
         if (btnLandCancel.getText().equals("-")) {
             try {
-                clearErrors();
-                Optional<ButtonType> result = maakAlert("Land verwijderen", "Land verwijderen", "Bent u zeker dat u dit land wilt verwijderen? Alle klimatogrammen zullen mee verwijderd worden.");
-                if (result.get().getButtonData() == ButtonData.YES) {
-                    controller.verwijderLand(cboLand.getSelectionModel().getSelectedItem());
+                if (controller.landGeselecteerd()) {
+                    Optional<ButtonType> result = maakAlert("Land verwijderen", "Land verwijderen", "Bent u zeker dat u dit land wilt verwijderen? Alle klimatogrammen zullen mee verwijderd worden.");
+                    if (result.get().getButtonData() == ButtonData.YES) {
+                        controller.verwijderLand(cboLand.getSelectionModel().getSelectedItem());
+                    }
+                } else {
+                    statusBar.setText("U moet eerst een land selecteren");
                 }
             } catch (IllegalArgumentException e) {
                 statusBar.setText(e.getMessage());
@@ -222,6 +254,8 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
             txfLand.setVisible(false);
             btnLandOk.setText("+");
             btnLandCancel.setText("-");
+            setTooltip(btnLandOk, "Land toevoegen");
+            setTooltip(btnLandCancel, "Land verwijderen");
         }
     }
 
@@ -240,8 +274,12 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
         alert.setContentText(content);
         ButtonType buttonOk = new ButtonType("Verwijderen", ButtonData.YES);
         ButtonType buttonCancel = new ButtonType("Annuleren", ButtonData.NO);
-        alert.getButtonTypes().setAll(buttonOk,buttonCancel);
+        alert.getButtonTypes().setAll(buttonOk, buttonCancel);
         Optional<ButtonType> result = alert.showAndWait();
         return result;
+    }
+
+    public void setTooltip(Button button, String tooltip) {
+        button.setTooltip(new Tooltip(tooltip));
     }
 }

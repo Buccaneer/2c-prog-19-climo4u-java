@@ -217,12 +217,12 @@ public class KlimatogramController implements Subject {
         for (int i = 0; i < 12; i++) {
             try {
                 klim.getMaanden().get(i).setNeerslag(klimatogramDto.maanden.get(i).getNeerslag());
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException|IndexOutOfBoundsException e) {
                 vie.add("neerslagMaand" + (i + 1), e);
             }
             try {
                 klim.getMaanden().get(i).setTemperatuur(klimatogramDto.maanden.get(i).getTemperatuur());
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException|IndexOutOfBoundsException e) {
                 vie.add("temperatuurMaand" + (i + 1), e);
             }
         }
@@ -420,7 +420,9 @@ public class KlimatogramController implements Subject {
 
     public void voegToe() {
         if (geselecteerdLand != null && geselecteerdContinent != null) {
-            notifyObservers("voegToe", new KlimatogramDto());
+            KlimatogramDto dto = new KlimatogramDto();
+            dto.maanden.addAll(new MaandDto("Januari",0,0), new MaandDto("Februari",0,0), new MaandDto("Maart",0,0), new MaandDto("April",0,0), new MaandDto("Mei",0,0), new MaandDto("Juni",0,0), new MaandDto("Juli",0,0), new MaandDto("Augustus",0,0), new MaandDto("September",0,0), new MaandDto("Oktober",0,0), new MaandDto("November",0,0), new MaandDto("December",0,0));
+            notifyObservers("voegToe", dto);
         }else{
             throw new IllegalArgumentException("U moet eerst een land en continent selecteren");
         }

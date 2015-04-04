@@ -22,25 +22,25 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="388.0" layoutY="100.0" text="Station" />
-      <Label layoutX="387.0" layoutY="150.0" prefHeight="17.0" prefWidth="74.0" text="Latitude" />
-      <Label layoutX="387.0" layoutY="255.0" text="Periode" />
-      <Label layoutX="387.0" layoutY="351.0" text="Totale jaarneerslag" />
-      <Label layoutX="387.0" layoutY="305.0" text="Gemiddelde jaartemperatuur" />
-      <TextField fx:id="txfLocatie" layoutX="559.0" layoutY="53.0" prefHeight="25.0" prefWidth="232.0" />
-      <TextField fx:id="txfStation" layoutX="559.0" layoutY="96.0" prefHeight="25.0" prefWidth="232.0" />
-      <TextField fx:id="txfLatitudeUren" layoutX="559.0" layoutY="146.0" prefHeight="25.0" prefWidth="50.0" />
-      <TextField fx:id="txfLatitudeMinuten" layoutX="617.0" layoutY="146.0" prefHeight="25.0" prefWidth="50.0" />
-      <TextField fx:id="txfLatitudeSeconden" layoutX="675.0" layoutY="146.0" prefHeight="25.0" prefWidth="50.0" />
-      <ComboBox fx:id="cboLat" layoutX="732.0" layoutY="146.0" prefHeight="25.0" prefWidth="59.0" />
-      <TextField fx:id="txfLongitudeUren" layoutX="559.0" layoutY="200.0" prefHeight="25.0" prefWidth="50.0" />
-      <TextField fx:id="txfLongitudeMinuten" layoutX="617.0" layoutY="200.0" prefHeight="25.0" prefWidth="50.0" />
-      <TextField fx:id="txfLongitudeSeconden" layoutX="675.0" layoutY="200.0" prefHeight="25.0" prefWidth="50.0" />
-      <ComboBox fx:id="cboLong" layoutX="732.0" layoutY="200.0" prefHeight="25.0" prefWidth="59.0" />
-      <TextField fx:id="txfBeginPeriode" layoutX="559.0" layoutY="251.0" prefHeight="25.0" prefWidth="109.0" />
-      <TextField fx:id="txfEindPeriode" layoutX="681.0" layoutY="251.0" prefHeight="25.0" prefWidth="109.0" />
-      <TextField fx:id="txfGemiddeldeTemperatuur" disable="true" editable="false" layoutX="559.0" layoutY="301.0" prefHeight="25.0" prefWidth="232.0" />
-      <TextField fx:id="txfTotaleJaarneerslag" disable="true" editable="false" layoutX="559.0" layoutY="347.0" prefHeight="25.0" prefWidth="232.0" />
+      <Label layoutX="384.0" layoutY="110.0" text="Station" />
+      <Label layoutX="384.0" layoutY="158.0" prefHeight="17.0" prefWidth="74.0" text="Latitude" />
+      <Label layoutX="384.0" layoutY="254.0" text="Periode" />
+      <Label layoutX="384.0" layoutY="351.0" text="Totale jaarneerslag" />
+      <Label layoutX="384.0" layoutY="302.0" text="Gemiddelde jaartemperatuur" />
+      <TextField fx:id="txfLocatie" layoutX="555.0" layoutY="58.0" prefHeight="25.0" prefWidth="206.0" />
+      <TextField fx:id="txfStation" layoutX="555.0" layoutY="106.0" prefHeight="25.0" prefWidth="206.0" />
+      <TextField fx:id="txfLatitudeUren" layoutX="555.0" layoutY="154.0" prefHeight="25.0" prefWidth="40.0" />
+      <TextField fx:id="txfLatitudeMinuten" layoutX="602.0" layoutY="154.0" prefHeight="25.0" prefWidth="40.0" />
+      <TextField fx:id="txfLatitudeSeconden" layoutX="648.0" layoutY="154.0" prefHeight="25.0" prefWidth="40.0" />
+      <ComboBox fx:id="cboLat" layoutX="702.0" layoutY="154.0" prefHeight="25.0" prefWidth="59.0" />
+      <TextField fx:id="txfLongitudeUren" layoutX="555.0" layoutY="202.0" prefHeight="25.0" prefWidth="40.0" />
+      <TextField fx:id="txfLongitudeMinuten" layoutX="602.0" layoutY="202.0" prefHeight="25.0" prefWidth="40.0" />
+      <TextField fx:id="txfLongitudeSeconden" layoutX="648.0" layoutY="202.0" prefHeight="25.0" prefWidth="40.0" />
+      <ComboBox fx:id="cboLong" layoutX="702.0" layoutY="202.0" prefHeight="25.0" prefWidth="59.0" />
+      <TextField fx:id="txfBeginPeriode" layoutX="555.0" layoutY="250.0" prefHeight="25.0" prefWidth="90.0" />
+      <TextField fx:id="txfEindPeriode" layoutX="671.0" layoutY="250.0" prefHeight="25.0" prefWidth="90.0" />
+      <TextField fx:id="txfGemiddeldeTemperatuur" disable="true" editable="false" layoutX="555.0" layoutY="298.0" prefHeight="25.0" prefWidth="206.0" />
+      <TextField fx:id="txfTotaleJaarneerslag" disable="true" editable="false" layoutX="555.0" layoutY="347.0" prefHeight="25.0" prefWidth="206.0" />
       <Button fx:id="btnOpslaan" layoutX="651.0" layoutY="400.0" mnemonicParsing="false" onAction="#opslaan" text="Opslaan" visible="false" />
       <Button fx:id="btnWijzig" layoutX="655.0" layoutY="400.0" mnemonicParsing="false" onAction="#wijzig" text="Wijzig" visible="false" />
       <Button fx:id="btnAnnuleren" layoutX="719.0" layoutY="400.0" mnemonicParsing="false" onAction="#annuleren" text="Annuleren" visible="false" />
@@ -50,13 +50,19 @@
          </font>
       </Label>
       <Pane fx:id="pnlKlimatogram" layoutX="12.0" layoutY="442.0" prefHeight="420.0" prefWidth="752.0" />
-      <Label layoutX="387.0" layoutY="204.0" prefHeight="17.0" prefWidth="74.0" text="Longitude" />
-      <Label layoutX="388.0" layoutY="57.0" text="Locatie" />
-      <Label layoutX="611.0" layoutY="144.0" text="°" />
-      <Label layoutX="669.0" layoutY="144.0" text="'" />
-      <Label layoutX="726.0" layoutY="143.0" text="&quot;" />
-      <Label layoutX="726.0" layoutY="197.0" text="&quot;" />
-      <Label layoutX="669.0" layoutY="198.0" text="'" />
-      <Label layoutX="611.0" layoutY="198.0" text="°" />
+      <Label layoutX="384.0" layoutY="206.0" prefHeight="17.0" prefWidth="74.0" text="Longitude" />
+      <Label layoutX="384.0" layoutY="62.0" text="Locatie" />
+      <Label layoutX="596.0" layoutY="152.0" text="°" />
+      <Label layoutX="644.0" layoutY="152.0" text="'" />
+      <Label layoutX="690.0" layoutY="152.0" text="&quot;" />
+      <Label layoutX="690.0" layoutY="200.0" text="&quot;" />
+      <Label layoutX="644.0" layoutY="200.0" text="'" />
+      <Label layoutX="596.0" layoutY="200.0" text="°" />
+      <Label layoutX="656.0" layoutY="254.0" text="-" />
+      <Label fx:id="lblValidatieLocatie" alignment="CENTER" layoutX="771.0" layoutY="58.0" prefHeight="25.0" prefWidth="25.0" />
+      <Label fx:id="lblValidatieStation" alignment="CENTER" layoutX="771.0" layoutY="106.0" prefHeight="25.0" prefWidth="25.0" />
+      <Label fx:id="lblValidatieLatitude" alignment="CENTER" layoutX="771.0" layoutY="154.0" prefHeight="25.0" prefWidth="25.0" />
+      <Label fx:id="lblValidatieLongitude" alignment="CENTER" layoutX="771.0" layoutY="203.0" prefHeight="25.0" prefWidth="25.0" />
+      <Label fx:id="lblValidatiePeriode" alignment="CENTER" layoutX="771.0" layoutY="250.0" prefHeight="25.0" prefWidth="25.0" />
    </children>
 </fx:root>
