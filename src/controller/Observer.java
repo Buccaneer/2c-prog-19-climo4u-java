@@ -10,5 +10,5 @@ package controller;
  * @author Jan
  */
 public interface Observer {
-    public void update(Object object);
+    public void update(String actie,Object object);
 }

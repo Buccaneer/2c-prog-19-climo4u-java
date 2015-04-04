@@ -13,4 +13,14 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public void setLinkerKnoop(DeterminatieKnoop knoop) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setRechterKnoop(DeterminatieKnoop knoop) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.StatusBar;
 
 /**
  * FXML Controller class
@@ -42,8 +43,11 @@ public class KlimatogramFrameController extends GridPane{
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        KlimatogramDetailPanelController rechtsePaneel = new KlimatogramDetailPanelController(this.controller);
-        KlimatogramKiezenPanelController linksePaneel = new KlimatogramKiezenPanelController(this.controller);
+        StatusBar statusBar =new StatusBar();
+        statusBar.setText("");
+        this.add(statusBar, 0, 2);
+        KlimatogramDetailPanelController rechtsePaneel = new KlimatogramDetailPanelController(this.controller, statusBar);
+        KlimatogramKiezenPanelController linksePaneel = new KlimatogramKiezenPanelController(this.controller, statusBar);
         this.controller.addObserver(rechtsePaneel);
         this.controller.addObserver(linksePaneel);
         pnlLinks.getChildren().add(linksePaneel);

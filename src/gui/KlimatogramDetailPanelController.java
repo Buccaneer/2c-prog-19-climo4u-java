@@ -29,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import org.controlsfx.control.StatusBar;
 
 /**
  * FXML Controller class
@@ -65,7 +66,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
 
     private KlimatogramDto klimatogram;
 
-    public KlimatogramDetailPanelController(KlimatogramController controller) {
+    public KlimatogramDetailPanelController(KlimatogramController controller, StatusBar statusBar) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("KlimatogramDetailPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
@@ -140,17 +141,15 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
     }
 
     @Override
-    public void update(Object object) {
-        if (object instanceof String) {
-            if (object.toString().equals("voegToe")) {
-                voegKlimatogramToe();
-            }
-            if (object.toString().equals("wijzig")) {
-                wijzigKlimatogram();
-            }
-
-        } else {
-            vulIn(object);
+    public void update(String actie, Object object) {
+        klimatogram=(KlimatogramDto) object;
+        if (actie.equals("voegToe")) {
+            voegKlimatogramToe();
+        }
+        if (actie.equals("wijzig")) {
+            wijzigKlimatogram();
+        } else if (actie.equals("vulIn")) {
+            vulIn();
         }
     }
 
@@ -162,8 +161,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         return maanden.stream().mapToInt(m -> m.getNeerslag()).sum();
     }
 
-    public void vulIn(Object object) {
-        klimatogram = (KlimatogramDto) object;
+    public void vulIn() {
         txfLocatie.setText(klimatogram.getLocatie());
         txfStation.setText(klimatogram.getStation());
         txfBeginPeriode.setText(String.format("%d", klimatogram.getBeginJaar()));
@@ -247,7 +245,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         zetWaardenInDto();
         controller.voegKlimatogramToe(klimatogram);
         this.setDisable(true);
-        controller.notifyObservers("menu");
+        controller.notifyObservers("menu", null);
         verbergKnoppen();
     }
 
@@ -289,7 +287,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         zetWaardenInDto();
         controller.wijzigKlimatogram(klimatogram);
         this.setDisable(true);
-        controller.notifyObservers("menu");
+        controller.notifyObservers("menu", null);
         verbergKnoppen();
     }
 
@@ -297,11 +295,10 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
     public void annuleren(ActionEvent event) {
         this.setDisable(true);
         clear();
-        controller.notifyObservers("menu");
+        controller.notifyObservers("menu", null);
         verbergKnoppen();
     }
-
-    @FXML
+    
     public void wijzigKlimatogram() {
         btnAnnuleren.setVisible(true);
         btnWijzig.setVisible(true);

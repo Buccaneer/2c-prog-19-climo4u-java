@@ -15,5 +15,5 @@ public interface Subject {
 
     public void removeObserver(Observer observer);
     
-    public void notifyObservers(Object object);
+    public void notifyObservers(String actie,Object object);
 }

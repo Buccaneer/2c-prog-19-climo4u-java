@@ -45,7 +45,7 @@ public class KlimatogramController implements Subject {
      */
     public void voegContinentToe(ContinentDto continent) {
         if (continent == null) {
-            throw new IllegalArgumentException("Continent moet correct ingevuld zijn");
+            throw new IllegalArgumentException("U moet het werelddeel correct invullen");
         }
         Continent cont = new Continent(continent.getNaam());
 
@@ -88,11 +88,11 @@ public class KlimatogramController implements Subject {
      */
     public void selecteerContinent(ContinentDto continent) {
         if (continent == null || continent.getNaam() == null) {
-            throw new IllegalArgumentException("Continent moet correct ingevuld zijn");
+            throw new IllegalArgumentException("U moet een werelddeel selecteren");
         }
         Continent cont = continentenRepository.get(continent.getNaam());
         if (cont == null) {
-            throw new IllegalArgumentException("Continent bestaat niet");
+            throw new IllegalArgumentException("Het werelddeel bestaat niet");
         }
         geselecteerdContinent = cont;
         landen.clear();
@@ -123,14 +123,14 @@ public class KlimatogramController implements Subject {
 
     public void selecteerKlimatogram(KlimatogramDto klimatogram) {
         if (geselecteerdLand == null) {
-            throw new IllegalArgumentException("Land moet eerst geselecteerd worden");
+            throw new IllegalArgumentException("U moet eerst een land selecteren");
         }
         if (klimatogram == null || klimatogram.getLocatie() == null) {
-            throw new IllegalArgumentException("Locatie moet correct ingevuld zijn");
+            throw new IllegalArgumentException("U moet een locatie selecteren");
         }
         Klimatogram klim = geselecteerdLand.getKlimatogrammen().stream().filter(kl -> kl.getLocatie().equalsIgnoreCase(klimatogram.getLocatie())).findFirst().get();
         if (klim == null) {
-            throw new IllegalArgumentException("Klimatogram bestaat niet");
+            throw new IllegalArgumentException("De klimatogram bestaat niet");
         }
         geselecteerdKlimatogram = klim;
         KlimatogramDto kl = new KlimatogramDto();
@@ -149,7 +149,7 @@ public class KlimatogramController implements Subject {
             maanden.add(maand);
         });
         kl.maanden = FXCollections.observableArrayList(maanden);
-        notifyObservers(kl);
+        notifyObservers("vulIn", kl);
     }
 
     /**
@@ -158,15 +158,15 @@ public class KlimatogramController implements Subject {
      */
     public void selecteerLand(LandDto land) {
         if (geselecteerdContinent == null) {
-            throw new IllegalArgumentException("Continent moet eerst geselecteerd worden");
+            throw new IllegalArgumentException("U moet eerst een werelddeel selecteren");
         }
         if (land == null || land.getNaam() == null) {
-            throw new IllegalArgumentException("Land moet correct ingevuld zijn");
+            throw new IllegalArgumentException("U moet land invullen");
         }
         Collection<Land> landen = geselecteerdContinent.getLanden();
         Land la = landen.stream().filter(l -> l.getNaam().equalsIgnoreCase(land.getNaam())).findFirst().get();
         if (la == null) {
-            throw new IllegalArgumentException("Land bestaat niet");
+            throw new IllegalArgumentException("Het land bestaat niet");
         }
         geselecteerdLand = la;
         locaties.clear();
@@ -180,7 +180,7 @@ public class KlimatogramController implements Subject {
      */
     public void voegKlimatogramToe(KlimatogramDto klimatogramDto) {
         if (klimatogramDto == null) {
-            throw new IllegalArgumentException("Klimatogram moet correct ingevuld zijn");
+            throw new IllegalArgumentException("U moet het klimatogram correct ingevullen");
         }
         VerkeerdeInputException vie = new VerkeerdeInputException();
         Klimatogram klim = new Klimatogram();
@@ -238,7 +238,7 @@ public class KlimatogramController implements Subject {
 
     public ObservableList<MaandDto> getMaanden() {
         if (geselecteerdKlimatogram == null) {
-            throw new IllegalArgumentException("Klimatogram moet eerst geselecteerd worden");
+            throw new IllegalArgumentException("U moet eerst een klimatogram selecteren");
         }
         Collection<Maand> maanden = geselecteerdKlimatogram.getMaanden();
         ObservableList<MaandDto> maandenDto = FXCollections.observableArrayList();
@@ -258,7 +258,7 @@ public class KlimatogramController implements Subject {
      */
     public void voegLandToe(LandDto land) throws IllegalArgumentException {
         if (land == null) {
-            throw new IllegalArgumentException("Land moet correct ingevuld zijn");
+            throw new IllegalArgumentException("U moet het land correct invullen");
         }
         Land l = new Land(land.getNaam());
         geselecteerdContinent.voegLandToe(l);
@@ -277,7 +277,7 @@ public class KlimatogramController implements Subject {
 
     public ObservableList<KlimatogramDto> getKlimatogrammen() {
         if (geselecteerdLand == null) {
-            throw new IllegalArgumentException("Land moet eerst geselecteerd worden");
+            throw new IllegalArgumentException("U moet eerst een land selecteren");
         }
         Collection<Klimatogram> klimatogrammen = geselecteerdLand.getKlimatogrammen();
         ObservableList<KlimatogramDto> klimatogrammenDto = FXCollections.observableArrayList();
@@ -297,10 +297,10 @@ public class KlimatogramController implements Subject {
     public void wijzigKlimatogram(KlimatogramDto klimatogramDto) throws IllegalArgumentException, VerkeerdeInputException {
         boolean locatieGewijzigd = false;
         if (geselecteerdKlimatogram == null) {
-            throw new IllegalArgumentException("Klimatogram moet eerst geselecteerd worden");
+            throw new IllegalArgumentException("U moet eerst een klimatogram selecteren");
         }
         if (klimatogramDto == null) {
-            throw new IllegalArgumentException("Klimatogram moet correct ingevuld zijn");
+            throw new IllegalArgumentException("U moet het f correct invullen");
         }
         VerkeerdeInputException vie = new VerkeerdeInputException();
         if (!geselecteerdKlimatogram.getLocatie().equals(klimatogramDto.getLocatie())) {
@@ -372,17 +372,18 @@ public class KlimatogramController implements Subject {
 
     public void verwijderKlimatogram(String locatie) throws IllegalArgumentException {
         if (geselecteerdKlimatogram == null) {
-            throw new IllegalArgumentException("Klimatogram moet eerst geselecteerd worden");
+            throw new IllegalArgumentException("U moet eerst een klimatogram selecteren");
         }
         Klimatogram k = geselecteerdLand.verwijderKlimatogram(locatie);
         klimatogramRepository.delete(k);
         locaties.clear();
         geselecteerdLand.getKlimatogrammen().forEach(klim -> locaties.add(new KlimatogramDto(klim.getLocatie())));
+        geselecteerdKlimatogram = null;
     }
 
     public void verwijderLand(LandDto land) {
         if (geselecteerdContinent == null) {
-            throw new IllegalArgumentException("Continent moet eerst geselecteerd worden");
+            throw new IllegalArgumentException("U moet eerst een continent selecteren");
         }
 
         Land l = geselecteerdContinent.verwijderLand(land.getNaam());
@@ -401,6 +402,7 @@ public class KlimatogramController implements Subject {
             continentenRepository.delete(c);
         }
         continenten.clear();
+        geselecteerdContinent = null;
         continenten = getContinenten();
     }
 
@@ -410,6 +412,27 @@ public class KlimatogramController implements Subject {
 
     public boolean landGeselecteerd() {
         return geselecteerdLand != null;
+    }
+    
+    public boolean werelddeelGeselecteerd(){
+        return geselecteerdContinent!=null;
+    }
+
+    public void voegToe() {
+        if (geselecteerdLand != null && geselecteerdContinent != null) {
+            notifyObservers("voegToe", new KlimatogramDto());
+        }else{
+            throw new IllegalArgumentException("U moet eerst een land en continent selecteren");
+        }
+    }
+    
+    public void wijzig(){
+        if (geselecteerdKlimatogram != null) {
+           KlimatogramDto dto = new KlimatogramDto(geselecteerdKlimatogram.getBeginJaar(), geselecteerdKlimatogram.getEindJaar(), geselecteerdKlimatogram.getLatitude(), geselecteerdKlimatogram.getLocatie(), geselecteerdKlimatogram.getLongitude(), geselecteerdKlimatogram.getStation());
+            notifyObservers("wijzig", dto);
+        }else{
+            throw new IllegalArgumentException("U moet eerst een klimatogram selecteren");
+        }
     }
 
     @Override
@@ -423,8 +446,8 @@ public class KlimatogramController implements Subject {
     }
 
     @Override
-    public void notifyObservers(Object object) {
-        observers.forEach(o -> o.update(object));
+    public void notifyObservers(String actie, Object object) {
+        observers.forEach(o -> o.update(actie, object));
     }
 
 }

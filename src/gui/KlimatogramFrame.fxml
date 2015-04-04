@@ -7,13 +7,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root prefHeight="740.0" prefWidth="1240.0" type="GridPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="660.0" prefWidth="1240.0" type="GridPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
       <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="800.0" minHeight="10.0" prefHeight="573.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="800.0" minHeight="10.0" prefHeight="610.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="800.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <MenuBar>
@@ -32,11 +33,19 @@
             <Insets left="1156.0" />
          </GridPane.margin>
       </MenuBar>
-      <SplitPane fx:id="splSplitPane" dividerPositions="0.3360258481421648" prefHeight="160.0" prefWidth="200.0" GridPane.rowIndex="1">
-        <items>
-            <Pane fx:id="pnlLinks" layoutX="21.0" layoutY="93.0" prefHeight="200.0" prefWidth="200.0" />
-            <Pane fx:id="pnlRechts" layoutX="129.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" />
-        </items>
-      </SplitPane>
+      <HBox prefHeight="399.0" prefWidth="1240.0" GridPane.rowIndex="1">
+         <children>
+            <ScrollPane prefHeight="600.0" prefViewportHeight="633.0" prefViewportWidth="616.0" prefWidth="420.0">
+               <content>
+                  <Pane fx:id="pnlLinks" layoutX="21.0" layoutY="93.0" prefHeight="600.0" prefWidth="412.0" />
+               </content>
+            </ScrollPane>
+            <ScrollPane fitToWidth="true" prefHeight="740.0" prefViewportHeight="633.0" prefViewportWidth="626.0" prefWidth="820.0">
+               <content>
+                  <Pane fx:id="pnlRechts" layoutX="129.0" layoutY="100.0" prefHeight="890.0" prefWidth="820.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </HBox>
    </children>
 </fx:root>

@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root prefHeight="740.0" prefWidth="412.0" type="Pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="600.0" prefWidth="412.0" type="Pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="26.0" layoutY="82.0" text="Werelddeel" />
       <Label layoutX="26.0" layoutY="129.0" text="Land" />
@@ -28,10 +28,10 @@
             <ListView fx:id="lstLocaties" prefHeight="228.0" prefWidth="200.0" />
          </content>
       </ScrollPane>
-      <Button fx:id="btnKlimatogramToevoegen" layoutX="105.0" layoutY="470.0" mnemonicParsing="false" onAction="#voegKlimatogramToe" prefHeight="25.0" prefWidth="200.0" text="Klimatogram toevoegen" />
-      <Button fx:id="btnKlimatogramWijzigen" layoutX="107.0" layoutY="526.0" mnemonicParsing="false" onAction="#wijzigKlimatogram" prefHeight="25.0" prefWidth="200.0" text="Klimatogram wijzigen" />
-      <Button fx:id="btnKlimatogramVerwijderen" layoutX="105.0" layoutY="582.0" mnemonicParsing="false" onAction="#verwijderKlimatogram" prefHeight="25.0" prefWidth="200.0" text="Klimatogram verwijderen" />
-      <Button fx:id="btnTerug" layoutX="107.0" layoutY="639.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Terug naar menu" />
+      <Button fx:id="btnKlimatogramToevoegen" layoutX="107.0" layoutY="454.0" mnemonicParsing="false" onAction="#voegKlimatogramToe" prefHeight="50.0" prefWidth="53.0" text="Klimatogram toevoegen" />
+      <Button fx:id="btnKlimatogramWijzigen" layoutX="181.0" layoutY="454.0" mnemonicParsing="false" onAction="#wijzigKlimatogram" prefHeight="50.0" prefWidth="53.0" text="Klimatogram wijzigen" />
+      <Button fx:id="btnKlimatogramVerwijderen" layoutX="255.0" layoutY="454.0" mnemonicParsing="false" onAction="#verwijderKlimatogram" prefHeight="50.0" prefWidth="53.0" text="Klimatogram verwijderen" />
+      <Button fx:id="btnTerug" layoutX="107.0" layoutY="540.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Terug naar menu" />
       <TextField fx:id="txfWerelddeel" layoutX="106.0" layoutY="78.0" prefHeight="25.0" prefWidth="200.0" visible="false" />
       <TextField fx:id="txfLand" layoutX="106.0" layoutY="125.0" prefHeight="25.0" prefWidth="200.0" visible="false" />
    </children>
