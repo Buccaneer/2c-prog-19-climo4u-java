@@ -316,6 +316,8 @@ public class KlimatogramControllerTest
         k.setLongitude(10);
         k.setLocatie("LegoLand");
         k.setStation("43210");
+        controller.geselecteerdLand = new Land("TestLand");
+        controller.geselecteerdLand.voegKlimatogramToe(k);
         controller.geselecteerdKlimatogram = k;
         controller.wijzigKlimatogram(kDto);
         assertEquals(1900, controller.geselecteerdKlimatogram.getBeginJaar());

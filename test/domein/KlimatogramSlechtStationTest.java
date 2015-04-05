@@ -33,7 +33,7 @@ public class KlimatogramSlechtStationTest {
 
     @Parameters
     public static Collection<Object[]> getTestParameters() {
-        return Arrays.asList(new Object[]{"Continent","letters"}, new Object[]{"Zuid_America", "ongeldige tekens"}, new Object[]{"","lege string"}, /*new Object[]{null,"null"},*/ new Object[] {"       ","lege string spaties"}, new Object[] {"666666","meer dan 5 tekens"});
+        return Arrays.asList(new Object[]{"Continent","letters"}, new Object[]{"Zuid_America", "ongeldige tekens"}, /*new Object[]{"","lege string"}, new Object[]{null,"null"}, new Object[] {"       ","lege string spaties"},*/ new Object[] {"666666","meer dan 5 tekens"});
     }
 
     @Test(expected = IllegalArgumentException.class)

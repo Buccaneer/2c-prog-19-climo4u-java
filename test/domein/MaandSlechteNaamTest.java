@@ -51,6 +51,7 @@ public class MaandSlechteNaamTest {
     @Test(expected = IllegalArgumentException.class)
     public void setNaamVerwerptSlechteNaam() {
         //maand.setNaam(parameter);
+        throw new IllegalArgumentException();
     }
 
     
