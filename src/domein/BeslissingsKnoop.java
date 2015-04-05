@@ -22,5 +22,14 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
     public void setRechterKnoop(DeterminatieKnoop knoop) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    /**
+     * Valideert of deze knoop en al zijn kinderen in orde zijn.
+     */
+    @Override
+    public void valideer()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
