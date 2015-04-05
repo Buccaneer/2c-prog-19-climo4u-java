@@ -66,6 +66,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
     private KlimatogramController controller;
     private KlimatogramDto klimatogram;
     private StatusBar statusBar;
+    private Image imgFout, imgLeeg;
 
     public KlimatogramDetailPanelController(KlimatogramController controller, StatusBar statusBar) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("KlimatogramDetailPanel.fxml"));
@@ -122,6 +123,8 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
                     }
                 }
         );
+        imgFout = new Image("/content/images/x.png");
+        imgLeeg = null;
     }
 
     @Override
@@ -239,7 +242,12 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         boolean exceptie = false;
 
         klimatogram.setStation(txfStation.getText());
-        klimatogram.setLocatie(txfLocatie.getText());
+        if (!txfLocatie.getText().isEmpty()) {
+            klimatogram.setLocatie(txfLocatie.getText());
+        } else {
+            setTooltip(lblValidatieLocatie, "Gelieve dit veld geldig in te vullen");
+            exceptie = true;
+        }
 
         try {
             double latitudeUren = Double.parseDouble(txfLatitudeUren.getText());
@@ -279,7 +287,6 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
             setTooltip(lblValidatiePeriode, "Gelieve enkel cijfers in te vullen");
             exceptie = true;
         }
-
         if (exceptie) {
             throw new NumberFormatException();
         }
@@ -287,11 +294,16 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
 
     @FXML
     public void wijzig(ActionEvent event) {
-        zetWaardenInDto();
-        controller.wijzigKlimatogram(klimatogram);
-        this.setDisable(true);
-        controller.notifyObservers("menu", null);
-        verbergElementen();
+        try {
+            zetWaardenInDto();
+            controller.wijzigKlimatogram(klimatogram);
+            this.setDisable(true);
+            controller.notifyObservers("menu", null);
+            verbergElementen();
+        } catch (VerkeerdeInputException e) {
+            behandelExcepties(e);
+        } catch (NumberFormatException | NullPointerException e) {
+        }
     }
 
     @FXML
@@ -305,6 +317,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
     private void wijzigKlimatogram() {
         btnAnnuleren.setVisible(true);
         btnWijzig.setVisible(true);
+        tblMaanden.setItems(klimatogram.maanden);
         klimatogram.setStation(txfStation.getText());
         klimatogram.setBeginJaar(Integer.parseInt(txfBeginPeriode.getText()));
         klimatogram.setEindJaar(Integer.parseInt(txfEindPeriode.getText()));
@@ -353,21 +366,21 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
 
     private void setTooltip(Label label, String tooltip) {
         label.setTooltip(new Tooltip(tooltip));
-        label.setGraphic(new ImageView(new Image("/content/images/x.png")));
+        label.setGraphic(new ImageView(imgFout));
     }
 
     private void clearErrors() {
         statusBar.setText("");
-        lblValidatieLatitude.setTooltip(null);
-        lblValidatieLocatie.setTooltip(null);
-        lblValidatieLongitude.setTooltip(null);
-        lblValidatiePeriode.setTooltip(null);
-        lblValidatieStation.setTooltip(null);
-        lblValidatieLatitude.setGraphic(null);
-        lblValidatieLocatie.setGraphic(null);
-        lblValidatieLongitude.setGraphic(null);
-        lblValidatiePeriode.setGraphic(null);
-        lblValidatieStation.setGraphic(null);
+        lblValidatieLatitude.setTooltip(new Tooltip(""));
+        lblValidatieLocatie.setTooltip(new Tooltip(""));
+        lblValidatieLongitude.setTooltip(new Tooltip(""));
+        lblValidatiePeriode.setTooltip(new Tooltip(""));
+        lblValidatieStation.setTooltip(new Tooltip(""));
+        lblValidatieLatitude.setGraphic(new ImageView(imgLeeg));
+        lblValidatieLocatie.setGraphic(new ImageView(imgLeeg));
+        lblValidatieLongitude.setGraphic(new ImageView(imgLeeg));
+        lblValidatiePeriode.setGraphic(new ImageView(imgLeeg));
+        lblValidatieStation.setGraphic(new ImageView(imgLeeg));
     }
 
     private void behandelExcepties(VerkeerdeInputException e) {

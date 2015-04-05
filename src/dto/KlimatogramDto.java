@@ -16,20 +16,20 @@ public class KlimatogramDto {
     public KlimatogramDto() {
         this.maanden = FXCollections.observableArrayList();
     }
-    
-    public KlimatogramDto(String locatie){
+
+    public KlimatogramDto(String locatie) {
         this.maanden = FXCollections.observableArrayList();
-        this.locatie=locatie;
+        this.locatie = locatie;
     }
 
     public KlimatogramDto(int beginJaar, int eindJaar, double latitude, String locatie, double longitude, String station) {
+        this.maanden = FXCollections.observableArrayList();
         this.beginJaar = beginJaar;
         this.eindJaar = eindJaar;
         this.latitude = latitude;
         this.locatie = locatie;
         this.longitude = longitude;
         this.station = station;
-        this.maanden = FXCollections.observableArrayList();
     }
 
     public int getBeginJaar() {
