@@ -27,14 +27,18 @@ public class DoubleConverter extends StringConverter<Double> {
         if (value == null) {
             return null;
         }
-        
+
         double db = 0;
-        
+
         value = value.trim();
         try {
-             db = Double.valueOf(value);
+            db = Double.valueOf(value);
         } catch (Exception ex) {
-          
+
+        }
+
+        if (db < -273.15) {
+            db = -273.15;
         }
         return db;
     }

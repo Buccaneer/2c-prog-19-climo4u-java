@@ -230,14 +230,15 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
             verbergElementen();
         } catch (VerkeerdeInputException e) {
             behandelExcepties(e);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | NullPointerException e) {
 
         }
     }
 
     private void zetWaardenInDto() throws NumberFormatException {
-        klimatogram.setStation(txfStation.getText());
+        boolean exceptie = false;
 
+        klimatogram.setStation(txfStation.getText());
         klimatogram.setLocatie(txfLocatie.getText());
 
         try {
@@ -252,9 +253,8 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
             }
             klimatogram.setLatitude(latitude);
         } catch (NumberFormatException | NullPointerException e) {
-            lblValidatieLatitude.setVisible(true);
             setTooltip(lblValidatieLatitude, "Gelieve enkel cijfers in te vullen en een windrichting te kiezen");
-            lblValidatieLatitude.setVisible(true);
+            exceptie = true;
         }
 
         try {
@@ -269,8 +269,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
             klimatogram.setLongitude(longitude);
         } catch (NumberFormatException | NullPointerException e) {
             setTooltip(lblValidatieLongitude, "Gelieve enkel cijfers in te vullen en een windrichting te kiezen");
-            lblValidatieLongitude.setVisible(true);
-
+            exceptie = true;
         }
 
         try {
@@ -278,10 +277,12 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
             klimatogram.setEindJaar(Integer.parseInt(txfEindPeriode.getText()));
         } catch (NumberFormatException e) {
             setTooltip(lblValidatiePeriode, "Gelieve enkel cijfers in te vullen");
-            lblValidatiePeriode.setVisible(true);
-            throw e;
+            exceptie = true;
         }
 
+        if (exceptie) {
+            throw new NumberFormatException();
+        }
     }
 
     @FXML
