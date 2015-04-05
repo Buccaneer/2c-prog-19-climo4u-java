@@ -197,7 +197,6 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
     private void voegKlimatogramToe() {
         clear();
         clearErrors();
-        toonElementen();
         tblMaanden.setItems(klimatogram.maanden);
         maandColumn.setCellValueFactory(cellData -> cellData.getValue().naamProperty());
 
@@ -312,6 +311,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
     public void annuleren(ActionEvent event) {
         this.setDisable(true);
         clear();
+        clearErrors();
         controller.notifyObservers("menu", null);
         verbergElementen();
     }
@@ -320,7 +320,6 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         btnAnnuleren.setVisible(true);
         btnWijzig.setVisible(true);
         clearErrors();
-        toonElementen();
         
         tblMaanden.setItems(klimatogram.maanden);
         klimatogram.setStation(txfStation.getText());
@@ -358,19 +357,6 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         btnAnnuleren.setVisible(false);
         btnOpslaan.setVisible(false);
         btnWijzig.setVisible(false);
-        lblValidatieLatitude.setVisible(false);
-        lblValidatieLocatie.setVisible(false);
-        lblValidatieLongitude.setVisible(false);
-        lblValidatiePeriode.setVisible(false);
-        lblValidatieStation.setVisible(false);
-    }
-
-    private void toonElementen() {
-        lblValidatieLatitude.setVisible(true);
-        lblValidatieLocatie.setVisible(true);
-        lblValidatieLongitude.setVisible(true);
-        lblValidatiePeriode.setVisible(true);
-        lblValidatieStation.setVisible(true);
     }
 
     private void setTooltip(Button button, String tooltip) {
