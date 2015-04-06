@@ -6,17 +6,18 @@ public abstract class DeterminatieKnoop
 {
 
     private int id;
-    private DeterminatieKnoop ouder;
 
     public int getId() {
         return id;
     }
 
-    public DeterminatieKnoop getOuder() {
-        return ouder;
-    }
     
- 
+    
+    
+  
+    
+    // Omzetten naar dto.
+  abstract  DeterminatieKnoopDto maakDtoAan() ;
 
     /**
      *

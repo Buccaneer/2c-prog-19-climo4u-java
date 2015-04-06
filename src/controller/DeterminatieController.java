@@ -109,6 +109,7 @@ public class DeterminatieController implements Subject
      */
     public void wijzigKnoop(DeterminatieKnoopDto knoop)
     {
+     
         throw new UnsupportedOperationException();
     }
 

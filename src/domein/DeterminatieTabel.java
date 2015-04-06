@@ -18,6 +18,10 @@ public class DeterminatieTabel
     {
         this.naam = naam;
     }
+    
+     DeterminatieKnoopDto maakDtoAan() {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Wijzigt de meegegeven knoop in een beslissingsknoop en voegt twee nieuwe
