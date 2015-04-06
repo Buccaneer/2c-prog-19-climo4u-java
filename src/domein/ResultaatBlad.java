@@ -11,7 +11,7 @@ public class ResultaatBlad extends DeterminatieKnoop {
         return this.klimaatType;
     }
 
-    public void setKlimaatType(String klimaatType) {
+     void setKlimaatType(String klimaatType) {
         this.klimaatType = klimaatType;
     }
 
@@ -20,6 +20,21 @@ public class ResultaatBlad extends DeterminatieKnoop {
        if (knoop.getId() == getId()) {
            // Wijzig mijn knoop.
        }
+    }
+
+    @Override
+    DeterminatieKnoopDto maakDtoAan() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+
+    public VegetatieType getVegetatieType() {
+        return vegetatieType;
+    }
+
+     void setVegetatieType(VegetatieType vegetatieType) {
+        this.vegetatieType = vegetatieType;
     }
     
     

@@ -1,13 +1,14 @@
-package domein;
+package dto;
 
-public class VegetatieType {
-
-    private String foto;
-    private String naam;
-    private int id;
+/**
+ *
+ * @author Jasper De Vrient
+ */
+public class VegetatieTypeDto {
+    private String foto, naam;
 
     public String getFoto() {
-        return this.foto;
+        return foto;
     }
 
     public void setFoto(String foto) {
@@ -15,7 +16,7 @@ public class VegetatieType {
     }
 
     public String getNaam() {
-        return this.naam;
+        return naam;
     }
 
     public void setNaam(String naam) {
@@ -23,5 +24,4 @@ public class VegetatieType {
     }
     
     
-
 }
