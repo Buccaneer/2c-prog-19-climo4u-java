@@ -10,5 +10,21 @@ package dto;
  * @author Gebruiker
  */
 public class DeterminatieKnoopDto {
+    private boolean resultaatKnoop = true;
+    private DeterminatieKnoopDto ja;
+    private DeterminatieKnoopDto nee;
+    private DeterminatieKnoopDto ouder;
+    
+
+    public boolean isResultaatBlad() {
+        return resultaatKnoop;
+    }
+    
+    public void toBeslissingsKnoop() {
+        resultaatKnoop = false;
+    }
+    public void toResultaatBlad() {
+        resultaatKnoop = true;
+    }
     
 }

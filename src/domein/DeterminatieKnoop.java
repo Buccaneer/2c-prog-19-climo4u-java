@@ -6,6 +6,17 @@ public abstract class DeterminatieKnoop
 {
 
     private int id;
+    private DeterminatieKnoop ouder;
+
+    public int getId() {
+        return id;
+    }
+
+    public DeterminatieKnoop getOuder() {
+        return ouder;
+    }
+    
+ 
 
     /**
      *
@@ -19,11 +30,6 @@ public abstract class DeterminatieKnoop
      */
     public abstract void setRechterKnoop(DeterminatieKnoop knoop);
 
-    /**
-     *
-     * @param knoop
-     */
-    public abstract void bouwKnoop(DeterminatieKnoopDto knoop);
 
     /**
      * Wijzigt de meegegeven knoop in een beslissingsknoop en voegt twee nieuwe
@@ -31,7 +37,7 @@ public abstract class DeterminatieKnoop
      *
      * @param ouder
      */
-    public void voegKnopenToe(DeterminatieKnoopDto ouder)
+    public void voegKnoopToe(DeterminatieKnoopDto ouder)
     {
         throw new UnsupportedOperationException();
     }

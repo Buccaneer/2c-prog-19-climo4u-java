@@ -9,10 +9,16 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
 	private Vergelijking vergelijking;
 
     @Override
-    public void bouwKnoop(DeterminatieKnoopDto knoop) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void wijzigKnoop(DeterminatieKnoopDto knoop) {
+       if (knoop.getId() == getId()) {
+           // Wijzig mijn knoop (this)
+       } else
+       {
+           juistKnoop.wijzigKnoop(knoop);
+           foutKnoop.wijzigKnoop(knoop);
+       }
     }
-
+        
     @Override
     public void setLinkerKnoop(DeterminatieKnoop knoop) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

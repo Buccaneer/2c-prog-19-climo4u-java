@@ -5,7 +5,7 @@ import dto.*;
 import javafx.collections.ObservableList;
 import persistentie.*;
 
-public class DeterminatieController
+public class DeterminatieController implements Subject
 {
 
     private DeterminatieTabel geselecteerdeDeterminatieTabel;
@@ -62,22 +62,6 @@ public class DeterminatieController
 
     /**
      *
-     * @param observer
-     */
-    public void addObserver(Observer observer)
-    {
-        // TODO - implement DeterminatieController.addObserver
-        throw new UnsupportedOperationException();
-    }
-
-    private void notifyObservers()
-    {
-        // TODO - implement DeterminatieController.notifyObservers
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     *
      * @param tabel
      */
     public void wijzigDeterminatieTabel(DeterminatieTabelDto tabel)
@@ -103,13 +87,23 @@ public class DeterminatieController
      * 
      * @param ouder
      */
-    public void voegKnopenToe(DeterminatieKnoopDto ouder)
+    public void voegKnoopToe(DeterminatieKnoopDto ouder)
     {
         throw new UnsupportedOperationException();
     }
 
     /**
      * Wijzigt de meegegeven knoop.
+     * 2 Gevallen:
+     * <ol>
+     * <li><p>Het <var>type</var> van de knoop blijft het zelfde: Wijzig de attributen van die knoop.
+     * </p>
+     * </li>
+     * <li><p>Het <var>type</var> van de knoop verandert van resultaatblad naar beslissingsknoop: <ol><li>Verwijder huidige knoop</li>
+     * <li>Hou zijn ouder bij</li>
+     * <li>Roep <code>voegKnoopToe(knoop)</code> aan van <var>BeslissingsKnoop</var></>
+     * </ol></p></li>
+     * </ol>
      * 
      * @param knoop
      */
@@ -121,19 +115,20 @@ public class DeterminatieController
     /**
      * Probeert de meegegeven knoop te verwijderen. Heeft 3 mogelijke gevallen.
      * <p>
-     * 1. Indien het een blad is worden de knoop en zijn broer verwijderd en
-     * wordt de ouder een blad.
+     * 1. Indien het een blad is worden de knoop en zijn broer (of zus?) verwijderd en
+     * wordt de ouder een blad.</p>
      * <p>
      * 2. Indien het een tussenknoop is worden de kinderen verwijderd en wordt
-     * de tussenknoop een blad.
+     * de tussenknoop een blad.</p>
      * <p>
      * 3. Indien het de beginknoop is wordt de tabel verwijderd en wordt opnieuw
      * begonnen op dezelfde manier als bij een nieuwe tabel.
-     *
+     *</p>
      * @param knoop
      */
     public void verwijderKnoop(DeterminatieKnoopDto knoop)
     {
+       
         throw new UnsupportedOperationException();
     }
 
@@ -144,6 +139,21 @@ public class DeterminatieController
     public void valideer()
     {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyObservers(String actie, Object object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addObserver(Observer observer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

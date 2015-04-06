@@ -16,9 +16,13 @@ public class ResultaatBlad extends DeterminatieKnoop {
     }
 
     @Override
-    public void bouwKnoop(DeterminatieKnoopDto knoop) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void wijzigKnoop(DeterminatieKnoopDto knoop) {
+       if (knoop.getId() == getId()) {
+           // Wijzig mijn knoop.
+       }
     }
+    
+    
 
     @Override
     public void setLinkerKnoop(DeterminatieKnoop knoop) {
