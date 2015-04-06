@@ -11,6 +11,8 @@ import dto.ContinentDto;
 import dto.KlimatogramDto;
 import dto.LandDto;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +21,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
@@ -40,11 +44,16 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
     @FXML
     private ComboBox<LandDto> cboLand;
     @FXML
-    private Button btnLandOk, btnLandCancel, btnWerelddeelOk, btnWerelddeelCancel, btnKlimatogramToevoegen, btnKlimatogramWijzigen, btnKlimatogramVerwijderen,btnTerug;
+    private Button btnLandOk, btnLandCancel, btnWerelddeelOk, btnWerelddeelCancel, btnKlimatogramToevoegen, btnKlimatogramWijzigen, btnKlimatogramVerwijderen, btnTerug;
     @FXML
     private ListView<KlimatogramDto> lstLocaties;
     @FXML
     private TextField txfLand, txfWerelddeel;
+    @FXML
+    private CheckBox chkEerste, chkTweede, chkDerde;
+    private CheckBox[] checkBoxen = new CheckBox[3];
+    @FXML
+    private Label lblWerelddeel;
     private StatusBar statusBar;
     private KlimatogramController controller;
 
@@ -67,15 +76,17 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
         cboWerelddeel.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             clearErrors();
             if (newValue != null) {
+                controller.clearLijstenWerelddeel();
                 controller.selecteerContinent(newValue);
-                clearSelectie();
+                clearSelectieLijst();
             }
         });
         cboLand.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             clearErrors();
             if (newValue != null) {
+                controller.clearLijstenLand();
                 controller.selecteerLand(newValue);
-                clearSelectie();
+                clearSelectieLijst();
             }
         });
         lstLocaties.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -96,6 +107,9 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
         setTooltip(btnWerelddeelOk, "Werelddeel toevoegen");
         setTooltip(btnWerelddeelCancel, "Werelddeel verwijderen");
         setTooltip(btnTerug, "Terug naar het hoofdmenu");
+        checkBoxen[0] = chkEerste;
+        checkBoxen[1] = chkTweede;
+        checkBoxen[2] = chkDerde;
     }
 
     @FXML
@@ -104,7 +118,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
             clearErrors();
             controller.voegToe();
             this.setDisable(true);
-            clearSelectie();
+            clearSelectieLijst();
         } catch (IllegalArgumentException e) {
             statusBar.setText(e.getMessage());
         }
@@ -112,10 +126,10 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
 
     @FXML
     public void verwijderKlimatogram(ActionEvent event) {
-
         try {
             clearErrors();
             controller.verwijderKlimatogram(lstLocaties.getSelectionModel().getSelectedItem().getLocatie());
+            clearSelectieLijst();
         } catch (IllegalArgumentException ex) {
             statusBar.setText(ex.getMessage());
         } catch (NullPointerException ex) {
@@ -136,6 +150,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
         try {
             clearErrors();
             controller.wijzig();
+            clearSelectieLijst();
             this.setDisable(true);
         } catch (IllegalArgumentException e) {
             statusBar.setText(e.getMessage());
@@ -147,6 +162,8 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
     public void werelddeelOk(ActionEvent event) {
         clearErrors();
         if (btnWerelddeelOk.getText().equals("+")) {
+            controller.clearLijstenWerelddeel();
+            cboWerelddeel.getSelectionModel().clearSelection();
             cboWerelddeel.setVisible(false);
             txfWerelddeel.setVisible(true);
             btnWerelddeelOk.setText("v");
@@ -155,12 +172,41 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
             setTooltip(btnWerelddeelCancel, "Annuleren");
         } else {
             try {
-                controller.voegContinentToe(new ContinentDto(txfWerelddeel.getText()));
-                txfWerelddeel.clear();
-                cboWerelddeel.setVisible(true);
-                txfWerelddeel.setVisible(false);
-                btnWerelddeelOk.setText("+");
-                btnWerelddeelCancel.setText("-");
+                if (txfWerelddeel.isVisible()) {
+                    txfWerelddeel.setVisible(false);
+                    lblWerelddeel.setText("Welke graad?");
+                    for (CheckBox chkBox : checkBoxen) {
+                        chkBox.setVisible(true);
+                    }
+                } else {
+                    ContinentDto dto = controller.maakNieuwContinentDto();
+                    dto.setNaam(txfWerelddeel.getText());
+                    for (int i = 0; i < checkBoxen.length; i++) {
+                        if (checkBoxen[i].isSelected()) {
+                            if (i == 0) {
+                                dto.voegGraadToe(dto.getGraden().keySet().toArray()[i].toString());
+                            }
+                            if (i == 1) {
+                                dto.voegGraadToe(dto.getGraden().keySet().toArray()[i].toString());
+                                dto.voegGraadToe(dto.getGraden().keySet().toArray()[i + 1].toString());
+                            }
+                            if (i == 2) {
+                                dto.voegGraadToe(dto.getGraden().keySet().toArray()[i + 1].toString());
+                            }
+                        }
+                    }
+                    controller.voegContinentToe(dto);
+                    txfWerelddeel.clear();
+                    cboWerelddeel.setVisible(true);
+                    txfWerelddeel.setVisible(false);
+                    for (CheckBox chkBox : checkBoxen) {
+                        chkBox.setVisible(false);
+                        chkBox.setSelected(false);
+                    }
+                    lblWerelddeel.setText("Werelddeel");
+                    btnWerelddeelOk.setText("+");
+                    btnWerelddeelCancel.setText("-");
+                }
             } catch (IllegalArgumentException e) {
                 statusBar.setText(e.getMessage());
             } catch (Exception ex) {
@@ -192,6 +238,11 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
             txfWerelddeel.clear();
             cboWerelddeel.setVisible(true);
             txfWerelddeel.setVisible(false);
+            for (CheckBox chkBox : checkBoxen) {
+                chkBox.setVisible(false);
+                chkBox.setSelected(false);
+            }
+            lblWerelddeel.setText("Werelddeel");
             btnWerelddeelOk.setText("+");
             btnWerelddeelCancel.setText("-");
             setTooltip(btnWerelddeelOk, "Werelddeel toevoegen");
@@ -204,6 +255,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
         clearErrors();
         if (btnLandOk.getText().equals("+")) {
             if (controller.werelddeelGeselecteerd()) {
+                controller.clearLijstenLand();
                 cboLand.setVisible(false);
                 txfLand.setVisible(true);
                 btnLandOk.setText("v");
@@ -258,12 +310,12 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
             setTooltip(btnLandCancel, "Land verwijderen");
         }
     }
-
+    
     public void clearErrors() {
         statusBar.setText("");
     }
 
-    public void clearSelectie() {
+    public void clearSelectieLijst() {
         lstLocaties.getSelectionModel().clearSelection();
     }
 

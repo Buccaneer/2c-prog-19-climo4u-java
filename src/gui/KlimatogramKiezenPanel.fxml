@@ -9,10 +9,10 @@
 
 <fx:root prefHeight="600.0" prefWidth="412.0" type="Pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="26.0" layoutY="82.0" text="Werelddeel" />
-      <Label layoutX="26.0" layoutY="129.0" text="Land" />
-      <Label layoutX="24.0" layoutY="171.0" text="Locaties" />
-      <Label layoutX="24.0" layoutY="6.0" text="Klimatogrammenbeheer">
+      <Label fx:id="lblWerelddeel" layoutX="18.0" layoutY="82.0" text="Werelddeel" />
+      <Label layoutX="18.0" layoutY="129.0" text="Land" />
+      <Label layoutX="18.0" layoutY="171.0" text="Locaties" />
+      <Label layoutX="16.0" layoutY="6.0" text="Klimatogrammenbeheer">
          <font>
             <Font size="34.0" />
          </font>
@@ -25,14 +25,17 @@
       <Button id="cancel" fx:id="btnLandCancel" layoutX="361.0" layoutY="125.0" mnemonicParsing="false" onAction="#landCancel" prefHeight="25.0" prefWidth="27.0" text="-" />
       <ScrollPane layoutX="108.0" layoutY="171.0" prefHeight="232.0" prefWidth="200.0">
          <content>
-            <ListView fx:id="lstLocaties" prefHeight="228.0" prefWidth="200.0" />
+            <ListView fx:id="lstLocaties" />
          </content>
       </ScrollPane>
       <Button fx:id="btnKlimatogramToevoegen" layoutX="107.0" layoutY="454.0" mnemonicParsing="false" onAction="#voegKlimatogramToe" prefHeight="50.0" prefWidth="53.0" />
       <Button fx:id="btnKlimatogramWijzigen" layoutX="181.0" layoutY="454.0" mnemonicParsing="false" onAction="#wijzigKlimatogram" prefHeight="50.0" prefWidth="53.0" />
       <Button fx:id="btnKlimatogramVerwijderen" layoutX="255.0" layoutY="454.0" mnemonicParsing="false" onAction="#verwijderKlimatogram" prefHeight="50.0" prefWidth="53.0" />
       <Button fx:id="btnTerug" layoutX="107.0" layoutY="540.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Terug naar menu" />
-      <TextField fx:id="txfWerelddeel" layoutX="106.0" layoutY="78.0" prefHeight="25.0" prefWidth="200.0" visible="false" />
+      <TextField fx:id="txfWerelddeel" layoutX="106.0" layoutY="79.0" prefHeight="25.0" prefWidth="200.0" visible="false" />
       <TextField fx:id="txfLand" layoutX="106.0" layoutY="125.0" prefHeight="25.0" prefWidth="200.0" visible="false" />
+      <CheckBox fx:id="chkEerste" layoutX="107.0" layoutY="82.0" mnemonicParsing="false" text="Eerste" visible="false" />
+      <CheckBox fx:id="chkTweede" layoutX="174.0" layoutY="82.0" mnemonicParsing="false" text="Tweede" visible="false" />
+      <CheckBox fx:id="chkDerde" layoutX="252.0" layoutY="82.0" mnemonicParsing="false" text="Derde" visible="false" />
    </children>
 </fx:root>

@@ -10,13 +10,13 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
 
     @Override
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
-       if (knoop.getId() == getId()) {
-           // Wijzig mijn knoop (this)
-       } else
-       {
-           juistKnoop.wijzigKnoop(knoop);
-           foutKnoop.wijzigKnoop(knoop);
-       }
+//       if (knoop.getId() == getId()) {
+//           // Wijzig mijn knoop (this)
+//       } else
+//       {
+//           juistKnoop.wijzigKnoop(knoop);
+//           foutKnoop.wijzigKnoop(knoop);
+//       }
     }
         
     @Override
