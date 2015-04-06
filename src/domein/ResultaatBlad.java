@@ -17,9 +17,9 @@ public class ResultaatBlad extends DeterminatieKnoop {
 
     @Override
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
-       if (knoop.getId() == getId()) {
-           // Wijzig mijn knoop.
-       }
+//       if (knoop.getId() == getId()) {
+//           // Wijzig mijn knoop.
+//       }
     }
 
     @Override

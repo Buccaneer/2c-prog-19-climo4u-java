@@ -66,7 +66,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
     private KlimatogramController controller;
     private KlimatogramDto klimatogram;
     private StatusBar statusBar;
-    private Image imgFout, imgLeeg;
+    private Image imgFout;
 
     public KlimatogramDetailPanelController(KlimatogramController controller, StatusBar statusBar) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("KlimatogramDetailPanel.fxml"));
@@ -98,7 +98,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
                         pnlKlimatogram.getChildren().clear();
                         chart.setPrefSize(pnlKlimatogram.getPrefWidth(), pnlKlimatogram.getPrefHeight());
                         pnlKlimatogram.getChildren().add(chart);
-                        txfGemiddeldeTemperatuur.setText(String.valueOf(berekenJaartemperatuur(klimatogram.maanden)));
+                        txfGemiddeldeTemperatuur.setText(String.format("%.2f", berekenJaartemperatuur(klimatogram.maanden)));
                         txfTotaleJaarneerslag.setText(String.valueOf(berekenTotaleNeerslag(klimatogram.maanden)));
                     }
                 }
@@ -118,13 +118,12 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
                         pnlKlimatogram.getChildren().clear();
                         chart.setPrefSize(pnlKlimatogram.getPrefWidth(), pnlKlimatogram.getPrefHeight());
                         pnlKlimatogram.getChildren().add(chart);
-                        txfGemiddeldeTemperatuur.setText(String.valueOf(berekenJaartemperatuur(klimatogram.maanden)));
+                        txfGemiddeldeTemperatuur.setText(String.format("%.2f", berekenJaartemperatuur(klimatogram.maanden)));
                         txfTotaleJaarneerslag.setText(String.valueOf(berekenTotaleNeerslag(klimatogram.maanden)));
                     }
                 }
         );
         imgFout = new Image("/content/images/x.png");
-        imgLeeg = null;
     }
 
     @Override
@@ -135,6 +134,9 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         }
         if (actie.equals("wijzig")) {
             wijzigKlimatogram();
+        }
+        if (actie.equals("clear")) {
+            clear();
         } else if (actie.equals("vulIn")) {
             vulIn();
         }
@@ -183,22 +185,14 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         txfLongitudeUren.setText(String.format("%.0f", degrees));
         txfLongitudeMinuten.setText(String.format("%.0f", minutes));
         txfLongitudeSeconden.setText(String.format("%.0f", seconds));
-        tblMaanden.setItems(klimatogram.maanden);
-        maandColumn.setCellValueFactory(cellData -> cellData.getValue().naamProperty());
-        temperatuurColumn.setCellValueFactory(cellData -> cellData.getValue().temperatuurProperty().asObject());
-        neerslagColumn.setCellValueFactory(cellData -> cellData.getValue().neerslagProperty().asObject());
+        vulTabelEnGrafiek();
 
-        StackPane chart = new KlimatogramGrafiek().createChart(klimatogram);
-        pnlKlimatogram.getChildren().clear();
-        chart.setPrefSize(pnlKlimatogram.getPrefWidth(), pnlKlimatogram.getPrefHeight());
-        pnlKlimatogram.getChildren().add(chart);
     }
 
     private void voegKlimatogramToe() {
-        clear();
+        vulIn();
         clearErrors();
-        tblMaanden.setItems(klimatogram.maanden);
-        maandColumn.setCellValueFactory(cellData -> cellData.getValue().naamProperty());
+        vulTabelEnGrafiek();
 
         btnAnnuleren.setVisible(true);
         btnOpslaan.setVisible(true);
@@ -218,8 +212,8 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         txfLongitudeSeconden.clear();
         txfLongitudeUren.clear();
         txfTotaleJaarneerslag.clear();
-        txfGemiddeldeTemperatuur.clear();
         txfLocatie.clear();
+        tblMaanden.setItems(null);
         pnlKlimatogram.getChildren().clear();
     }
 
@@ -235,7 +229,10 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         } catch (VerkeerdeInputException e) {
             behandelExcepties(e);
         } catch (NumberFormatException | NullPointerException e) {
-
+        } catch (IllegalArgumentException e) {
+            VerkeerdeInputException ex = new VerkeerdeInputException();
+            ex.add("locatie", e);
+            behandelExcepties(ex);
         }
     }
 
@@ -312,7 +309,7 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         this.setDisable(true);
         clear();
         clearErrors();
-        controller.notifyObservers("menu", null);
+        controller.annuleren();
         verbergElementen();
     }
 
@@ -320,8 +317,8 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
         btnAnnuleren.setVisible(true);
         btnWijzig.setVisible(true);
         clearErrors();
-        
-        tblMaanden.setItems(klimatogram.maanden);
+
+        vulTabelEnGrafiek();
         klimatogram.setStation(txfStation.getText());
         klimatogram.setBeginJaar(Integer.parseInt(txfBeginPeriode.getText()));
         klimatogram.setEindJaar(Integer.parseInt(txfEindPeriode.getText()));
@@ -370,16 +367,16 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
 
     private void clearErrors() {
         statusBar.setText("");
-        lblValidatieLatitude.setTooltip(new Tooltip(""));
-        lblValidatieLocatie.setTooltip(new Tooltip(""));
-        lblValidatieLongitude.setTooltip(new Tooltip(""));
-        lblValidatiePeriode.setTooltip(new Tooltip(""));
-        lblValidatieStation.setTooltip(new Tooltip(""));
-        lblValidatieLatitude.setGraphic(new ImageView(imgLeeg));
-        lblValidatieLocatie.setGraphic(new ImageView(imgLeeg));
-        lblValidatieLongitude.setGraphic(new ImageView(imgLeeg));
-        lblValidatiePeriode.setGraphic(new ImageView(imgLeeg));
-        lblValidatieStation.setGraphic(new ImageView(imgLeeg));
+        lblValidatieLatitude.setTooltip(null);
+        lblValidatieLocatie.setTooltip(null);
+        lblValidatieLongitude.setTooltip(null);
+        lblValidatiePeriode.setTooltip(null);
+        lblValidatieStation.setTooltip(null);
+        lblValidatieLatitude.setGraphic(null);
+        lblValidatieLocatie.setGraphic(null);
+        lblValidatieLongitude.setGraphic(null);
+        lblValidatiePeriode.setGraphic(null);
+        lblValidatieStation.setGraphic(null);
     }
 
     private void behandelExcepties(VerkeerdeInputException e) {
@@ -403,5 +400,19 @@ public class KlimatogramDetailPanelController extends Pane implements Observer {
                     break;
             }
         }
+    }
+
+    private void vulTabelEnGrafiek() {
+        tblMaanden.setItems(klimatogram.maanden);
+        maandColumn.setCellValueFactory(cellData -> cellData.getValue().naamProperty());
+        temperatuurColumn.setCellValueFactory(cellData -> cellData.getValue().temperatuurProperty().asObject());
+        neerslagColumn.setCellValueFactory(cellData -> cellData.getValue().neerslagProperty().asObject());
+
+        StackPane chart = new KlimatogramGrafiek().createChart(klimatogram);
+        pnlKlimatogram.getChildren().clear();
+        chart.setPrefSize(pnlKlimatogram.getPrefWidth(), pnlKlimatogram.getPrefHeight());
+        pnlKlimatogram.getChildren().add(chart);
+        txfGemiddeldeTemperatuur.setText(String.format("%.2f", berekenJaartemperatuur(klimatogram.maanden)));
+        txfTotaleJaarneerslag.setText(String.valueOf(berekenTotaleNeerslag(klimatogram.maanden)));
     }
 }

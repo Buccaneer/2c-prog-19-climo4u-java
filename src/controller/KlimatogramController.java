@@ -11,7 +11,6 @@ import dto.LandDto;
 import dto.MaandDto;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -50,6 +49,9 @@ public class KlimatogramController implements Subject {
         Continent cont = new Continent(continent.getNaam());
 
         List<Graad> graden = graadRepository.getAll();
+        if (continent.getGraden().entrySet().stream().allMatch(g -> g.getValue() == false)) {
+            throw new IllegalArgumentException("Een werelddeel moet bij minstens 1 graad horen");
+        }
         for (Entry<String, Boolean> obj : continent.getGraden().entrySet()) {
             if (obj.getValue() == true) {
                 Optional<Graad> graad = graden.stream().filter(g -> g.toString().equals(obj.getKey())).findFirst();
@@ -180,7 +182,7 @@ public class KlimatogramController implements Subject {
      */
     public void voegKlimatogramToe(KlimatogramDto klimatogramDto) {
         if (klimatogramDto == null) {
-            throw new IllegalArgumentException("U moet het klimatogram correct ingevullen");
+            throw new IllegalArgumentException("U moet het klimatogram correct invullen");
         }
         VerkeerdeInputException vie = new VerkeerdeInputException();
         Klimatogram klim = new Klimatogram();
@@ -226,14 +228,18 @@ public class KlimatogramController implements Subject {
                 vie.add("temperatuurMaand" + (i + 1), e);
             }
         }
+
         if (!vie.isEmpty()) {
             throw vie;
+        } else {
+            geselecteerdLand.voegKlimatogramToe(klim);
+            continentenRepository.update(geselecteerdContinent);
+            geselecteerdKlimatogram = klim;
+            locaties.clear();
+            geselecteerdLand.getKlimatogrammen().forEach(k -> locaties.add(new KlimatogramDto(k.getLocatie())));
+            geselecteerdKlimatogram = null;
         }
-        geselecteerdLand.voegKlimatogramToe(klim);
-        continentenRepository.update(geselecteerdContinent);
-        geselecteerdKlimatogram = klim;
-        locaties.clear();
-        geselecteerdLand.getKlimatogrammen().forEach(k -> locaties.add(new KlimatogramDto(k.getLocatie())));
+
     }
 
     public ObservableList<MaandDto> getMaanden() {
@@ -368,6 +374,7 @@ public class KlimatogramController implements Subject {
         }
         locaties.clear();
         geselecteerdLand.getKlimatogrammen().forEach(k -> locaties.add(new KlimatogramDto(k.getLocatie())));
+        geselecteerdKlimatogram = null;
     }
 
     public void verwijderKlimatogram(String locatie) throws IllegalArgumentException {
@@ -379,6 +386,7 @@ public class KlimatogramController implements Subject {
         locaties.clear();
         geselecteerdLand.getKlimatogrammen().forEach(klim -> locaties.add(new KlimatogramDto(klim.getLocatie())));
         geselecteerdKlimatogram = null;
+        notifyObservers("clear", null);
     }
 
     public void verwijderLand(LandDto land) {
@@ -431,7 +439,7 @@ public class KlimatogramController implements Subject {
     public void wijzig() {
         if (geselecteerdKlimatogram != null) {
             KlimatogramDto dto = new KlimatogramDto(geselecteerdKlimatogram.getBeginJaar(), geselecteerdKlimatogram.getEindJaar(), geselecteerdKlimatogram.getLatitude(), geselecteerdKlimatogram.getLocatie(), geselecteerdKlimatogram.getLongitude(), geselecteerdKlimatogram.getStation());
-            geselecteerdKlimatogram.getMaanden().stream().forEach(m->{
+            geselecteerdKlimatogram.getMaanden().stream().forEach(m -> {
                 String naam = m.getNaam();
                 int neerslag = m.getNeerslag();
                 double temp = m.getTemperatuur();
@@ -445,6 +453,22 @@ public class KlimatogramController implements Subject {
         } else {
             throw new IllegalArgumentException("U moet eerst een klimatogram selecteren");
         }
+    }
+
+    public void clearLijstenWerelddeel() {
+        this.geselecteerdContinent = null;
+        this.geselecteerdKlimatogram = null;
+        this.geselecteerdLand = null;
+        landen.clear();
+        locaties.clear();
+        notifyObservers("clear", null);
+    }
+
+    public void clearLijstenLand() {
+        geselecteerdLand = null;
+        geselecteerdKlimatogram = null;
+        locaties.clear();
+        notifyObservers("clear", null);
     }
 
     @Override
@@ -462,4 +486,8 @@ public class KlimatogramController implements Subject {
         observers.forEach(o -> o.update(actie, object));
     }
 
+    public void annuleren() {
+        geselecteerdKlimatogram = null;
+        notifyObservers("menu", null);
+    }
 }
