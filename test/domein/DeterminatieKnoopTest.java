@@ -15,7 +15,17 @@ import static org.junit.Assert.*;
 public class DeterminatieKnoopTest {
 
     @Test
-    public void voegKnoopEnTweeBladerenToeWerkt() {
+    public void constructorBeslissingsKnoopWerkt() {
+        fail("Test niet af.");
+    }
+    
+    @Test
+    public void omzettenBeslissingsKnoopInResultaatBladWerkt() {
+        fail("Test niet af.");
+    }
+    
+    @Test
+    public void omzettenBeginKnoopResetDeBoom() {
         fail("Test niet af.");
     }
 
@@ -34,23 +44,15 @@ public class DeterminatieKnoopTest {
         fail("Test niet af.");
     }
 
-    @Test
-    public void verwijderBeginKnoopWerkt() {
+
+    
+  @Test
+    public void vergelijkingVanBeslissingsKnoopNullGooitException() {
         fail("Test niet af.");
     }
-
+    
     @Test
-    public void verwijderResultaatBladWerkt() {
-        fail("Test niet af.");
-    }
-
-    @Test
-    public void verwijderTussenKnoopWerkt() {
-        fail("Test niet af.");
-    }
-
-    @Test
-    public void validerenVanFoutieveGegevensGooitException() {
+    public void vegetatieTypeVanResultaatBladKanNietNullZijnException() {
         fail("Test niet af.");
     }
 

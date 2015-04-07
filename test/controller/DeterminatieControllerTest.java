@@ -14,113 +14,64 @@ import org.junit.Before;
  * @author Jasper De Vrient
  */
 public class DeterminatieControllerTest {
+
     private DeterminatieController controller;
-    
+
     @Before
     public void bereidVoor() {
         fail("Test niet af.");
     }
-    
+
     @Test
     public void getGradenWerkt() {
         fail("Test niet af.");
     }
-   
-     @Test
+
+    @Test
     public void selecteerGraadWerkt() {
         fail("Test niet af.");
     }
 
-     @Test
+    @Test
     public void geefDeterminatieTabellenWerkt() {
         fail("Test niet af.");
     }
 
-     @Test
-    public void maakNieuweDeterminatieTabelWerkt()
-    {fail("Test niet af.");
-  
+    @Test
+    public void maakNieuweDeterminatieTabelWerkt() {
+        fail("Test niet af.");
+
     }
 
- @Test
+    @Test
     public void verwijderDeterminatieTabelVerwijdertBestaandeDeterminatieTabel() {
         fail("Test niet af.");
     }
 
     @Test
-    public void selecteerDeterminatieTabelSelecteertBestaandeDeterminatieTabel()
-    {
-fail("Test niet af.");
+    public void selecteerDeterminatieTabelSelecteertBestaandeDeterminatieTabel() {
+        fail("Test niet af.");
     }
 
-     @Test
+    @Test
     public void wijzigDeterminatieTabelSlaatDeDeterminatieTabelEffectiefOp() {
         fail("Test niet af.");
     }
 
-  @Test
-    public void koppelenVanGraadEnDeterminatieTabelWerkt()
-    {
-      fail("Test niet af.");
-    }
-    
-     @Test
-    public void koppelenVanBezetteGraadEnDeterminatieTabelGeeftException() {
+    @Test
+    public void koppelenVanNietBestaandeDeterminatieTabelGooitExecption() {
         fail("Test niet af.");
     }
 
-
-     @Test
-    public void voegKnoopEnTweeBladerenToeWerkt()
-    {
-       fail("Test niet af.");
-    }
-
-
-    
-     @Test
-    public void wijzigResultaatBladWerkt() {
-           fail("Test niet af.");
-    }
-    
-     @Test
-    public void omzettenResultaatBladInBeslissingsKnoopWerkt() {
-           fail("Test niet af.");
-    }
-    
-     @Test
-    public void wijzigBeslissingsKnoopWerkt() {
-           fail("Test niet af.");
-    }
-
-
-     @Test
-    public void verwijderBeginKnoopWerkt()
-    {
-          fail("Test niet af.");
-    }
-    
-     @Test
-    public void verwijderResultaatBladWerkt() {
-           fail("Test niet af.");
-    }
-    
-     @Test
-    public void verwijderTussenKnoopWerkt() {
-           fail("Test niet af.");
-    }
-
-
-     @Test
-    public void validerenVanFoutieveGegevensGooitException()
-    {
-          fail("Test niet af.");
-    }
-    
-     @Test
-    public void validerenVanJuisteGegevensGooitGeenException()
-    {
+    @Test
+    public void koppelenVanNietBestaandeGraadGooitExecption() {
         fail("Test niet af.");
     }
-    
+
+    @Test
+    public void wijzigKnoopAanroepenAlsErGeenDeterminatieTabelIsGeselecteerdGooitExecption() {
+        fail("Testnaam te lang.");
+    }
+   
+
 }

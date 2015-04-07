@@ -27,11 +27,6 @@ public class Graad {
     public void setActieveTabel(DeterminatieTabel actieveTabel) {
         this.actieveTabel = actieveTabel;
     }
-    
-   
-    
-   
-    
     public int getNummer() {
         return nummer;
     }

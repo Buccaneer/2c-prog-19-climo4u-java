@@ -14,20 +14,23 @@ import static org.junit.Assert.*;
  */
 public class DeterminatieTabelTest {
 
-     @Test
-    public void koppelenVanGraadEnDeterminatieTabelWerkt()
-    {
-      fail("Test niet af.");
+    @Test
+    public void koppelenVanGraadEnDeterminatieTabelWerkt() {
+        fail("Test niet af.");
     }
-    
-     @Test
+
+    @Test
     public void koppelenVanBezetteGraadEnDeterminatieTabelGeeftException() {
         fail("Test niet af.");
     }
 
-    
     @Test
-    public void voegKnoopEnTweeBladerenToeWerkt() {
+    public void omzettenBeslissingsKnoopInResultaatBladWerkt() {
+        fail("Test niet af.");
+    }
+
+    @Test
+    public void omzettenBeginKnoopResetDeBoom() {
         fail("Test niet af.");
     }
 
@@ -47,22 +50,12 @@ public class DeterminatieTabelTest {
     }
 
     @Test
-    public void verwijderBeginKnoopWerkt() {
-        fail("Test niet af.");
-    }
-
-    @Test
-    public void verwijderResultaatBladWerkt() {
-        fail("Test niet af.");
-    }
-
-    @Test
-    public void verwijderTussenKnoopWerkt() {
-        fail("Test niet af.");
-    }
-
-    @Test
     public void validerenVanFoutieveGegevensGooitException() {
+        fail("Test niet af.");
+    }
+
+    @Test
+    public void validerenVanJuisteGegevensGooitGeenException() {
         fail("Test niet af.");
     }
 
