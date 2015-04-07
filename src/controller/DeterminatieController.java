@@ -104,9 +104,9 @@ public class DeterminatieController implements Subject {
             throw new IllegalArgumentException("U moet eerst een determinatietabel selecteren");
         }
         //TODO: dto maken
-        Graad gr = graadRepository.get(graad.getNaam());
+       // Graad gr = graadRepository.get(graad.getNaam());
         DeterminatieTabel tab = determinatieTabelRepository.get(tabel.getNaam());
-        gr.setActieveTabel(tab);
+       // gr.setActieveTabel(tab);
     }
 
 //    /**
