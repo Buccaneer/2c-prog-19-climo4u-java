@@ -2,18 +2,27 @@ package controller;
 
 import domein.*;
 import dto.*;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import persistentie.*;
 
 public class DeterminatieController implements Subject {
 
     private DeterminatieTabel geselecteerdeDeterminatieTabel;
-    private GenericDao<DeterminatieTabel, Integer> determinatieTabelDao;
-    private GenericDao<DeterminatieKnoop, Integer> determinatieKnoopDao;
+    private ObservableList<DeterminatieTabelDto> determinatietabellen = FXCollections.observableArrayList();
+    private ObservableList<GraadDto> graden = FXCollections.observableArrayList();
+    private GenericDao<DeterminatieTabel, String> determinatieTabelRepository = new GenericDaoJpa<>(DeterminatieTabel.class);
+    private GenericDao<DeterminatieKnoop, String> determinatieKnoopRepository = new GenericDaoJpa<>(DeterminatieKnoop.class);
+    private GenericDao<Graad, String> graadRepository = new GenericDaoJpa<>(Graad.class);
+    private List<Observer> observers = new ArrayList<>();
 
     public ObservableList<GraadDto> getGraden() {
-        // TODO - implement DeterminatieController.getGraden
-        throw new UnsupportedOperationException();
+        //TODO: graaddto nog niet gemaakt?
+        List<Graad> graad = graadRepository.getAll();
+        graad.stream().forEach(g -> graden.add(new GraadDto()));
+        return graden;
     }
 
 //    /**
@@ -24,10 +33,10 @@ public class DeterminatieController implements Subject {
 //        // TODO - implement DeterminatieController.selecteerGraad
 //        throw new UnsupportedOperationException();
 //    }
-
     public ObservableList<DeterminatieTabelDto> getDeterminatieTabellen() {
-        // TODO - implement DeterminatieController.getDeterminatieTabellen
-        throw new UnsupportedOperationException();
+        List<DeterminatieTabel> tabellen = determinatieTabelRepository.getAll();
+        tabellen.forEach(tabel -> determinatietabellen.add(new DeterminatieTabelDto(tabel.getId(), tabel.getNaam(), tabel.maakDtoAan())));
+        return determinatietabellen;
     }
 
     /**
@@ -37,8 +46,11 @@ public class DeterminatieController implements Subject {
      * </p>
      */
     public void maakNieuweDeterminatieTabel() {
-        // TODO - implement DeterminatieController.maakNieuweDeterminatieTabel
-        throw new UnsupportedOperationException();
+        DeterminatieKnoop beginKnoop = new BeslissingsKnoop();
+        beginKnoop.setLinkerKnoop(new ResultaatBlad());
+        beginKnoop.setRechterKnoop(new ResultaatBlad());
+        geselecteerdeDeterminatieTabel = new DeterminatieTabel();
+        geselecteerdeDeterminatieTabel.setBeginKnoop(beginKnoop);
     }
 
     /**
@@ -46,8 +58,15 @@ public class DeterminatieController implements Subject {
      * @param tabel
      */
     public void verwijderDeterminatieTabel(DeterminatieTabelDto tabel) {
-        // TODO - implement DeterminatieController.verwijderDeterminatieTabel
-        throw new UnsupportedOperationException();
+        if(tabel == null){
+            throw new IllegalArgumentException("U moet eerst een determinatietabel selecteren");
+        }
+        DeterminatieTabel t = determinatieTabelRepository.get(tabel.getNaam());
+        
+        determinatieTabelRepository.delete(t);
+        geselecteerdeDeterminatieTabel = null;
+        determinatietabellen.clear();
+        getDeterminatieTabellen();
     }
 
     /**
@@ -55,8 +74,10 @@ public class DeterminatieController implements Subject {
      * @param tabel
      */
     public void selecteerDeterminatieTabel(DeterminatieTabelDto tabel) {
-        // TODO - implement DeterminatieController.selecteerDeterminatieTabel
-        throw new UnsupportedOperationException();
+        if(tabel==null){
+            throw new IllegalArgumentException();
+        }
+        geselecteerdeDeterminatieTabel= determinatieTabelRepository.get(tabel.getNaam());
     }
 
     /**
@@ -65,8 +86,9 @@ public class DeterminatieController implements Subject {
      * @param tabel
      */
     public void wijzigDeterminatieTabel(DeterminatieTabelDto tabel) {
-        // TODO - implement DeterminatieController.wijzigDeterminatieTabel
-        throw new UnsupportedOperationException();
+        if(tabel == null){
+            throw new IllegalArgumentException("U moet eerst een determinatietabel selecteren");
+        }
     }
 
     /**
@@ -75,8 +97,16 @@ public class DeterminatieController implements Subject {
      * @param tabel
      */
     public void koppelGraadMetDeterminatieTabel(GraadDto graad, DeterminatieTabelDto tabel) {
-        // TODO - implement DeterminatieController.koppelGraadMetDeterminatieTabel
-        throw new UnsupportedOperationException();
+        if(graad == null){
+            throw new IllegalArgumentException("U moet eerst een graad selecteren");
+        }
+        if(tabel == null){
+            throw new IllegalArgumentException("U moet eerst een determinatietabel selecteren");
+        }
+        //TODO: dto maken
+        Graad gr = graadRepository.get(graad.getNaam());
+        DeterminatieTabel tab = determinatieTabelRepository.get(tabel.getNaam());
+        gr.setActieveTabel(tab);
     }
 
 //    /**
@@ -89,8 +119,6 @@ public class DeterminatieController implements Subject {
 //    {
 //        throw new UnsupportedOperationException();
 //    }
-    
-    
     /**
      * Wijzigt de meegegeven knoop. Meerdere Gevallen:
      * <ol>
@@ -126,8 +154,7 @@ public class DeterminatieController implements Subject {
      * @param knoop
      */
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
-       
-        throw new UnsupportedOperationException();
+        
     }
 
 //    /**
@@ -149,28 +176,32 @@ public class DeterminatieController implements Subject {
 //       
 //        throw new UnsupportedOperationException();
 //    }
-    
     /**
      * Valideert of de determinatietabel in orde is. Indien dit niet het geval
      * is wordt er een exception gegooid.
      */
     public void valideer() {
-        throw new UnsupportedOperationException();
+        try{
+            geselecteerdeDeterminatieTabel.valideer();
+        }
+        catch(Exception e){
+            throw e;
+        }
     }
 
     @Override
     public void removeObserver(Observer observer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        observers.remove(observer);
     }
 
     @Override
     public void notifyObservers(String actie, Object object) {
-       // 
+        observers.forEach(o->o.update(actie,object));
     }
 
     @Override
     public void addObserver(Observer observer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        observers.add(observer);
     }
 
 }

@@ -16,7 +16,19 @@ public class DeterminatieTabel {
         this.naam = naam;
     }
 
-    DeterminatieKnoopDto maakDtoAan() {
+    public int getId() {
+        return id;
+    }
+
+    public void setBeginKnoop(DeterminatieKnoop beginKnoop) {
+        this.beginKnoop = beginKnoop;
+    }
+    
+    public DeterminatieKnoop getBeginKnoop() {
+        return beginKnoop;
+    }
+    
+    public DeterminatieKnoopDto maakDtoAan() {
         throw new UnsupportedOperationException();
     }
 

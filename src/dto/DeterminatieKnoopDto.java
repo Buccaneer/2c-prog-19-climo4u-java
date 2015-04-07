@@ -19,6 +19,19 @@ public class DeterminatieKnoopDto {
     private VergelijkingDto vergelijking;
     private int id;
 
+    public DeterminatieKnoopDto() {
+    }
+
+    public DeterminatieKnoopDto(DeterminatieKnoopDto ja, DeterminatieKnoopDto nee, DeterminatieKnoopDto ouder, String klimaattype, VegetatieTypeDto vegetatieType, VergelijkingDto vergelijking, int id) {
+        this.ja = ja;
+        this.nee = nee;
+        this.ouder = ouder;
+        this.klimaattype = klimaattype;
+        this.vegetatieType = vegetatieType;
+        this.vergelijking = vergelijking;
+        this.id = id;
+    }
+    
     public int getId() {
         return id;
     }
@@ -26,8 +39,6 @@ public class DeterminatieKnoopDto {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
 
     public boolean isBeslissingsKnoop() {
         return blad == false;
@@ -84,9 +95,6 @@ public class DeterminatieKnoopDto {
     public void setVergelijking(VergelijkingDto vergelijking) {
         this.vergelijking = vergelijking;
     }
-    
-    
-    
 
     public boolean isResultaatBlad() {
         return blad== true;

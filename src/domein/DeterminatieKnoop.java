@@ -2,8 +2,7 @@ package domein;
 
 import dto.DeterminatieKnoopDto;
 
-public abstract class DeterminatieKnoop
-{
+public abstract class DeterminatieKnoop {
 
     private int id;
 
@@ -11,13 +10,8 @@ public abstract class DeterminatieKnoop
         return id;
     }
 
-    
-    
-    
-  
-    
     // Omzetten naar dto.
-  abstract  DeterminatieKnoopDto maakDtoAan() ;
+    public abstract DeterminatieKnoopDto maakDtoAan();
 
     /**
      *
@@ -31,16 +25,12 @@ public abstract class DeterminatieKnoop
      */
     public abstract void setRechterKnoop(DeterminatieKnoop knoop);
 
-
-
     /**
      * Wijzigt de meegegeven knoop.
      *
      * @param knoop
      */
     public abstract void wijzigKnoop(DeterminatieKnoopDto knoop);
-
-  
 
     /**
      * Valideert of deze knoop en al zijn kinderen in orde zijn.

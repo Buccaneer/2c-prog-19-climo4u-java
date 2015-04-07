@@ -10,21 +10,24 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
 
     @Override
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
-        if (knoop.getId() == getId())
+        if (knoop.getId() == getId()) {
             wijzigAttributen(knoop);
-        else {
+        } else {
             int juistOmzetten = moetOmzetten(juistKnoop, knoop);
             int foutOmzetten = moetOmzetten(foutKnoop, knoop);
-            if (juistOmzetten != 0)
-                if (juistOmzetten == -1)
+            if (juistOmzetten != 0) {
+                if (juistOmzetten == -1) {
                     juistKnoop = new BeslissingsKnoop();
-                else
+                } else {
                     juistKnoop = new ResultaatBlad();
-            else if (foutOmzetten != 0)
-                if (foutOmzetten == - 1)
+                }
+            } else if (foutOmzetten != 0) {
+                if (foutOmzetten == - 1) {
                     foutKnoop = new BeslissingsKnoop();
-                else
-                    foutKnoop =new ResultaatBlad();
+                } else {
+                    foutKnoop = new ResultaatBlad();
+                }
+            }
             if (juistOmzetten == foutOmzetten && juistOmzetten == 0) {
                 juistKnoop.wijzigKnoop(knoop);
                 foutKnoop.wijzigKnoop(knoop);
@@ -34,11 +37,11 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
 
     /**
      * Wijzig de attributen van deze knoop.
-     * @param knoop 
+     *
+     * @param knoop
      */
     private void wijzigAttributen(DeterminatieKnoopDto knoop) {
-// TODO: implementeren
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
@@ -52,7 +55,7 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
     }
 
     @Override
-    DeterminatieKnoopDto maakDtoAan() {
+    public DeterminatieKnoopDto maakDtoAan() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -67,11 +70,13 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
      */
     public int moetOmzetten(DeterminatieKnoop kind, DeterminatieKnoopDto knoop) {
         if (kind.getId() == knoop.getId()) {
-            if (knoop.isResultaatBlad() && kind instanceof BeslissingsKnoop)
+            if (knoop.isResultaatBlad() && kind instanceof BeslissingsKnoop) {
                 return 1;
+            }
 
-            if (knoop.isBeslissingsKnoop() && kind instanceof ResultaatBlad)
+            if (knoop.isBeslissingsKnoop() && kind instanceof ResultaatBlad) {
                 return -1;
+            }
 
             return 0;
         }
@@ -79,7 +84,8 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
     }
 
     /**
-     * Valideert of deze knoop en al zijn kinderen in orde zijn. Zijn er null velden die niet null mogen zijn
+     * Valideert of deze knoop en al zijn kinderen in orde zijn. Zijn er null
+     * velden die niet null mogen zijn
      */
     @Override
     public void valideer() {
