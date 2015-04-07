@@ -29,7 +29,7 @@ public class DeterminatieKnoopDto {
     
     
 
-    public boolean isResultaatKnoop() {
+    public boolean isBeslissingsKnoop() {
         return blad == false;
     }
 

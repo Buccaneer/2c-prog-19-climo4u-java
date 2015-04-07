@@ -2,73 +2,75 @@ package domein;
 
 import dto.*;
 
-public class DeterminatieTabel
-{
+public class DeterminatieTabel {
 
     private DeterminatieKnoop beginKnoop;
     private int id;
     private String naam;
 
-    public String getNaam()
-    {
+    public String getNaam() {
         return this.naam;
     }
 
-    public void setNaam(String naam)
-    {
+    public void setNaam(String naam) {
         this.naam = naam;
     }
-    
-     DeterminatieKnoopDto maakDtoAan() {
+
+    DeterminatieKnoopDto maakDtoAan() {
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Wijzigt de meegegeven knoop in een beslissingsknoop en voegt twee nieuwe
-     * resultaatknopen als kinderen toe.
-     *
-     * @param ouder
-     */
-    public void voegKnopenToe(DeterminatieKnoopDto ouder)
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Wijzigt de meegegeven knoop.
-     *
-     * @param knoop
-     */
-    public void wijzigKnoop(DeterminatieKnoopDto knoop)
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Probeert de meegegeven knoop te verwijderen. Heeft 3 mogelijke gevallen.
+     * Wijzigt de meegegeven knoop. Meerdere Gevallen:
      * <p>
-     * 1. Indien het een blad is worden de knoop en zijn broer verwijderd en
-     * wordt de ouder een blad.
+     * <strong>Speciaal geval:</strong> Deze knoop is de root knoop.</p>
+     * <ol>
+     * <li><p>
+     * Het <var>type</var> van de knoop blijft het zelfde: Wijzig de attributen
+     * van die knoop.
+     * </p>
+     * </li>
+     * <li><p>
+     * Het <var>type</var> van de knoop verandert van resultaatblad naar
+     * beslissingsknoop: <ol><li>Ouder beseft dat zijn kind verwijdert moet
+     * worden.</li>
+     * <li>Ouder verwijdert zijn juiste kind.</li>
+     * <li>Ouder maakt een nieuwe <var>BeslissingsKnoop</var> aan en voegt deze
+     * toe op de juiste plaats.</li>
+     * <li>Ouder roept <code>wijzigKnoop(knoop)</code> aan van dit kind. <em>Om
+     * attributen in te stellen.</em></li>
+     * </ol></p></li>
+     * <li><p>
+     * Het <var>type</var> van de knoop verandert van beslissingsknoop naar
+     * resultaatblad: Enkele gevallen:<ol><li>
      * <p>
-     * 2. Indien het een tussenknoop is worden de kinderen verwijderd en wordt
-     * de tussenknoop een blad.
-     * <p>
-     * 3. Indien het de beginknoop is wordt de tabel verwijderd en wordt opnieuw
-     * begonnen op dezelfde manier als bij een nieuwe tabel.
+     * <strong>BeginKnoop</strong>: Reset de determinatietabel zie
+     * begingeval.</p>
+     * </li>
+     * <li><p>
+     * <strong>Tussenknoop</strong>: Verander de knoop naar een resultaatblad,
+     * als gevolg verdwijnen alle kinderen.
+     * </p></li>
+     * </ol></p></li>
+     * </ol>
      *
-     * @param knoop
      */
-    public void verwijderKnoop(DeterminatieKnoopDto knoop)
-    {
-        throw new UnsupportedOperationException();
+    public void wijzigKnoop(DeterminatieKnoopDto knoop) {
+
+        if (beginKnoop.getId() == knoop.getId() && knoop.isResultaatBlad()) // Boom met 'gereset' worden?
+            beginKnoop = new BeslissingsKnoop();
+
+        beginKnoop.wijzigKnoop(knoop);
     }
 
     /**
+     *
+     *
+     * /**
      * Valideert of de determinatietabel in orde is. Indien dit niet het geval
      * is wordt er een exception gegooid.
      */
-    public void valideer()
-    {
+    public void valideer() {
         throw new UnsupportedOperationException();
     }
 

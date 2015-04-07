@@ -17,9 +17,10 @@ public class ResultaatBlad extends DeterminatieKnoop {
 
     @Override
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
-//       if (knoop.getId() == getId()) {
-//           // Wijzig mijn knoop.
-//       }
+       if (knoop.getId() == getId()) {
+          
+           // Wijzig mijn knoop (attributen).
+       }
     }
 
     @Override
@@ -48,7 +49,7 @@ public class ResultaatBlad extends DeterminatieKnoop {
     }
 
     /**
-     * Valideert of deze knoop in orde is.
+     * Valideert of deze knoop in orde is. Zijn er null velden die niet mogen?
      */
     @Override
     public void valideer()

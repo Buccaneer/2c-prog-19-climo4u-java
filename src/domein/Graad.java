@@ -18,6 +18,16 @@ public class Graad {
     @Column(name= "Jaar")
     private int jaar;
     
+    private DeterminatieTabel actieveTabel;
+
+    public DeterminatieTabel getActieveTabel() {
+        return actieveTabel;
+    }
+
+    public void setActieveTabel(DeterminatieTabel actieveTabel) {
+        this.actieveTabel = actieveTabel;
+    }
+    
    
     
    

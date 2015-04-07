@@ -4,28 +4,43 @@ import dto.DeterminatieKnoopDto;
 
 public class BeslissingsKnoop extends DeterminatieKnoop {
 
-	private DeterminatieKnoop juistKnoop;
-	private DeterminatieKnoop foutKnoop;
-	private Vergelijking vergelijking;
+    private DeterminatieKnoop juistKnoop;
+    private DeterminatieKnoop foutKnoop;
+    private Vergelijking vergelijking;
 
     @Override
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
-       if (knoop.getId() == getId()) {
-           // Wijzig mijn knoop (this)
-         
-       } else
-       {
-           if (moetOmzetten(juistKnoop, knoop) == -1) {
-               // Vervangen afhankelijk van scenario
-           } else if (moetOmzetten(foutKnoop, knoop) == -1)
-           {
-               // Vervangen afhankelijk van scenario
-           }
-           juistKnoop.wijzigKnoop(knoop);
-           foutKnoop.wijzigKnoop(knoop);
-       }
+        if (knoop.getId() == getId())
+            wijzigAttributen(knoop);
+        else {
+            int juistOmzetten = moetOmzetten(juistKnoop, knoop);
+            int foutOmzetten = moetOmzetten(foutKnoop, knoop);
+            if (juistOmzetten != 0)
+                if (juistOmzetten == -1)
+                    juistKnoop = new BeslissingsKnoop();
+                else
+                    juistKnoop = new ResultaatBlad();
+            else if (foutOmzetten != 0)
+                if (foutOmzetten == - 1)
+                    foutKnoop = new BeslissingsKnoop();
+                else
+                    foutKnoop =new ResultaatBlad();
+            if (juistOmzetten == foutOmzetten && juistOmzetten == 0) {
+                juistKnoop.wijzigKnoop(knoop);
+                foutKnoop.wijzigKnoop(knoop);
+            }
+        } // Todo: nested exceptions...
     }
-        
+
+    /**
+     * Wijzig de attributen van deze knoop.
+     * @param knoop 
+     */
+    private void wijzigAttributen(DeterminatieKnoopDto knoop) {
+// TODO: implementeren
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     @Override
     public void setLinkerKnoop(DeterminatieKnoop knoop) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -40,38 +55,34 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
     DeterminatieKnoopDto maakDtoAan() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-  
-    
+
     /**
      * <pre>Remark: moet private worden maar momenteel public door test.</pre>
      * Kijkt of de ouder een van zijn kinderen moet omzetten.
+     *
      * @return 3 gevallen: <ul><li>
      * -1: ResultaatBlad --> BeslissingsKnoop
      * </li></li>0: niet</li>
      * <li>1: BeslissingsKnoop --> ResultaatBlad</li></ul>
      */
     public int moetOmzetten(DeterminatieKnoop kind, DeterminatieKnoopDto knoop) {
-       if (kind.getId() == knoop.getId()) {
-           if (knoop.isResultaatBlad() && kind instanceof BeslissingsKnoop) 
-               return 1;
-           
-           if (knoop.isResultaatKnoop() && kind instanceof ResultaatBlad) 
-               return -1;
-           
-           
-           return 0;
-       }
-       return 0;
+        if (kind.getId() == knoop.getId()) {
+            if (knoop.isResultaatBlad() && kind instanceof BeslissingsKnoop)
+                return 1;
+
+            if (knoop.isBeslissingsKnoop() && kind instanceof ResultaatBlad)
+                return -1;
+
+            return 0;
+        }
+        return 0;
     }
-    
+
     /**
-     * Valideert of deze knoop en al zijn kinderen in orde zijn.
+     * Valideert of deze knoop en al zijn kinderen in orde zijn. Zijn er null velden die niet null mogen zijn
      */
     @Override
-    public void valideer()
-    {
+    public void valideer() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -79,7 +90,7 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
         return juistKnoop;
     }
 
-     void setJuistKnoop(DeterminatieKnoop juistKnoop) {
+    void setJuistKnoop(DeterminatieKnoop juistKnoop) {
         this.juistKnoop = juistKnoop;
     }
 
@@ -87,7 +98,7 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
         return foutKnoop;
     }
 
-     void setFoutKnoop(DeterminatieKnoop foutKnoop) {
+    void setFoutKnoop(DeterminatieKnoop foutKnoop) {
         this.foutKnoop = foutKnoop;
     }
 
@@ -95,10 +106,8 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
         return vergelijking;
     }
 
-     void setVergelijking(Vergelijking vergelijking) {
+    void setVergelijking(Vergelijking vergelijking) {
         this.vergelijking = vergelijking;
     }
-    
-    
 
 }
