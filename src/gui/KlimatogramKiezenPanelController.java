@@ -223,6 +223,8 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
                 if (controller.werelddeelGeselecteerd()) {
                     Optional<ButtonType> result = maakAlert("Werelddeel verwijderen", "Werelddeel verwijderen", "Bent u zeker dat u dit werelddeel wilt verwijderen? Alle landen en klimatogrammen zullen mee verwijderd worden.");
                     if (result.get().getButtonData() == ButtonData.YES) {
+                        controller.clearLijstenWerelddeel();
+                        clearSelectieLijst();
                         controller.verwijderContinent(cboWerelddeel.getSelectionModel().getSelectedItem());
                     }
                 } else {
@@ -290,6 +292,8 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
                 if (controller.landGeselecteerd()) {
                     Optional<ButtonType> result = maakAlert("Land verwijderen", "Land verwijderen", "Bent u zeker dat u dit land wilt verwijderen? Alle klimatogrammen zullen mee verwijderd worden.");
                     if (result.get().getButtonData() == ButtonData.YES) {
+                        clearSelectieLijst();
+                        controller.clearLijstenLand();
                         controller.verwijderLand(cboLand.getSelectionModel().getSelectedItem());
                     }
                 } else {
