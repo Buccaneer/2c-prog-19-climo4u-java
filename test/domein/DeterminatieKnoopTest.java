@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domein;
 
 import dto.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Jasper De Vrient
- */
 public class DeterminatieKnoopTest {
 
     /**
@@ -34,7 +25,18 @@ public class DeterminatieKnoopTest {
 
     @Test
     public void omzettenBeslissingsKnoopInResultaatBladWerkt() {
-        fail("Test niet af.");
+        DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
+        dto.setId(2);
+        dto.setResultaatKnoop(true);
+     
+        BeslissingsKnoop juistKnoop = new BeslissingsKnoop(2);
+        ResultaatBlad foutBlad = new ResultaatBlad(3);
+        
+        BeslissingsKnoop knoop = new BeslissingsKnoop();
+        knoop.setJuistKnoop(juistKnoop);
+        knoop.setFoutKnoop(foutBlad);
+        knoop.wijzigKnoop(dto);
+        assertTrue(knoop.getJuistKnoop() instanceof ResultaatBlad);
     }
 
     /**
@@ -127,22 +129,57 @@ public class DeterminatieKnoopTest {
 
     @Test
     public void omzettenResultaatBladInBeslissingsKnoopWerkt() {
-        fail("Test niet af.");
+        DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
+        dto.setId(2);
+        dto.setResultaatKnoop(false);
+     
+        ResultaatBlad juistBlad = new ResultaatBlad(2);
+        ResultaatBlad foutBlad = new ResultaatBlad(3);
+        
+        BeslissingsKnoop knoop = new BeslissingsKnoop();
+        knoop.setJuistKnoop(juistBlad);
+        knoop.setFoutKnoop(foutBlad);
+        knoop.wijzigKnoop(dto);
+        assertTrue(knoop.getJuistKnoop() instanceof BeslissingsKnoop);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void vergelijkingVanBeslissingsKnoopNullGooitException() {
-        fail("Test niet af.");
+        BeslissingsKnoop knoop = new BeslissingsKnoop();
+        knoop.setVergelijking(null);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void vegetatieTypeVanResultaatBladKanNietNullZijnException() {
-        fail("Test niet af.");
+        ResultaatBlad blad = new ResultaatBlad();
+        blad.setVegetatieType(null);
     }
 
     @Test
     public void validerenVanJuisteGegevensGooitGeenException() {
-        fail("Test niet af.");
+        Vergelijking eq = new Vergelijking();
+        eq.setLinkerParameter(new Parameter());
+        eq.setRechterParameter(new Parameter());
+        eq.setOperator(VergelijkingsOperator.GELIJKAAN);
+        
+        VegetatieType veggie = new VegetatieType();
+        veggie.setFoto("trololo.gif");
+        veggie.setNaam("Naaldbos zonder blaadjes");
+        
+        ResultaatBlad juistBlad = new ResultaatBlad();
+        juistBlad.setKlimaatType("Droog maar toch een beetje nat");
+        juistBlad.setVegetatieType(veggie);
+        
+        ResultaatBlad foutBlad = new ResultaatBlad();
+        foutBlad.setKlimaatType("Nat maar toch een beetje droog");
+        foutBlad.setVegetatieType(veggie);
+        
+        BeslissingsKnoop knoop = new BeslissingsKnoop();
+        knoop.setVergelijking(eq);
+        knoop.setFoutKnoop(foutBlad);
+        knoop.setJuistKnoop(juistBlad);
+        
+        knoop.valideer();
     }
 
     /**
@@ -193,6 +230,29 @@ public class DeterminatieKnoopTest {
 
     @Test
     public void maakDtoAanVoorResultaatBladIsGeldig() {
-        fail("Test niet af.");
+        int id = 5;
+        
+        VegetatieType veggie = new VegetatieType();
+        String foto = "trololo.gif";
+        veggie.setFoto(foto);
+        String naam = "Naaldbos zonder blaadjes";
+        veggie.setNaam(naam);
+        
+        ResultaatBlad blad = new ResultaatBlad(id);
+        String klimaat = "Droog maar toch een beetje nat";
+        blad.setKlimaatType(klimaat);
+        blad.setVegetatieType(veggie);
+        
+        DeterminatieKnoopDto dto = blad.maakDtoAan();
+        assertEquals(dto.getId(), id);
+        assertNull(dto.getJa());
+        assertEquals(dto.getKlimaattype(), klimaat);
+        assertNull(dto.getNee());
+        fail("dto.getOuder() ??? ");
+        assertEquals(dto.getVegetatieType().getNaam(), naam);
+        assertEquals(dto.getVegetatieType().getFoto(), foto);
+        assertNull(dto.getVergelijking());
+        assertFalse(dto.isBeslissingsKnoop());
+        assertTrue(dto.isResultaatBlad());
     }
 }

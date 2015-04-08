@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domein;
 
 import dto.DeterminatieKnoopDto;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Jasper De Vrient
- */
 public class DeterminatieTabelTest {
 
     /**
@@ -68,12 +59,26 @@ public class DeterminatieTabelTest {
 
     @Test
     public void omzettenBeginKnoopResetDeBoom() {
-        fail("Test niet af.");
+        DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
+        dto.setId(1);
+        dto.setResultaatKnoop(true);
+        
+        BeslissingsKnoop knoop = new BeslissingsKnoop(1);
+        knoop.setJuistKnoop(new BeslissingsKnoop(2));
+        knoop.setFoutKnoop(new BeslissingsKnoop(3));
+        
+        DeterminatieTabel tabel = new DeterminatieTabel();
+        tabel.setBeginKnoop(knoop);
+        tabel.wijzigKnoop(dto);
+        assertTrue(tabel.getBeginKnoop() instanceof BeslissingsKnoop);
+        BeslissingsKnoop beginKnoop = (BeslissingsKnoop) tabel.getBeginKnoop();
+        assertTrue(beginKnoop.getJuistKnoop() instanceof ResultaatBlad);
+        assertTrue(beginKnoop.getFoutKnoop() instanceof ResultaatBlad);
     }
 
     @Test
     public void wijzigResultaatBladWerkt() {
-        fail("Test niet af.");
+        //zie DeterminatieKnoopTest
     }
 
     /**
@@ -103,12 +108,13 @@ public class DeterminatieTabelTest {
 
     @Test
     public void wijzigBeslissingsKnoopWerkt() {
-        fail("Test niet af.");
+        //zie DeterminatieKnoopTest
     }
 
-    @Test
-    public void validerenVanFoutieveGegevensGooitException() {
-        fail("Test niet af.");
+    @Test(expected = IllegalArgumentException.class)
+    public void validerenVanFoutieveGegevensGooitException() { //eigenlijk ontbrekende gegevens, niet foutieve? 
+        DeterminatieTabel tabel = new DeterminatieTabel();
+        tabel.valideer();
     }
 
     /**

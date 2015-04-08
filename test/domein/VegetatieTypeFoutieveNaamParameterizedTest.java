@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domein;
 
 import java.util.Arrays;
@@ -12,25 +7,32 @@ import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-/**
- *
- * @author Jasper De Vrient
- */
 @RunWith(Parameterized.class)
 public class VegetatieTypeFoutieveNaamParameterizedTest {
     
-     @Parameterized.Parameters
-    public static Collection<Object[]> getTestParameters() {
-        return Arrays.asList(new Object[]{"#Continent1","numerieke waarden en ongeldige tekens"}, new Object[]{"Zuid_America", "Ongeldige tekens"}, new Object[]{"","lege string"}, new Object[]{null,"null"}, new Object[] {"         ","lege string"}, new Object[] {"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","meer dan 40 chars"});
+    private String waarde;
+    private String reden;
+
+    public VegetatieTypeFoutieveNaamParameterizedTest(String waarde, String reden) {
+        this.waarde = waarde;
+        this.reden = reden;
     }
     
-    @Test
-    public void setNaamMetOngeldigeWaardeGooitExecption() {
-        fail("Test niet af.");
+    @Parameterized.Parameters
+    public static Collection<Object[]> getTestParameters() {
+        return Arrays.asList(new Object[]{"#Continent","ongeldige tekens"}, new Object[]{"","lege string"}, new Object[]{null,"null"}, new Object[] {"         ","lege string"});
     }
-    @Test()
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void setNaamMetOngeldigeWaardeGooitExecption() {
+        VegetatieType veggie = new VegetatieType();
+        veggie.setNaam(waarde);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
     public void setFotoMetOngeldigeWaardeGooitExecption() {
-        fail("Test niet af.");
+        VegetatieType veggie = new VegetatieType();
+        veggie.setFoto(waarde);
     }
     
 }

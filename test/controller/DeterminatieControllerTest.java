@@ -1,18 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
+import domein.*;
+import dto.*;
+import java.util.Iterator;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import persistentie.GenericDaoJpa;
 
-/**
- *
- * @author Jasper De Vrient
- */
 public class DeterminatieControllerTest {
 
     private DeterminatieController controller;
@@ -22,7 +17,7 @@ public class DeterminatieControllerTest {
       controller = new DeterminatieController();
     
     }
-
+    
     @Test
     public void getGradenWerkt() {
         fail("Test niet af.");
@@ -35,13 +30,30 @@ public class DeterminatieControllerTest {
 
     @Test
     public void geefDeterminatieTabellenWerkt() {
-        fail("Test niet af.");
+        String naam = "TestNaam";
+        DeterminatieTabel tabel = new DeterminatieTabel();
+        tabel.setNaam(naam);
+        GenericDaoJpa<DeterminatieTabel, String> jpa = new GenericDaoJpa(DeterminatieTabel.class);
+        jpa.insert(tabel);
+        controller.setDeterminatieTabelRepository(jpa);
+        Iterator<DeterminatieTabelDto> i = controller.getDeterminatieTabellen().iterator();
+        assertTrue(i.hasNext());
+        assertTrue(i.next().getNaam().equals(naam));
     }
 
     @Test
     public void maakNieuweDeterminatieTabelWerkt() {
-        fail("Test niet af.");
-
+        controller.maakNieuweDeterminatieTabel();
+        DeterminatieTabel tabel = controller.getGeselecteerdeDeterminatieTabel();
+        assertNotNull(tabel);
+        DeterminatieKnoop beginKnoop = tabel.getBeginKnoop();
+        assertNotNull(beginKnoop);
+        DeterminatieKnoop juistBlad = ((BeslissingsKnoop) beginKnoop).getJuistKnoop();
+        assertNotNull(juistBlad);
+        assertTrue(juistBlad instanceof ResultaatBlad);
+        DeterminatieKnoop foutBlad = ((BeslissingsKnoop) beginKnoop).getFoutKnoop();
+        assertNotNull(foutBlad);
+        assertTrue(foutBlad instanceof ResultaatBlad);
     }
 
     @Test
@@ -64,14 +76,14 @@ public class DeterminatieControllerTest {
         fail("Test niet af.");
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void koppelenVanNietBestaandeGraadGooitExecption() {
-        fail("Test niet af.");
+        controller.koppelGraadMetDeterminatieTabel(new GraadDto(), new DeterminatieTabelDto());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void wijzigKnoopAanroepenAlsErGeenDeterminatieTabelIsGeselecteerdGooitExecption() {
-        fail("Testnaam te lang.");
+        controller.wijzigKnoop(new DeterminatieKnoopDto());
     }
    
 
