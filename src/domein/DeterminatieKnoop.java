@@ -10,6 +10,15 @@ public abstract class DeterminatieKnoop {
         return id;
     }
 
+    public DeterminatieKnoop() {
+    }
+
+    public DeterminatieKnoop(int id) {
+        this.id = id;
+    }
+
+    
+    
     // Omzetten naar dto.
     public abstract DeterminatieKnoopDto maakDtoAan();
 

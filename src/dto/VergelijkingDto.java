@@ -6,7 +6,7 @@ import domein.VergelijkingsOperator;
  *
  * @author Jasper De Vrient
  */
-class VergelijkingDto {
+public class VergelijkingDto {
     private ParameterDto links;
     private VergelijkingsOperator operator;
     private ParameterDto rechts;

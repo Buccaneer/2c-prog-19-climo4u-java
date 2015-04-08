@@ -8,26 +8,37 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
     private DeterminatieKnoop foutKnoop;
     private Vergelijking vergelijking;
 
+    public BeslissingsKnoop() {
+        juistKnoop = new ResultaatBlad();
+        foutKnoop = new ResultaatBlad();
+    }
+
+    public BeslissingsKnoop(int id) {
+
+        super(id);
+        juistKnoop = new ResultaatBlad();
+        foutKnoop = new ResultaatBlad();
+    }
+    
+    
+
     @Override
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
-        if (knoop.getId() == getId()) {
+        if (knoop.getId() == getId())
             wijzigAttributen(knoop);
-        } else {
+        else {
             int juistOmzetten = moetOmzetten(juistKnoop, knoop);
             int foutOmzetten = moetOmzetten(foutKnoop, knoop);
-            if (juistOmzetten != 0) {
-                if (juistOmzetten == -1) {
+            if (juistOmzetten != 0)
+                if (juistOmzetten == -1)
                     juistKnoop = new BeslissingsKnoop();
-                } else {
+                else
                     juistKnoop = new ResultaatBlad();
-                }
-            } else if (foutOmzetten != 0) {
-                if (foutOmzetten == - 1) {
+            else if (foutOmzetten != 0)
+                if (foutOmzetten == - 1)
                     foutKnoop = new BeslissingsKnoop();
-                } else {
+                else
                     foutKnoop = new ResultaatBlad();
-                }
-            }
             if (juistOmzetten == foutOmzetten && juistOmzetten == 0) {
                 juistKnoop.wijzigKnoop(knoop);
                 foutKnoop.wijzigKnoop(knoop);
@@ -41,7 +52,7 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
      * @param knoop
      */
     private void wijzigAttributen(DeterminatieKnoopDto knoop) {
-        
+
     }
 
     @Override
@@ -70,13 +81,11 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
      */
     public int moetOmzetten(DeterminatieKnoop kind, DeterminatieKnoopDto knoop) {
         if (kind.getId() == knoop.getId()) {
-            if (knoop.isResultaatBlad() && kind instanceof BeslissingsKnoop) {
+            if (knoop.isResultaatBlad() && kind instanceof BeslissingsKnoop)
                 return 1;
-            }
 
-            if (knoop.isBeslissingsKnoop() && kind instanceof ResultaatBlad) {
+            if (knoop.isBeslissingsKnoop() && kind instanceof ResultaatBlad)
                 return -1;
-            }
 
             return 0;
         }

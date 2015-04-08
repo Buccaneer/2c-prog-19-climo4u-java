@@ -4,7 +4,7 @@ package dto;
  *
  * @author Jasper De Vrient
  */
-class ParameterDto {
+public class ParameterDto {
     private String naam;
     private double waarde;
 
@@ -21,6 +21,18 @@ class ParameterDto {
     }
 
     public void setWaarde(double waarde) {
+        this.waarde = waarde;
+    }
+
+    public ParameterDto() {
+    }
+
+    public ParameterDto(String naam) {
+        this.naam = naam;
+    }
+
+    public ParameterDto(String naam, double waarde) {
+        this.naam = naam;
         this.waarde = waarde;
     }
     

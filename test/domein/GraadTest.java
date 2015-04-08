@@ -13,14 +13,24 @@ import static org.junit.Assert.*;
  * @author Jasper De Vrient
  */
 public class GraadTest {
-    
+
+    /**
+     * @author Jasper De Vrient
+     */
     @Test
     public void koppelenVanGraadEnDeterminatieTabelWerkt() {
-        fail("Test niet af.");
+        Graad g = new Graad();
+
+        g.setActieveTabel(new DeterminatieTabel());
     }
 
-    @Test
+    /**
+     * @author Jasper De Vrient
+     */
+    @Test(expected = IllegalArgumentException.class)
     public void koppelenVanBezetteGraadEnDeterminatieTabelGeeftException() {
-        fail("Test niet af.");
+        Graad g = new Graad();
+        g.setActieveTabel(new DeterminatieTabel());
+        g.setActieveTabel(new DeterminatieTabel());
     }
 }
