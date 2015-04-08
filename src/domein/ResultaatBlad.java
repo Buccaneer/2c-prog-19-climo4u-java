@@ -16,6 +16,15 @@ public class ResultaatBlad extends DeterminatieKnoop {
         this.klimaatType = klimaatType;
     }
 
+    public ResultaatBlad() {
+    }
+
+    public ResultaatBlad(int id) {
+        super(id);
+    }
+     
+     
+
     @Override
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
         if (knoop.getId() == getId()) {

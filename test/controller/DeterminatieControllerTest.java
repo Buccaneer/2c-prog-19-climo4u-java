@@ -19,7 +19,8 @@ public class DeterminatieControllerTest {
 
     @Before
     public void bereidVoor() {
-        fail("Test niet af.");
+      controller = new DeterminatieController();
+    
     }
 
     @Test

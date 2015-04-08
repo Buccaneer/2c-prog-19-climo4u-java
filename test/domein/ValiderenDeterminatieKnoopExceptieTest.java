@@ -18,20 +18,26 @@ import org.junit.runners.Parameterized;
  */
 @RunWith(Parameterized.class)
 public class ValiderenDeterminatieKnoopExceptieTest {
-    
-     @Parameterized.Parameters
-    public static Collection<Object[]> getTestParameters() {
-        return Arrays.asList(new Object[]{"#Continent1","numerieke waarden en ongeldige tekens"}, new Object[]{"Zuid_America", "Ongeldige tekens"}, new Object[]{"","lege string"}, new Object[]{null,"null"}, new Object[] {"         ","lege string"}, new Object[] {"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","meer dan 40 chars"});
+
+    private String naam;
+    private String reden;
+
+    public ValiderenDeterminatieKnoopExceptieTest(String naam, String reden) {
+        this.naam = naam;
+        this.reden = reden;
     }
 
-    
-       
-  @Test
-    public void foutiefKlimaatTypeGooitExecption() {
-        fail("Test niet af.");
+    @Parameterized.Parameters
+    public static Collection<Object[]> getTestParameters() {
+        return Arrays.asList(new Object[]{"#Continent1", "numerieke waarden en ongeldige tekens"}, new Object[]{"Zuid_America", "Ongeldige tekens"}, new Object[]{"        ", "lege string"}, new Object[]{"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "meer dan 40 chars"}, new Object[]{"", "lege string"}, new Object[]{null, "null"});
     }
-    
-        
-  
-    
+
+    @Test(expected = IllegalArgumentException.class)
+    public void foutiefKlimaatTypeGooitExecption() {
+        ResultaatBlad b = new ResultaatBlad();
+        b.setKlimaatType(naam);
+
+        b.valideer();
+    }
+
 }

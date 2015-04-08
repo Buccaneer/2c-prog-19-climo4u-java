@@ -17,6 +17,8 @@ public class DeterminatieController implements Subject {
     private GenericDao<DeterminatieKnoop, String> determinatieKnoopRepository = new GenericDaoJpa<>(DeterminatieKnoop.class);
     private GenericDao<Graad, String> graadRepository = new GenericDaoJpa<>(Graad.class);
     private List<Observer> observers = new ArrayList<>();
+    
+    
 
     public ObservableList<GraadDto> getGraden() {
         //TODO: graaddto nog niet gemaakt?
