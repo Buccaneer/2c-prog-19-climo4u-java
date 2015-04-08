@@ -1,10 +1,23 @@
 package domein;
 
 import dto.DeterminatieKnoopDto;
-import java.io.Serializable;
+import java.util.Random;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
-public abstract class DeterminatieKnoop implements Serializable{
-
+@Entity
+@Table(name = "determinatieknopen")
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class DeterminatieKnoop {
+    @Id
+    @Column(name = "DeterminatieKnoopId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     public int getId() {
@@ -12,6 +25,7 @@ public abstract class DeterminatieKnoop implements Serializable{
     }
 
     public DeterminatieKnoop() {
+        id = new Random().nextInt();
     }
 
     public DeterminatieKnoop(int id) {

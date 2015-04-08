@@ -1,9 +1,18 @@
 package domein;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="vegetatieType")
 public class VegetatieType {
 
     private String foto;
     private String naam;
+    @Id
+    @Column(name="VegetatieTypeId")
     private int id;
 
     public int getId() {

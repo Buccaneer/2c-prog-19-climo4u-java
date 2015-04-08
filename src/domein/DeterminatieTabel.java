@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "determinatietabellen")
-public class DeterminatieTabel implements Serializable{
+public class DeterminatieTabel{
     
     @Column(name="BeginKnoop_DeterminatieKnoopId")
     private DeterminatieKnoop beginKnoop;

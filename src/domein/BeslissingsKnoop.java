@@ -5,28 +5,30 @@ import dto.ParameterDto;
 import dto.VergelijkingDto;
 import javax.persistence.Entity;
 
+@Entity
 public class BeslissingsKnoop extends DeterminatieKnoop {
-
+    
     private DeterminatieKnoop juistKnoop;
     private DeterminatieKnoop foutKnoop;
     private Vergelijking vergelijking;
 
     public BeslissingsKnoop() {
-
+super();
         juistKnoop = new ResultaatBlad();
         foutKnoop = new ResultaatBlad();
+        vergelijking=new Vergelijking();
     }
 
     public BeslissingsKnoop(int id) {
-
         super(id);
         juistKnoop = new ResultaatBlad();
         foutKnoop = new ResultaatBlad();
+        vergelijking = new Vergelijking();
     }
-    
    
     @Override
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
+        try {
         if (knoop.getId() == getId())
             wijzigAttributen(knoop);
         else {
@@ -46,8 +48,11 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
                 juistKnoop.wijzigKnoop(knoop);
                 foutKnoop.wijzigKnoop(knoop);
             }
-        } // Todo: nested exceptions...
-    }
+        } 
+        } catch (IllegalArgumentException iae) {
+// Todo: nested exceptions...
+            throw new IllegalArgumentException(iae);
+    }}
 
     /**
      * Wijzig de attributen van deze knoop.
@@ -55,7 +60,6 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
      * @param knoop
      */
     private void wijzigAttributen(DeterminatieKnoopDto knoop) {
-        Vergelijking vergelijking = new Vergelijking();
         VergelijkingDto vergelijkingDto = knoop.getVergelijking();
         vergelijking.setOperator(vergelijkingDto.getOperator());
         boolean linksGevonden = false;
@@ -76,7 +80,7 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
         if (!rechtsGevonden) {
             vergelijking.setRechterParameter(ParameterFactory.maakConstanteParameter(knoop.getVergelijking().getRechts().getWaarde()));
         }
-        this.vergelijking = vergelijking;
+      
     }
 
     @Override
@@ -84,7 +88,7 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
         DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
         dto.setId(getId());
         dto.setVergelijking(new VergelijkingDto(new ParameterDto(vergelijking.getLinkerParameter().getNaam(), vergelijking.getLinkerParameter().getWaarde()), vergelijking.getOperator(), new ParameterDto(vergelijking.getRechterParameter().getNaam(), vergelijking.getRechterParameter().getWaarde())));
-        dto.setBeslissingsKnoop(false);
+        dto.toBeslissingsKnoop();
         
         DeterminatieKnoopDto ja = juistKnoop.maakDtoAan();
         DeterminatieKnoopDto nee = foutKnoop.maakDtoAan();

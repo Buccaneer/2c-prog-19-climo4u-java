@@ -12,6 +12,7 @@ public class VergelijkingDto {
     private ParameterDto rechts;
 
     public VergelijkingDto() {
+        
     }
 
     public VergelijkingDto(ParameterDto links, VergelijkingsOperator operator, ParameterDto rechts) {

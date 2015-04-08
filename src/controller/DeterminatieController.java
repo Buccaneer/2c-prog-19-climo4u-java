@@ -37,7 +37,7 @@ public class DeterminatieController implements Subject {
 //    }
     public ObservableList<DeterminatieTabelDto> getDeterminatieTabellen() {
         List<DeterminatieTabel> tabellen = determinatieTabelRepository.getAll();
-        tabellen.forEach(tabel -> determinatietabellen.add(new DeterminatieTabelDto(tabel.getId(), tabel.getNaam(), tabel.maakDtoAan())));
+        tabellen.forEach(tabel -> determinatietabellen.add(new DeterminatieTabelDto(tabel.getId(), tabel.getNaam())));
         return determinatietabellen;
     }
 
@@ -54,6 +54,11 @@ public class DeterminatieController implements Subject {
         notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
     }
 
+    public void setNaamDeterminatieTabel(String naam) {
+        geselecteerdeDeterminatieTabel.setNaam(naam);
+        notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
+    }
+    
     /**
      *
      * @param tabel

@@ -2,9 +2,12 @@ package domein;
 
 import dto.DeterminatieKnoopDto;
 import dto.VegetatieTypeDto;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
+@Entity
 public class ResultaatBlad extends DeterminatieKnoop {
-
+    @OneToOne(mappedBy = "VegetatieTypeId")
     private VegetatieType vegetatieType;
     private String klimaatType;
 
@@ -17,10 +20,13 @@ public class ResultaatBlad extends DeterminatieKnoop {
     }
 
     public ResultaatBlad() {
+        super();
+        vegetatieType = new VegetatieType();
     }
 
     public ResultaatBlad(int id) {
         super(id);
+        vegetatieType = new VegetatieType();
     }
      
      

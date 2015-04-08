@@ -6,6 +6,7 @@
 package domein;
 
 import dto.*;
+import jdk.nashorn.internal.runtime.regexp.joni.ast.ConsAltNode;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -49,7 +50,7 @@ public class DeterminatieKnoopTest {
         BeslissingsKnoop k1 = new BeslissingsKnoop();
         k.setJuistKnoop(k1);
         
-        DeterminatieKnoopDto dto = k.maakDtoAan();
+        DeterminatieKnoopDto dto = k1.maakDtoAan();
         
         dto.toResultaatBlad();
         
@@ -59,7 +60,7 @@ public class DeterminatieKnoopTest {
     }
 
     /**
-     * Kijkt of het wijzigen van de attriuben werkt. (via Dto).
+     * Kijkt of het wijzigen van de attributen werkt. (via Dto).
      *
      * @author Jasper De Vrient
      */
@@ -117,12 +118,16 @@ public class DeterminatieKnoopTest {
         vd.setLinks(new ParameterDto(LINKS.getNaam(), LINKS.getWaarde()));
         vd.setRechts(new ParameterDto(RECHTS.getNaam(), RECHTS.getWaarde()));
         vd.setOperator(OPERATOR);
+        wijzigingen.setVergelijking(vd);
 
-        knoop.wijzigKnoop(null);
+        knoop.wijzigKnoop(wijzigingen);
 
-        assertEquals(LINKS.getNaam(), v.getLinkerParameter().getNaam());
+        ConstanteParameter clp = (ConstanteParameter) v.getLinkerParameter();
+        ConstanteParameter crp = (ConstanteParameter) v.getRechterParameter();
+
+        assertEquals(LINKS.getWaarde(), clp.getWaarde(), 2);
         assertSame(OPERATOR, v.getOperator());
-        assertEquals(RECHTS.getNaam(), v.getRechterParameter().getNaam());
+        assertEquals(RECHTS.getWaarde(), crp.getWaarde(), 2);
     }
 
     @Test
