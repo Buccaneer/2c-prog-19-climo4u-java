@@ -10,6 +10,7 @@ package dto;
  * @author Gebruiker
  */
 public class DeterminatieTabelDto {
+
     private int id;
     private String naam;
     private DeterminatieKnoopDto beginknoop;
@@ -17,12 +18,17 @@ public class DeterminatieTabelDto {
     public DeterminatieTabelDto() {
     }
 
+    public DeterminatieTabelDto(int id, String naam) {
+        this.id = id;
+        this.naam = naam;
+    }
+
     public DeterminatieTabelDto(int id, String naam, DeterminatieKnoopDto beginknoop) {
         this.id = id;
         this.naam = naam;
         this.beginknoop = beginknoop;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -45,5 +51,5 @@ public class DeterminatieTabelDto {
 
     public void setBeginknoop(DeterminatieKnoopDto beginknoop) {
         this.beginknoop = beginknoop;
-    }    
+    }
 }

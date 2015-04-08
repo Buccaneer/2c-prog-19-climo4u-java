@@ -128,7 +128,7 @@ public class Klimatogram implements Cloneable {
         if (station != null) {
             station = station.trim();
             if (station.isEmpty()) {
-                this.station = null;
+                this.station = "";
             }
             if (station.length() > 5) {
                 throw new IllegalArgumentException("Het station van een klimatogram mag maximaal 5 tekens bevatten.");
@@ -136,6 +136,7 @@ public class Klimatogram implements Cloneable {
             if (Pattern.compile(".*[^0-9].*").matcher(station).matches()) {
                 throw new IllegalArgumentException("Een station mag enkel cijfers bevatten.");
             }
+            this.station=station;
         }
         else{
             this.station = "";

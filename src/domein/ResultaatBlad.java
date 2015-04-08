@@ -1,9 +1,13 @@
 package domein;
 
 import dto.DeterminatieKnoopDto;
+import dto.VegetatieTypeDto;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
+@Entity
 public class ResultaatBlad extends DeterminatieKnoop {
-
+    @OneToOne(mappedBy = "VegetatieTypeId")
     private VegetatieType vegetatieType;
     private String klimaatType;
 
@@ -11,59 +15,60 @@ public class ResultaatBlad extends DeterminatieKnoop {
         return this.klimaatType;
     }
 
-     void setKlimaatType(String klimaatType) {
+    void setKlimaatType(String klimaatType) {
         this.klimaatType = klimaatType;
     }
 
     public ResultaatBlad() {
+        super();
+        vegetatieType = new VegetatieType();
     }
 
     public ResultaatBlad(int id) {
         super(id);
+        vegetatieType = new VegetatieType();
     }
      
      
 
     @Override
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
-       if (knoop.getId() == getId()) {
-          
-           // Wijzig mijn knoop (attributen).
-       }
+        if (knoop.getId() == getId()) {
+            setKlimaatType(knoop.getKlimaattype());
+            vegetatieType.setFoto(knoop.getVegetatieType().getFoto());
+            vegetatieType.setNaam(knoop.getVegetatieType().getNaam());
+        }
     }
 
     @Override
     public DeterminatieKnoopDto maakDtoAan() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
+        VegetatieTypeDto vegetatieType = new VegetatieTypeDto();
+        vegetatieType.setId(this.vegetatieType.getId());
+        vegetatieType.setFoto(this.vegetatieType.getFoto());
+        vegetatieType.setNaam(this.vegetatieType.getNaam());
+        dto.setId(getId());
+        dto.setVegetatieType(vegetatieType);
+        dto.setKlimaattype(klimaatType);
+        return dto;
     }
-    
-    
 
     public VegetatieType getVegetatieType() {
         return vegetatieType;
     }
 
-     void setVegetatieType(VegetatieType vegetatieType) {
+    void setVegetatieType(VegetatieType vegetatieType) {
         this.vegetatieType = vegetatieType;
-    }
-    
-    
-
-    @Override
-    public void setLinkerKnoop(DeterminatieKnoop knoop) {
-    }
-
-    @Override
-    public void setRechterKnoop(DeterminatieKnoop knoop) {
     }
 
     /**
      * Valideert of deze knoop in orde is. Zijn er null velden die niet mogen?
      */
     @Override
-    public void valideer()
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void valideer() {
+        if (this == null || vegetatieType == null || vegetatieType.getFoto() == null || vegetatieType.getFoto().isEmpty() || vegetatieType.getNaam().isEmpty() || vegetatieType.getNaam() == null || klimaatType == null || klimaatType.isEmpty()) {
+            throw new IllegalArgumentException("Knoop " + getId() + " moet correct ingevuld zijn");
+        }
     }
-    
+
 }

@@ -1,12 +1,31 @@
 package domein;
 
-public class Vergelijking {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "vergelijkingen")
+public class Vergelijking {
+    @OneToOne(mappedBy="ParameterId")
     private Parameter rechterParameter;
+    @OneToOne(mappedBy="ParameterId")
     private Parameter linkerParameter;
     private VergelijkingsOperator operator;
+    @Id
+    @Column(name = "VergelijkingId")
     private int id;
 
+    public Vergelijking() {
+        rechterParameter = ParameterFactory.maakConstanteParameter(0.0);
+        linkerParameter = ParameterFactory.maakConstanteParameter(0.0);
+        operator=VergelijkingsOperator.GELIJKAAN;
+    }
+
+    
+    
     public int getId() {
         return this.id;
     }
@@ -34,5 +53,4 @@ public class Vergelijking {
     public void setOperator(VergelijkingsOperator operator) {
         this.operator = operator;
     }
-
 }

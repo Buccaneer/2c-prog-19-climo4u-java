@@ -234,7 +234,6 @@ public class KlimatogramController implements Subject {
         } else {
             geselecteerdLand.voegKlimatogramToe(klim);
             continentenRepository.update(geselecteerdContinent);
-            geselecteerdKlimatogram = klim;
             locaties.clear();
             geselecteerdLand.getKlimatogrammen().forEach(k -> locaties.add(new KlimatogramDto(k.getLocatie())));
             geselecteerdKlimatogram = null;

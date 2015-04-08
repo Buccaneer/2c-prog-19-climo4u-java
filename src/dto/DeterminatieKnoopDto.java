@@ -44,8 +44,8 @@ public class DeterminatieKnoopDto {
         return blad == false;
     }
 
-    public void setResultaatKnoop(boolean resultaatKnoop) {
-        this.blad = resultaatKnoop;
+    public void setBeslissingsKnoop(boolean beslissingsKnoop) {
+        this.blad = beslissingsKnoop;
     }
 
     public DeterminatieKnoopDto getJa() {

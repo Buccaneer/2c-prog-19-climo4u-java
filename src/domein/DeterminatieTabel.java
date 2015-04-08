@@ -1,13 +1,28 @@
 package domein;
 
 import dto.*;
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 
-public class DeterminatieTabel {
-
+@Entity
+@Table(name = "determinatietabellen")
+public class DeterminatieTabel{
+    
+    @Column(name="BeginKnoop_DeterminatieKnoopId")
     private DeterminatieKnoop beginKnoop;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="DeterminatieTabelId")
     private int id;
+    @Column(length = 128)
     private String naam;
-
+    
     public String getNaam() {
         return this.naam;
     }
@@ -19,7 +34,7 @@ public class DeterminatieTabel {
     public int getId() {
         return id;
     }
-
+    
     public void setBeginKnoop(DeterminatieKnoop beginKnoop) {
         this.beginKnoop = beginKnoop;
     }
@@ -29,7 +44,7 @@ public class DeterminatieTabel {
     }
     
     public DeterminatieKnoopDto maakDtoAan() {
-        throw new UnsupportedOperationException();
+        return beginKnoop.maakDtoAan();
     }
 
     /**
@@ -71,7 +86,7 @@ public class DeterminatieTabel {
 
         if (beginKnoop.getId() == knoop.getId() && knoop.isResultaatBlad()) // Boom met 'gereset' worden?
             beginKnoop = new BeslissingsKnoop();
-
+        
         beginKnoop.wijzigKnoop(knoop);
     }
 
@@ -82,8 +97,8 @@ public class DeterminatieTabel {
      * Valideert of de determinatietabel in orde is. Indien dit niet het geval
      * is wordt er een exception gegooid.
      */
-    public void valideer() {
-        throw new UnsupportedOperationException();
+    public void valideer()throws IllegalArgumentException{
+        beginKnoop.valideer();
     }
 
 }

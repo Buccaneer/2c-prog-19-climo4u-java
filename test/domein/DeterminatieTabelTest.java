@@ -50,6 +50,8 @@ public class DeterminatieTabelTest {
         DeterminatieKnoopDto dto = r.maakDtoAan();
         dto.toResultaatBlad();
 
+        t.wijzigKnoop(dto);
+
         assertNotSame(r, knoop.getJuistKnoop());
 
         // Indien ik kan casten zonder exception test gelukt.

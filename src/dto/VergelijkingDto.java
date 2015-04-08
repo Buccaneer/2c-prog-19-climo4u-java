@@ -11,6 +11,16 @@ public class VergelijkingDto {
     private VergelijkingsOperator operator;
     private ParameterDto rechts;
 
+    public VergelijkingDto() {
+        
+    }
+
+    public VergelijkingDto(ParameterDto links, VergelijkingsOperator operator, ParameterDto rechts) {
+        this.links = links;
+        this.operator = operator;
+        this.rechts = rechts;
+    }
+    
     public ParameterDto getLinks() {
         return links;
     }
