@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "determinatieknopen")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class DeterminatieKnoop {
+public abstract class DeterminatieKnoop implements Valideerbaar {
     @Id
     @Column(name = "DeterminatieKnoopId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +44,4 @@ public abstract class DeterminatieKnoop {
      */
     public abstract void wijzigKnoop(DeterminatieKnoopDto knoop);
 
-    /**
-     * Valideert of deze knoop en al zijn kinderen in orde zijn.
-     */
-    public abstract void valideer();
 }

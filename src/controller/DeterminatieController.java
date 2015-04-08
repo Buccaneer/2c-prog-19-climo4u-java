@@ -211,5 +211,16 @@ public class DeterminatieController implements Subject {
     public void addObserver(Observer observer) {
         observers.add(observer);
     }
+    
+    // --- Methodes voor de testen ---
+    protected void setDeterminatieTabelRepository(GenericDao<DeterminatieTabel, String> determinatieTabelRepository)
+    {
+        this.determinatieTabelRepository = determinatieTabelRepository;
+    }
+    
+    protected DeterminatieTabel getGeselecteerdeDeterminatieTabel()
+    {
+        return geselecteerdeDeterminatieTabel;
+    }
 
 }

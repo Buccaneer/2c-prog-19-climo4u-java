@@ -1,12 +1,11 @@
 package domein;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class VergelijkingTest
 {
 
-    @Test
+    @Test(expected = DomeinException.class)
     public void linkerParameterIsNullGooitExecption()
     {
         Vergelijking eq = new Vergelijking();
@@ -16,7 +15,7 @@ public class VergelijkingTest
         eq.valideer();
     }
 
-    @Test
+    @Test(expected = DomeinException.class)
     public void rechterParameterIsNullGooitException()
     {
         Vergelijking eq = new Vergelijking();
@@ -26,7 +25,7 @@ public class VergelijkingTest
         eq.valideer();
     }
     
-    @Test
+    @Test(expected = DomeinException.class)
     public void vergelijkingsOperatorIsNullGooitException()
     {
         Vergelijking eq = new Vergelijking();

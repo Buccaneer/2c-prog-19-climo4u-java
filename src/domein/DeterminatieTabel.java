@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "determinatietabellen")
-public class DeterminatieTabel{
+public class DeterminatieTabel implements Valideerbaar {
     
     @Column(name="BeginKnoop_DeterminatieKnoopId")
     private DeterminatieKnoop beginKnoop;
@@ -97,7 +97,10 @@ public class DeterminatieTabel{
      * Valideert of de determinatietabel in orde is. Indien dit niet het geval
      * is wordt er een exception gegooid.
      */
+    @Override
     public void valideer()throws IllegalArgumentException{
+        if (this.naam == null)
+            throw new DomeinException();
         beginKnoop.valideer();
     }
 

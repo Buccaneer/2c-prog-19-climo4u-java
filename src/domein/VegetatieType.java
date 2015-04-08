@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="vegetatieType")
-public class VegetatieType {
+public class VegetatieType implements Valideerbaar {
 
     private String foto;
     private String naam;
@@ -32,5 +32,12 @@ public class VegetatieType {
 
     public void setNaam(String naam) {
         this.naam = naam;
+    }
+
+    @Override
+    public void valideer()
+    {
+        if (foto == null || naam == null)
+            throw new DomeinException();
     }
 }

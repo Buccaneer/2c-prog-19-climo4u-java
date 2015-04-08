@@ -1,6 +1,7 @@
 package domein;
 
 import dto.DeterminatieKnoopDto;
+import dto.VergelijkingDto;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -60,10 +61,10 @@ public class DeterminatieTabelTest {
     }
 
     @Test
-    public void omzettenBeginKnoopResetDeBoom() {
+    public void omzettenBeginKnoopResetDeBoom() {        
         DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
         dto.setId(1);
-        dto.setResultaatKnoop(true);
+        dto.setBeslissingsKnoop(false);
         
         BeslissingsKnoop knoop = new BeslissingsKnoop(1);
         knoop.setJuistKnoop(new BeslissingsKnoop(2));
@@ -113,7 +114,7 @@ public class DeterminatieTabelTest {
         //zie DeterminatieKnoopTest
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DomeinException.class)
     public void validerenVanFoutieveGegevensGooitException() { //eigenlijk ontbrekende gegevens, niet foutieve? 
         DeterminatieTabel tabel = new DeterminatieTabel();
         tabel.valideer();
@@ -149,6 +150,7 @@ public class DeterminatieTabelTest {
         rechts.setVegetatieType(veg);
 
         DeterminatieTabel t = new DeterminatieTabel();
+        t.setNaam("Naam");
         t.setBeginKnoop(knoop);
 
         t.valideer();

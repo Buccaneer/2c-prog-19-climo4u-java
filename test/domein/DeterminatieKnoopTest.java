@@ -28,7 +28,7 @@ public class DeterminatieKnoopTest {
     public void omzettenBeslissingsKnoopInResultaatBladWerkt() {
         DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
         dto.setId(2);
-        dto.setResultaatKnoop(true);
+        dto.setBeslissingsKnoop(false);
      
         BeslissingsKnoop juistKnoop = new BeslissingsKnoop(2);
         ResultaatBlad foutBlad = new ResultaatBlad(3);
@@ -136,7 +136,7 @@ public class DeterminatieKnoopTest {
     public void omzettenResultaatBladInBeslissingsKnoopWerkt() {
         DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
         dto.setId(2);
-        dto.setResultaatKnoop(false);
+        dto.setBeslissingsKnoop(true);
      
         ResultaatBlad juistBlad = new ResultaatBlad(2);
         ResultaatBlad foutBlad = new ResultaatBlad(3);
@@ -163,8 +163,8 @@ public class DeterminatieKnoopTest {
     @Test
     public void validerenVanJuisteGegevensGooitGeenException() {
         Vergelijking eq = new Vergelijking();
-        eq.setLinkerParameter(new Parameter());
-        eq.setRechterParameter(new Parameter());
+        eq.setLinkerParameter(ParameterFactory.maakConstanteParameter(0));
+        eq.setRechterParameter(ParameterFactory.maakConstanteParameter(0));
         eq.setOperator(VergelijkingsOperator.GELIJKAAN);
         
         VegetatieType veggie = new VegetatieType();

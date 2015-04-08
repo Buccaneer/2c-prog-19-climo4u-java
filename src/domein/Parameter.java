@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "parameters")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Parameter {
+public class Parameter implements Valideerbaar {
 
     /**
      * TODO : Overeenkomsten vastleggen tussen parameters in DB en domein.
@@ -40,6 +40,13 @@ public class Parameter {
 
     public void setWaarde(double waarde) {
         this.waarde = waarde;
+    }
+
+    @Override
+    public void valideer()
+    {
+        if (this.naam == null)
+            throw new DomeinException();
     }
 
 }

@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "vergelijkingen")
-public class Vergelijking {
+public class Vergelijking implements Valideerbaar {
     @OneToOne(mappedBy="ParameterId")
     private Parameter rechterParameter;
     @OneToOne(mappedBy="ParameterId")
@@ -52,5 +52,14 @@ public class Vergelijking {
 
     public void setOperator(VergelijkingsOperator operator) {
         this.operator = operator;
+    }
+
+    @Override
+    public void valideer()
+    {
+        rechterParameter.valideer();
+        linkerParameter.valideer();
+        if (operator == null)
+            throw new DomeinException();
     }
 }
