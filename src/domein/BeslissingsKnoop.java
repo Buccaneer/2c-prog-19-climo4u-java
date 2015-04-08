@@ -1,6 +1,9 @@
 package domein;
 
 import dto.DeterminatieKnoopDto;
+import dto.ParameterDto;
+import dto.VergelijkingDto;
+import javax.persistence.Entity;
 
 public class BeslissingsKnoop extends DeterminatieKnoop {
 
@@ -8,6 +11,12 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
     private DeterminatieKnoop foutKnoop;
     private Vergelijking vergelijking;
 
+    public BeslissingsKnoop() {
+        juistKnoop=new ResultaatBlad();
+        foutKnoop=new ResultaatBlad();
+        vergelijking=new Vergelijking();
+    }
+    
     @Override
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
         if (knoop.getId() == getId()) {
@@ -41,22 +50,44 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
      * @param knoop
      */
     private void wijzigAttributen(DeterminatieKnoopDto knoop) {
-        
-    }
-
-    @Override
-    public void setLinkerKnoop(DeterminatieKnoop knoop) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setRechterKnoop(DeterminatieKnoop knoop) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Vergelijking vergelijking = new Vergelijking();
+        VergelijkingDto vergelijkingDto = knoop.getVergelijking();
+        vergelijking.setOperator(vergelijkingDto.getOperator());
+        boolean linksGevonden = false;
+        boolean rechtsGevonden = false;
+        for (Parameter par : ParameterFactory.geefParameters()) {
+            if (par.getNaam().equals(knoop.getVergelijking().getLinks().getNaam())) {
+                linksGevonden = true;
+                vergelijking.setLinkerParameter(par);
+            }
+            if (par.getNaam().equals(knoop.getVergelijking().getRechts().getNaam())) {
+                rechtsGevonden = true;
+                vergelijking.setRechterParameter(par);
+            }
+        }
+        if (!linksGevonden) {
+            vergelijking.setLinkerParameter(ParameterFactory.maakConstanteParameter(knoop.getVergelijking().getLinks().getWaarde()));
+        }
+        if (!rechtsGevonden) {
+            vergelijking.setRechterParameter(ParameterFactory.maakConstanteParameter(knoop.getVergelijking().getRechts().getWaarde()));
+        }
+        this.vergelijking = vergelijking;
     }
 
     @Override
     public DeterminatieKnoopDto maakDtoAan() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
+        dto.setId(getId());
+        dto.setVergelijking(new VergelijkingDto(new ParameterDto(vergelijking.getLinkerParameter().getNaam(), vergelijking.getLinkerParameter().getWaarde()), vergelijking.getOperator(), new ParameterDto(vergelijking.getRechterParameter().getNaam(), vergelijking.getRechterParameter().getWaarde())));
+        dto.setBeslissingsKnoop(false);
+        
+        DeterminatieKnoopDto ja = juistKnoop.maakDtoAan();
+        DeterminatieKnoopDto nee = foutKnoop.maakDtoAan();
+        ja.setOuder(dto);
+        nee.setOuder(dto);
+        dto.setJa(ja);
+        dto.setNee(nee);
+        return dto;
     }
 
     /**
@@ -65,7 +96,7 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
      *
      * @return 3 gevallen: <ul><li>
      * -1: ResultaatBlad --> BeslissingsKnoop
-     * </li></li>0: niet</li>
+     * </li><li>0: niet</li>
      * <li>1: BeslissingsKnoop --> ResultaatBlad</li></ul>
      */
     public int moetOmzetten(DeterminatieKnoop kind, DeterminatieKnoopDto knoop) {
@@ -89,14 +120,18 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
      */
     @Override
     public void valideer() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (this == null || vergelijking == null || vergelijking.getLinkerParameter() == null || vergelijking.getRechterParameter() == null || vergelijking.getLinkerParameter().getNaam() == null || vergelijking.getLinkerParameter().getNaam().isEmpty() || vergelijking.getRechterParameter().getNaam() == null || vergelijking.getRechterParameter().getNaam().isEmpty() || vergelijking.getOperator() == null) {
+            throw new IllegalArgumentException("Knoop " + getId() + " moet correct ingevuld zijn");
+        }
+        juistKnoop.valideer();
+        foutKnoop.valideer();
     }
 
     public DeterminatieKnoop getJuistKnoop() {
         return juistKnoop;
     }
 
-    void setJuistKnoop(DeterminatieKnoop juistKnoop) {
+    public void setJuistKnoop(DeterminatieKnoop juistKnoop) {
         this.juistKnoop = juistKnoop;
     }
 
@@ -104,7 +139,7 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
         return foutKnoop;
     }
 
-    void setFoutKnoop(DeterminatieKnoop foutKnoop) {
+    public void setFoutKnoop(DeterminatieKnoop foutKnoop) {
         this.foutKnoop = foutKnoop;
     }
 
@@ -112,7 +147,7 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
         return vergelijking;
     }
 
-    void setVergelijking(Vergelijking vergelijking) {
+    public void setVergelijking(Vergelijking vergelijking) {
         this.vergelijking = vergelijking;
     }
 

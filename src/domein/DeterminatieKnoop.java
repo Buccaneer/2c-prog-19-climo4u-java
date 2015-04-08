@@ -1,8 +1,9 @@
 package domein;
 
 import dto.DeterminatieKnoopDto;
+import java.io.Serializable;
 
-public abstract class DeterminatieKnoop {
+public abstract class DeterminatieKnoop implements Serializable{
 
     private int id;
 
@@ -12,18 +13,6 @@ public abstract class DeterminatieKnoop {
 
     // Omzetten naar dto.
     public abstract DeterminatieKnoopDto maakDtoAan();
-
-    /**
-     *
-     * @param knoop
-     */
-    public abstract void setLinkerKnoop(DeterminatieKnoop knoop);
-
-    /**
-     *
-     * @param knoop
-     */
-    public abstract void setRechterKnoop(DeterminatieKnoop knoop);
 
     /**
      * Wijzigt de meegegeven knoop.

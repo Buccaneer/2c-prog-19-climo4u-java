@@ -6,11 +6,20 @@ import domein.VergelijkingsOperator;
  *
  * @author Jasper De Vrient
  */
-class VergelijkingDto {
+public class VergelijkingDto {
     private ParameterDto links;
     private VergelijkingsOperator operator;
     private ParameterDto rechts;
 
+    public VergelijkingDto() {
+    }
+
+    public VergelijkingDto(ParameterDto links, VergelijkingsOperator operator, ParameterDto rechts) {
+        this.links = links;
+        this.operator = operator;
+        this.rechts = rechts;
+    }
+    
     public ParameterDto getLinks() {
         return links;
     }

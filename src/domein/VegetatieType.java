@@ -6,6 +6,9 @@ public class VegetatieType {
     private String naam;
     private int id;
 
+    public int getId() {
+        return id;
+    }
     public String getFoto() {
         return this.foto;
     }
@@ -21,7 +24,4 @@ public class VegetatieType {
     public void setNaam(String naam) {
         this.naam = naam;
     }
-    
-    
-
 }

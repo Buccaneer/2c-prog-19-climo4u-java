@@ -17,7 +17,7 @@ public class Graad {
     @Id
     @Column(name= "Jaar")
     private int jaar;
-    
+    @Column(name="DeterminatieTabel_DeterminatieTabelId")
     private DeterminatieTabel actieveTabel;
 
     public DeterminatieTabel getActieveTabel() {
@@ -27,6 +27,7 @@ public class Graad {
     public void setActieveTabel(DeterminatieTabel actieveTabel) {
         this.actieveTabel = actieveTabel;
     }
+    
     public int getNummer() {
         return nummer;
     }
@@ -39,9 +40,6 @@ public class Graad {
     public String toString() {
        return "Graad " + nummer + (jaar != 0 ? " jaar " + jaar : "" );
     }
-    
-    
-
 
     @Override
     public boolean equals(Object obj) {

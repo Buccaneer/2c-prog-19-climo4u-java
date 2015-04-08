@@ -1,7 +1,10 @@
 package domein;
 
-public class ConstanteParameter extends Parameter {
+import javax.persistence.Column;
 
+public class ConstanteParameter extends Parameter {
+        
+        @Column(name = "Waarde")
 	private double waarde;
 
 	public double getWaarde() {

@@ -47,10 +47,9 @@ public class DeterminatieController implements Subject {
      */
     public void maakNieuweDeterminatieTabel() {
         DeterminatieKnoop beginKnoop = new BeslissingsKnoop();
-        beginKnoop.setLinkerKnoop(new ResultaatBlad());
-        beginKnoop.setRechterKnoop(new ResultaatBlad());
         geselecteerdeDeterminatieTabel = new DeterminatieTabel();
         geselecteerdeDeterminatieTabel.setBeginKnoop(beginKnoop);
+        notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
     }
 
     /**
@@ -78,6 +77,7 @@ public class DeterminatieController implements Subject {
             throw new IllegalArgumentException();
         }
         geselecteerdeDeterminatieTabel= determinatieTabelRepository.get(tabel.getNaam());
+        notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
     }
 
     /**
@@ -154,7 +154,8 @@ public class DeterminatieController implements Subject {
      * @param knoop
      */
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
-        
+        geselecteerdeDeterminatieTabel.wijzigKnoop(knoop);
+         notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
     }
 
 //    /**
@@ -184,7 +185,7 @@ public class DeterminatieController implements Subject {
         try{
             geselecteerdeDeterminatieTabel.valideer();
         }
-        catch(Exception e){
+        catch(IllegalArgumentException e){
             throw e;
         }
     }
