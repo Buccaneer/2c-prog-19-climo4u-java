@@ -10,10 +10,26 @@ package domein;
  * @author Gebruiker
  */
 public enum VergelijkingsOperator {
-    KLEINERDAN,
-    GELIJKAAN,
-    KLEINERDANGELIJKAAN,
-    GROTERDAN,
-    GROTERDANGELIJKAAN,
-    NIETGELIJKAAN
+
+    KLEINERDAN("<"),
+    GELIJKAAN("="),
+    KLEINERDANGELIJKAAN("≤"),
+    GROTERDAN(">"),
+    GROTERDANGELIJKAAN("≥"),
+    NIETGELIJKAAN("≠");
+    
+        private String teken;
+
+    private VergelijkingsOperator(String teken) {
+        this.teken = teken;
+    }
+
+    @Override
+    public String toString() {
+        return teken;
+    }
+    
+    
+        
+        
 }
