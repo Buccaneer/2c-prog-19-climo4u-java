@@ -41,11 +41,17 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
     }
 
     @Override
-    public void selectieGewijzigd(DeterminatieKnoopDto knoop) {
+    public void selectieGewijzigd(DeterminatieKnoopDto knoop) { 
        // 1. alle selecties die niet deze knoop zijn worden gedeselecteerd. In nodes.
         // 2. Event werpen
-        
-           listeners.forEach((NodeGeselecteerdListener l) -> l.selectieGewijzigd(knoop));
+        for (NodePanelController n : nodes)
+        {
+            if (!n.getKnoop().equals(knoop))
+                n.deselecteer();
+            else
+                n.selecteer();
+        }
+        listeners.forEach((NodeGeselecteerdListener l) -> l.selectieGewijzigd(knoop));
     }
 
     @Override
@@ -57,9 +63,19 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
     private void herteken() {
         // Fancy stuff voor determinatietabel goed weer te geven.
         ObservableList<Node> controls = content.getChildren();
-        nodes.clear();
         controls.clear();
-     
+        nodes.clear();
+        maakNodePanelControllers(eersteKnoop);
+    }
+    
+    private void maakNodePanelControllers(DeterminatieKnoopDto knoop)
+    {
+        if (knoop != null)
+        {
+            nodes.add(new NodePanelController(knoop));
+            maakNodePanelControllers(knoop.getJa());
+            maakNodePanelControllers(knoop.getNee());
+        } 
     }
     
      
