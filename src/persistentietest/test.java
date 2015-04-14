@@ -52,9 +52,10 @@ public class test extends Application {
         
         root.getChildren().add(pcpc);
         DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
-        dto.toResultaatBlad();
-      //  dto.setVergelijking(new VergelijkingDto(new ParameterDto(), VergelijkingsOperator.GROTERDAN, new ParameterDto()));
-        dto.setVegetatieType(new VegetatieTypeDto());
+        dto.toBeslissingsKnoop();
+       // dto.toResultaatBlad();
+        dto.setVergelijking(new VergelijkingDto(new ParameterDto(), VergelijkingsOperator.GROTERDAN, new ParameterDto()));
+    //    dto.setVegetatieType(new VegetatieTypeDto());
         pcpc.selectieGewijzigd(dto);
         
         Scene scene = new Scene(root, 300, 250);
