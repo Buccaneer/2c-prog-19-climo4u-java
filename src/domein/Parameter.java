@@ -1,6 +1,7 @@
 package domein;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -9,6 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "parameters")
+@DiscriminatorColumn(name="Discriminator")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Parameter implements Valideerbaar {
 

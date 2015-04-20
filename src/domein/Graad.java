@@ -17,7 +17,8 @@ public class Graad {
     @Id
     @Column(name= "Jaar")
     private int jaar;
-    @Column(name="DeterminatieTabel_DeterminatieTabelId")
+    @JoinColumn(name="DeterminatieTabel_DeterminatieTabelId")
+    @OneToOne()
     private DeterminatieTabel actieveTabel;
 
     public DeterminatieTabel getActieveTabel() {

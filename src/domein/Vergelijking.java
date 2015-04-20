@@ -9,9 +9,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "vergelijkingen")
 public class Vergelijking implements Valideerbaar {
-    @OneToOne(mappedBy="ParameterId")
     private Parameter rechterParameter;
-    @OneToOne(mappedBy="ParameterId")
     private Parameter linkerParameter;
     private VergelijkingsOperator operator;
     @Id

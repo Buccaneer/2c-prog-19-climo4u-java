@@ -3,6 +3,7 @@ package domein;
 import dto.DeterminatieKnoopDto;
 import java.util.Random;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "determinatieknopen")
+@DiscriminatorColumn(name="Discriminator")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class DeterminatieKnoop implements Valideerbaar {
     @Id

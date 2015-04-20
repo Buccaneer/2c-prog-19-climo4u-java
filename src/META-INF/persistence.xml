@@ -7,6 +7,13 @@
     <class>domein.Land</class>
     <class>domein.Maand</class>
     <class>domein.Graad</class>
+    <class>domein.BeslissingsKnoop</class>
+    <class>domein.DeterminatieKnoop</class>
+    <class>domein.DeterminatieTabel</class>
+    <class>domein.Parameter</class>
+    <class>domein.ResultaatBlad</class>
+    <class>domein.VegetatieType</class>
+    <class>domein.Vergelijking</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost\SQLEXPRESS:1433;databaseName=Projecten2Groep19_db"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>

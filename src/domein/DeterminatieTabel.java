@@ -8,13 +8,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "determinatietabellen")
-public class DeterminatieTabel implements Valideerbaar {
-    
-    @Column(name="BeginKnoop_DeterminatieKnoopId")
+public class DeterminatieTabel implements Valideerbaar, Serializable {
+
+    @JoinColumn(name="BeginKnoop_DeterminatieKnoopId")
+    @OneToOne(optional = true)
     private DeterminatieKnoop beginKnoop;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
