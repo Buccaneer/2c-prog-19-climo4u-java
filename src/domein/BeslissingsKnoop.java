@@ -3,20 +3,29 @@ package domein;
 import dto.DeterminatieKnoopDto;
 import dto.ParameterDto;
 import dto.VergelijkingDto;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="determinatieknopen")
 public class BeslissingsKnoop extends DeterminatieKnoop {
-    
+
+    @OneToOne(optional = true)
+    @JoinColumn(name="JaKnoop_DeterminatieKnoopId")
     private DeterminatieKnoop juistKnoop;
+    @OneToOne(optional = true)
+    @JoinColumn(name="NeeKnoop_DeterminatieKnoopId")
     private DeterminatieKnoop foutKnoop;
     private Vergelijking vergelijking;
 
     public BeslissingsKnoop() {
-super();
+        super();
         juistKnoop = new ResultaatBlad();
         foutKnoop = new ResultaatBlad();
-        vergelijking=new Vergelijking();
+        vergelijking = new Vergelijking();
     }
 
     public BeslissingsKnoop(int id) {
@@ -25,34 +34,38 @@ super();
         foutKnoop = new ResultaatBlad();
         vergelijking = new Vergelijking();
     }
-   
+
     @Override
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
         try {
-        if (knoop.getId() == getId())
-            wijzigAttributen(knoop);
-        else {
-            int juistOmzetten = moetOmzetten(juistKnoop, knoop);
-            int foutOmzetten = moetOmzetten(foutKnoop, knoop);
-            if (juistOmzetten != 0)
-                if (juistOmzetten == -1)
-                    juistKnoop = new BeslissingsKnoop();
-                else
-                    juistKnoop = new ResultaatBlad();
-            else if (foutOmzetten != 0)
-                if (foutOmzetten == - 1)
-                    foutKnoop = new BeslissingsKnoop();
-                else
-                    foutKnoop = new ResultaatBlad();
-            if (juistOmzetten == foutOmzetten && juistOmzetten == 0) {
-                juistKnoop.wijzigKnoop(knoop);
-                foutKnoop.wijzigKnoop(knoop);
+            if (knoop.getId() == getId()) {
+                wijzigAttributen(knoop);
+            } else {
+                int juistOmzetten = moetOmzetten(juistKnoop, knoop);
+                int foutOmzetten = moetOmzetten(foutKnoop, knoop);
+                if (juistOmzetten != 0) {
+                    if (juistOmzetten == -1) {
+                        juistKnoop = new BeslissingsKnoop();
+                    } else {
+                        juistKnoop = new ResultaatBlad();
+                    }
+                } else if (foutOmzetten != 0) {
+                    if (foutOmzetten == - 1) {
+                        foutKnoop = new BeslissingsKnoop();
+                    } else {
+                        foutKnoop = new ResultaatBlad();
+                    }
+                }
+                if (juistOmzetten == foutOmzetten && juistOmzetten == 0) {
+                    juistKnoop.wijzigKnoop(knoop);
+                    foutKnoop.wijzigKnoop(knoop);
+                }
             }
-        } 
         } catch (IllegalArgumentException iae) {
 // Todo: nested exceptions...
             throw new IllegalArgumentException(iae);
-    }}
+        }
+    }
 
     /**
      * Wijzig de attributen van deze knoop.
@@ -80,7 +93,7 @@ super();
         if (!rechtsGevonden) {
             vergelijking.setRechterParameter(ParameterFactory.maakConstanteParameter(knoop.getVergelijking().getRechts().getWaarde()));
         }
-      
+
     }
 
     @Override
@@ -89,7 +102,7 @@ super();
         dto.setId(getId());
         dto.setVergelijking(new VergelijkingDto(new ParameterDto(vergelijking.getLinkerParameter().getNaam(), vergelijking.getLinkerParameter().getWaarde()), vergelijking.getOperator(), new ParameterDto(vergelijking.getRechterParameter().getNaam(), vergelijking.getRechterParameter().getWaarde())));
         dto.toBeslissingsKnoop();
-        
+
         DeterminatieKnoopDto ja = juistKnoop.maakDtoAan();
         DeterminatieKnoopDto nee = foutKnoop.maakDtoAan();
         ja.setOuder(dto);
@@ -110,11 +123,13 @@ super();
      */
     public int moetOmzetten(DeterminatieKnoop kind, DeterminatieKnoopDto knoop) {
         if (kind.getId() == knoop.getId()) {
-            if (knoop.isResultaatBlad() && kind instanceof BeslissingsKnoop)
+            if (knoop.isResultaatBlad() && kind instanceof BeslissingsKnoop) {
                 return 1;
+            }
 
-            if (knoop.isBeslissingsKnoop() && kind instanceof ResultaatBlad)
+            if (knoop.isBeslissingsKnoop() && kind instanceof ResultaatBlad) {
                 return -1;
+            }
 
             return 0;
         }

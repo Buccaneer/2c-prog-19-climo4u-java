@@ -4,10 +4,12 @@ import dto.DeterminatieKnoopDto;
 import dto.VegetatieTypeDto;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="determinatieknopen")
 public class ResultaatBlad extends DeterminatieKnoop {
-    @OneToOne(mappedBy = "VegetatieTypeId")
+   
     private VegetatieType vegetatieType;
     private String klimaatType;
 
