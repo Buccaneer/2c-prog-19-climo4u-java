@@ -39,8 +39,8 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
     private List<Verbinding> verbindingen = new ArrayList();
     private DeterminatieKnoopDto eersteKnoop;
 
-    private static int x = 0;
-    private static int y = 0;
+    private int x = 0;
+    private int y = 0;
     private final static int HOOGTE = 40;
     private final static int BREEDTE = 200;
     private final static int MARGE_H = 50;
@@ -175,9 +175,12 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
 
     private void herteken()
     {
+        x = 0;
+        y = 0;
         ObservableList<Node> controls = content.getChildren();
         controls.clear();
         nodes.clear();
+        verbindingen.clear();
         maakNodePanelControllers(eersteKnoop, 0, null);
         for (NodePanelController n : nodes)
         {
@@ -185,10 +188,11 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
             {
                 n.setLayoutX(x);
             }
+            controls.add(n);
         }
         for (Verbinding v : verbindingen)
         {
-            this.getChildren().addAll(v.maakVerbinding());
+            controls.addAll(v.maakVerbinding());
         }
     }
 
@@ -201,10 +205,11 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
                 this.x = x;
             }
             NodePanelController npc = new NodePanelController(knoop);
-            npc.setMinHeight(40);
-            npc.setMaxHeight(40);
-            npc.setMinWidth(200);
-            npc.setMaxWidth(200);
+            npc.setMinHeight(HOOGTE);
+            npc.setMaxHeight(HOOGTE);
+            npc.setMinWidth(BREEDTE);
+            npc.setMaxWidth(BREEDTE);
+            npc.setLayoutX(x);
             npc.setLayoutY(y);
             npc.addListener(this);
             nodes.add(npc);
