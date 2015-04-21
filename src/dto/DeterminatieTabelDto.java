@@ -18,6 +18,11 @@ public class DeterminatieTabelDto {
     public DeterminatieTabelDto() {
     }
 
+    
+    @Override
+    public String toString() {
+        return naam;
+    }
     public DeterminatieTabelDto(int id, String naam) {
         this.id = id;
         this.naam = naam;

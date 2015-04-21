@@ -8,12 +8,14 @@ package gui;
 import controller.Observer;
 import dto.DeterminatieKnoopDto;
 import dto.DeterminatieTabelDto;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -46,9 +48,22 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
     private final static int MARGE_H = 50;
     private final static int MARGE_B = 5;
 
+    
+    
+    
     @FXML
     private AnchorPane content;
-
+public BoomPanelController() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("BoomPanelController.fxml"));
+        loader.setRoot(this);
+        loader.setController(this);
+        try {
+            loader.load();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
+}
+    
     public boolean addListener(NodeGeselecteerdListener e)
     {
         return listeners.add(e);

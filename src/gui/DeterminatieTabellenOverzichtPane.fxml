@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root prefHeight="329.0" prefWidth="335.0" type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DeterminatieTabellenOverzichtPaneController">
+   <children>
+      <ListView fx:id="lstDeterminatieTabellen" prefHeight="200.0" prefWidth="200.0" />
+      <Button fx:id="btnVerwijderen" mnemonicParsing="false" onAction="#verwijderDeterminatieTabel" text="Verwijderen" />
+      <TextField fx:id="txtNaam" promptText="Naam" />
+      <Button fx:id="btnToevoegen" mnemonicParsing="false" onAction="#voegDeterminatieTabelToe" text="Toevoegen" />
+      <ComboBox fx:id="cboGraden" prefHeight="25.0" prefWidth="359.0" promptText="Koppelen met" />
+   </children>
+</fx:root>
