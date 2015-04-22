@@ -5,20 +5,23 @@ import dto.ParameterDto;
 import dto.VergelijkingDto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="determinatieknopen")
+@Table(name = "determinatieknopen")
 public class BeslissingsKnoop extends DeterminatieKnoop {
 
-    @OneToOne(optional = true)
-    @JoinColumn(name="JaKnoop_DeterminatieKnoopId")
+    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "JaKnoop_DeterminatieKnoopId")
     private DeterminatieKnoop juistKnoop;
-    @OneToOne(optional = true)
-    @JoinColumn(name="NeeKnoop_DeterminatieKnoopId")
+    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "NeeKnoop_DeterminatieKnoopId")
     private DeterminatieKnoop foutKnoop;
+    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "Vergelijking_VergelijkingId")
     private Vergelijking vergelijking;
 
     public BeslissingsKnoop() {

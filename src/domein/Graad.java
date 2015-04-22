@@ -18,7 +18,7 @@ public class Graad {
     @Column(name= "Jaar")
     private int jaar;
     @JoinColumn(name="DeterminatieTabel_DeterminatieTabelId")
-    @OneToOne()
+    @OneToOne(fetch = FetchType.EAGER)
     private DeterminatieTabel actieveTabel;
 
     public DeterminatieTabel getActieveTabel() {

@@ -29,7 +29,7 @@ public class ParameterFactory {
         parameters.add(new ParameterAantalDrogeMaanden("D"));
         parameters.add(new ParameterGemiddeldeTemperatuurJaar("Tj"));
         parameters.add(new ParameterTotaleNeerslagJaar("Nj"));
-        parameters.add(new TemperatuurVierdeWarmsteMaand("T 4de Warmste Maand"));
+        parameters.add(new TemperatuurVierdeWarmsteMaandParameter("T 4de Warmste Maand"));
         return parameters;
     }
 }

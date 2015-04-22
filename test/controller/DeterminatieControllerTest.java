@@ -33,7 +33,7 @@ public class DeterminatieControllerTest {
         String naam = "TestNaam";
         DeterminatieTabel tabel = new DeterminatieTabel();
         tabel.setNaam(naam);
-        GenericDaoJpa<DeterminatieTabel, String> jpa = new GenericDaoJpa(DeterminatieTabel.class);
+        GenericDaoJpa<DeterminatieTabel, Integer> jpa = new GenericDaoJpa(DeterminatieTabel.class);
         jpa.insert(tabel);
         controller.setDeterminatieTabelRepository(jpa);
         Iterator<DeterminatieTabelDto> i = controller.getDeterminatieTabellen().iterator();

@@ -14,6 +14,18 @@
     <class>domein.ResultaatBlad</class>
     <class>domein.VegetatieType</class>
     <class>domein.Vergelijking</class>
+    <class>domein.ParameterAantalDrogeMaanden</class>
+    <class>domein.ParameterGemiddeldeTemperatuurJaar</class>
+    <class>domein.ParameterKoudsteMaand</class>
+    <class>domein.ParameterNeerslagWinter</class>
+    <class>domein.ParameterNeerslagZomer</class>
+    <class>domein.ParameterTemperatuurKoudsteMaand</class>
+    <class>domein.ParameterTemperatuurWarmsteMaand</class>
+    <class>domein.ParameterTotaleNeerslagJaar</class>
+    <class>domein.ParameterWarmsteMaand</class>
+    <class>domein.TemperatuurVierdeWarmsteMaand</class>
+    <class>domein.ConstanteParameter</class>
+    <class>domein.TemperatuurVierdeWarmsteMaandParameter</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost\SQLEXPRESS:1433;databaseName=Projecten2Groep19_db"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>

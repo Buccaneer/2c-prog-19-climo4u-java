@@ -2,14 +2,21 @@ package domein;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "vergelijkingen")
 public class Vergelijking implements Valideerbaar {
+
+    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "RechterParameter_ParameterId")
     private Parameter rechterParameter;
+    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "LinkerParameter_ParameterId")
     private Parameter linkerParameter;
     private VergelijkingsOperator operator;
     @Id
@@ -19,11 +26,9 @@ public class Vergelijking implements Valideerbaar {
     public Vergelijking() {
         rechterParameter = ParameterFactory.maakConstanteParameter(0.0);
         linkerParameter = ParameterFactory.maakConstanteParameter(0.0);
-        operator=VergelijkingsOperator.GELIJKAAN;
+        operator = VergelijkingsOperator.GELIJKAAN;
     }
 
-    
-    
     public int getId() {
         return this.id;
     }
@@ -53,11 +58,11 @@ public class Vergelijking implements Valideerbaar {
     }
 
     @Override
-    public void valideer()
-    {
+    public void valideer() {
         rechterParameter.valideer();
         linkerParameter.valideer();
-        if (operator == null)
+        if (operator == null) {
             throw new DomeinException();
+        }
     }
 }

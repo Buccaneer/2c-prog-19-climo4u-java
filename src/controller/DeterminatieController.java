@@ -13,7 +13,7 @@ public class DeterminatieController implements Subject {
     private DeterminatieTabel geselecteerdeDeterminatieTabel;
     private ObservableList<DeterminatieTabelDto> determinatietabellen = FXCollections.observableArrayList();
     private ObservableList<GraadDto> graden = FXCollections.observableArrayList();
-    private GenericDao<DeterminatieTabel, String> determinatieTabelRepository = new GenericDaoJpa<>(DeterminatieTabel.class);
+    private GenericDao<DeterminatieTabel, Integer> determinatieTabelRepository = new GenericDaoJpa<>(DeterminatieTabel.class);
     private GenericDao<DeterminatieKnoop, String> determinatieKnoopRepository = new GenericDaoJpa<>(DeterminatieKnoop.class);
     private GenericDao<Graad, String> graadRepository = new GenericDaoJpa<>(Graad.class);
     private List<Observer> observers = new ArrayList<>();
@@ -67,7 +67,7 @@ public class DeterminatieController implements Subject {
         if(tabel == null){
             throw new IllegalArgumentException("U moet eerst een determinatietabel selecteren");
         }
-        DeterminatieTabel t = determinatieTabelRepository.get(tabel.getNaam());
+        DeterminatieTabel t = determinatieTabelRepository.get(tabel.getId());
         
         determinatieTabelRepository.delete(t);
         geselecteerdeDeterminatieTabel = null;
@@ -84,15 +84,10 @@ public class DeterminatieController implements Subject {
             throw new IllegalArgumentException();
         }
         //remove try catch after testing
-        try
-        {
-            geselecteerdeDeterminatieTabel= determinatieTabelRepository.get(tabel.getNaam());
-        notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
-        } catch (Exception e)
-        {
-            //Go fuck yourself exception
-        }
-        
+    
+            geselecteerdeDeterminatieTabel= determinatieTabelRepository.get(tabel.getId());
+        notifyObservers("", geselecteerdeDeterminatieTabel.getBeginKnoop().maakDtoAan());
+
     }
 
     /**
@@ -120,7 +115,7 @@ public class DeterminatieController implements Subject {
         }
         //TODO: dto maken
        // Graad gr = graadRepository.get(graad.getNaam());
-        DeterminatieTabel tab = determinatieTabelRepository.get(tabel.getNaam());
+        DeterminatieTabel tab = determinatieTabelRepository.get(tabel.getId());
        // gr.setActieveTabel(tab);
     }
 
@@ -221,7 +216,7 @@ public class DeterminatieController implements Subject {
     }
     
     // --- Methodes voor de testen ---
-    protected void setDeterminatieTabelRepository(GenericDao<DeterminatieTabel, String> determinatieTabelRepository)
+    protected void setDeterminatieTabelRepository(GenericDao<DeterminatieTabel, Integer> determinatieTabelRepository)
     {
         this.determinatieTabelRepository = determinatieTabelRepository;
     }

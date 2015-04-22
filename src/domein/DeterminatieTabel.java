@@ -4,6 +4,7 @@ import dto.*;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 public class DeterminatieTabel implements Valideerbaar, Serializable {
 
     @JoinColumn(name="BeginKnoop_DeterminatieKnoopId")
-    @OneToOne(optional = true)
+    @OneToOne(optional = true,fetch = FetchType.EAGER)
     private DeterminatieKnoop beginKnoop;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

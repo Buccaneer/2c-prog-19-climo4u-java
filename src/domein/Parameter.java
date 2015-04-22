@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "parameters")
-@DiscriminatorColumn(name="Discriminator")
+@DiscriminatorColumn(name = "Discriminator")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Parameter implements Valideerbaar {
 
@@ -45,14 +45,16 @@ public class Parameter implements Valideerbaar {
     }
 
     @Override
-    public void valideer()
-    {
-        if (this.naam == null)
+    public void valideer() {
+        if (this.naam == null) {
             throw new DomeinException();
+        }
     }
 
 }
 
+@Entity
+@Table(name = "parameters")
 class ParameterWarmsteMaand extends Parameter {
 
     public ParameterWarmsteMaand() {
@@ -63,83 +65,110 @@ class ParameterWarmsteMaand extends Parameter {
     }
 }
 
+@Entity
+@Table(name = "parameters")
 class ParameterKoudsteMaand extends Parameter {
 
     public ParameterKoudsteMaand() {
     }
-    public ParameterKoudsteMaand(String naam){
+
+    public ParameterKoudsteMaand(String naam) {
         setNaam(naam);
     }
 }
 
+@Entity
+@Table(name = "parameters")
 class ParameterTemperatuurWarmsteMaand extends Parameter {
 
     public ParameterTemperatuurWarmsteMaand() {
     }
-    public ParameterTemperatuurWarmsteMaand(String naam){
+
+    public ParameterTemperatuurWarmsteMaand(String naam) {
         setNaam(naam);
     }
 }
 
+@Entity
+@Table(name = "parameters")
 class ParameterTemperatuurKoudsteMaand extends Parameter {
 
     public ParameterTemperatuurKoudsteMaand() {
     }
-    public ParameterTemperatuurKoudsteMaand(String naam){
+
+    public ParameterTemperatuurKoudsteMaand(String naam) {
         setNaam(naam);
     }
 }
 
+@Entity
+@Table(name = "parameters")
 class ParameterNeerslagZomer extends Parameter {
 
     public ParameterNeerslagZomer() {
     }
-    public ParameterNeerslagZomer(String naam){
+
+    public ParameterNeerslagZomer(String naam) {
         setNaam(naam);
     }
 }
 
+@Entity
+@Table(name = "parameters")
 class ParameterNeerslagWinter extends Parameter {
 
     public ParameterNeerslagWinter() {
     }
-    public ParameterNeerslagWinter(String naam){
+
+    public ParameterNeerslagWinter(String naam) {
         setNaam(naam);
     }
 }
 
+@Entity
+@Table(name = "parameters")
 class ParameterAantalDrogeMaanden extends Parameter {
 
     public ParameterAantalDrogeMaanden() {
     }
-    public ParameterAantalDrogeMaanden(String naam){
+
+    public ParameterAantalDrogeMaanden(String naam) {
         setNaam(naam);
     }
 }
 
+@Entity
+@Table(name = "parameters")
 class ParameterGemiddeldeTemperatuurJaar extends Parameter {
 
     public ParameterGemiddeldeTemperatuurJaar() {
     }
-    public ParameterGemiddeldeTemperatuurJaar(String naam){
+
+    public ParameterGemiddeldeTemperatuurJaar(String naam) {
         setNaam(naam);
     }
 }
 
+@Entity
+@Table(name = "parameters")
 class ParameterTotaleNeerslagJaar extends Parameter {
 
     public ParameterTotaleNeerslagJaar() {
     }
-    public ParameterTotaleNeerslagJaar(String naam){
+
+    public ParameterTotaleNeerslagJaar(String naam) {
         setNaam(naam);
     }
 }
 
-class TemperatuurVierdeWarmsteMaand extends Parameter {
+@Entity
+@Table(name = "parameters")
+class TemperatuurVierdeWarmsteMaandParameter extends Parameter {
 
-    public TemperatuurVierdeWarmsteMaand() {
+    public TemperatuurVierdeWarmsteMaandParameter() {
     }
-    public TemperatuurVierdeWarmsteMaand(String naam){
+
+    public TemperatuurVierdeWarmsteMaandParameter(String naam) {
         setNaam(naam);
     }
 }
