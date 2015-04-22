@@ -81,6 +81,7 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
             dto.setVegetatieType(new VegetatieTypeDto());
     }
 
+    
     @Override
     public void isVeranderd(PropertySheet.Item item) {
         veranderNullWaarden();
@@ -88,8 +89,8 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
             case "Linker parameter": {
                 Parameters links = (Parameters) item.getValue();
                 if (links != Parameters.CONSTANTEWAARDE) {
-                    PropertySheet.Item i =  items.get(1);
-                    i.setValue(0.0);
+                    //PropertySheet.Item i =  items.get(1);
+                    //i.setValue(0.0);
                    
                           
                     dto.getVergelijking().setLinks(Parameters.geefParameter(links));
@@ -107,8 +108,8 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
             case "Rechter parameter": {
                 Parameters rechts = (Parameters) item.getValue();
                 if (rechts != Parameters.CONSTANTEWAARDE) {
-                        PropertySheet.Item i =  items.get(4);
-                    i.setValue(0.0);
+                     //   PropertySheet.Item i =  items.get(4);
+                    //i.setValue(0.0);
                     dto.getVergelijking().setRechts(Parameters.geefParameter(rechts));
                 }
             }
@@ -144,6 +145,7 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
         else
             btnOmzetten.setText("+");
         items.clear();
+     
         if (dto.isBeslissingsKnoop()) {
             DeterminatieKnoopProperty d = new ParameterProperty("Links", "Linker parameter", Parameters.geefParameters(dto.getVergelijking().getLinks()));
             d.addListener(this);

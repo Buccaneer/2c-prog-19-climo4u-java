@@ -2,16 +2,20 @@ package domein;
 
 import dto.DeterminatieKnoopDto;
 import dto.VegetatieTypeDto;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="determinatieknopen")
 public class ResultaatBlad extends DeterminatieKnoop {
-   
+    @OneToOne(optional = true, fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "VegetatieType_VegetatieTypeId")
     private VegetatieType vegetatieType;
-    private String klimaatType;
+    private String klimaatType = "";
 
     public String getKlimaatType() {
         return this.klimaatType;

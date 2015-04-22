@@ -23,6 +23,8 @@ private String waarde;
         this.categorie = categorie;
         this.naam = naam;
         this.waarde = waarde;
+        if (waarde == null)
+            this.waarde = "";
     }
 
     @Override

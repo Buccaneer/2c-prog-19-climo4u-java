@@ -11,7 +11,7 @@
 
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" type="StackPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Rectangle fx:id="rect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" onMouseClicked="#selecteer" stroke="BLACK" strokeType="INSIDE" width="50.0" StackPane.alignment="CENTER" />
+      <Rectangle fx:id="rect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" onMouseClicked="#selecteerMuis" stroke="BLACK" strokeType="INSIDE" width="50.0" StackPane.alignment="CENTER" />
       <Label fx:id="lblText" text="Label" StackPane.alignment="CENTER">
          <font>
             <Font size="20.0" />

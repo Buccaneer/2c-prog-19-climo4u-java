@@ -17,7 +17,7 @@
       <HBox prefHeight="54.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnOmzetten" mnemonicParsing="false" onAction="#omzetten" text="+" />
-            <Button fx:id="btnOpslaan" mnemonicParsing="false" text="Opslaan" />
+            <Button fx:id="btnOpslaan" mnemonicParsing="false" onAction="#opslaan" text="Opslaan" />
          </children>
       </HBox>
    </bottom>

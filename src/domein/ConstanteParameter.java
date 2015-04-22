@@ -11,10 +11,16 @@ public class ConstanteParameter extends Parameter {
     @Column(name = "Waarde")
     private double waarde;
 
+    /**
+     *
+     * @return
+     */
+    @Override
     public double getWaarde() {
         return this.waarde;
     }
 
+    @Override
     public void setWaarde(double waarde) {
         this.waarde = waarde;
     }

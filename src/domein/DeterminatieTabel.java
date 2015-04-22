@@ -2,6 +2,7 @@ package domein;
 
 import dto.*;
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 public class DeterminatieTabel implements Valideerbaar, Serializable {
 
     @JoinColumn(name="BeginKnoop_DeterminatieKnoopId")
-    @OneToOne(optional = true,fetch = FetchType.EAGER)
+    @OneToOne(optional = true,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private DeterminatieKnoop beginKnoop;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

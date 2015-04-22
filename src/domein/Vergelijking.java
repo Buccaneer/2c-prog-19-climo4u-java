@@ -1,8 +1,11 @@
 package domein;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -12,15 +15,16 @@ import javax.persistence.Table;
 @Table(name = "vergelijkingen")
 public class Vergelijking implements Valideerbaar {
 
-    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @OneToOne(optional = true, fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "RechterParameter_ParameterId")
     private Parameter rechterParameter;
-    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @OneToOne(optional = true, fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "LinkerParameter_ParameterId")
     private Parameter linkerParameter;
     private VergelijkingsOperator operator;
     @Id
     @Column(name = "VergelijkingId")
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     public Vergelijking() {

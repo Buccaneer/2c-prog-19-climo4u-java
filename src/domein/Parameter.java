@@ -26,7 +26,6 @@ public class Parameter implements Valideerbaar {
     @Id
     @Column(name = "ParameterId", length = 128)
     private String naam;
-    private double waarde;
 
     public String getNaam() {
         return this.naam;
@@ -36,13 +35,8 @@ public class Parameter implements Valideerbaar {
         this.naam = naam;
     }
 
-    public double getWaarde() {
-        return waarde;
-    }
-
-    public void setWaarde(double waarde) {
-        this.waarde = waarde;
-    }
+    public double getWaarde() {return 0.0;}
+    public void setWaarde(double waarde) {}
 
     @Override
     public void valideer() {

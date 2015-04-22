@@ -3,6 +3,7 @@ package domein;
 import dto.DeterminatieKnoopDto;
 import dto.ParameterDto;
 import dto.VergelijkingDto;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,13 +15,13 @@ import javax.persistence.Table;
 @Table(name = "determinatieknopen")
 public class BeslissingsKnoop extends DeterminatieKnoop {
 
-    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @OneToOne(optional = true, fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "JaKnoop_DeterminatieKnoopId")
     private DeterminatieKnoop juistKnoop;
-    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @OneToOne(optional = true, fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "NeeKnoop_DeterminatieKnoopId")
     private DeterminatieKnoop foutKnoop;
-    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @OneToOne(optional = true, fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "Vergelijking_VergelijkingId")
     private Vergelijking vergelijking;
 

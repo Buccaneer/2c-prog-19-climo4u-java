@@ -36,6 +36,7 @@ public class DeterminatieController implements Subject {
 //        throw new UnsupportedOperationException();
 //    }
     public ObservableList<DeterminatieTabelDto> getDeterminatieTabellen() {
+        determinatietabellen.clear();
         List<DeterminatieTabel> tabellen = determinatieTabelRepository.getAll();
         tabellen.forEach(tabel -> determinatietabellen.add(new DeterminatieTabelDto(tabel.getId(), tabel.getNaam())));
         return determinatietabellen;
@@ -51,12 +52,27 @@ public class DeterminatieController implements Subject {
         DeterminatieKnoop beginKnoop = new BeslissingsKnoop();
         geselecteerdeDeterminatieTabel = new DeterminatieTabel();
         geselecteerdeDeterminatieTabel.setBeginKnoop(beginKnoop);
+
+        
+        determinatieTabelRepository.insert(geselecteerdeDeterminatieTabel);
+        
+       
+        getDeterminatieTabellen();
+        
         notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
     }
 
     public void setNaamDeterminatieTabel(String naam) {
+        GenericDaoJpa.startTransaction();
+        
+        
+        
+     
         geselecteerdeDeterminatieTabel.setNaam(naam);
+        
+           GenericDaoJpa.commitTransaction();
         notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
+        getDeterminatieTabellen();
     }
     
     /**
@@ -163,8 +179,14 @@ public class DeterminatieController implements Subject {
      *
      * @param knoop
      */
+
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
+        
+        GenericDaoJpa.startTransaction();
         geselecteerdeDeterminatieTabel.wijzigKnoop(knoop);
+
+        GenericDaoJpa.commitTransaction();
+       
          notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
     }
 
