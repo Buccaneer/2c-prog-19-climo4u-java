@@ -75,10 +75,10 @@ public class NodePanelController extends StackPane {
         listeners.add(listener);
     }
     
-    private void stelIn() {
+    public void stelIn() {
         if (knoop.isBeslissingsKnoop())
         {
-            
+            lblText.setText(knoop.getVergelijking().toString());
         } else {
             lblText.setText(knoop.getKlimaattype());
         }

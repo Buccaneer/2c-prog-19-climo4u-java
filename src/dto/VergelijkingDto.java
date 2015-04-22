@@ -45,5 +45,11 @@ public class VergelijkingDto {
         this.rechts = rechts;
     }
     
+    @Override
+    public String toString()
+    {
+        return (links.isConstant() ? String.format("%.0f",links.getWaarde()) : links.getNaam()) + " " + operator.toString() + " " + (rechts.isConstant() ? String.format("%.0f",rechts.getWaarde()) : rechts.getNaam());
+    }
+    
     
 }

@@ -216,6 +216,7 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
             {
                 n.setLayoutX(x);
             }
+            n.stelIn();
             controls.add(n);
         }
         
