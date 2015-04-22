@@ -75,7 +75,7 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
     private void veranderNullWaarden() {
         if (dto.isBeslissingsKnoop()) {
             if (dto.getVergelijking() == null)
-                dto.setVergelijking(new VergelijkingDto(new ParameterDto("", 0.0), VergelijkingsOperator.GELIJKAAN, new ParameterDto("", 0.0)));
+                dto.setVergelijking(new VergelijkingDto(new ParameterDto("", 0.0, true), VergelijkingsOperator.GELIJKAAN, new ParameterDto("", 0.0, true)));
 
         } else if (dto.getVegetatieType() == null)
             dto.setVegetatieType(new VegetatieTypeDto());
@@ -99,7 +99,7 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
             case "Linker Constante waarde":
                 if ((Double)item.getValue() != 0.0)
                     items.get(0).setValue(Parameters.CONSTANTEWAARDE);
-                dto.getVergelijking().setLinks(new ParameterDto("", (Double) item.getValue()));
+                dto.getVergelijking().setLinks(new ParameterDto("", (Double) item.getValue(), true));
                 break;
             case "Operator":
                 dto.getVergelijking().setOperator((VergelijkingsOperator) item.getValue());
@@ -116,7 +116,7 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
             case "Rechter Constante waarde":
                  if ((Double)item.getValue() != 0.0)
                     items.get(3).setValue(Parameters.CONSTANTEWAARDE);
-                dto.getVergelijking().setRechts(new ParameterDto("", (Double) item.getValue()));
+                dto.getVergelijking().setRechts(new ParameterDto("", (Double) item.getValue(), true));
                 break;
             case "Klimaattype":
                 dto.setKlimaattype((String) item.getValue());

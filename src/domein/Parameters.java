@@ -42,7 +42,7 @@ public enum Parameters {
     public static ParameterDto geefParameter(Parameters p) {
         for (Parameter param: ParameterFactory.geefParameters()) {
             if (param.getNaam().equals(p.toString()))
-                return new ParameterDto(param.getNaam());
+                return new ParameterDto(param.getNaam(), false);
         }
         return new ParameterDto();
     }

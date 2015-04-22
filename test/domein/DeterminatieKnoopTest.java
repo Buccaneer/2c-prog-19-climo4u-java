@@ -117,8 +117,8 @@ public class DeterminatieKnoopTest {
         DeterminatieKnoopDto wijzigingen = new DeterminatieKnoopDto();
         wijzigingen.setId(ID);
         VergelijkingDto vd = new VergelijkingDto();
-        vd.setLinks(new ParameterDto(LINKS.getNaam(), LINKS.getWaarde()));
-        vd.setRechts(new ParameterDto(RECHTS.getNaam(), RECHTS.getWaarde()));
+        vd.setLinks(new ParameterDto(LINKS.getNaam(), LINKS.getWaarde(), true));
+        vd.setRechts(new ParameterDto(RECHTS.getNaam(), RECHTS.getWaarde(), true));
         vd.setOperator(OPERATOR);
         wijzigingen.setVergelijking(vd);
 

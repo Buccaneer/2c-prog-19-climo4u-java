@@ -103,7 +103,7 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
     public DeterminatieKnoopDto maakDtoAan() {
         DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
         dto.setId(getId());
-        dto.setVergelijking(new VergelijkingDto(new ParameterDto(vergelijking.getLinkerParameter().getNaam(), vergelijking.getLinkerParameter().getWaarde()), vergelijking.getOperator(), new ParameterDto(vergelijking.getRechterParameter().getNaam(), vergelijking.getRechterParameter().getWaarde())));
+        dto.setVergelijking(new VergelijkingDto(new ParameterDto(vergelijking.getLinkerParameter().getNaam(), vergelijking.getLinkerParameter().getWaarde(), vergelijking.getLinkerParameter() instanceof ConstanteParameter), vergelijking.getOperator(), new ParameterDto(vergelijking.getRechterParameter().getNaam(), vergelijking.getRechterParameter().getWaarde(), vergelijking.getRechterParameter() instanceof ConstanteParameter)));
         dto.toBeslissingsKnoop();
 
         DeterminatieKnoopDto ja = juistKnoop.maakDtoAan();
