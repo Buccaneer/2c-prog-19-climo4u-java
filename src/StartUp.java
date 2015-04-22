@@ -18,7 +18,8 @@ import persistentie.GenericDaoJpa;
 public class StartUp extends Application{
     @Override
     public void start(Stage stage) {
-         Scene scene = new Scene(new KlimatogramFrameController(new KlimatogramController(), new DeterminatieController()));
+        KlimatogramFrameController controller = new KlimatogramFrameController(new KlimatogramController(), new DeterminatieController());
+        Scene scene = new Scene(controller);
         stage.setScene(scene);
         stage.setTitle("Klimatogrammen");
 

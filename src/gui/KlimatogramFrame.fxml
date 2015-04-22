@@ -19,10 +19,10 @@
    <children>
       <MenuBar fx:id="menuBar">
         <menus>
-          <Menu fx:id="mnuKlimatogrammen" mnemonicParsing="false" onAction="#toonKlimatogrammen" text="Klimatogrammen" />
-          <Menu fx:id="mnuDetermineren" mnemonicParsing="false" onAction="#toonDetermineren" text="Determineren" />
-          <Menu fx:id="mnuKlaslijsten" mnemonicParsing="false" onAction="#toonKlassenlijsten" text="Klassenlijsten" />
-            <Menu fx:id="mnuToetsen" mnemonicParsing="false" onAction="#toonToetsen" text="Toetsen" />
+          <Menu fx:id="mnuKlimatogrammen" mnemonicParsing="false"/>
+          <Menu fx:id="mnuDetermineren" mnemonicParsing="false"/>
+          <Menu fx:id="mnuKlaslijsten" mnemonicParsing="false"/>
+            <Menu fx:id="mnuToetsen" mnemonicParsing="false"/>
         </menus>
       </MenuBar>
       <MenuBar fx:id="logBar">
