@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import org.controlsfx.glyphfont.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
@@ -9,16 +10,22 @@
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.*?>
 
-<fx:root prefHeight="200.0" prefWidth="200.0" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="211.0" prefWidth="200.0" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <Pane fx:id="paneEigenschappen" prefHeight="312.0" prefWidth="581.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <HBox prefHeight="54.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="27.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnOmzetten" mnemonicParsing="false" onAction="#omzetten" text="+" />
+            <Button fx:id="btnOmzetten" mnemonicParsing="false" onAction="#omzetten" text="+">
+               <HBox.margin>
+                  <Insets right="12.0" />
+               </HBox.margin></Button>
             <Button fx:id="btnOpslaan" mnemonicParsing="false" onAction="#opslaan" text="Opslaan" />
          </children>
       </HBox>
    </bottom>
+   <top>
+      <Label fx:id="lblStatus" BorderPane.alignment="CENTER" />
+   </top>
 </fx:root>

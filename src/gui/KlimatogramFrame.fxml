@@ -19,10 +19,10 @@
    <children>
       <MenuBar fx:id="menuBar">
         <menus>
-          <Menu fx:id="mnuKlimatogrammen" mnemonicParsing="false"/>
-          <Menu fx:id="mnuDetermineren" mnemonicParsing="false"/>
-          <Menu fx:id="mnuKlaslijsten" mnemonicParsing="false"/>
-            <Menu fx:id="mnuToetsen" mnemonicParsing="false"/>
+          <Menu fx:id="mnuKlimatogrammen" mnemonicParsing="false" />
+          <Menu fx:id="mnuDetermineren" mnemonicParsing="false" />
+          <Menu fx:id="mnuKlaslijsten" mnemonicParsing="false" />
+            <Menu fx:id="mnuToetsen" mnemonicParsing="false" />
         </menus>
       </MenuBar>
       <MenuBar fx:id="logBar">
@@ -40,9 +40,9 @@
                   <Pane fx:id="pnlLinks" layoutX="21.0" layoutY="93.0" prefHeight="600.0" prefWidth="412.0" />
                </content>
             </ScrollPane>
-            <ScrollPane fitToWidth="true" prefHeight="740.0" prefViewportHeight="633.0" prefViewportWidth="626.0" prefWidth="820.0">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="740.0" prefViewportHeight="633.0" prefViewportWidth="626.0" prefWidth="820.0">
                <content>
-                  <VBox fx:id="pnlRechts" layoutX="129.0" layoutY="100.0" prefHeight="890.0" prefWidth="820.0" />
+                  <VBox fx:id="pnlRechts" layoutX="129.0" layoutY="100.0" />
                </content>
             </ScrollPane>
          </children>

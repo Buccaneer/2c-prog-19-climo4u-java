@@ -22,8 +22,9 @@ public class DeterminatieController implements Subject {
 
     public ObservableList<GraadDto> getGraden() {
         //TODO: graaddto nog niet gemaakt?
+        graden.clear();
         List<Graad> graad = graadRepository.getAll();
-        graad.stream().forEach(g -> graden.add(new GraadDto()));
+        graad.stream().forEach(g -> graden.add(new GraadDto(g.getNummer(), g.getJaar(),new DeterminatieTabelDto(g.getActieveTabel().getId(), g.getActieveTabel().getNaam()))));
         return graden;
     }
 
@@ -84,11 +85,24 @@ public class DeterminatieController implements Subject {
             throw new IllegalArgumentException("U moet eerst een determinatietabel selecteren");
         }
         DeterminatieTabel t = determinatieTabelRepository.get(tabel.getId());
-        
+        try {
+            List<Graad> graden = graadRepository.getAll();
+            
+            if (graden.stream().anyMatch(g -> g.getActieveTabel() == t))
+                throw new Exception();
+            
+            determinatieKnoopRepository.delete(t.getBeginKnoop());
         determinatieTabelRepository.delete(t);
+        
         geselecteerdeDeterminatieTabel = null;
         determinatietabellen.clear();
         getDeterminatieTabellen();
+            notifyObservers("verwijderen", t);
+        
+        
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Deze determinatietabel wordt nog gebruikt door een graad.");
+        }
     }
 
     /**
@@ -123,6 +137,7 @@ public class DeterminatieController implements Subject {
      * @param tabel
      */
     public void koppelGraadMetDeterminatieTabel(GraadDto graad, DeterminatieTabelDto tabel) {
+     
         if(graad == null){
             throw new IllegalArgumentException("U moet eerst een graad selecteren");
         }
@@ -130,8 +145,20 @@ public class DeterminatieController implements Subject {
             throw new IllegalArgumentException("U moet eerst een determinatietabel selecteren");
         }
         //TODO: dto maken
-       // Graad gr = graadRepository.get(graad.getNaam());
+    List<   Graad> gr = graadRepository.getAll();
         DeterminatieTabel tab = determinatieTabelRepository.get(tabel.getId());
+        tab.valideer();
+        
+        Graad g = gr.stream().filter(gg -> gg.getJaar() == graad.getJaar() && gg.getNummer() == graad.getGraad()).findFirst().get();
+        GenericDaoJpa.startTransaction();
+        
+        g.setActieveTabel(tab);
+        
+        GenericDaoJpa.commitTransaction();
+        
+        getGraden();
+        
+        
        // gr.setActieveTabel(tab);
     }
 
@@ -181,13 +208,17 @@ public class DeterminatieController implements Subject {
      */
 
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
-        
+        try {
         GenericDaoJpa.startTransaction();
         geselecteerdeDeterminatieTabel.wijzigKnoop(knoop);
 
         GenericDaoJpa.commitTransaction();
-       
+        
          notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
+        } catch (Exception ex) {
+            GenericDaoJpa.rollbackTransaction();
+            throw new IllegalArgumentException("Kon wijzigingen niet opslaan.");
+        }
     }
 
 //    /**

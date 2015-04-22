@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.*;
 import javafx.fxml.*;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -104,6 +105,11 @@ public class NodePanelController extends StackPane {
         rect.setHeight(this.getMinHeight());
     }
     
+    
+    @FXML
+    private void muisBinnen() {
+        cursorProperty().setValue(Cursor.HAND);
+    }
     
     
 }

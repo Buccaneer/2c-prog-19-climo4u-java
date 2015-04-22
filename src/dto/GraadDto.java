@@ -12,6 +12,13 @@ package dto;
 public class GraadDto {
     private int graad;
     private int jaar;
+    private DeterminatieTabelDto tabel;
+
+    public DeterminatieTabelDto getTabel() {
+        return tabel;
+    }
+    
+    
 
     public int getGraad() {
         return graad;
@@ -32,14 +39,15 @@ public class GraadDto {
     public GraadDto() {
     }
 
-    public GraadDto(int graad, int jaar) {
+    public GraadDto(int graad, int jaar, DeterminatieTabelDto tabel) {
         this.graad = graad;
         this.jaar = jaar;
+        this.tabel = tabel;
     }
 
     @Override
     public String toString() {
-        return "GraadDto{" + "graad=" + graad + ", jaar=" + jaar + '}';
+        return "Graad " + graad +  (jaar != 0 ? (" jaar " + jaar) : "");
     }
     
     

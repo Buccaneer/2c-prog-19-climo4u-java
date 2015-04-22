@@ -112,7 +112,9 @@ public class KlimatogramFrameController extends GridPane
             bpc = new BoomPanelController();
             pcpc = new PropertyContainerPanelController(dController);
             dController.addObserver(bpc);
+            dController.addObserver(pcpc);
             bpc.addListener(pcpc);
+            
         }
         clear();
         pnlLinks.getChildren().add(dtopc);
