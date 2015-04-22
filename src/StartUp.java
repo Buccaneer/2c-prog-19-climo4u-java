@@ -1,5 +1,6 @@
 
 
+import controller.DeterminatieController;
 import controller.KlimatogramController;
 import domein.Continent;
 import gui.KlimatogramFrameController;
@@ -17,7 +18,7 @@ import persistentie.GenericDaoJpa;
 public class StartUp extends Application{
     @Override
     public void start(Stage stage) {
-         Scene scene = new Scene(new KlimatogramFrameController(new KlimatogramController()));
+         Scene scene = new Scene(new KlimatogramFrameController(new KlimatogramController(), new DeterminatieController()));
         stage.setScene(scene);
         stage.setTitle("Klimatogrammen");
 

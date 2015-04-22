@@ -44,8 +44,9 @@ public class DeterminatieTabellenOverzichtPaneController extends VBox  {
     private DeterminatieTabelDto geselecteerde;
 
     public DeterminatieTabellenOverzichtPaneController(DeterminatieController determinatie) {
-       this.controller = controller;
+       this.controller = determinatie;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DeterminatieTabellenOverzichtPane.fxml"));
+        loader.setRoot(null);
         loader.setRoot(this);
         loader.setController(this);
         try {
@@ -59,7 +60,7 @@ public class DeterminatieTabellenOverzichtPaneController extends VBox  {
         vulLijstenGradenOp();
         
         voegEventToeVoorLijst();
-        
+        voegEventToeVoorComboBox();
     }
 
     private void voegEventToeVoorLijst() {

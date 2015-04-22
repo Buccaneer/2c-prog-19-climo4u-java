@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +22,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
@@ -46,24 +48,27 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
     private final static int HOOGTE = 40;
     private final static int BREEDTE = 200;
     private final static int MARGE_H = 50;
-    private final static int MARGE_B = 5;
-
-    
-    
+    private final static int MARGE_B = 50;
     
     @FXML
-    private AnchorPane content;
-public BoomPanelController() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("BoomPanelController.fxml"));
+    private Pane content;
+
+    public BoomPanelController()
+    {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("BoomPanel.fxml"));
+
         loader.setRoot(this);
         loader.setController(this);
-        try {
+        try
+        {
             loader.load();
-        } catch (IOException ex) {
+        }
+        catch (IOException ex)
+        {
             throw new RuntimeException(ex.getMessage());
         }
-}
-    
+    }
+
     public boolean addListener(NodeGeselecteerdListener e)
     {
         return listeners.add(e);
@@ -76,7 +81,7 @@ public BoomPanelController() {
         // 2. Event werpen
         for (NodePanelController n : nodes)
         {
-            if (!n.getKnoop().equals(knoop))
+            if (n.getKnoop().getId() != knoop.getId())
             {
                 n.deselecteer();
             }
@@ -92,7 +97,17 @@ public BoomPanelController() {
     public void update(String actie, Object object)
     {
         eersteKnoop = (DeterminatieKnoopDto) object;
+        log(eersteKnoop);
         herteken();
+    }
+    
+    private void log(DeterminatieKnoopDto k)
+    {
+        if (k != null)
+        {
+            log(k.getJa());
+            log(k.getNee());
+        }
     }
 
     private class Verbinding
@@ -121,46 +136,46 @@ public BoomPanelController() {
             Point2D eindPunt;
             if (jaVerbinding)
             {
-                beginPunt = new Point2D(begin.getLayoutX() + begin.getWidth(), einde.getLayoutY() + einde.getHeight() / 2);
-                eindPunt = new Point2D(einde.getLayoutX(), einde.getLayoutY() + einde.getHeight() / 2);
+                beginPunt = new Point2D(begin.getLayoutX() + begin.getMinWidth(), begin.getLayoutY() + begin.getMinHeight() / 2);
+                eindPunt = new Point2D(einde.getLayoutX(), einde.getLayoutY() + einde.getMinHeight() / 2);
                 Line lijn = maakLijn(beginPunt.getX(), beginPunt.getY(), eindPunt.getX(), eindPunt.getY());
                 verbinding.add(lijn);
-                Text label = maakLabel(beginPunt.getX() + (eindPunt.getX() - beginPunt.getX()) / 2, eindPunt.getY(), "Ja");
+                Text label = maakLabel(beginPunt.getX() + (eindPunt.getX() - beginPunt.getX()) / 2 - 10, eindPunt.getY(), "Ja");
                 verbinding.add(label);
-                Polygon driehoek = maakDriehoek(eindPunt.getX(), eindPunt.getY(), eindPunt.getX() - 4, eindPunt.getY() - 2, eindPunt.getX() - 4, eindPunt.getY() + 2);
+                Polygon driehoek = maakDriehoek(eindPunt.getX(), eindPunt.getY(), eindPunt.getX() - 8, eindPunt.getY() - 4, eindPunt.getX() - 8, eindPunt.getY() + 4);
                 verbinding.add(driehoek);
             }
             else
             {
                 if (einde.getKnoop().isResultaatBlad())
                 {
-                    beginPunt = new Point2D(begin.getLayoutX() + begin.getWidth() / 2, einde.getLayoutY() + einde.getHeight());
-                    eindPunt = new Point2D(einde.getLayoutX(), einde.getLayoutY() + einde.getHeight() / 2);
+                    beginPunt = new Point2D(begin.getLayoutX() + begin.getMinWidth() / 2, begin.getLayoutY() + begin.getMinHeight());
+                    eindPunt = new Point2D(einde.getLayoutX(), einde.getLayoutY() + einde.getMinHeight() / 2);
                     tussenPunt = new Point2D(beginPunt.getX(), eindPunt.getY());
                     Line lijn1 = maakLijn(beginPunt.getX(), beginPunt.getY(), tussenPunt.getX(), tussenPunt.getY());
                     verbinding.add(lijn1);
                     Line lijn2 = maakLijn(tussenPunt.getX(), tussenPunt.getY(), eindPunt.getX(), eindPunt.getY());
                     verbinding.add(lijn2);
-                    Text label = maakLabel(tussenPunt.getX() + (eindPunt.getX() - tussenPunt.getX()) / 2, eindPunt.getY(), "Nee");
+                    Text label = maakLabel(tussenPunt.getX() + (eindPunt.getX() - tussenPunt.getX()) / 2 - 10, eindPunt.getY(), "Nee");
                     verbinding.add(label);
-                    Polygon driehoek = maakDriehoek(eindPunt.getX(), eindPunt.getY(), eindPunt.getX() - 4, eindPunt.getY() - 2, eindPunt.getX() - 4, eindPunt.getY() + 2);
+                    Polygon driehoek = maakDriehoek(eindPunt.getX(), eindPunt.getY(), eindPunt.getX() - 8, eindPunt.getY() - 4, eindPunt.getX() - 8, eindPunt.getY() + 4);
                     verbinding.add(driehoek);
                 }
                 else
                 {
-                    beginPunt = new Point2D(begin.getLayoutX() + begin.getWidth() / 2, einde.getLayoutY() + einde.getHeight());
-                    eindPunt = new Point2D(einde.getLayoutX() + einde.getWidth() / 2, einde.getLayoutY());
+                    beginPunt = new Point2D(begin.getLayoutX() + begin.getMinWidth() / 2, begin.getLayoutY() + begin.getMinHeight());
+                    eindPunt = new Point2D(einde.getLayoutX() + einde.getMinWidth() / 2, einde.getLayoutY());
                     Line lijn = maakLijn(beginPunt.getX(), beginPunt.getY(), eindPunt.getX(), eindPunt.getY());
                     verbinding.add(lijn);
-                    Text label = maakLabel(beginPunt.getX(), beginPunt.getY() + (eindPunt.getY() - beginPunt.getY()) / 2, "Nee");
+                    Text label = maakLabel(beginPunt.getX() + 2, beginPunt.getY() + (eindPunt.getY() - beginPunt.getY()) / 2, "Nee");
                     verbinding.add(label);
-                    Polygon driehoek = maakDriehoek(eindPunt.getX(), eindPunt.getY(), eindPunt.getX() - 2, eindPunt.getY() - 4, eindPunt.getX() + 2, eindPunt.getY() - 4);
+                    Polygon driehoek = maakDriehoek(eindPunt.getX(), eindPunt.getY(), eindPunt.getX() - 4, eindPunt.getY() - 8, eindPunt.getX() + 4, eindPunt.getY() - 8);
                     verbinding.add(driehoek);
                 }
             }
             return verbinding;
         }
-        
+
         private Line maakLijn(double xBegin, double yBegin, double xEinde, double yEinde)
         {
             Line lijn = new Line(xBegin, yBegin, xEinde, yEinde);
@@ -168,17 +183,15 @@ public BoomPanelController() {
             lijn.setStrokeWidth(1);
             return lijn;
         }
-        
+
         private Text maakLabel(double x, double y, String tekst)
         {
-            Text label = new Text(x, y, tekst);
-            label.setTextAlignment(TextAlignment.CENTER);
+            Text label = new Text(x, y - 2, tekst);
+            label.setTextAlignment(TextAlignment.LEFT);
             label.setFill(Color.BLACK);
-            label.setStroke(Color.WHITE);
-            label.setStrokeWidth(1);
             return label;
         }
-        
+
         private Polygon maakDriehoek(double... points)
         {
             Polygon driehoek = new Polygon(points);
@@ -190,21 +203,22 @@ public BoomPanelController() {
 
     private void herteken()
     {
-        x = 0;
-        y = 0;
+        x = 50;
+        y = 50;
         ObservableList<Node> controls = content.getChildren();
         controls.clear();
         nodes.clear();
         verbindingen.clear();
-        maakNodePanelControllers(eersteKnoop, 0, null);
+        maakNodePanelControllers(eersteKnoop, 50, null);
         for (NodePanelController n : nodes)
         {
-            if (n.getKnoop().isBeslissingsKnoop())
+            if (!n.getKnoop().isBeslissingsKnoop())
             {
                 n.setLayoutX(x);
             }
             controls.add(n);
         }
+        
         for (Verbinding v : verbindingen)
         {
             controls.addAll(v.maakVerbinding());
@@ -220,10 +234,12 @@ public BoomPanelController() {
                 this.x = x;
             }
             NodePanelController npc = new NodePanelController(knoop);
+            npc.load();
             npc.setMinHeight(HOOGTE);
             npc.setMaxHeight(HOOGTE);
             npc.setMinWidth(BREEDTE);
-            npc.setMaxWidth(BREEDTE);
+            npc.setMaxWidth(BREEDTE);      
+            npc.rect();
             npc.setLayoutX(x);
             npc.setLayoutY(y);
             npc.addListener(this);

@@ -17,15 +17,15 @@
       <RowConstraints maxHeight="800.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <MenuBar>
+      <MenuBar fx:id="menuBar">
         <menus>
-          <Menu fx:id="mnuKlimatogrammen" mnemonicParsing="false" text="Klimatogrammen" />
-          <Menu fx:id="mnuDetermineren" mnemonicParsing="false" text="Determineren" />
-          <Menu fx:id="mnuKlaslijsten" mnemonicParsing="false" text="Klassenlijsten" />
-            <Menu fx:id="mnuToetsen" mnemonicParsing="false" text="Toetsen" />
+          <Menu fx:id="mnuKlimatogrammen" mnemonicParsing="false" onAction="#toonKlimatogrammen" text="Klimatogrammen" />
+          <Menu fx:id="mnuDetermineren" mnemonicParsing="false" onAction="#toonDetermineren" text="Determineren" />
+          <Menu fx:id="mnuKlaslijsten" mnemonicParsing="false" onAction="#toonKlassenlijsten" text="Klassenlijsten" />
+            <Menu fx:id="mnuToetsen" mnemonicParsing="false" onAction="#toonToetsen" text="Toetsen" />
         </menus>
       </MenuBar>
-      <MenuBar>
+      <MenuBar fx:id="logBar">
         <menus>
           <Menu fx:id="mnuUitloggen" mnemonicParsing="false" text="Uitloggen" />
         </menus>
@@ -42,7 +42,7 @@
             </ScrollPane>
             <ScrollPane fitToWidth="true" prefHeight="740.0" prefViewportHeight="633.0" prefViewportWidth="626.0" prefWidth="820.0">
                <content>
-                  <Pane fx:id="pnlRechts" layoutX="129.0" layoutY="100.0" prefHeight="890.0" prefWidth="820.0" />
+                  <VBox fx:id="pnlRechts" layoutX="129.0" layoutY="100.0" prefHeight="890.0" prefWidth="820.0" />
                </content>
             </ScrollPane>
          </children>

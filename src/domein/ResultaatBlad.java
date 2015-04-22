@@ -52,6 +52,7 @@ public class ResultaatBlad extends DeterminatieKnoop {
         dto.setId(getId());
         dto.setVegetatieType(vegetatieType);
         dto.setKlimaattype(klimaatType);
+        dto.toResultaatBlad();
         return dto;
     }
 

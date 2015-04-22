@@ -41,11 +41,11 @@ public class DeterminatieKnoopDto {
     }
 
     public boolean isBeslissingsKnoop() {
-        return blad == false;
+        return !blad;
     }
 
     public void setBeslissingsKnoop(boolean beslissingsKnoop) {
-        this.blad = beslissingsKnoop;
+        blad = !beslissingsKnoop;
     }
 
     public DeterminatieKnoopDto getJa() {
@@ -97,7 +97,7 @@ public class DeterminatieKnoopDto {
     }
 
     public boolean isResultaatBlad() {
-        return blad== true;
+        return blad;
     }
     
     public void toBeslissingsKnoop() {

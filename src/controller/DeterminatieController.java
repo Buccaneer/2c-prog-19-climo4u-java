@@ -83,8 +83,16 @@ public class DeterminatieController implements Subject {
         if(tabel==null){
             throw new IllegalArgumentException();
         }
-        geselecteerdeDeterminatieTabel= determinatieTabelRepository.get(tabel.getNaam());
+        //remove try catch after testing
+        try
+        {
+            geselecteerdeDeterminatieTabel= determinatieTabelRepository.get(tabel.getNaam());
         notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
+        } catch (Exception e)
+        {
+            //Go fuck yourself exception
+        }
+        
     }
 
     /**
