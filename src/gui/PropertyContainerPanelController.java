@@ -26,6 +26,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -43,12 +45,15 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
     @FXML
     private Button btnOpslaan;
     
-    @FXML private Label lblStatus;
+    @FXML 
+    private Label lblStatus;
 
     @FXML
     private Button btnOmzetten;
+    
     @FXML
     private Pane paneEigenschappen;
+    
     private PropertySheet properties;
     private DeterminatieKnoopDto dto;
     private DeterminatieController controller;
@@ -64,6 +69,7 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
         } catch (IOException ex) {
             throw new RuntimeException(ex.getMessage());
         }
+        btnOmzetten.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
     }
 
     private void toonProperties() {
@@ -75,6 +81,7 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
             paneEigenschappen.getChildren().add(properties);
         }
         properties.setPrefSize(paneEigenschappen.getPrefWidth(), paneEigenschappen.getPrefHeight());
+        properties.setPadding(paneEigenschappen.getPadding());
     }
 
     private void veranderNullWaarden() {
@@ -141,9 +148,9 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
         toonProperties();
 
         if (dto.isBeslissingsKnoop())
-            btnOmzetten.setText("-");
+            btnOmzetten.setGraphic(new ImageView(new Image("/content/images/min_small.png")));
         else
-            btnOmzetten.setText("+");
+            btnOmzetten.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
         items.clear();
 
         if (dto.isBeslissingsKnoop()) {

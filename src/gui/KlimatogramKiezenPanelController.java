@@ -99,6 +99,10 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
         btnKlimatogramToevoegen.setGraphic(new ImageView(new Image("/content/images/plus.png")));
         btnKlimatogramVerwijderen.setGraphic(new ImageView(new Image("/content/images/min.png")));
         btnKlimatogramWijzigen.setGraphic(new ImageView(new Image("/content/images/edit.png")));
+        btnWerelddeelOk.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
+        btnWerelddeelCancel.setGraphic(new ImageView(new Image("/content/images/min_small.png")));
+        btnLandOk.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
+        btnLandCancel.setGraphic(new ImageView(new Image("/content/images/min_small.png")));
         setTooltip(btnKlimatogramToevoegen, "Klimatogram toevoegen");
         setTooltip(btnKlimatogramVerwijderen, "Klimatogram verwijderen");
         setTooltip(btnKlimatogramWijzigen, "Klimatogram wijzigen");

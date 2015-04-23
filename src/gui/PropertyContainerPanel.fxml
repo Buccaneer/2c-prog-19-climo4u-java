@@ -10,18 +10,22 @@
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.*?>
 
-<fx:root prefHeight="211.0" prefWidth="200.0" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="215.0" prefWidth="200.0" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <Pane fx:id="paneEigenschappen" prefHeight="312.0" prefWidth="581.0" BorderPane.alignment="CENTER" />
+      <Pane fx:id="paneEigenschappen" prefHeight="312.0" prefWidth="581.0" BorderPane.alignment="CENTER">
+        <padding>
+            <Insets bottom ="5.0"/>
+        </padding>
+      </Pane>
    </center>
    <bottom>
       <HBox prefHeight="27.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnOmzetten" mnemonicParsing="false" onAction="#omzetten" text="+">
+            <Button fx:id="btnOmzetten" prefHeight="25.0" prefWidth="25.0" mnemonicParsing="false" onAction="#omzetten">
                <HBox.margin>
-                  <Insets right="12.0" />
+                  <Insets left = "16.0" right="12.0" bottom="16.0"/>
                </HBox.margin></Button>
-            <Button fx:id="btnOpslaan" mnemonicParsing="false" onAction="#opslaan" text="Opslaan" />
+            <Button fx:id="btnOpslaan" prefHeight="25.0" mnemonicParsing="false" onAction="#opslaan" text="Opslaan" />
          </children>
       </HBox>
    </bottom>

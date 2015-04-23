@@ -18,7 +18,7 @@
       </Label>
       <Label text="Beschikbare determinatietabellen:">
          <VBox.margin>
-            <Insets bottom="-5.0" />
+            <Insets left="2.0" bottom="-5.0" />
          </VBox.margin>
       </Label>
       <ListView fx:id="lstDeterminatieTabellen" prefHeight="200.0" prefWidth="200.0">
@@ -51,7 +51,11 @@
             <Insets bottom="4.0" left="2.0" right="2.0" top="4.0" />
          </VBox.margin>
       </Label>
-      <Label prefHeight="42.0" prefWidth="335.0" text="Dit werkt enkel als uw determinatietabel volwaardig is, d.w.z. dat elk pad een waarde heeft gekregen." wrapText="true" />
+      <Label prefHeight="70.0" prefWidth="335.0" text="Dit werkt enkel als uw determinatietabel volwaardig is, d.w.z. dat elk pad een waarde heeft gekregen." wrapText="true">
+        <padding>
+            <Insets left="2.0"/>
+        </padding>
+      </Label>
       <ComboBox fx:id="cboGraden" prefHeight="25.0" prefWidth="359.0" promptText="Selecteer graad">
          <VBox.margin>
             <Insets bottom="4.0" left="2.0" right="2.0" top="4.0" />
