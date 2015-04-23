@@ -14,7 +14,7 @@
       <Rectangle fx:id="rect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" onMouseClicked="#selecteerMuis" onMouseDragEntered="#muisBinnen" onMouseEntered="#muisBinnen" stroke="BLACK" strokeType="INSIDE" width="50.0" StackPane.alignment="CENTER" />
       <Label fx:id="lblText" onMouseClicked="#selecteerMuis" onMouseEntered="#muisBinnen" text="Label" StackPane.alignment="CENTER">
          <font>
-            <Font size="20.0" />
+            <Font size="15.0" />
          </font>
       </Label>
    </children>
