@@ -194,6 +194,8 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
 
         for (Verbinding v : verbindingen)
             controls.addAll(v.maakVerbinding());
+        content.setMinSize(x + BREEDTE + 50, y - HOOGTE + 50);
+        content.setMaxSize(x + BREEDTE + 50, y - HOOGTE + 50);
 
     }
 
