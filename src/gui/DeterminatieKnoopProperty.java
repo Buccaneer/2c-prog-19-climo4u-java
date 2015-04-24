@@ -11,6 +11,7 @@ import org.controlsfx.control.PropertySheet;
 public abstract class DeterminatieKnoopProperty implements PropertySheet.Item {
     protected String categorie;
     protected String naam;
+    private boolean moetNotifyDoen = false;
     protected List<PropertyVeranderdListener> listeners = new ArrayList<>();
 
     public DeterminatieKnoopProperty() {
@@ -20,6 +21,14 @@ public abstract class DeterminatieKnoopProperty implements PropertySheet.Item {
         listeners.add(listener);
     }
 
+    public void nietBemerken() {
+        moetNotifyDoen = false;
+    }
+    
+    public void bemerken() {
+        moetNotifyDoen = true;
+    }
+    
     @Override
     public abstract Class<?> getType();
 
@@ -43,6 +52,7 @@ public abstract class DeterminatieKnoopProperty implements PropertySheet.Item {
     @Override
     public abstract void setValue(Object o);
     protected void gewijzigd() {
+        if (moetNotifyDoen)
         listeners.forEach((PropertyVeranderdListener l) -> l.isVeranderd(this));
     }
 
