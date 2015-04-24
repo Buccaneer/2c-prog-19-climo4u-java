@@ -8,10 +8,10 @@ import domein.*;
  */
 public class ParameterProperty extends DeterminatieKnoopProperty {
 
-    private Parameters waarde;
+    private Object waarde;
     @Override
     public Class<?> getType() {
-   return Parameters.class;
+    return waarde instanceof ParametersLinks ? ParametersLinks.class : ParametersRechts.class;
     }
 
     @Override
@@ -21,10 +21,16 @@ public class ParameterProperty extends DeterminatieKnoopProperty {
 
     @Override
     public void setValue(Object o) {
-      waarde = (Parameters)o;
+      waarde = o;
         gewijzigd();
     }
-    public ParameterProperty(String categorie, String naam, Parameters waarde) {
+    public ParameterProperty(String categorie, String naam, ParametersRechts waarde) {
+        this.categorie = categorie;
+        this.naam = naam;
+        this.waarde = waarde;
+    }
+    
+    public ParameterProperty(String categorie, String naam, ParametersLinks waarde) {
         this.categorie = categorie;
         this.naam = naam;
         this.waarde = waarde;
