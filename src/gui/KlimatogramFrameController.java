@@ -10,6 +10,8 @@ import controller.KlimatogramController;
 import java.io.IOException;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,6 +20,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -35,9 +39,6 @@ public class KlimatogramFrameController extends GridPane
     private KlimatogramController kController;
     private DeterminatieController dController;
 
-    //@FXML
-    //private SplitPane splSplitPane;
-
     @FXML
     private Pane pnlLinks;
 
@@ -45,10 +46,19 @@ public class KlimatogramFrameController extends GridPane
     private VBox pnlRechts;
 
     @FXML
-    private MenuBar menuBar;
+    private TabPane tabPane;
 
     @FXML
-    private MenuBar logBar;
+    private Tab tabKlimatogrammen;
+
+    @FXML
+    private Tab tabDetermineren;
+
+    @FXML
+    private Tab tabKlaslijsten;
+
+    @FXML
+    private Tab tabToetsen;
 
     private KlimatogramDetailPanelController kdpc;
     private KlimatogramKiezenPanelController kkpc;
@@ -77,7 +87,8 @@ public class KlimatogramFrameController extends GridPane
         this.add(statusBar, 0, 2);
         //toonKlimatogrammen();
         toonDetermineren();
-        stelMenuBalkIn();
+        tabPane.getSelectionModel().select(tabDetermineren);
+        stelTabPaneIn();
     }
 
     private void clear()
@@ -86,7 +97,6 @@ public class KlimatogramFrameController extends GridPane
         pnlRechts.getChildren().clear();
     }
 
-    @FXML
     public void toonKlimatogrammen()
     {
         System.out.println("TOON KLIMATOMATEN");
@@ -102,7 +112,6 @@ public class KlimatogramFrameController extends GridPane
         pnlRechts.getChildren().add(kdpc);
     }
 
-    @FXML
     public void toonDetermineren()
     {
         System.out.println("TOON DETERMIPEREN");
@@ -114,7 +123,7 @@ public class KlimatogramFrameController extends GridPane
             dController.addObserver(bpc);
             dController.addObserver(pcpc);
             bpc.addListener(pcpc);
-            
+
         }
         clear();
         pnlLinks.getChildren().add(dtopc);
@@ -122,79 +131,44 @@ public class KlimatogramFrameController extends GridPane
         pnlRechts.getChildren().add(pcpc);
     }
 
-    @FXML
     public void toonKlassenlijsten()
     {
         clear();
     }
 
-    @FXML
     public void toonToetsen()
     {
         clear();
     }
-    
-    private void stelMenuBalkIn()
+
+    private void stelTabPaneIn()
     {
-        for (Menu m : menuBar.getMenus())
-        {
-            if (m.getId().equals("mnuKlimatogrammen"))
-            {
-                Label lbl = new Label("Klimatogrammen");
-                lbl.setOnMouseClicked(new EventHandler<MouseEvent>()
+        tabPane.getSelectionModel().selectedItemProperty().addListener(
+                new ChangeListener<Tab>()
                 {
 
                     @Override
-                    public void handle(MouseEvent t)
+                    public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue)
                     {
-                        toonKlimatogrammen();
+                        if (newValue == tabKlimatogrammen)
+                        {
+                            toonKlimatogrammen();
+                        }
+                        else if (newValue == tabDetermineren)
+                        {
+                            toonDetermineren();
+                        }
+                        else if (newValue == tabKlaslijsten)
+                        {
+                            toonKlassenlijsten();
+                        }
+                        else if (newValue == tabToetsen)
+                        {
+                            toonToetsen();
+                        }
                     }
-                });
-                m.setGraphic(lbl);
-            }
-            else if (m.getId().equals("mnuDetermineren"))
-            {
-                Label lbl = new Label("Determineren");
-                lbl.setOnMouseClicked(new EventHandler<MouseEvent>()
-                {
-
-                    @Override
-                    public void handle(MouseEvent t)
-                    {
-                        toonDetermineren();
-                    }
-                });
-                m.setGraphic(lbl);
-            }
-            else if (m.getId().equals("mnuKlaslijsten"))
-            {
-                Label lbl = new Label("Klaslijsten");
-                lbl.setOnMouseClicked(new EventHandler<MouseEvent>()
-                {
-
-                    @Override
-                    public void handle(MouseEvent t)
-                    {
-                        toonKlassenlijsten();
-                    }
-                });
-                m.setGraphic(lbl);
-            }
-            else if (m.getId().equals("mnuToetsen"))
-            {
-                Label lbl = new Label("Toetsen");
-                lbl.setOnMouseClicked(new EventHandler<MouseEvent>()
-                {
-
-                    @Override
-                    public void handle(MouseEvent t)
-                    {
-                        toonToetsen();
-                    }
-                });
-                m.setGraphic(lbl);
-            }
-        }
+                }
+        );
     }
 
 }

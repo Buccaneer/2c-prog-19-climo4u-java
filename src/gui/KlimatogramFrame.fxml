@@ -17,22 +17,14 @@
       <RowConstraints maxHeight="800.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <MenuBar fx:id="menuBar">
-        <menus>
-          <Menu fx:id="mnuKlimatogrammen" mnemonicParsing="false" />
-          <Menu fx:id="mnuDetermineren" mnemonicParsing="false" />
-          <Menu fx:id="mnuKlaslijsten" mnemonicParsing="false" />
-            <Menu fx:id="mnuToetsen" mnemonicParsing="false" />
-        </menus>
-      </MenuBar>
-      <MenuBar fx:id="logBar">
-        <menus>
-          <Menu fx:id="mnuUitloggen" mnemonicParsing="false" text="Uitloggen" />
-        </menus>
-         <GridPane.margin>
-            <Insets left="1156.0" />
-         </GridPane.margin>
-      </MenuBar>
+      <TabPane fx:id="tabPane">
+        <tabs>
+          <Tab fx:id="tabKlimatogrammen" closable="false" text="Klimatogrammen" />
+          <Tab fx:id="tabDetermineren" closable="false" text="Determineren" />
+          <Tab fx:id="tabKlaslijsten" closable="false" text="Klassenlijsten" />
+          <Tab fx:id="tabToetsen" closable="false" text="Toetsen" />
+        </tabs>
+      </TabPane>
       <HBox prefHeight="399.0" prefWidth="1240.0" GridPane.rowIndex="1">
          <children>
             <ScrollPane prefHeight="600.0" prefViewportHeight="633.0" prefViewportWidth="616.0" prefWidth="420.0">
