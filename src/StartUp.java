@@ -24,12 +24,12 @@ public class StartUp extends Application{
         stage.setTitle("Klimatogrammen");
 
         // The stage will not get smaller than its preferred (initial) size.
-        stage.setOnShown(e -> {
+        /*stage.setOnShown(e -> {
             stage.setMinWidth(stage.getWidth());
             stage.setMinHeight(stage.getHeight());
-        });
+        });*/
         
-        stage.setResizable(false);
+        //stage.setResizable(false);
         
         stage.show();
         

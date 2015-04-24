@@ -7,37 +7,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="1230.0" type="GridPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-  </columnConstraints>
-  <rowConstraints>
-      <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="800.0" minHeight="10.0" prefHeight="610.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="800.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <TabPane fx:id="tabPane">
-        <tabs>
-          <Tab fx:id="tabKlimatogrammen" closable="false" text="Klimatogrammen" />
-          <Tab fx:id="tabDetermineren" closable="false" text="Determineren" />
-          <Tab fx:id="tabKlaslijsten" closable="false" text="Klassenlijsten" />
-          <Tab fx:id="tabToetsen" closable="false" text="Toetsen" />
-        </tabs>
-      </TabPane>
-      <HBox prefHeight="399.0" prefWidth="1240.0" GridPane.rowIndex="1">
-         <children>
-            <ScrollPane prefHeight="600.0" prefViewportHeight="633.0" prefViewportWidth="616.0" prefWidth="420.0">
-               <content>
-                  <Pane fx:id="pnlLinks" layoutX="21.0" layoutY="93.0" prefHeight="600.0" prefWidth="412.0" />
-               </content>
-            </ScrollPane>
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="740.0" prefViewportHeight="633.0" prefViewportWidth="626.0" prefWidth="820.0">
-               <content>
-                  <VBox fx:id="pnlRechts" layoutX="129.0" layoutY="100.0" />
-               </content>
-            </ScrollPane>
-         </children>
-      </HBox>
-   </children>
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <TabPane fx:id="tabPane" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="25.0" >
+           <tabs>
+               <Tab fx:id="klimatogramTab" closable="false" text="Klimatogrammen" /> 
+               <Tab fx:id="determinatieTab" closable="false" text="Determinatie" /> 
+               <Tab fx:id="klassenlijstenTab" closable="false" text="Klassenlijsten" /> 
+               <Tab fx:id="toetsenTab" closable="false" text="Toetsen" />
+           </tabs> 
+        </TabPane>
+        <org.controlsfx.control.StatusBar fx:id="statusBar" text="" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" prefHeight="25.0" />
+    </children>
 </fx:root>
