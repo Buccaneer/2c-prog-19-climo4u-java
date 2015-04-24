@@ -35,4 +35,10 @@ public class ParameterProperty extends DeterminatieKnoopProperty {
         this.naam = naam;
         this.waarde = waarde;
     }
+    
+    public ParameterProperty(String categorie, String naam, ParametersLinks waarde) {
+        this.categorie = categorie;
+        this.naam = naam;
+        this.waarde = waarde;
+    }
 }
