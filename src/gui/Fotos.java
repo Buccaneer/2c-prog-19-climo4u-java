@@ -5,8 +5,6 @@
  */
 package gui;
 
-import domein.Parameters;
-import static domein.Parameters.values;
 import dto.VegetatieTypeDto;
 
 /**

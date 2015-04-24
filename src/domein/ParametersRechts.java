@@ -11,7 +11,7 @@ import dto.ParameterDto;
  *
  * @author Jasper De Vrient
  */
-public enum Parameters {
+public enum ParametersRechts {
 
     TEMPERATUURWARSMSTEMAAND("Tw"), TEMPERATUURKOUDSTEMAAND("Tk"), CONSTANTEWAARDE("Constante waarde"),
     
@@ -31,7 +31,7 @@ public enum Parameters {
 ;
     private String waarde;
 
-    private Parameters(String waarde) {
+    private ParametersRechts(String waarde) {
         this.waarde = waarde;
     }
 
@@ -39,7 +39,7 @@ public enum Parameters {
         return waarde;
     }
     
-    public static ParameterDto geefParameter(Parameters p) {
+    public static ParameterDto geefParameter(ParametersRechts p) {
         for (Parameter param: ParameterFactory.geefParameters()) {
             if (param.getNaam().equals(p.toString()))
                 return new ParameterDto(param.getNaam(), false);
@@ -47,8 +47,8 @@ public enum Parameters {
         return new ParameterDto();
     }
     
-    public static Parameters geefParameters(ParameterDto p) {
-        for (Parameters param : values()) {
+    public static ParametersRechts geefParameters(ParameterDto p) {
+        for (ParametersRechts param : values()) {
             if (param.toString().equals(p.getNaam()))
                 return param;
         }

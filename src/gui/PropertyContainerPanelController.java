@@ -7,7 +7,8 @@ package gui;
 
 import controller.DeterminatieController;
 import controller.Observer;
-import domein.Parameters;
+import domein.ParametersLinks;
+import domein.ParametersRechts;
 import domein.VergelijkingsOperator;
 import dto.DeterminatieKnoopDto;
 import dto.ParameterDto;
@@ -152,20 +153,22 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
         veranderNullWaarden();
         switch (item.getName()) {
             case "Linker parameter": {
-                Parameters links = (Parameters) item.getValue();
-                dto.getVergelijking().setLinks(Parameters.geefParameter(links));
+                ParametersLinks links = (ParametersLinks) item.getValue();
+
+                dto.getVergelijking().setLinks(ParametersLinks.geefParameter(links));
+
             }
             break;
-            case "Linker Constante waarde":
+            /*case "Linker Constante waarde":
                 dto.getVergelijking().setLinks(new ParameterDto("", (Double) item.getValue(), true));
-                break;
+                break;*/
             case "Operator":
                 dto.getVergelijking().setOperator((VergelijkingsOperator) item.getValue());
                 break;
             case "Rechter parameter": {
-                Parameters rechts = (Parameters) item.getValue();
+                ParametersRechts rechts = (ParametersRechts) item.getValue();
 
-                dto.getVergelijking().setRechts(Parameters.geefParameter(rechts));
+                dto.getVergelijking().setRechts(ParametersRechts.geefParameter(rechts));
 
             }
             break;
@@ -219,21 +222,21 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
         items.clear();
 
         if (dto.isBeslissingsKnoop()) {
-            DeterminatieKnoopProperty d = new ParameterProperty("Links", "Linker parameter", Parameters.geefParameters(dto.getVergelijking().getLinks()));
+            DeterminatieKnoopProperty d = new ParameterProperty("Links", "Linker parameter", ParametersLinks.geefParameters(dto.getVergelijking().getLinks()));
             items.add(d);
             d.addListener(this);
 
-            if (items.stream().anyMatch(i -> i.getValue().toString().equals("Constante waarde") && i.getName().equals("Linker parameter"))) {
+            /*if (items.stream().anyMatch(i -> i.getValue().toString().equals("Constante waarde") && i.getName().equals("Linker parameter"))) {
                 d = new ConstanteWaardeProperty("Links", "Linker Constante waarde", dto.getVergelijking().getLinks().getWaarde());
                 items.add(d);
                 d.addListener(this);
 
-            }
-            d = new OperatorProperty("Operator", "Operator", dto.getVergelijking().getOperator());
+            }*/
 
+            d = new OperatorProperty("Operator", "Operator", dto.getVergelijking().getOperator());
             items.add(d);
             d.addListener(this);
-            d = new ParameterProperty("Rechts", "Rechter parameter", Parameters.geefParameters(dto.getVergelijking().getRechts()));
+            d = new ParameterProperty("Rechts", "Rechter parameter", ParametersRechts.geefParameters(dto.getVergelijking().getRechts()));
 
             items.add(d);
             d.addListener(this);

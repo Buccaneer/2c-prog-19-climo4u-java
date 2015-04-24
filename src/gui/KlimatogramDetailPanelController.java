@@ -26,6 +26,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -43,7 +44,7 @@ import org.controlsfx.control.StatusBar;
  *
  * @author Annemie
  */
-public class KlimatogramDetailPanelController extends Pane implements Observer {
+public class KlimatogramDetailPanelController extends ScrollPane implements Observer {
 
     @FXML
     private Label lblValidatieLocatie, lblValidatieStation, lblValidatieLatitude, lblValidatieLongitude, lblValidatiePeriode;

@@ -16,15 +16,21 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.StatusBar;
 
@@ -33,40 +39,35 @@ import org.controlsfx.control.StatusBar;
  *
  * @author Annemie
  */
-public class KlimatogramFrameController extends GridPane
+public class KlimatogramFrameController extends AnchorPane
 {
 
     private KlimatogramController kController;
     private DeterminatieController dController;
 
     @FXML
-    private Pane pnlLinks;
-
-    @FXML
-    private VBox pnlRechts;
-
-    @FXML
     private TabPane tabPane;
-
+    
     @FXML
-    private Tab tabKlimatogrammen;
-
+    private Tab klimatogramTab;
+    
     @FXML
-    private Tab tabDetermineren;
-
+    private Tab determinatieTab;
+    
     @FXML
-    private Tab tabKlaslijsten;
-
+    private Tab klassenlijstenTab;
+    
     @FXML
-    private Tab tabToetsen;
+    private Tab toetsenTab;
+    
+    @FXML
+    private StatusBar statusBar;
 
     private KlimatogramDetailPanelController kdpc;
     private KlimatogramKiezenPanelController kkpc;
     private DeterminatieTabellenOverzichtPaneController dtopc;
     private BoomPanelController bpc;
     private PropertyContainerPanelController pcpc;
-
-    private StatusBar statusBar = new StatusBar();
 
     public KlimatogramFrameController(KlimatogramController kController, DeterminatieController dController)
     {
@@ -83,92 +84,61 @@ public class KlimatogramFrameController extends GridPane
         {
             throw new RuntimeException(ex);
         }
-        statusBar.setText("");
-        this.add(statusBar, 0, 2);
-        //toonKlimatogrammen();
-        toonDetermineren();
-        tabPane.getSelectionModel().select(tabDetermineren);
-        stelTabPaneIn();
+        
+        maakKlimatogrammenTab();
+        maakDeterminerenTab();
+        maakKlassenlijstenTab();
+        maakToetsenTab();
     }
 
-    private void clear()
-    {
-        pnlLinks.getChildren().clear();
-        pnlRechts.getChildren().clear();
-    }
-
-    public void toonKlimatogrammen()
+    private void maakKlimatogrammenTab()
     {
         System.out.println("TOON KLIMATOMATEN");
-        clear();
-        if (kdpc == null || kkpc == null)
-        {
-            kdpc = new KlimatogramDetailPanelController(this.kController, statusBar);
-            kkpc = new KlimatogramKiezenPanelController(this.kController, statusBar);
-            this.kController.addObserver(kdpc);
-            this.kController.addObserver(kkpc);
-        }
+        kdpc = new KlimatogramDetailPanelController(this.kController, statusBar);
+        kkpc = new KlimatogramKiezenPanelController(this.kController, statusBar);
+        this.kController.addObserver(kdpc);
+        this.kController.addObserver(kkpc);
+        HBox content = new HBox();
+        Pane pnlLinks = new Pane();
+        VBox pnlRechts = new VBox();
+        HBox.setHgrow(pnlRechts, Priority.ALWAYS);
         pnlLinks.getChildren().add(kkpc);
+        content.getChildren().add(pnlLinks);
         pnlRechts.getChildren().add(kdpc);
+        content.getChildren().add(pnlRechts);
+        klimatogramTab.setContent(content);
     }
 
-    public void toonDetermineren()
+    private void maakDeterminerenTab()
     {
         System.out.println("TOON DETERMIPEREN");
-        if (dtopc == null || bpc == null || pcpc == null)
-        {
-            dtopc = new DeterminatieTabellenOverzichtPaneController(dController);
-            bpc = new BoomPanelController();
-            pcpc = new PropertyContainerPanelController(dController);
-            dController.addObserver(bpc);
-            dController.addObserver(pcpc);
-            bpc.addListener(pcpc);
-
-        }
-        clear();
+        dtopc = new DeterminatieTabellenOverzichtPaneController(this.dController);
+        bpc = new BoomPanelController();
+        pcpc = new PropertyContainerPanelController(this.dController);
+        this.dController.addObserver(bpc);
+        this.dController.addObserver(pcpc);
+        bpc.addListener(pcpc);
+        HBox content = new HBox();
+        Pane pnlLinks = new Pane();
+        VBox pnlRechts = new VBox();
+        HBox.setHgrow(pnlRechts, Priority.ALWAYS);
+        VBox.setVgrow(bpc, Priority.ALWAYS);
         pnlLinks.getChildren().add(dtopc);
+        content.getChildren().add(pnlLinks);
         pnlRechts.getChildren().add(bpc);
         pnlRechts.getChildren().add(pcpc);
+        content.getChildren().add(pnlRechts);
+        determinatieTab.setContent(content);
     }
 
-    public void toonKlassenlijsten()
+    private void maakKlassenlijstenTab()
     {
-        clear();
+
     }
 
-    public void toonToetsen()
+    private void maakToetsenTab()
     {
-        clear();
-    }
 
-    private void stelTabPaneIn()
-    {
-        tabPane.getSelectionModel().selectedItemProperty().addListener(
-                new ChangeListener<Tab>()
-                {
-
-                    @Override
-                    public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue)
-                    {
-                        if (newValue == tabKlimatogrammen)
-                        {
-                            toonKlimatogrammen();
-                        }
-                        else if (newValue == tabDetermineren)
-                        {
-                            toonDetermineren();
-                        }
-                        else if (newValue == tabKlaslijsten)
-                        {
-                            toonKlassenlijsten();
-                        }
-                        else if (newValue == tabToetsen)
-                        {
-                            toonToetsen();
-                        }
-                    }
-                }
-        );
     }
 
 }
