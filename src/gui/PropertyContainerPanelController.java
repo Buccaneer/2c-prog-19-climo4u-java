@@ -14,26 +14,19 @@ import dto.ParameterDto;
 import dto.VegetatieTypeDto;
 import dto.VergelijkingDto;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Properties;
-import java.util.ResourceBundle;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import org.controlsfx.control.PropertySheet;
-import org.controlsfx.property.BeanProperty;
 
 /**
  * FXML Controller class
@@ -44,16 +37,16 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
 
     @FXML
     private Button btnOpslaan;
-    
-    @FXML 
+
+    @FXML
     private Label lblStatus;
 
     @FXML
     private Button btnOmzetten;
-    
+
     @FXML
     private Pane paneEigenschappen;
-    
+
     private PropertySheet properties;
     private DeterminatieKnoopDto dto;
     private DeterminatieController controller;
@@ -86,11 +79,13 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
 
     private void veranderNullWaarden() {
         if (dto.isBeslissingsKnoop()) {
-            if (dto.getVergelijking() == null)
+            if (dto.getVergelijking() == null) {
                 dto.setVergelijking(new VergelijkingDto(new ParameterDto("", 0.0, true), VergelijkingsOperator.GELIJKAAN, new ParameterDto("", 0.0, true)));
+            }
 
-        } else if (dto.getVegetatieType() == null)
+        } else if (dto.getVegetatieType() == null) {
             dto.setVegetatieType(new VegetatieTypeDto());
+        }
     }
 
     @Override
@@ -99,16 +94,12 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
         switch (item.getName()) {
             case "Linker parameter": {
                 Parameters links = (Parameters) item.getValue();
-                if (links != Parameters.CONSTANTEWAARDE)
-                    //PropertySheet.Item i =  items.get(1);
-                    //i.setValue(0.0);
 
-                    dto.getVergelijking().setLinks(Parameters.geefParameter(links));
+                dto.getVergelijking().setLinks(Parameters.geefParameter(links));
+
             }
             break;
             case "Linker Constante waarde":
-                if ((Double) item.getValue() != 0.0)
-                    items.get(0).setValue(Parameters.CONSTANTEWAARDE);
                 dto.getVergelijking().setLinks(new ParameterDto("", (Double) item.getValue(), true));
                 break;
             case "Operator":
@@ -116,15 +107,13 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
                 break;
             case "Rechter parameter": {
                 Parameters rechts = (Parameters) item.getValue();
-                if (rechts != Parameters.CONSTANTEWAARDE)
-                    //   PropertySheet.Item i =  items.get(4);
-                    //i.setValue(0.0);
-                    dto.getVergelijking().setRechts(Parameters.geefParameter(rechts));
+
+                dto.getVergelijking().setRechts(Parameters.geefParameter(rechts));
+
             }
             break;
             case "Rechter Constante waarde":
-                if ((Double) item.getValue() != 0.0)
-                    items.get(3).setValue(Parameters.CONSTANTEWAARDE);
+
                 dto.getVergelijking().setRechts(new ParameterDto("", (Double) item.getValue(), true));
                 break;
             case "Klimaattype":
@@ -138,6 +127,12 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
                 break;
         }
 
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                vulItemsIn();
+            }
+        });
     }
 
     @Override
@@ -147,72 +142,98 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
         veranderNullWaarden();
         toonProperties();
 
-        if (dto.isBeslissingsKnoop())
+        if (dto.isBeslissingsKnoop()) {
             btnOmzetten.setGraphic(new ImageView(new Image("/content/images/min_small.png")));
-        else
+        } else {
             btnOmzetten.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
+        }
+        vulItemsIn();
+    }
+
+    private void vulItemsIn() {
         items.clear();
 
         if (dto.isBeslissingsKnoop()) {
             DeterminatieKnoopProperty d = new ParameterProperty("Links", "Linker parameter", Parameters.geefParameters(dto.getVergelijking().getLinks()));
-            d.addListener(this);
             items.add(d);
-            d = new ConstanteWaardeProperty("Links", "Linker Constante waarde", dto.getVergelijking().getLinks().getWaarde());
             d.addListener(this);
-            items.add(d);
+
+            if (items.stream().anyMatch(i -> i.getValue().toString().equals("Constante waarde") && i.getName().equals("Linker parameter"))) {
+                d = new ConstanteWaardeProperty("Links", "Linker Constante waarde", dto.getVergelijking().getLinks().getWaarde());
+                items.add(d);
+                d.addListener(this);
+
+            }
             d = new OperatorProperty("Operator", "Operator", dto.getVergelijking().getOperator());
-            d.addListener(this);
+
             items.add(d);
+            d.addListener(this);
             d = new ParameterProperty("Rechts", "Rechter parameter", Parameters.geefParameters(dto.getVergelijking().getRechts()));
-            d.addListener(this);
+
             items.add(d);
-            d = new ConstanteWaardeProperty("Rechts", "Rechter Constante waarde", dto.getVergelijking().getRechts().getWaarde());
             d.addListener(this);
-            items.add(d);
+            if (items.stream().anyMatch(i -> i.getValue().toString().equals("Constante waarde") && i.getName().equals("Rechter parameter"))) {
+                d = new ConstanteWaardeProperty("Rechts", "Rechter Constante waarde", dto.getVergelijking().getRechts().getWaarde());
+                items.add(d);
+                d.addListener(this);
+
+            }
         } else {
             DeterminatieKnoopProperty d = new StringProperty("", "Klimaattype", dto.getKlimaattype());
-            d.addListener(this);
+
             items.add(d);
+            d.addListener(this);
+
             d = new StringProperty("VegetatieType", "Naam", dto.getVegetatieType().getNaam());
-            d.addListener(this);
+
             items.add(d);
+            d.addListener(this);
+
             d = new StringProperty("VegetatieType", "Foto", dto.getVegetatieType().getFoto());
-            d.addListener(this);
+
             items.add(d);
+            d.addListener(this);
+
         }
+        items.stream().forEach((item) -> {
+            ((DeterminatieKnoopProperty) item).bemerken();
+        });
     }
 
     public void opslaan() {
-        if (dto != null)
+        if (dto != null) {
             controller.wijzigKnoop(dto);
+        }
         dto = null;
     }
 
     public void omzetten() {
         if (dto != null) {
-            if (dto.isBeslissingsKnoop())
+            if (dto.isBeslissingsKnoop()) {
                 dto.toResultaatBlad();
-            else
+            } else {
                 dto.toBeslissingsKnoop();
+            }
             controller.wijzigKnoop(dto);
         }
     }
 
     @Override
     public void update(String actie, Object object) {
-      if (actie.equals("verwijderen")) {
-          this.setDisable(true);
-      } else
-          this.setDisable(false);
-      
-      try {
-          controller.valideer();
-          lblStatus.setTextFill(Color.GREEN);
-          lblStatus.setText("Determinatatietabel voldoet zich aan de voorwaarden.");
-      } catch (Exception ex) {
-          lblStatus.setTextFill(Color.RED);
-          lblStatus.setText("Determinatatietabel voldoet zich niet aan de voorwaarden.");
-      }
+        if (actie.equals("verwijderen")) {
+            this.setDisable(true);
+        } else {
+            this.setDisable(false);
+        }
+
+        try {
+            controller.valideer();
+            lblStatus.setTextFill(Color.GREEN);
+            lblStatus.setText("Determinatatietabel voldoet zich aan de voorwaarden.");
+        } catch (Exception ex) {
+            lblStatus.setTextFill(Color.RED);
+            lblStatus.setText("Determinatatietabel voldoet zich niet aan de voorwaarden.");
+        }
     }
 
 }
