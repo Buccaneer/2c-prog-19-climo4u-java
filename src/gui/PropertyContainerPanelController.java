@@ -15,18 +15,27 @@ import dto.VegetatieTypeDto;
 import dto.VergelijkingDto;
 import java.io.IOException;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 import org.controlsfx.control.PropertySheet;
+import org.controlsfx.property.editor.DefaultPropertyEditorFactory;
+import org.controlsfx.property.editor.Editors;
+import org.controlsfx.property.editor.PropertyEditor;
 
 /**
  * FXML Controller class
@@ -73,6 +82,56 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
             paneEigenschappen.getChildren().clear();
             paneEigenschappen.getChildren().add(properties);
         }
+
+        SimpleObjectProperty<Callback<PropertySheet.Item, PropertyEditor<?>>> propertyEditorFactory = new SimpleObjectProperty<>(this, "propertyEditor", new DefaultPropertyEditorFactory());
+        properties.setPropertyEditorFactory((PropertySheet.Item param) -> {
+            if (param.getValue() instanceof String) {
+                PropertyEditor<?> editor = Editors.createTextEditor(param);
+                TextField edit = (TextField) editor.getEditor();
+                edit.setOnAction(null);
+                edit.setOnContextMenuRequested(null);
+                edit.setOnDragDetected(null);
+                edit.setOnDragDone(null);
+                edit.setOnDragDropped(null);
+                edit.setOnDragEntered(null);
+                edit.setOnDragExited(null);
+                edit.setOnDragOver(null);
+                edit.setOnInputMethodTextChanged(null);
+                edit.setOnKeyPressed(null);
+                edit.setOnKeyReleased(null);
+                edit.setOnKeyTyped(null);
+                edit.setOnMouseClicked(null);
+                edit.setOnMouseDragEntered(null);
+                edit.setOnMouseDragExited(null);
+                edit.setOnMouseDragOver(null);
+                edit.setOnMouseDragReleased(null);
+                edit.setOnMouseDragged(null);
+                edit.setOnMouseEntered(null);
+                edit.setOnMouseExited(null);
+                edit.setOnMouseMoved(null);
+                edit.setOnMousePressed(null);
+                edit.setOnMouseReleased(null);
+                edit.setOnRotate(null);
+                edit.setOnRotationFinished(null);
+                edit.setOnRotationStarted(null);
+                edit.setOnScroll(null);
+                edit.setOnScrollFinished(null);
+                edit.setOnScrollStarted(null);
+                edit.setOnSwipeDown(null);
+                edit.setOnSwipeRight(null);
+                edit.setOnSwipeLeft(null);
+                edit.setOnSwipeRight(null);
+                edit.setOnSwipeUp(null);
+                edit.setOnTouchMoved(null);
+                edit.setOnTouchPressed(null);
+                edit.setOnTouchReleased(null);
+                edit.setOnTouchStationary(null);
+                edit.setOnZoom(null);
+                edit.setOnZoomFinished(null);
+                edit.setOnZoomStarted(null);
+            }
+            return propertyEditorFactory.get().call(param);
+        });
         properties.setPrefSize(paneEigenschappen.getPrefWidth(), paneEigenschappen.getPrefHeight());
         properties.setPadding(paneEigenschappen.getPadding());
     }
@@ -94,9 +153,7 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
         switch (item.getName()) {
             case "Linker parameter": {
                 Parameters links = (Parameters) item.getValue();
-
                 dto.getVergelijking().setLinks(Parameters.geefParameter(links));
-
             }
             break;
             case "Linker Constante waarde":
@@ -113,7 +170,6 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
             }
             break;
             case "Rechter Constante waarde":
-
                 dto.getVergelijking().setRechts(new ParameterDto("", (Double) item.getValue(), true));
                 break;
             case "Klimaattype":
@@ -123,7 +179,16 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
                 dto.getVegetatieType().setNaam((String) item.getValue());
                 break;
             case "Foto":
-                dto.getVegetatieType().setFoto((String) item.getValue());
+                dto.getVegetatieType().setFoto((String) ((Fotos) item.getValue()).getUrl());
+                break;
+            case "Url":
+                if (!item.getValue().toString().isEmpty()) {
+                    if (item.getValue().toString().matches("(http(s?):)|([/|.|\\w|\\s])*\\.(?:jpg|gif|png)")) {
+                        dto.getVegetatieType().setFoto(item.getValue().toString());
+                    }
+                } else {
+                    dto.getVegetatieType().setFoto((String) ((Fotos) item.getValue()).getUrl());
+                }
                 break;
         }
 
@@ -180,17 +245,18 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
             }
         } else {
             DeterminatieKnoopProperty d = new StringProperty("", "Klimaattype", dto.getKlimaattype());
-
             items.add(d);
             d.addListener(this);
 
             d = new StringProperty("VegetatieType", "Naam", dto.getVegetatieType().getNaam());
-
             items.add(d);
             d.addListener(this);
 
-            d = new StringProperty("VegetatieType", "Foto", dto.getVegetatieType().getFoto());
+            d = new FotoProperty("VegetatieType", "Foto", Fotos.geefFotos(dto.getVegetatieType()));
+            items.add(d);
+            d.addListener(this);
 
+            d = new StringProperty("VegetatieType", "Url", dto.getVegetatieType().getFoto());
             items.add(d);
             d.addListener(this);
 
