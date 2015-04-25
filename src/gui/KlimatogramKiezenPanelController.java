@@ -99,10 +99,10 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
         btnKlimatogramToevoegen.setGraphic(new ImageView(new Image("/content/images/plus.png")));
         btnKlimatogramVerwijderen.setGraphic(new ImageView(new Image("/content/images/min.png")));
         btnKlimatogramWijzigen.setGraphic(new ImageView(new Image("/content/images/edit.png")));
-        btnWerelddeelOk.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
-        btnWerelddeelCancel.setGraphic(new ImageView(new Image("/content/images/min_small.png")));
         btnLandOk.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
         btnLandCancel.setGraphic(new ImageView(new Image("/content/images/min_small.png")));
+        btnWerelddeelOk.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
+        btnWerelddeelCancel.setGraphic(new ImageView(new Image("/content/images/min_small.png")));
         setTooltip(btnKlimatogramToevoegen, "Klimatogram toevoegen");
         setTooltip(btnKlimatogramVerwijderen, "Klimatogram verwijderen");
         setTooltip(btnKlimatogramWijzigen, "Klimatogram wijzigen");
@@ -115,7 +115,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
         checkBoxen[1] = chkTweede;
         checkBoxen[2] = chkDerde;
     }
-
+    
     @FXML
     public void voegKlimatogramToe(ActionEvent event) {
         try {
@@ -150,7 +150,6 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
 
     @FXML
     public void wijzigKlimatogram(ActionEvent event) {
-
         try {
             clearErrors();
             controller.wijzig();
@@ -159,19 +158,20 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
         } catch (IllegalArgumentException e) {
             statusBar.setText(e.getMessage());
         }
-
     }
 
     @FXML
     public void werelddeelOk(ActionEvent event) {
         clearErrors();
-        if (btnWerelddeelOk.getText().equals("+")) {
+        if (btnWerelddeelOk.getId().equals("+")) {
             controller.clearLijstenWerelddeel();
             cboWerelddeel.getSelectionModel().clearSelection();
             cboWerelddeel.setVisible(false);
             txfWerelddeel.setVisible(true);
-            btnWerelddeelOk.setText("v");
-            btnWerelddeelCancel.setText("x");
+            btnWerelddeelOk.setGraphic(new ImageView(new Image("/content/images/vinkSmall.png")));
+            btnWerelddeelOk.setId("v");
+            btnWerelddeelCancel.setGraphic(new ImageView(new Image("/content/images/xSmall.png")));
+            btnWerelddeelCancel.setId("x");
             setTooltip(btnWerelddeelOk, "Opslaan");
             setTooltip(btnWerelddeelCancel, "Annuleren");
         } else {
@@ -208,8 +208,10 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
                         chkBox.setSelected(false);
                     }
                     lblWerelddeel.setText("Werelddeel");
-                    btnWerelddeelOk.setText("+");
-                    btnWerelddeelCancel.setText("-");
+                    btnWerelddeelOk.setId("+");
+                    btnWerelddeelOk.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
+                    btnWerelddeelCancel.setId("-");
+                    btnWerelddeelCancel.setGraphic(new ImageView(new Image("/content/images/min_small.png")));
                 }
             } catch (IllegalArgumentException e) {
                 statusBar.setText(e.getMessage());
@@ -222,7 +224,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
     @FXML
     public void werelddeelCancel(ActionEvent event) {
         clearErrors();
-        if (btnWerelddeelCancel.getText().equals("-")) {
+        if (btnWerelddeelCancel.getId().equals("-")) {
             try {
                 if (controller.werelddeelGeselecteerd()) {
                     Optional<ButtonType> result = maakAlert("Werelddeel verwijderen", "Werelddeel verwijderen", "Bent u zeker dat u dit werelddeel wilt verwijderen? Alle landen en klimatogrammen zullen mee verwijderd worden.");
@@ -249,8 +251,10 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
                 chkBox.setSelected(false);
             }
             lblWerelddeel.setText("Werelddeel");
-            btnWerelddeelOk.setText("+");
-            btnWerelddeelCancel.setText("-");
+            btnWerelddeelOk.setId("+");
+            btnWerelddeelOk.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
+            btnWerelddeelCancel.setId("-");
+            btnWerelddeelCancel.setGraphic(new ImageView(new Image("/content/images/min_small.png")));
             setTooltip(btnWerelddeelOk, "Werelddeel toevoegen");
             setTooltip(btnWerelddeelCancel, "Werelddeel verwijderen");
         }
@@ -259,13 +263,15 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
     @FXML
     public void landOk(ActionEvent event) {
         clearErrors();
-        if (btnLandOk.getText().equals("+")) {
+        if (btnLandOk.getId().equals("+")) {
             if (controller.werelddeelGeselecteerd()) {
                 controller.clearLijstenLand();
                 cboLand.setVisible(false);
                 txfLand.setVisible(true);
-                btnLandOk.setText("v");
-                btnLandCancel.setText("x");
+                btnLandOk.setGraphic(new ImageView(new Image("/content/images/vinkSmall.png")));
+                btnLandOk.setId("cancel");
+                btnLandCancel.setGraphic(new ImageView(new Image("/content/images/xSmall.png")));
+                btnLandCancel.setId("x");
                 setTooltip(btnLandOk, "Opslaan");
                 setTooltip(btnLandCancel, "Wijzigen");
             } else {
@@ -278,8 +284,10 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
                 txfLand.clear();
                 cboLand.setVisible(true);
                 txfLand.setVisible(false);
-                btnLandOk.setText("+");
-                btnLandCancel.setText("-");
+                btnLandOk.setId("+");
+                btnLandOk.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
+                btnLandCancel.setId("-");
+                btnLandCancel.setGraphic(new ImageView(new Image("/content/images/min_small.png")));
             } catch (IllegalArgumentException e) {
                 statusBar.setText(e.getMessage());
             } catch (Exception ex) {
@@ -291,7 +299,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
     @FXML
     public void landCancel(ActionEvent event) {
         clearErrors();
-        if (btnLandCancel.getText().equals("-")) {
+        if (btnLandCancel.getId().equals("-")) {
             try {
                 if (controller.landGeselecteerd()) {
                     Optional<ButtonType> result = maakAlert("Land verwijderen", "Land verwijderen", "Bent u zeker dat u dit land wilt verwijderen? Alle klimatogrammen zullen mee verwijderd worden.");
@@ -312,8 +320,10 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
             txfLand.clear();
             cboLand.setVisible(true);
             txfLand.setVisible(false);
-            btnLandOk.setText("+");
-            btnLandCancel.setText("-");
+            btnLandOk.setId("+");
+            btnLandOk.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
+            btnLandCancel.setId("-");
+            btnLandCancel.setGraphic(new ImageView(new Image("/content/images/min_small.png")));
             setTooltip(btnLandOk, "Land toevoegen");
             setTooltip(btnLandCancel, "Land verwijderen");
         }

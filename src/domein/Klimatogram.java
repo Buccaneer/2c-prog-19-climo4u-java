@@ -1,5 +1,6 @@
 package domein;
 
+import dto.MaandDto;
 import java.util.*;
 import java.util.regex.Pattern;
 import javax.persistence.*;
@@ -136,15 +137,51 @@ public class Klimatogram implements Cloneable {
             if (Pattern.compile(".*[^0-9].*").matcher(station).matches()) {
                 throw new IllegalArgumentException("Een station mag enkel cijfers bevatten.");
             }
-            this.station=station;
-        }
-        else{
+            this.station = station;
+        } else {
             this.station = "";
         }
     }
 
     public List<Maand> getMaanden() {
+        Collections.sort(maanden, new Comparator<Maand>() {
+            @Override
+            public int compare(Maand o1, Maand o2) {
+                return geefWaarde(o1) - geefWaarde(o2);
+            }
+        });
         return maanden;
+    }
+
+    private int geefWaarde(Maand o1) {
+        switch (o1.getNaam()) {
+            case "Januari":
+                return 1;
+            case "Februari":
+                return 2;
+            case "Maart":
+                return 3;
+            case "April":
+                return 4;
+            case "Mei":
+                return 5;
+            case "Juni":
+                return 6;
+            case "Juli":
+                return 7;
+            case "Augustus":
+                return 8;
+            case "September":
+                return 9;
+            case "Oktober":
+                return 10;
+            case "November":
+                return 11;
+            case "December":
+                return 12;
+            default:
+                return -1;
+        }
     }
 
     public Klimatogram() {

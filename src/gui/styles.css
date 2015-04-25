@@ -27,7 +27,7 @@ and open the template in the editor.
         radial-gradient(center 50% 50%, radius 100%, #1F7293, #195972);
 }
 
-#ok:hover{
+.ok:hover{
     -fx-background-color:
         linear-gradient(#8fc800 , #438c00),
         radial-gradient(center 50% -20%, radius 200%, #8fc800 50%, #438c00 70%);
@@ -36,7 +36,7 @@ and open the template in the editor.
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
 }
 
-#cancel:hover{
+.cancel:hover{
     -fx-background-color:
         linear-gradient(#ff5400, #be1d00),
         radial-gradient(center 50% -20%, radius 200%, #ff5400 50%, #be1d00 70%);
