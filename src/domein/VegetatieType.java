@@ -1,5 +1,6 @@
 package domein;
 
+import gui.Fotos;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,5 +43,8 @@ public class VegetatieType implements Valideerbaar {
     {
         if (foto == null || naam == null)
             throw new DomeinException();
+        for (Fotos value : Fotos.values()) {
+            
+        }
     }
 }

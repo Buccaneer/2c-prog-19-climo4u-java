@@ -19,7 +19,7 @@ public enum Fotos {
     IJSWOESTIJN("../../Content/004.png", "IJswoestijn"),
     WOESTIJNTROPEN("../../Content/004.png", "Woestijn van de tropen"),
     STEPPE("../../Content/005.png", "Steppe"),
-    EMENGDWOUD("../../Content/006.png", "Gemengd woud"),
+    EMENGDWOUD("../../Content/006.jpg", "Gemengd woud"),
     LOOFBOS("../../Content/007.png", "Loofbos"),
     SUBTROPISCHREGENWOUD("../../Content/008.jpg", "Substropisch regenwoud"),
     HARDBLADIGEMIDDELBREEDTEN("../../Content/009.jpg", "Hardbladige-vegetatie van de centrale middelbreedten"),
@@ -40,13 +40,17 @@ public enum Fotos {
         return url;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public String toString() {
         return waarde;
     }
 
     public static Fotos geefFotos(VegetatieTypeDto foto) {
         for (Fotos param : values()) {
-            if (param.getUrl().equals(foto.getFoto())) {
+            if (param.getUrl().equalsIgnoreCase(foto.getFoto())) {
                 return param;
             }
         }

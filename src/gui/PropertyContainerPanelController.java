@@ -15,28 +15,21 @@ import dto.ParameterDto;
 import dto.VegetatieTypeDto;
 import dto.VergelijkingDto;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.util.Callback;
 import org.controlsfx.control.PropertySheet;
-import org.controlsfx.property.editor.DefaultPropertyEditorFactory;
-import org.controlsfx.property.editor.Editors;
-import org.controlsfx.property.editor.PropertyEditor;
 
 /**
  * FXML Controller class
@@ -84,55 +77,6 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
             paneEigenschappen.getChildren().add(properties);
         }
 
-        SimpleObjectProperty<Callback<PropertySheet.Item, PropertyEditor<?>>> propertyEditorFactory = new SimpleObjectProperty<>(this, "propertyEditor", new DefaultPropertyEditorFactory());
-        properties.setPropertyEditorFactory((PropertySheet.Item param) -> {
-            if (param.getValue() instanceof String) {
-                PropertyEditor<?> editor = Editors.createTextEditor(param);
-                TextField edit = (TextField) editor.getEditor();
-                edit.setOnAction(null);
-                edit.setOnContextMenuRequested(null);
-                edit.setOnDragDetected(null);
-                edit.setOnDragDone(null);
-                edit.setOnDragDropped(null);
-                edit.setOnDragEntered(null);
-                edit.setOnDragExited(null);
-                edit.setOnDragOver(null);
-                edit.setOnInputMethodTextChanged(null);
-                edit.setOnKeyPressed(null);
-                edit.setOnKeyReleased(null);
-                edit.setOnKeyTyped(null);
-                edit.setOnMouseClicked(null);
-                edit.setOnMouseDragEntered(null);
-                edit.setOnMouseDragExited(null);
-                edit.setOnMouseDragOver(null);
-                edit.setOnMouseDragReleased(null);
-                edit.setOnMouseDragged(null);
-                edit.setOnMouseEntered(null);
-                edit.setOnMouseExited(null);
-                edit.setOnMouseMoved(null);
-                edit.setOnMousePressed(null);
-                edit.setOnMouseReleased(null);
-                edit.setOnRotate(null);
-                edit.setOnRotationFinished(null);
-                edit.setOnRotationStarted(null);
-                edit.setOnScroll(null);
-                edit.setOnScrollFinished(null);
-                edit.setOnScrollStarted(null);
-                edit.setOnSwipeDown(null);
-                edit.setOnSwipeRight(null);
-                edit.setOnSwipeLeft(null);
-                edit.setOnSwipeRight(null);
-                edit.setOnSwipeUp(null);
-                edit.setOnTouchMoved(null);
-                edit.setOnTouchPressed(null);
-                edit.setOnTouchReleased(null);
-                edit.setOnTouchStationary(null);
-                edit.setOnZoom(null);
-                edit.setOnZoomFinished(null);
-                edit.setOnZoomStarted(null);
-            }
-            return propertyEditorFactory.get().call(param);
-        });
         properties.setPrefSize(paneEigenschappen.getPrefWidth(), paneEigenschappen.getPrefHeight());
         properties.setPadding(paneEigenschappen.getPadding());
     }
@@ -156,12 +100,14 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
                 ParametersLinks links = (ParametersLinks) item.getValue();
 
                 dto.getVergelijking().setLinks(ParametersLinks.geefParameter(links));
-
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        vulItemsIn();
+                    }
+                });
             }
             break;
-            /*case "Linker Constante waarde":
-                dto.getVergelijking().setLinks(new ParameterDto("", (Double) item.getValue(), true));
-                break;*/
             case "Operator":
                 dto.getVergelijking().setOperator((VergelijkingsOperator) item.getValue());
                 break;
@@ -169,7 +115,12 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
                 ParametersRechts rechts = (ParametersRechts) item.getValue();
 
                 dto.getVergelijking().setRechts(ParametersRechts.geefParameter(rechts));
-
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        vulItemsIn();
+                    }
+                });
             }
             break;
             case "Rechter Constante waarde":
@@ -183,24 +134,26 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
                 break;
             case "Foto":
                 dto.getVegetatieType().setFoto((String) ((Fotos) item.getValue()).getUrl());
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        vulItemsIn();
+                    }
+                });
                 break;
             case "Url":
                 if (!item.getValue().toString().isEmpty()) {
-                    if (item.getValue().toString().matches("(http(s?):)|([/|.|\\w|\\s])*\\.(?:jpg|gif|png)")) {
+                    URL url = null;
+                    try {
+                        url = new URL(item.getValue().toString());
+                    } catch (Exception e) {
+                    }
+                    if (url != null && "http".equals(url.getProtocol())) {
                         dto.getVegetatieType().setFoto(item.getValue().toString());
                     }
-                } else {
-                    dto.getVegetatieType().setFoto((String) ((Fotos) item.getValue()).getUrl());
                 }
                 break;
         }
-
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                vulItemsIn();
-            }
-        });
     }
 
     @Override
@@ -225,13 +178,6 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
             DeterminatieKnoopProperty d = new ParameterProperty("Links", "Linker parameter", ParametersLinks.geefParameters(dto.getVergelijking().getLinks()));
             items.add(d);
             d.addListener(this);
-
-            /*if (items.stream().anyMatch(i -> i.getValue().toString().equals("Constante waarde") && i.getName().equals("Linker parameter"))) {
-                d = new ConstanteWaardeProperty("Links", "Linker Constante waarde", dto.getVergelijking().getLinks().getWaarde());
-                items.add(d);
-                d.addListener(this);
-
-            }*/
 
             d = new OperatorProperty("Operator", "Operator", dto.getVergelijking().getOperator());
             items.add(d);
@@ -258,15 +204,15 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
             d = new FotoProperty("VegetatieType", "Foto", Fotos.geefFotos(dto.getVegetatieType()));
             items.add(d);
             d.addListener(this);
-
-            d = new StringProperty("VegetatieType", "Url", dto.getVegetatieType().getFoto());
-            items.add(d);
-            d.addListener(this);
-
+            if (items.stream().anyMatch(i -> i.getName().equals("Foto") && i.getValue().toString().equals("(url ingeven)"))) {
+                d = new StringProperty("VegetatieType", "Url", dto.getVegetatieType().getFoto());
+                items.add(d);
+                d.addListener(this);
+            }
+            items.stream().forEach((item) -> {
+                ((DeterminatieKnoopProperty) item).bemerken();
+            });
         }
-        items.stream().forEach((item) -> {
-            ((DeterminatieKnoopProperty) item).bemerken();
-        });
     }
 
     public void opslaan() {
