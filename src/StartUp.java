@@ -2,6 +2,7 @@
 
 import controller.DeterminatieController;
 import controller.KlimatogramController;
+import controller.LeerlingController;
 import domein.Continent;
 import gui.KlimatogramFrameController;
 import java.util.List;
@@ -18,7 +19,7 @@ import persistentie.GenericDaoJpa;
 public class StartUp extends Application{
     @Override
     public void start(Stage stage) {
-        KlimatogramFrameController controller = new KlimatogramFrameController(new KlimatogramController(), new DeterminatieController());
+        KlimatogramFrameController controller = new KlimatogramFrameController(new KlimatogramController(), new DeterminatieController(), new LeerlingController());
         Scene scene = new Scene(controller);
         stage.setScene(scene);
         stage.setTitle("Klimatogrammen");

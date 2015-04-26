@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="HBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <TableView fx:id="tblKlaslijsten" HBox.hgrow="ALWAYS">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="colNaam" minWidth="200.0" prefWidth="-1.0" text="Naam" />
+                <TableColumn fx:id="colVoornaam" minWidth="200.0" prefWidth="-1.0" text="Voornaam" />
+                <TableColumn fx:id="colKlas" minWidth="200.0" prefWidth="-1.0" text="Klas" />
+                <TableColumn fx:id="colDel" editable="false" prefWidth="25.0" resizable="false" sortable="false" />
+            </columns>
+        </TableView>
+    </children>
+</fx:root>

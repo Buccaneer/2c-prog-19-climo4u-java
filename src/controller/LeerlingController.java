@@ -122,7 +122,7 @@ public class LeerlingController implements Subject {
             throw new IllegalArgumentException("U dient eerst een graad te selecteren.");
         Optional<Klas> klasT = geselecteerdeGraad.getKlassen().stream().filter((k) -> k.getNaam().equals(klas.getNaam())).findFirst();
 
-        if (!klasT.isPresent())
+       if (!klasT.isPresent())
             throw new IllegalArgumentException("Deze klas bestaat niet.");
 
         geselecteerdeKlas = klasT.get();
@@ -157,8 +157,8 @@ public class LeerlingController implements Subject {
 
         if (!leerling.getKlas().getNaam().equals(geselecteerdeKlas.getNaam())) {
             Optional<Klas> klasT = geselecteerdeGraad.getKlassen().stream().filter((k) -> k.getNaam().equals(leerling.getKlas().getNaam())).findFirst();
-            if (!klasT.isPresent())
-                throw new IllegalArgumentException("Klas bestaat niet.");
+           if (!klasT.isPresent())
+               throw new IllegalArgumentException("Klas bestaat niet.");
             geselecteerdeKlas.verwijderLeerling(geselecteerdeLeerling);
             Klas t = klasT.get();
 

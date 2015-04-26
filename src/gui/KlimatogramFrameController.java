@@ -7,6 +7,7 @@ package gui;
 
 import controller.DeterminatieController;
 import controller.KlimatogramController;
+import controller.LeerlingController;
 import java.io.IOException;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -39,61 +40,58 @@ import org.controlsfx.control.StatusBar;
  *
  * @author Annemie
  */
-public class KlimatogramFrameController extends AnchorPane
-{
+public class KlimatogramFrameController extends AnchorPane {
 
     private KlimatogramController kController;
     private DeterminatieController dController;
+    private LeerlingController lController;
 
     @FXML
     private TabPane tabPane;
-    
+
     @FXML
     private Tab klimatogramTab;
-    
+
     @FXML
     private Tab determinatieTab;
-    
+
     @FXML
     private Tab klassenlijstenTab;
-    
+
     @FXML
     private Tab toetsenTab;
-    
+
     @FXML
     private StatusBar statusBar;
 
     private KlimatogramDetailPanelController kdpc;
     private KlimatogramKiezenPanelController kkpc;
     private DeterminatieTabellenOverzichtPaneController dtopc;
+    private KlasLijstenDetailPanelController kldpc;
+    private  KlasLijstenKiezenPanelController klkpc;
     private BoomPanelController bpc;
     private PropertyContainerPanelController pcpc;
 
-    public KlimatogramFrameController(KlimatogramController kController, DeterminatieController dController)
-    {
+    public KlimatogramFrameController(KlimatogramController kController, DeterminatieController dController, LeerlingController lController) {
         this.kController = kController;
         this.dController = dController;
+        this.lController= lController;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("KlimatogramFrame.fxml"));
         loader.setRoot(this);
         loader.setController(this);
-        try
-        {
+        try {
             loader.load();
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        
+
         maakKlimatogrammenTab();
         maakDeterminerenTab();
         maakKlassenlijstenTab();
         maakToetsenTab();
     }
 
-    private void maakKlimatogrammenTab()
-    {
-        System.out.println("TOON KLIMATOMATEN");
+    private void maakKlimatogrammenTab() {
         kdpc = new KlimatogramDetailPanelController(this.kController, statusBar);
         kkpc = new KlimatogramKiezenPanelController(this.kController, statusBar);
         this.kController.addObserver(kdpc);
@@ -109,9 +107,7 @@ public class KlimatogramFrameController extends AnchorPane
         klimatogramTab.setContent(content);
     }
 
-    private void maakDeterminerenTab()
-    {
-        System.out.println("TOON DETERMIPEREN");
+    private void maakDeterminerenTab() {
         dtopc = new DeterminatieTabellenOverzichtPaneController(this.dController);
         bpc = new BoomPanelController();
         pcpc = new PropertyContainerPanelController(this.dController);
@@ -131,13 +127,24 @@ public class KlimatogramFrameController extends AnchorPane
         determinatieTab.setContent(content);
     }
 
-    private void maakKlassenlijstenTab()
-    {
-
+    private void maakKlassenlijstenTab() {
+        klkpc = new KlasLijstenKiezenPanelController(lController, statusBar);
+        kldpc = new KlasLijstenDetailPanelController(lController, statusBar);
+        this.lController.addObserver(klkpc);
+        this.lController.addObserver(kldpc);
+         HBox content = new HBox();
+        Pane pnlLinks = new Pane();
+        VBox pnlRechts = new VBox();
+        HBox.setHgrow(pnlRechts, Priority.ALWAYS);
+        VBox.setVgrow(kldpc, Priority.ALWAYS);
+        pnlLinks.getChildren().add(klkpc);
+        content.getChildren().add(pnlLinks);
+        pnlRechts.getChildren().add(kldpc);
+        content.getChildren().add(pnlRechts);
+        klassenlijstenTab.setContent(content);
     }
 
-    private void maakToetsenTab()
-    {
+    private void maakToetsenTab() {
 
     }
 
