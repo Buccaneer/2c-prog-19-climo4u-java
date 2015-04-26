@@ -13,7 +13,7 @@ import org.junit.runners.Suite;
  * @author Jasper De Vrient
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({controller.KlimatogramControllerTest.class, controller.DeterminatieControllerTest.class})
+@Suite.SuiteClasses({controller.KlimatogramControllerTest.class, controller.DeterminatieControllerTest.class, controller.LeerlingControllerTest.class})
 public class ControllersTestSuite {
     
 }

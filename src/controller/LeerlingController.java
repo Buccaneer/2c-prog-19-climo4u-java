@@ -230,5 +230,32 @@ public class LeerlingController implements Subject {
         geselecteerdeLeerling = null;
         notifyObservers("verwijdert", null);
     }
+    
+    // METHODES NODIG IN DE TESTEN
+
+    void setGeselecteerdeKlas(Klas klas)
+    {
+        this.geselecteerdeKlas = klas;
+    }
+
+    void setGeselecteerdeGraad(Graad graad)
+    {
+        this.geselecteerdeGraad = graad;
+    }
+
+    Leerling getGeselecteerdeLeerling()
+    {
+        return geselecteerdeLeerling;
+    }
+
+    Graad getGeselecteerdeGraad()
+    {
+        return geselecteerdeGraad;
+    }
+
+    Klas getGeselecteerdeKlas()
+    {
+        return geselecteerdeKlas;
+    }
 
 }

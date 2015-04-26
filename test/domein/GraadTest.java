@@ -5,6 +5,7 @@
  */
 package domein;
 
+import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -32,5 +33,25 @@ public class GraadTest {
         Graad g = new Graad();
         g.setActieveTabel(new DeterminatieTabel());
         g.setActieveTabel(new DeterminatieTabel());
+    }
+    
+    @Test
+    public void voegKlasToeWerkt()
+    {
+        Graad g = new Graad();
+        Klas k = new Klas();
+        g.voegKlasToe(k);
+        Assert.assertTrue(g.getKlassen().contains(k));
+    }
+    
+    @Test
+    public void verwijderKlasWerkt()
+    {
+        Graad g = new Graad();
+        Klas k = new Klas();
+        g.getKlassen().add(k);
+        Assert.assertTrue(!g.getKlassen().isEmpty());
+        g.verwijderKlas(k);
+        Assert.assertTrue(g.getKlassen().isEmpty());
     }
 }
