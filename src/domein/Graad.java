@@ -87,6 +87,11 @@ public class Graad {
         }
         return true;
     }
+
+    public int getGraad()
+    {
+        return nummer;
+    }
     
     
 }
