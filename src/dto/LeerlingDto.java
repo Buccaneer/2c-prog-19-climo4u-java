@@ -1,31 +1,31 @@
 package dto;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class LeerlingDto {
 
     private int id;
-    private String naam;
-    private String voornaam;
+    private SimpleStringProperty naam;
+    private SimpleStringProperty voornaam;
     private KlasDto klas;
 
     public int getId() {
         return id;
     }
-    
-    
 
-    public String getNaam() {
+    public SimpleStringProperty getNaam() {
         return this.naam;
     }
 
-    public void setNaam(String naam) {
-        this.naam = naam;
-    }
-
-    public String getVoornaam() {
+    public SimpleStringProperty getVoornaam() {
         return this.voornaam;
     }
 
-    public void setVoornaam(String voornaam) {
+    public void setNaam(SimpleStringProperty naam) {
+        this.naam = naam;
+    }
+
+    public void setVoornaam(SimpleStringProperty voornaam) {
         this.voornaam = voornaam;
     }
 
@@ -42,8 +42,9 @@ public class LeerlingDto {
 
     public LeerlingDto(int id, String naam, String voornaam, KlasDto klas) {
         this.id = id;
-        this.naam = naam;
-        this.voornaam = voornaam;
+
+        this.naam = new SimpleStringProperty(naam);
+        this.voornaam = new SimpleStringProperty(voornaam);
         this.klas = klas;
     }
 

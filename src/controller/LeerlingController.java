@@ -1,17 +1,10 @@
 package controller;
 
-import com.sun.xml.internal.ws.policy.sourcemodel.wspolicy.XmlToken;
 import dto.*;
 import domein.*;
-import java.net.URI;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Optional;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import persistentie.GenericDao;
-import persistentie.GenericDaoJpa;
+import java.util.*;
+import javafx.collections.*;
+import persistentie.*;
 
 public class LeerlingController implements Subject {
 
@@ -42,8 +35,8 @@ public class LeerlingController implements Subject {
 
         GenericDaoJpa.startTransaction();
         Leerling l = new Leerling();
-        l.setNaam(leerling.getNaam());
-        l.setVoornaam(leerling.getVoornaam());
+        l.setNaam(leerling.getNaam().get());
+        l.setVoornaam(leerling.getVoornaam().get());
         l.setKlas(geselecteerdeKlas);
         geselecteerdeKlas.voegLeerlingToe(l);
 
@@ -159,8 +152,8 @@ public class LeerlingController implements Subject {
 
         GenericDaoJpa.startTransaction();
 
-        geselecteerdeLeerling.setNaam(leerling.getNaam());
-        geselecteerdeLeerling.setVoornaam(leerling.getVoornaam());
+        geselecteerdeLeerling.setNaam(leerling.getNaam().get());
+        geselecteerdeLeerling.setVoornaam(leerling.getVoornaam().get());
 
         if (!leerling.getKlas().getNaam().equals(geselecteerdeKlas.getNaam())) {
             Optional<Klas> klasT = geselecteerdeGraad.getKlassen().stream().filter((k) -> k.getNaam().equals(leerling.getKlas().getNaam())).findFirst();
