@@ -1,10 +1,20 @@
 package domein;
 
 import java.util.*;
+import javax.persistence.*;
 
+@Entity()
+@Table(name = "Klassen")
 public class Klas {
     
+    @JoinColumns({@JoinColumn(name="Nummer", referencedColumnName="Nummer", nullable = false), 
+                    @JoinColumn(name="Jaar",referencedColumnName = "Jaar",nullable = true)})
+    @ManyToOne(optional = false)
+    
     private Graad graad;
+    
+    @OneToMany(mappedBy = 
+            "klas",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     private Collection<Leerling> leerlingen = new TreeSet<>(new Comparator<Leerling>() {
         @Override
         public int compare(Leerling o1, Leerling o2) {
@@ -15,7 +25,10 @@ public class Klas {
         }
     });
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+  
     private String naam;
     private int leerjaar;
 

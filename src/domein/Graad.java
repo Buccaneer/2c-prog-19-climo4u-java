@@ -14,37 +14,40 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "graden")
+
 public class Graad {
+
     @Id
     @Column(name = "Nummer")
     private int nummer;
     @Id
-    @Column(name= "Jaar")
+    @Column(name = "Jaar")
     private int jaar;
-    @JoinColumn(name="DeterminatieTabel_DeterminatieTabelId")
+    @JoinColumn(name = "DeterminatieTabel_DeterminatieTabelId")
     @OneToOne(fetch = FetchType.EAGER)
     private DeterminatieTabel actieveTabel;
-    
+
+    @OneToMany(mappedBy = "graad",cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Collection<Klas> klassen = new TreeSet<>(new Comparator<Klas>() {
 
         @Override
         public int compare(Klas o1, Klas o2) {
-          int jaar = o1.getLeerjaar() - o2.getLeerjaar();
-          if (jaar == 0)
-              return o1.getNaam().compareTo(o2.getNaam());
-          return jaar;
+            int jaar = o1.getLeerjaar() - o2.getLeerjaar();
+            if (jaar == 0)
+                return o1.getNaam().compareTo(o2.getNaam());
+            return jaar;
         }
-        
+
     });
-    
+
     public void voegKlasToe(Klas klas) {
         klassen.add(klas);
     }
-    
+
     public Collection<Klas> getKlassen() {
         return klassen;
     }
-    
+
     public void verwijderKlas(Klas klas) {
         klassen.remove(klas);
     }
@@ -56,7 +59,7 @@ public class Graad {
     public void setActieveTabel(DeterminatieTabel actieveTabel) {
         this.actieveTabel = actieveTabel;
     }
-    
+
     public int getNummer() {
         return nummer;
     }
@@ -67,31 +70,25 @@ public class Graad {
 
     @Override
     public String toString() {
-       return "Graad " + nummer + (jaar != 0 ? " jaar " + jaar : "" );
+        return "Graad " + nummer + (jaar != 0 ? " jaar " + jaar : "");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
             return false;
-        }
         final Graad other = (Graad) obj;
-        if (this.nummer != other.nummer) {
+        if (this.nummer != other.nummer)
             return false;
-        }
-        if (this.jaar != other.jaar) {
+        if (this.jaar != other.jaar)
             return false;
-        }
         return true;
     }
 
-    public int getGraad()
-    {
+    public int getGraad() {
         return nummer;
     }
-    
-    
+
 }
