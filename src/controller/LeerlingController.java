@@ -28,9 +28,9 @@ public class LeerlingController implements Subject {
      * @param leerling
      */
     public void maakNieuweLeerling(LeerlingDto leerling) {
-        if (geselecteerdeGraad != null)
+        if (geselecteerdeGraad == null)
             throw new IllegalArgumentException("U dient eerst een graad te selecteren.");
-        if (geselecteerdeKlas != null)
+        if (geselecteerdeKlas == null)
             throw new IllegalArgumentException("U dient eerst een klas te selecteren.");
 
         GenericDaoJpa.startTransaction();
@@ -41,6 +41,7 @@ public class LeerlingController implements Subject {
         geselecteerdeKlas.voegLeerlingToe(l);
 
         GenericDaoJpa.commitTransaction();
+        updateLeerlingen();
     }
 
     /**
@@ -48,7 +49,7 @@ public class LeerlingController implements Subject {
      * @param klas
      */
     public void maakNieuweKlas(KlasDto klas) {
-        if (geselecteerdeGraad != null)
+        if (geselecteerdeGraad == null)
             throw new IllegalArgumentException("U dient eerst een graad te selecteren.");
 
         GenericDaoJpa.startTransaction();
@@ -60,7 +61,8 @@ public class LeerlingController implements Subject {
         k.setLeerjaar(klas.getLeerjaar());
 
         GenericDaoJpa.commitTransaction();
-
+        klassen.clear();
+        geselecteerdeGraad.getKlassen().forEach((Klas kl) -> klassen.add(new KlasDto(kl.getId(), kl.getNaam(), kl.getLeerjaar())));
     }
 
     /**
@@ -84,9 +86,9 @@ public class LeerlingController implements Subject {
      * @param leerling
      */
     public void selecteerLeerling(LeerlingDto leerling) {
-        if (geselecteerdeGraad != null)
+        if (geselecteerdeGraad == null)
             throw new IllegalArgumentException("U dient eerst een graad te selecteren.");
-        if (geselecteerdeKlas != null)
+        if (geselecteerdeKlas == null)
             throw new IllegalArgumentException("U dient eerst een klas te selecteren.");
 
         Optional<Leerling> leerlingT = geselecteerdeKlas.getLeerlingen().stream().filter((l) -> l.getId() == leerling.getId()).findFirst();
@@ -143,11 +145,11 @@ public class LeerlingController implements Subject {
      * @param leerling
      */
     public void wijzigLeerling(LeerlingDto leerling) {
-        if (geselecteerdeGraad != null)
+        if (geselecteerdeGraad == null)
             throw new IllegalArgumentException("U dient eerst een graad te selecteren.");
-        if (geselecteerdeKlas != null)
+        if (geselecteerdeKlas == null)
             throw new IllegalArgumentException("U dient eerst een klas te selecteren.");
-        if (geselecteerdeLeerling != null)
+        if (geselecteerdeLeerling == null)
             throw new IllegalArgumentException("U dient eerst een leerling te selecteren.");
 
         GenericDaoJpa.startTransaction();
@@ -180,9 +182,9 @@ public class LeerlingController implements Subject {
      * @param klas
      */
     public void wijzigKlas(KlasDto klas) {
-        if (geselecteerdeGraad != null)
+        if (geselecteerdeGraad == null)
             throw new IllegalArgumentException("U dient eerst een graad te selecteren.");
-        if (geselecteerdeKlas != null)
+        if (geselecteerdeKlas == null)
             throw new IllegalArgumentException("U dient eerst een klas te selecteren");
 
         GenericDaoJpa.startTransaction();
@@ -223,11 +225,12 @@ public class LeerlingController implements Subject {
     }
 
     public void verwijderLeerling() {
-        
+        geselecteerdeKlas.verwijderLeerling(geselecteerdeLeerling);
         leerlingRepository.delete(geselecteerdeLeerling);
        updateLeerlingen();
         
         geselecteerdeLeerling = null;
+        updateLeerlingen();
         notifyObservers("verwijdert", null);
     }
     

@@ -31,4 +31,8 @@ public class KlasDto {
         this.leerjaar = leerjaar;
     }
 
+    @Override
+    public String toString() {
+        return naam + " jaar " + leerjaar;
+    }
 }
