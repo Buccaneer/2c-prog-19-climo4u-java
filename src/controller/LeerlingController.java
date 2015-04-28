@@ -6,7 +6,7 @@ import java.util.*;
 import javafx.collections.*;
 import persistentie.*;
 
-public class LeerlingController implements Subject {
+public class LeerlingController {
 
     private GenericDao<Graad, String> gradenRepository = new GenericDaoJpa<>(Graad.class);
     private GenericDao<Leerling, Integer> leerlingRepository = new GenericDaoJpa<>(Leerling.class);
@@ -16,22 +16,22 @@ public class LeerlingController implements Subject {
     private ObservableList<KlasDto> klassen = FXCollections.observableArrayList();
     private ObservableList<GraadDto> graden = FXCollections.observableArrayList();
     private ObservableList<KlasDto> alleKlassen = FXCollections.observableArrayList();
-    
+
     private Graad geselecteerdeGraad;
     private Klas geselecteerdeKlas;
     private Leerling geselecteerdeLeerling;
-
-    private Collection<Observer> observers = new HashSet<>();
 
     /**
      *
      * @param leerling
      */
     public void maakNieuweLeerling(LeerlingDto leerling) {
-        if (geselecteerdeGraad == null)
+        if (geselecteerdeGraad == null) {
             throw new IllegalArgumentException("U dient eerst een graad te selecteren.");
-        if (geselecteerdeKlas == null)
+        }
+        if (geselecteerdeKlas == null) {
             throw new IllegalArgumentException("U dient eerst een klas te selecteren.");
+        }
 
         GenericDaoJpa.startTransaction();
         Leerling l = new Leerling();
@@ -49,14 +49,16 @@ public class LeerlingController implements Subject {
      * @param klas
      */
     public void maakNieuweKlas(KlasDto klas) {
-        if (geselecteerdeGraad == null)
+        if (geselecteerdeGraad == null) {
             throw new IllegalArgumentException("U dient eerst een graad te selecteren.");
+        }
 
-        Optional<Klas> gevonden = geselecteerdeGraad.getKlassen().stream().filter((k) -> k.getNaam().equals(klas.getNaam()) && k.getLeerjaar() == klas.getLeerjaar()).findFirst();
-        
-        if (gevonden.isPresent())
+        Optional<Klas> gevonden = klassenRepository.getAll().stream().filter((k) -> k.getNaam().equals(klas.getNaam()) && k.getLeerjaar() == klas.getLeerjaar()).findFirst();
+
+        if (gevonden.isPresent()) {
             throw new IllegalArgumentException("Deze klas bestaat reeds.");
-        
+        }
+
         GenericDaoJpa.startTransaction();
 
         Klas k = new Klas();
@@ -72,37 +74,23 @@ public class LeerlingController implements Subject {
 
     /**
      *
-     * @param observer
-     */
-    public void addObserver(Observer observer) {
-        observers.add(observer);
-    }
-
-    /**
-     *
-     * @param observer
-     */
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
-    }
-
-    /**
-     *
      * @param leerling
      */
     public void selecteerLeerling(LeerlingDto leerling) {
-        if (geselecteerdeGraad == null)
+        if (geselecteerdeGraad == null) {
             throw new IllegalArgumentException("U dient eerst een graad te selecteren.");
-        if (geselecteerdeKlas == null)
+        }
+        if (geselecteerdeKlas == null) {
             throw new IllegalArgumentException("U dient eerst een klas te selecteren.");
+        }
 
         Optional<Leerling> leerlingT = geselecteerdeKlas.getLeerlingen().stream().filter((l) -> l.getId() == leerling.getId()).findFirst();
 
-        if (!leerlingT.isPresent())
+        if (!leerlingT.isPresent()) {
             throw new IllegalArgumentException("Deze leerling bestaat niet.");
+        }
 
         geselecteerdeLeerling = leerlingT.get();
-        notifyObservers(null, geselecteerdeLeerling);
     }
 
     /**
@@ -111,8 +99,9 @@ public class LeerlingController implements Subject {
      */
     public void selecteerGraad(GraadDto graad) {
         Graad t = gradenRepository.getAll().stream().filter((g) -> g.getJaar() == graad.getJaar() && g.getNummer() == graad.getGraad()).findFirst().get();
-        if (t == null)
+        if (t == null) {
             throw new IllegalArgumentException("De geselecteerde graad bestaat niet.");
+        }
         geselecteerdeGraad = t;
         geselecteerdeKlas = null;
         geselecteerdeLeerling = null;
@@ -125,17 +114,20 @@ public class LeerlingController implements Subject {
      * @param klas
      */
     public void selecteerKlas(KlasDto klas) {
-        if (geselecteerdeGraad == null)
+        if (geselecteerdeGraad == null) {
             throw new IllegalArgumentException("U dient eerst een graad te selecteren.");
+        }
         Optional<Klas> klasT = geselecteerdeGraad.getKlassen().stream().filter((k) -> k.getNaam().equals(klas.getNaam()) && k.getLeerjaar() == klas.getLeerjaar()).findFirst();
 
-       if (!klasT.isPresent())
+        if (!klasT.isPresent()) {
             throw new IllegalArgumentException("Deze klas bestaat niet.");
+        }
 
         geselecteerdeKlas = klasT.get();
         geselecteerdeLeerling = null;
-        updateLeerlingen();
 
+        updateLeerlingen();
+        getAlleKlassen();
     }
 
     private void updateLeerlingen() {
@@ -150,12 +142,15 @@ public class LeerlingController implements Subject {
      * @param leerling
      */
     public void wijzigLeerling(LeerlingDto leerling) {
-        if (geselecteerdeGraad == null)
+        if (geselecteerdeGraad == null) {
             throw new IllegalArgumentException("U dient eerst een graad te selecteren.");
-        if (geselecteerdeKlas == null)
+        }
+        if (geselecteerdeKlas == null) {
             throw new IllegalArgumentException("U dient eerst een klas te selecteren.");
-        if (geselecteerdeLeerling == null)
+        }
+        if (geselecteerdeLeerling == null) {
             throw new IllegalArgumentException("U dient eerst een leerling te selecteren.");
+        }
 
         GenericDaoJpa.startTransaction();
 
@@ -163,9 +158,10 @@ public class LeerlingController implements Subject {
         geselecteerdeLeerling.setVoornaam(leerling.getVoornaam().get());
 
         if (!leerling.getKlas().getNaam().equals(geselecteerdeKlas.getNaam()) || leerling.getKlas().getLeerjaar() != geselecteerdeKlas.getLeerjaar()) {
-            Optional<Klas> klasT = geselecteerdeGraad.getKlassen().stream().filter((k) -> k.getNaam().equals(geselecteerdeKlas.getNaam()) && k.getLeerjaar() == geselecteerdeKlas.getLeerjaar()).findFirst();
-           if (!klasT.isPresent())
-               throw new IllegalArgumentException("Klas bestaat niet.");
+            Optional<Klas> klasT = klassenRepository.getAll().stream().filter((k) -> k.getNaam().equals(leerling.getKlas().getNaam()) && k.getLeerjaar() == leerling.getKlas().getLeerjaar()).findFirst();
+            if (!klasT.isPresent()) {
+                throw new IllegalArgumentException("Klas bestaat niet.");
+            }
             geselecteerdeKlas.verwijderLeerling(geselecteerdeLeerling);
             Klas t = klasT.get();
 
@@ -179,7 +175,6 @@ public class LeerlingController implements Subject {
         GenericDaoJpa
                 .commitTransaction();
 
-        notifyObservers(null, geselecteerdeLeerling);
     }
 
     /**
@@ -187,10 +182,12 @@ public class LeerlingController implements Subject {
      * @param klas
      */
     public void wijzigKlas(KlasDto klas) {
-        if (geselecteerdeGraad == null)
+        if (geselecteerdeGraad == null) {
             throw new IllegalArgumentException("U dient eerst een graad te selecteren.");
-        if (geselecteerdeKlas == null)
+        }
+        if (geselecteerdeKlas == null) {
             throw new IllegalArgumentException("U dient eerst een klas te selecteren");
+        }
 
         GenericDaoJpa.startTransaction();
 
@@ -198,6 +195,8 @@ public class LeerlingController implements Subject {
         geselecteerdeKlas.setLeerjaar(klas.getLeerjaar());
 
         GenericDaoJpa.commitTransaction();
+        klassen.clear();
+        geselecteerdeGraad.getKlassen().forEach((Klas kl) -> klassen.add(new KlasDto(kl.getId(), kl.getNaam(), kl.getLeerjaar())));
     }
 
     public ObservableList<GraadDto> getGraden() {
@@ -224,45 +223,59 @@ public class LeerlingController implements Subject {
         return alleKlassen.sorted((KlasDto o1, KlasDto o2) -> o1.getNaam().compareTo(o2.getNaam()));
     }
 
-    @Override
-    public void notifyObservers(String actie, Object object) {
-        observers.forEach((Observer o) -> o.update(null, object));
+    public KlasDto getGeselecteerdeKlasDto() {
+        if (geselecteerdeKlas == null) {
+            throw new IllegalArgumentException("Gelieve eerst een klas te selecteren.");
+        }
+        return new KlasDto(geselecteerdeKlas.getId(), geselecteerdeKlas.getNaam(), geselecteerdeKlas.getLeerjaar());
     }
 
     public void verwijderLeerling() {
+        if (geselecteerdeLeerling == null) {
+            throw new IllegalArgumentException("Gelieve eerst een leerling te selecteren.");
+        }
         geselecteerdeKlas.verwijderLeerling(geselecteerdeLeerling);
         leerlingRepository.delete(geselecteerdeLeerling);
-       updateLeerlingen();
-        
+        updateLeerlingen();
+
         geselecteerdeLeerling = null;
         updateLeerlingen();
-        notifyObservers("verwijdert", null);
     }
-    
-    // METHODES NODIG IN DE TESTEN
 
-    void setGeselecteerdeKlas(Klas klas)
-    {
+    public void verwijderKlas() {
+        if (geselecteerdeKlas == null) {
+            throw new IllegalArgumentException("Gelieve eerst een klas te selecteren.");
+        }
+        if (geselecteerdeKlas.getLeerlingen().isEmpty()) {
+            geselecteerdeGraad.verwijderKlas(geselecteerdeKlas);
+            klassenRepository.delete(geselecteerdeKlas);
+        } else {
+            throw new IllegalArgumentException("Een klas kan pas verwijderd worden als ze geen leerlingen meer heeft.");
+        }
+
+        klassen.clear();
+        geselecteerdeGraad.getKlassen().forEach((Klas kl) -> klassen.add(new KlasDto(kl.getId(), kl.getNaam(), kl.getLeerjaar())));
+        geselecteerdeKlas = null;
+    }
+
+    // METHODES NODIG IN DE TESTEN
+    void setGeselecteerdeKlas(Klas klas) {
         this.geselecteerdeKlas = klas;
     }
 
-    void setGeselecteerdeGraad(Graad graad)
-    {
+    void setGeselecteerdeGraad(Graad graad) {
         this.geselecteerdeGraad = graad;
     }
 
-    Leerling getGeselecteerdeLeerling()
-    {
+    Leerling getGeselecteerdeLeerling() {
         return geselecteerdeLeerling;
     }
 
-    Graad getGeselecteerdeGraad()
-    {
+    Graad getGeselecteerdeGraad() {
         return geselecteerdeGraad;
     }
 
-    Klas getGeselecteerdeKlas()
-    {
+    Klas getGeselecteerdeKlas() {
         return geselecteerdeKlas;
     }
 

@@ -38,7 +38,7 @@ import org.controlsfx.control.StatusBar;
  *
  * @author Jan
  */
-public class KlasLijstenDetailPanelController extends VBox implements Observer {
+public class KlasLijstenDetailPanelController extends VBox {
 
     @FXML
     private TableView<LeerlingDto> tblKlaslijsten;
@@ -47,7 +47,7 @@ public class KlasLijstenDetailPanelController extends VBox implements Observer {
     @FXML
     private TableColumn<LeerlingDto, String> colVoornaam;
     @FXML
-    private TableColumn<LeerlingDto,KlasDto> colKlas;
+    private TableColumn<LeerlingDto, KlasDto> colKlas;
     @FXML
     private Button btnToevoegen;
     @FXML
@@ -101,23 +101,27 @@ public class KlasLijstenDetailPanelController extends VBox implements Observer {
         TableColumn col_action = new TableColumn<>("");
         tblKlaslijsten.getColumns().add(col_action);
 
+        col_action.setPrefWidth(28);
+        col_action.setSortable(false);
+        col_action.setResizable(false);
+        col_action.setEditable(false);
         col_action.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<LeerlingDto, Boolean>, ObservableValue<Boolean>>() {
-                    @Override
-                    public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<LeerlingDto, Boolean> p) {
-                        return new SimpleBooleanProperty(p.getValue() != null);
-                    }
-                });
+            @Override
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<LeerlingDto, Boolean> p) {
+                return new SimpleBooleanProperty(p.getValue() != null);
+            }
+        });
 
         col_action.setCellFactory(new Callback<TableColumn<LeerlingDto, Boolean>, TableCell<LeerlingDto, Boolean>>() {
-                    @Override
-                    public TableCell<LeerlingDto, Boolean> call(TableColumn<LeerlingDto, Boolean> p) {
-                        return new ButtonCell();
-                    }
+            @Override
+            public TableCell<LeerlingDto, Boolean> call(TableColumn<LeerlingDto, Boolean> p) {
+                return new ButtonCell();
+            }
 
-                });
-        
+        });
+
         colKlas.setCellFactory(ComboBoxTableCell.forTableColumn(controller.getAlleKlassen()));
-        colKlas.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<LeerlingDto,KlasDto>>() {
+        colKlas.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<LeerlingDto, KlasDto>>() {
             @Override
             public void handle(TableColumn.CellEditEvent<LeerlingDto, KlasDto> event) {
                 LeerlingDto leerling = (LeerlingDto) event.getTableView().getItems().get(event.getTablePosition().getRow());
@@ -125,6 +129,7 @@ public class KlasLijstenDetailPanelController extends VBox implements Observer {
                 controller.wijzigLeerling(leerling);
             }
         });
+
     }
 
     private class ButtonCell extends TableCell<LeerlingDto, Boolean> {
@@ -133,6 +138,7 @@ public class KlasLijstenDetailPanelController extends VBox implements Observer {
 
         ButtonCell() {
             cellButton.getStyleClass().add("cancel");
+            cellButton.setPrefSize(25, 25);
             //Action when the button is pressed
             cellButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -157,20 +163,26 @@ public class KlasLijstenDetailPanelController extends VBox implements Observer {
         }
     }
 
-    @Override
-    public void update(String actie, Object object) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     @FXML
     private void leerlingToevoegen(ActionEvent e) {
+        clearErrors();
         if (!(txfNaam.getText().isEmpty() || txfVoornaam.getText().isEmpty())) {
-            LeerlingDto dto = new LeerlingDto();
-            dto.setNaam(new SimpleStringProperty(txfNaam.getText()));
-            dto.setVoornaam(new SimpleStringProperty(txfVoornaam.getText()));
-            controller.maakNieuweLeerling(dto);
-            txfNaam.setText("");
-            txfVoornaam.setText("");
+            try {
+                LeerlingDto dto = new LeerlingDto();
+                dto.setNaam(new SimpleStringProperty(txfNaam.getText()));
+                dto.setVoornaam(new SimpleStringProperty(txfVoornaam.getText()));
+                controller.maakNieuweLeerling(dto);
+                txfNaam.setText("");
+                txfVoornaam.setText("");
+            } catch (IllegalArgumentException ex) {
+                statusBar.setText(ex.getMessage());
+            }
+        }else{
+            statusBar.setText("Gelieve beide velden in te vullen");
         }
+    }
+
+    private void clearErrors() {
+        statusBar.setText("");
     }
 }

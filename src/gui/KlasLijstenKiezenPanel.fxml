@@ -29,9 +29,9 @@
             <Label text="Graad" />
             <ComboBox fx:id="cboGraad" maxWidth="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
             <Label text="Klas" GridPane.rowIndex="1" />
-            <ScrollPane hbarPolicy="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+            <ScrollPane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <content>
-                  <ListView fx:id="lstKlas" maxWidth="-Infinity" prefWidth="200.0" />
+                  <ListView fx:id="lstKlas" />
                </content>
             </ScrollPane>
             <HBox prefWidth="200.0" spacing="25.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
