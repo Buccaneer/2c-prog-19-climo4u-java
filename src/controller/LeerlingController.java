@@ -52,6 +52,11 @@ public class LeerlingController implements Subject {
         if (geselecteerdeGraad == null)
             throw new IllegalArgumentException("U dient eerst een graad te selecteren.");
 
+        Optional<Klas> gevonden = geselecteerdeGraad.getKlassen().stream().filter((k) -> k.getNaam().equals(klas.getNaam()) && k.getLeerjaar() == klas.getLeerjaar()).findFirst();
+        
+        if (gevonden.isPresent())
+            throw new IllegalArgumentException("Deze klas bestaat reeds.");
+        
         GenericDaoJpa.startTransaction();
 
         Klas k = new Klas();
@@ -122,7 +127,7 @@ public class LeerlingController implements Subject {
     public void selecteerKlas(KlasDto klas) {
         if (geselecteerdeGraad == null)
             throw new IllegalArgumentException("U dient eerst een graad te selecteren.");
-        Optional<Klas> klasT = geselecteerdeGraad.getKlassen().stream().filter((k) -> k.getNaam().equals(klas.getNaam())).findFirst();
+        Optional<Klas> klasT = geselecteerdeGraad.getKlassen().stream().filter((k) -> k.getNaam().equals(klas.getNaam()) && k.getLeerjaar() == klas.getLeerjaar()).findFirst();
 
        if (!klasT.isPresent())
             throw new IllegalArgumentException("Deze klas bestaat niet.");
@@ -157,8 +162,8 @@ public class LeerlingController implements Subject {
         geselecteerdeLeerling.setNaam(leerling.getNaam().get());
         geselecteerdeLeerling.setVoornaam(leerling.getVoornaam().get());
 
-        if (!leerling.getKlas().getNaam().equals(geselecteerdeKlas.getNaam())) {
-            Optional<Klas> klasT = geselecteerdeGraad.getKlassen().stream().filter((k) -> k.getNaam().equals(leerling.getKlas().getNaam())).findFirst();
+        if (!leerling.getKlas().getNaam().equals(geselecteerdeKlas.getNaam()) || leerling.getKlas().getLeerjaar() != geselecteerdeKlas.getLeerjaar()) {
+            Optional<Klas> klasT = geselecteerdeGraad.getKlassen().stream().filter((k) -> k.getNaam().equals(geselecteerdeKlas.getNaam()) && k.getLeerjaar() == geselecteerdeKlas.getLeerjaar()).findFirst();
            if (!klasT.isPresent())
                throw new IllegalArgumentException("Klas bestaat niet.");
             geselecteerdeKlas.verwijderLeerling(geselecteerdeLeerling);
