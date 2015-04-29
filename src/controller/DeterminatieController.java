@@ -96,6 +96,10 @@ public class DeterminatieController implements Subject {
         }
     }
 
+   
+
+    
+    
     /**
      *
      * @param tabel
@@ -106,6 +110,8 @@ public class DeterminatieController implements Subject {
         //remove try catch after testing
 
         geselecteerdeDeterminatieTabel = determinatieTabelRepository.get(tabel.getId());
+        if (geselecteerdeDeterminatieTabel == null)
+            throw new IllegalArgumentException("Determinatietabel bestaat niet.");
         notifyObservers("", geselecteerdeDeterminatieTabel.getBeginKnoop().maakDtoAan());
 
     }
@@ -257,12 +263,21 @@ public class DeterminatieController implements Subject {
     }
 
     // --- Methodes voor de testen ---
-    protected void setDeterminatieTabelRepository(GenericDao<DeterminatieTabel, Integer> determinatieTabelRepository) {
+     void setDeterminatieTabelRepository(GenericDao<DeterminatieTabel, Integer> determinatieTabelRepository) {
         this.determinatieTabelRepository = determinatieTabelRepository;
     }
 
-    protected DeterminatieTabel getGeselecteerdeDeterminatieTabel() {
+     DeterminatieTabel getGeselecteerdeDeterminatieTabel() {
         return geselecteerdeDeterminatieTabel;
     }
+       void setGraadRepository(GenericDao<Graad, String> graadRepository) {
+        this.graadRepository = graadRepository;
+    }
 
+     void setDeterminatieKnoopRepository(GenericDao<DeterminatieKnoop, String> determinatieKnoopRepository) {
+        this.determinatieKnoopRepository = determinatieKnoopRepository;
+    }
+
+       
+       
 }

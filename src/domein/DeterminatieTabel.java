@@ -35,6 +35,12 @@ public class DeterminatieTabel implements Valideerbaar, Serializable {
         this.naam = naam;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
+    
     public int getId() {
         return id;
     }
