@@ -11,6 +11,7 @@ import persistentie.GenericDaoJpa;
 public class DeterminatieControllerTest {
 
     private DeterminatieController controller;
+    
 
     @Before
     public void bereidVoor() {

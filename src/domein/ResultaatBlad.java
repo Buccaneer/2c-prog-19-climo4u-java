@@ -65,6 +65,8 @@ public class ResultaatBlad extends DeterminatieKnoop {
     }
 
     void setVegetatieType(VegetatieType vegetatieType) {
+        if (vegetatieType == null)
+            throw new IllegalArgumentException("Vegetatietype kan niet null zijn.");
         this.vegetatieType = vegetatieType;
     }
 

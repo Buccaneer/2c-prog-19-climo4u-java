@@ -21,6 +21,16 @@ public class LeerlingController {
     private Klas geselecteerdeKlas;
     private Leerling geselecteerdeLeerling;
 
+     GenericDao<Graad, String> getGradenRepository() {
+        return gradenRepository;
+    }
+
+     void setGradenRepository(GenericDao<Graad, String> gradenRepository) {
+        this.gradenRepository = gradenRepository;
+    }
+
+    
+    
     /**
      *
      * @param leerling
@@ -98,6 +108,8 @@ public class LeerlingController {
      * @param graad
      */
     public void selecteerGraad(GraadDto graad) {
+        if (graad == null)
+            throw new IllegalArgumentException("Graad mag niet null zijn.");
         Graad t = gradenRepository.getAll().stream().filter((g) -> g.getJaar() == graad.getJaar() && g.getNummer() == graad.getGraad()).findFirst().get();
         if (t == null) {
             throw new IllegalArgumentException("De geselecteerde graad bestaat niet.");

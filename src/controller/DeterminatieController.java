@@ -17,14 +17,12 @@ public class DeterminatieController implements Subject {
     private GenericDao<DeterminatieKnoop, String> determinatieKnoopRepository = new GenericDaoJpa<>(DeterminatieKnoop.class);
     private GenericDao<Graad, String> graadRepository = new GenericDaoJpa<>(Graad.class);
     private List<Observer> observers = new ArrayList<>();
-    
-    
 
     public ObservableList<GraadDto> getGraden() {
         //TODO: graaddto nog niet gemaakt?
         graden.clear();
         List<Graad> graad = graadRepository.getAll();
-        graad.stream().forEach(g -> graden.add(new GraadDto(g.getNummer(), g.getJaar(),new DeterminatieTabelDto(g.getActieveTabel().getId(), g.getActieveTabel().getNaam()))));
+        graad.stream().forEach(g -> graden.add(new GraadDto(g.getNummer(), g.getJaar(), new DeterminatieTabelDto(g.getActieveTabel().getId(), g.getActieveTabel().getNaam()))));
         return graden;
     }
 
@@ -54,52 +52,45 @@ public class DeterminatieController implements Subject {
         geselecteerdeDeterminatieTabel = new DeterminatieTabel();
         geselecteerdeDeterminatieTabel.setBeginKnoop(beginKnoop);
 
-        
         determinatieTabelRepository.insert(geselecteerdeDeterminatieTabel);
-        
-       
+
         getDeterminatieTabellen();
-        
+
         notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
     }
 
     public void setNaamDeterminatieTabel(String naam) {
         GenericDaoJpa.startTransaction();
-        
-        
-        
-     
+
         geselecteerdeDeterminatieTabel.setNaam(naam);
-        
-           GenericDaoJpa.commitTransaction();
+
+        GenericDaoJpa.commitTransaction();
         notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
         getDeterminatieTabellen();
     }
-    
+
     /**
      *
      * @param tabel
      */
     public void verwijderDeterminatieTabel(DeterminatieTabelDto tabel) {
-        if(tabel == null){
+        if (tabel == null)
             throw new IllegalArgumentException("U moet eerst een determinatietabel selecteren");
-        }
         DeterminatieTabel t = determinatieTabelRepository.get(tabel.getId());
         try {
             List<Graad> graden = graadRepository.getAll();
-            
+
             if (graden.stream().anyMatch(g -> g.getActieveTabel() == t))
                 throw new Exception();
-            
+
             determinatieKnoopRepository.delete(t.getBeginKnoop());
-        determinatieTabelRepository.delete(t);
-        
-        geselecteerdeDeterminatieTabel = null;
-        determinatietabellen.clear();
-        getDeterminatieTabellen();
+            determinatieTabelRepository.delete(t);
+
+            geselecteerdeDeterminatieTabel = null;
+            determinatietabellen.clear();
+            getDeterminatieTabellen();
             notifyObservers("verwijderen", t);
-        
-        
+
         } catch (Exception ex) {
             throw new IllegalArgumentException("Deze determinatietabel wordt nog gebruikt door een graad.");
         }
@@ -110,12 +101,11 @@ public class DeterminatieController implements Subject {
      * @param tabel
      */
     public void selecteerDeterminatieTabel(DeterminatieTabelDto tabel) {
-        if(tabel==null){
+        if (tabel == null)
             throw new IllegalArgumentException();
-        }
         //remove try catch after testing
-    
-            geselecteerdeDeterminatieTabel= determinatieTabelRepository.get(tabel.getId());
+
+        geselecteerdeDeterminatieTabel = determinatieTabelRepository.get(tabel.getId());
         notifyObservers("", geselecteerdeDeterminatieTabel.getBeginKnoop().maakDtoAan());
 
     }
@@ -126,9 +116,8 @@ public class DeterminatieController implements Subject {
      * @param tabel
      */
     public void wijzigDeterminatieTabel(DeterminatieTabelDto tabel) {
-        if(tabel == null){
+        if (tabel == null)
             throw new IllegalArgumentException("U moet eerst een determinatietabel selecteren");
-        }
     }
 
     /**
@@ -137,29 +126,30 @@ public class DeterminatieController implements Subject {
      * @param tabel
      */
     public void koppelGraadMetDeterminatieTabel(GraadDto graad, DeterminatieTabelDto tabel) {
-     
-        if(graad == null){
+
+        if (graad == null)
             throw new IllegalArgumentException("U moet eerst een graad selecteren");
-        }
-        if(tabel == null){
+        if (tabel == null)
             throw new IllegalArgumentException("U moet eerst een determinatietabel selecteren");
-        }
         //TODO: dto maken
-    List<   Graad> gr = graadRepository.getAll();
+        List<   Graad> gr = graadRepository.getAll();
         DeterminatieTabel tab = determinatieTabelRepository.get(tabel.getId());
+        if (tab == null)
+            throw new IllegalArgumentException("De determinatietabel bestaat niet.");
         tab.valideer();
-        
+
         Graad g = gr.stream().filter(gg -> gg.getJaar() == graad.getJaar() && gg.getNummer() == graad.getGraad()).findFirst().get();
+        if (g == null)
+            throw new IllegalArgumentException("De graad bestaat niet.");
         GenericDaoJpa.startTransaction();
-        
+
         g.setActieveTabel(tab);
-        
+
         GenericDaoJpa.commitTransaction();
-        
+
         getGraden();
-        
-        
-       // gr.setActieveTabel(tab);
+
+        // gr.setActieveTabel(tab);
     }
 
 //    /**
@@ -206,15 +196,14 @@ public class DeterminatieController implements Subject {
      *
      * @param knoop
      */
-
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
         try {
-        GenericDaoJpa.startTransaction();
-        geselecteerdeDeterminatieTabel.wijzigKnoop(knoop);
+            GenericDaoJpa.startTransaction();
+            geselecteerdeDeterminatieTabel.wijzigKnoop(knoop);
 
-        GenericDaoJpa.commitTransaction();
-        
-         notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
+            GenericDaoJpa.commitTransaction();
+
+            notifyObservers("", geselecteerdeDeterminatieTabel.maakDtoAan());
         } catch (Exception ex) {
             GenericDaoJpa.rollbackTransaction();
             throw new IllegalArgumentException("Kon wijzigingen niet opslaan.");
@@ -245,10 +234,9 @@ public class DeterminatieController implements Subject {
      * is wordt er een exception gegooid.
      */
     public void valideer() {
-        try{
+        try {
             geselecteerdeDeterminatieTabel.valideer();
-        }
-        catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             throw e;
         }
     }
@@ -260,22 +248,20 @@ public class DeterminatieController implements Subject {
 
     @Override
     public void notifyObservers(String actie, Object object) {
-        observers.forEach(o->o.update(actie,object));
+        observers.forEach(o -> o.update(actie, object));
     }
 
     @Override
     public void addObserver(Observer observer) {
         observers.add(observer);
     }
-    
+
     // --- Methodes voor de testen ---
-    protected void setDeterminatieTabelRepository(GenericDao<DeterminatieTabel, Integer> determinatieTabelRepository)
-    {
+    protected void setDeterminatieTabelRepository(GenericDao<DeterminatieTabel, Integer> determinatieTabelRepository) {
         this.determinatieTabelRepository = determinatieTabelRepository;
     }
-    
-    protected DeterminatieTabel getGeselecteerdeDeterminatieTabel()
-    {
+
+    protected DeterminatieTabel getGeselecteerdeDeterminatieTabel() {
         return geselecteerdeDeterminatieTabel;
     }
 

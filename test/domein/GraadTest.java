@@ -39,7 +39,7 @@ public class GraadTest {
     public void voegKlasToeWerkt()
     {
         Graad g = new Graad();
-        Klas k = new Klas();
+        Klas k = new Klas(1,"boe" ,2);
         g.voegKlasToe(k);
         Assert.assertTrue(g.getKlassen().contains(k));
     }
@@ -48,7 +48,7 @@ public class GraadTest {
     public void verwijderKlasWerkt()
     {
         Graad g = new Graad();
-        Klas k = new Klas();
+        Klas k = new Klas(1,"boe",2);
         g.getKlassen().add(k);
         Assert.assertTrue(!g.getKlassen().isEmpty());
         g.verwijderKlas(k);

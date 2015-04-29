@@ -2,11 +2,14 @@ package controller;
 
 import domein.*;
 import dto.*;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import persistentie.GenericDao;
 
 /**
  *
@@ -63,6 +66,9 @@ public class LeerlingControllerTest
         Graad g = new Graad();
         Klas k = new Klas();
         l = new Leerling();
+       l.setId(1);
+        l.setNaam("Jasper");
+        l.setVoornaam("De Vrient");
         k.getLeerlingen().add(l);
         c.setGeselecteerdeGraad(g);
         c.setGeselecteerdeKlas(k);
@@ -96,6 +102,42 @@ public class LeerlingControllerTest
     public void selecteerGraadWerkt()
     {
         LeerlingController c = new LeerlingController();
+        c.setGradenRepository(new GenericDao<Graad, String>() {
+
+            @Override
+            public List<Graad> getAll() {
+                List<Graad> graden = new ArrayList<>();
+                graden.add(new Graad(1,1));
+                return graden;
+            }
+
+            @Override
+            public void insert(Graad item) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void delete(Graad item) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public Graad get(String id) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public boolean exists(String id) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void update(Graad item) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+       
+        
         c.selecteerGraad(new GraadDto(1, 1, null));
         Assert.assertEquals(1, c.getGeselecteerdeGraad().getGraad());
         Assert.assertEquals(1, c.getGeselecteerdeGraad().getJaar().intValue());
@@ -113,6 +155,7 @@ public class LeerlingControllerTest
     {
         LeerlingController c = new LeerlingController();
         Graad g = new Graad();
+        g.getKlassen().add(new Klas(1,"klas",1));
         c.setGeselecteerdeGraad(g);
         c.selecteerKlas(new KlasDto(1, "klas", 1));
         Assert.assertEquals(1, c.getGeselecteerdeKlas().getId());

@@ -24,6 +24,17 @@ public class Klas {
             return naam;
         }
     });
+
+    public Klas(int id, String naam, int leerjaar) {
+        this.id = id;
+        this.naam = naam;
+        this.leerjaar = leerjaar;
+    }
+
+    public Klas() {
+    }
+    
+    
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

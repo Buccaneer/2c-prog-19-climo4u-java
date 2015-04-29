@@ -57,7 +57,9 @@ public class Graad {
     }
 
     public void setActieveTabel(DeterminatieTabel actieveTabel) {
+
         this.actieveTabel = actieveTabel;
+        
     }
 
     public int getNummer() {
@@ -90,5 +92,15 @@ public class Graad {
     public int getGraad() {
         return nummer;
     }
+
+    public Graad() {
+    }
+
+    public Graad(int nummer, int jaar) {
+        this.nummer = nummer;
+        this.jaar = jaar;
+    }
+    
+    
 
 }

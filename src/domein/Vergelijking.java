@@ -63,7 +63,11 @@ public class Vergelijking implements Valideerbaar {
 
     @Override
     public void valideer() {
-    
+    if (rechterParameter == null)
+        throw new DomeinException();
+    if (linkerParameter == null)
+        throw new DomeinException()
+                ;
         rechterParameter.valideer();
         linkerParameter.valideer();
         if (operator == null) {

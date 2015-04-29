@@ -19,6 +19,10 @@ public class Leerling {
     private String naam;
     private String voornaam;
 
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getNaam() {
         return this.naam;
     }

@@ -166,6 +166,8 @@ public class BeslissingsKnoop extends DeterminatieKnoop {
     }
 
     public void setVergelijking(Vergelijking vergelijking) {
+        if (vergelijking == null)
+            throw new IllegalArgumentException("Vergelijking mag niet null zijn");
         this.vergelijking = vergelijking;
     }
 
