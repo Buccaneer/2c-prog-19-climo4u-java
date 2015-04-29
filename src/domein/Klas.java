@@ -54,6 +54,8 @@ public class Klas {
     }
     
     public void setNaam(String naam) {
+        if (naam == null)
+            throw new IllegalArgumentException();
         this.naam = naam;
     }
     
@@ -62,6 +64,8 @@ public class Klas {
     }
     
     public void setLeerjaar(int leerjaar) {
+        if (leerjaar < 0)
+            throw new IllegalArgumentException();
         this.leerjaar = leerjaar;
     }
 
@@ -90,6 +94,8 @@ public class Klas {
      * @param graad
      */
     public void setGraad(Graad graad) {
+        if (graad == null)
+            throw new IllegalArgumentException();
         this.graad = graad;
     }
     

@@ -28,6 +28,8 @@ public class Leerling {
     }
 
     public void setNaam(String naam) {
+        if (naam == null)
+            throw new IllegalArgumentException();
         this.naam = naam;
     }
 
@@ -40,6 +42,8 @@ public class Leerling {
     }
 
     public void setVoornaam(String voornaam) {
+        if (voornaam == null)
+            throw new IllegalArgumentException();
         this.voornaam = voornaam;
     }
 
@@ -52,6 +56,8 @@ public class Leerling {
      * @param klas
      */
     public void setKlas(Klas klas) {
+        if (klas == null)
+            throw new IllegalArgumentException();
         this.klas = klas;
     }
 

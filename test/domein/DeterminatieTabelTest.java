@@ -23,19 +23,6 @@ public class DeterminatieTabelTest {
     }
 
     /**
-     * Kijkt of een bezette graad niet gekoppeld kan worden een een
-     * determinatietabel.
-     *
-     * @author Jasper De Vrient
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void koppelenVanBezetteGraadEnDeterminatieTabelGeeftException() {
-        Graad g = new Graad();
-        g.setActieveTabel(new DeterminatieTabel());
-        g.setActieveTabel(new DeterminatieTabel());
-    }
-
-    /**
      * @author Jasper De Vrient
      */
     @Test

@@ -3,10 +3,11 @@ package controller;
 import domein.*;
 import dto.*;
 import java.util.Iterator;
+import mock.GenericDaoJpaMock;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import persistentie.GenericDaoJpa;
+import persistentie.GenericDao;
 
 public class DeterminatieControllerTest {
 
@@ -34,7 +35,7 @@ public class DeterminatieControllerTest {
         String naam = "TestNaam";
         DeterminatieTabel tabel = new DeterminatieTabel();
         tabel.setNaam(naam);
-        GenericDaoJpa<DeterminatieTabel, Integer> jpa = new GenericDaoJpa(DeterminatieTabel.class);
+        GenericDao<DeterminatieTabel, Integer> jpa = new GenericDaoJpaMock();
         jpa.insert(tabel);
         controller.setDeterminatieTabelRepository(jpa);
         Iterator<DeterminatieTabelDto> i = controller.getDeterminatieTabellen().iterator();

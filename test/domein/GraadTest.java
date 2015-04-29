@@ -24,16 +24,6 @@ public class GraadTest {
 
         g.setActieveTabel(new DeterminatieTabel());
     }
-
-    /**
-     * @author Jasper De Vrient
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void koppelenVanBezetteGraadEnDeterminatieTabelGeeftException() {
-        Graad g = new Graad();
-        g.setActieveTabel(new DeterminatieTabel());
-        g.setActieveTabel(new DeterminatieTabel());
-    }
     
     @Test
     public void voegKlasToeWerkt()
