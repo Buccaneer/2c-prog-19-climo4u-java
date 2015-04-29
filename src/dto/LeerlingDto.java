@@ -1,13 +1,15 @@
 package dto;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 
 public class LeerlingDto {
 
     private int id;
     private SimpleStringProperty naam;
     private SimpleStringProperty voornaam;
-    private KlasDto klas;
+    private ObservableValue<KlasDto> klas;
 
     public int getId() {
         return id;
@@ -29,12 +31,16 @@ public class LeerlingDto {
         this.voornaam = voornaam;
     }
 
-    public KlasDto getKlas() {
+    public ObservableValue<KlasDto> getKlas() {
         return this.klas;
     }
 
-    public void setKlas(KlasDto klas) {
+    public void setKlas(ObservableValue<KlasDto> klas) {
         this.klas = klas;
+    }
+    
+    public void setKlas(KlasDto klas) {
+        this.klas = new SimpleObjectProperty<KlasDto>( klas);
     }
 
     public LeerlingDto() {
@@ -45,7 +51,7 @@ public class LeerlingDto {
 
         this.naam = new SimpleStringProperty(naam);
         this.voornaam = new SimpleStringProperty(voornaam);
-        this.klas = klas;
+        this.klas = new SimpleObjectProperty<KlasDto>( klas);
     }
 
 }

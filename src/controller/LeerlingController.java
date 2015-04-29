@@ -157,8 +157,8 @@ public class LeerlingController {
         geselecteerdeLeerling.setNaam(leerling.getNaam().get());
         geselecteerdeLeerling.setVoornaam(leerling.getVoornaam().get());
 
-        if (!leerling.getKlas().getNaam().equals(geselecteerdeKlas.getNaam()) || leerling.getKlas().getLeerjaar() != geselecteerdeKlas.getLeerjaar()) {
-            Optional<Klas> klasT = klassenRepository.getAll().stream().filter((k) -> k.getNaam().equals(leerling.getKlas().getNaam()) && k.getLeerjaar() == leerling.getKlas().getLeerjaar()).findFirst();
+        if (!leerling.getKlas().getValue().getNaam().equals(geselecteerdeKlas.getNaam()) || leerling.getKlas().getValue().getLeerjaar() != geselecteerdeKlas.getLeerjaar()) {
+            Optional<Klas> klasT = klassenRepository.getAll().stream().filter((k) -> k.getNaam().equals(leerling.getKlas().getValue().getNaam()) && k.getLeerjaar() == leerling.getKlas().getValue().getLeerjaar()).findFirst();
             if (!klasT.isPresent()) {
                 throw new IllegalArgumentException("Klas bestaat niet.");
             }
@@ -220,7 +220,13 @@ public class LeerlingController {
 
         klassenRepository.getAll().forEach((Klas k) -> alleKlassen.add(new KlasDto(k.getId(), k.getNaam(), k.getLeerjaar())));
 
-        return alleKlassen.sorted((KlasDto o1, KlasDto o2) -> o1.getNaam().compareTo(o2.getNaam()));
+        return alleKlassen.sorted((KlasDto o1, KlasDto o2) -> {
+            int jaar = o1.getLeerjaar() - o2.getLeerjaar();
+            if (jaar == 0) {
+                return o1.getNaam().compareTo(o2.getNaam());
+            }
+            return jaar;
+        });
     }
 
     public KlasDto getGeselecteerdeKlasDto() {

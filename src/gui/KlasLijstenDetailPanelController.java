@@ -120,11 +120,13 @@ public class KlasLijstenDetailPanelController extends VBox {
 
         });
 
+        colKlas.setCellValueFactory(cellData->cellData.getValue().getKlas());
         colKlas.setCellFactory(ComboBoxTableCell.forTableColumn(controller.getAlleKlassen()));
         colKlas.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<LeerlingDto, KlasDto>>() {
             @Override
             public void handle(TableColumn.CellEditEvent<LeerlingDto, KlasDto> event) {
                 LeerlingDto leerling = (LeerlingDto) event.getTableView().getItems().get(event.getTablePosition().getRow());
+                controller.selecteerLeerling(leerling);
                 leerling.setKlas(event.getNewValue());
                 controller.wijzigLeerling(leerling);
             }

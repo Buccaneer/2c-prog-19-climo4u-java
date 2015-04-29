@@ -33,6 +33,6 @@ public class KlasDto {
 
     @Override
     public String toString() {
-        return naam + " jaar " + leerjaar;
+        return leerjaar + " " + naam;
     }
 }
