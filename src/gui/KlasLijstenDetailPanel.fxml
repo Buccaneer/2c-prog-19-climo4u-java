@@ -11,9 +11,9 @@
    <children>
         <TableView fx:id="tblKlaslijsten" editable="true">
             <columns>
-                <TableColumn fx:id="colNaam" minWidth="-1.0" prefWidth="312.0" resizable="false" text="Naam" />
-                <TableColumn fx:id="colVoornaam" minWidth="-1.0" prefWidth="312.0" resizable="false" text="Voornaam" />
-                <TableColumn fx:id="colKlas" minWidth="-1.0" prefWidth="312.0" resizable="false" text="Klas" />
+                <TableColumn fx:id="colNaam" minWidth="-1.0" prefWidth="300.0" resizable="false" text="Naam" />
+                <TableColumn fx:id="colVoornaam" minWidth="-1.0" prefWidth="300.0" resizable="false" text="Voornaam" />
+                <TableColumn fx:id="colKlas" minWidth="-1.0" prefWidth="300.0" resizable="false" text="Klas" />
             </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -21,8 +21,8 @@
         </TableView>
       <HBox>
          <children>
-            <TextField fx:id="txfNaam" promptText="Naam" HBox.hgrow="ALWAYS" />
-            <TextField fx:id="txfVoornaam" promptText="Voornaam" HBox.hgrow="ALWAYS" />
+            <TextField fx:id="txfNaam" onAction="#leerlingToevoegen" promptText="Naam" HBox.hgrow="ALWAYS" />
+            <TextField fx:id="txfVoornaam" onAction="#leerlingToevoegen" promptText="Voornaam" HBox.hgrow="ALWAYS" />
             <Button fx:id="btnToevoegen" mnemonicParsing="false" onAction="#leerlingToevoegen" text="Toevoegen" />
          </children>
       </HBox>

@@ -21,16 +21,14 @@ public class LeerlingController {
     private Klas geselecteerdeKlas;
     private Leerling geselecteerdeLeerling;
 
-     GenericDao<Graad, String> getGradenRepository() {
+    GenericDao<Graad, String> getGradenRepository() {
         return gradenRepository;
     }
 
-     void setGradenRepository(GenericDao<Graad, String> gradenRepository) {
+    void setGradenRepository(GenericDao<Graad, String> gradenRepository) {
         this.gradenRepository = gradenRepository;
     }
 
-    
-    
     /**
      *
      * @param leerling
@@ -79,6 +77,7 @@ public class LeerlingController {
 
         GenericDaoJpa.commitTransaction();
         klassen.clear();
+        getAlleKlassen();
         geselecteerdeGraad.getKlassen().forEach((Klas kl) -> klassen.add(new KlasDto(kl.getId(), kl.getNaam(), kl.getLeerjaar())));
     }
 
@@ -108,16 +107,17 @@ public class LeerlingController {
      * @param graad
      */
     public void selecteerGraad(GraadDto graad) {
-        if (graad == null)
+        if (graad == null) {
             throw new IllegalArgumentException("Graad mag niet null zijn.");
-        Graad t = gradenRepository.getAll().stream().filter((g) -> g.getJaar() == graad.getJaar() && g.getNummer() == graad.getGraad()).findFirst().get();
+        }
+        Graad t = gradenRepository.getAll().stream().filter((g) ->  g.getNummer() == graad.getGraad()).findFirst().get();
         if (t == null) {
             throw new IllegalArgumentException("De geselecteerde graad bestaat niet.");
         }
         geselecteerdeGraad = t;
         geselecteerdeKlas = null;
         geselecteerdeLeerling = null;
-
+        leerlingen.clear();
         geselecteerdeGraad.getKlassen().forEach((Klas k) -> klassen.add(new KlasDto(k.getId(), k.getNaam(), k.getLeerjaar())));
     }
 
@@ -214,8 +214,11 @@ public class LeerlingController {
     public ObservableList<GraadDto> getGraden() {
         graden.clear();
 
-        gradenRepository.getAll().forEach((Graad g) -> graden.add(new GraadDto(g.getNummer(), g.getJaar(), null)));
-
+        gradenRepository.getAll().forEach((Graad g) -> {
+            if (!(g.getJaar() == 2)) {
+                graden.add(new GraadDto(g.getNummer(),0, null));
+            }
+        });
         return this.graden;
     }
 
@@ -254,7 +257,7 @@ public class LeerlingController {
         }
         geselecteerdeKlas.verwijderLeerling(geselecteerdeLeerling);
         leerlingRepository.delete(geselecteerdeLeerling);
-        updateLeerlingen();
+        //updateLeerlingen();
 
         geselecteerdeLeerling = null;
         updateLeerlingen();

@@ -101,7 +101,7 @@ public class KlasLijstenDetailPanelController extends VBox {
         TableColumn col_action = new TableColumn<>("");
         tblKlaslijsten.getColumns().add(col_action);
 
-        col_action.setPrefWidth(28);
+        col_action.setPrefWidth(35);
         col_action.setSortable(false);
         col_action.setResizable(false);
         col_action.setEditable(false);
