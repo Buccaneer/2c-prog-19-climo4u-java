@@ -159,6 +159,7 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
     @Override
     public void selectieGewijzigd(DeterminatieKnoopDto knoop) {
         // items aanpassen.
+        this.setDisable(false);
         dto = knoop;
         veranderNullWaarden();
         toonProperties();
@@ -218,6 +219,7 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
     public void opslaan() {
         if (dto != null) {
             controller.wijzigKnoop(dto);
+            this.setDisable(true);
         }
         dto = null;
     }
