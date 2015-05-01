@@ -209,10 +209,10 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
                 items.add(d);
                 d.addListener(this);
             }
-            items.stream().forEach((item) -> {
-                ((DeterminatieKnoopProperty) item).bemerken();
-            });
         }
+        items.stream().forEach((item) -> {
+            ((DeterminatieKnoopProperty) item).bemerken();
+        });
     }
 
     public void opslaan() {
