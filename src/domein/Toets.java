@@ -1,72 +1,97 @@
 package domein;
 
 import java.util.*;
+import javax.persistence.*;
 
-public class Toets {
+@Entity
+@Table(name = "Toetsen")
+public class Toets
+{
 
-	private List<Klas> klassen;
-	private List<ToetsVraag> vragen;
-	private Graad graad;
-	private int Id;
-	private String titel;
-	private String beschrijving;
-	private GregorianCalendar startDatumUur;
-	private GregorianCalendar eindDatumUur;
+    @ManyToMany(mappedBy = "toetsen")
+    private List<Klas> klassen;
+    
+    @OneToMany
+    private List<ToetsVraag> vragen;
+    
+    @OneToOne
+    private Graad graad;
 
-	public String getTitel() {
-		return this.titel;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	public void setTitel(String titel) {
-		this.titel = titel;
-	}
+    private String titel;
+    private String beschrijving;
+    private GregorianCalendar startDatumUur;
+    private GregorianCalendar eindDatumUur;
 
-	public String getBeschrijving() {
-		return this.beschrijving;
-	}
+    public String getTitel()
+    {
+        return this.titel;
+    }
 
-	public void setBeschrijving(String beschrijving) {
-		this.beschrijving = beschrijving;
-	}
+    public void setTitel(String titel)
+    {
+        this.titel = titel;
+    }
 
-	public GregorianCalendar getStartDatumUur() {
-		return this.startDatumUur;
-	}
+    public String getBeschrijving()
+    {
+        return this.beschrijving;
+    }
 
-	public void setStartDatumUur(GregorianCalendar startDatumUur) {
-            	this.startDatumUur = startDatumUur;
-	}
+    public void setBeschrijving(String beschrijving)
+    {
+        this.beschrijving = beschrijving;
+    }
 
-	public GregorianCalendar getEindDatumUur() {
-		return this.eindDatumUur;
-	}
+    public GregorianCalendar getStartDatumUur()
+    {
+        return this.startDatumUur;
+    }
 
-	public void setEindDatumUur(GregorianCalendar eindDatumUur) {
-		this.eindDatumUur = eindDatumUur;
-	}
+    public void setStartDatumUur(GregorianCalendar startDatumUur)
+    {
+        this.startDatumUur = startDatumUur;
+    }
 
-	/**
-	 * 
-	 * @param vraag
-	 */
-	public void voegVraagToe(ToetsVraag vraag) {
-		vragen.add(vraag);
-	}
+    public GregorianCalendar getEindDatumUur()
+    {
+        return this.eindDatumUur;
+    }
 
-	/**
-	 * 
-	 * @param vraag
-	 */
-	public void verwijderVraag(ToetsVraag vraag) {
-		vragen.remove(vraag);
-	}
+    public void setEindDatumUur(GregorianCalendar eindDatumUur)
+    {
+        this.eindDatumUur = eindDatumUur;
+    }
 
-	public List<ToetsVraag> getVragen() {
-		return vragen;
-	}
+    /**
+     *
+     * @param vraag
+     */
+    public void voegVraagToe(ToetsVraag vraag)
+    {
+        vragen.add(vraag);
+    }
 
-	public int berekenTotaleScore() {
-		return vragen.stream().map(ToetsVraag :: getTeBehalenPunten).reduce(0, (a,b)-> a+b);
-	}
+    /**
+     *
+     * @param vraag
+     */
+    public void verwijderVraag(ToetsVraag vraag)
+    {
+        vragen.remove(vraag);
+    }
+
+    public List<ToetsVraag> getVragen()
+    {
+        return vragen;
+    }
+
+    public int berekenTotaleScore()
+    {
+        return vragen.stream().map(ToetsVraag::getTeBehalenPunten).reduce(0, (a, b) -> a + b);
+    }
 
 }

@@ -13,9 +13,9 @@ import static org.junit.Assert.*;
  *
  * @author Annemie
  */
-public class GraadEenVraagTest {
+public class LosseVraagTest {
     
-    public GraadEenVraagTest() {
+    public LosseVraagTest() {
     }
 
     /**
@@ -24,7 +24,7 @@ public class GraadEenVraagTest {
     @Test
     public void testGetKlimatogram() {
         System.out.println("getKlimatogram");
-        GraadEenVraag instance = new GraadEenVraag();
+        LosseVraag instance = new LosseVraag();
         Klimatogram expResult = null;
         Klimatogram result = instance.getKlimatogram();
         assertEquals(expResult, result);
@@ -38,7 +38,7 @@ public class GraadEenVraagTest {
     public void testSetKlimatogram() {
         System.out.println("setKlimatogram");
         Klimatogram klimatogram = null;
-        GraadEenVraag instance = new GraadEenVraag();
+        LosseVraag instance = new LosseVraag();
         instance.setKlimatogram(klimatogram);
         fail("The test case is a prototype.");
     }
@@ -49,7 +49,7 @@ public class GraadEenVraagTest {
     @Test
     public void testGetSubvragenLijst() {
         System.out.println("getSubvragenLijst");
-        GraadEenVraag instance = new GraadEenVraag();
+        LosseVraag instance = new LosseVraag();
         List<String> expResult = null;
         List<String> result = instance.getSubvragenLijst();
         assertEquals(expResult, result);
@@ -63,7 +63,7 @@ public class GraadEenVraagTest {
     public void testSetSubvragenLijst() {
         System.out.println("setSubvragenLijst");
         List<String> subvragenLijst = null;
-        GraadEenVraag instance = new GraadEenVraag();
+        LosseVraag instance = new LosseVraag();
         instance.setSubvragenLijst(subvragenLijst);
         fail("The test case is a prototype.");
     }
@@ -75,7 +75,7 @@ public class GraadEenVraagTest {
     public void testVoegVraagToe() {
         System.out.println("voegVraagToe");
         String vraag = "";
-        GraadEenVraag instance = new GraadEenVraag();
+        LosseVraag instance = new LosseVraag();
         instance.voegVraagToe(vraag);
         fail("The test case is a prototype.");
     }
@@ -87,7 +87,7 @@ public class GraadEenVraagTest {
     public void testVerwijderVraag() {
         System.out.println("verwijderVraag");
         String vraag = "";
-        GraadEenVraag instance = new GraadEenVraag();
+        LosseVraag instance = new LosseVraag();
         instance.verwijderVraag(vraag);
         fail("The test case is a prototype.");
     }

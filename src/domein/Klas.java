@@ -25,6 +25,7 @@ public class Klas {
         }
     });
     
+    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     private List<Toets> toetsen;
 
     public Klas(int id, String naam, int leerjaar) {

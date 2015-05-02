@@ -14,9 +14,9 @@ import static org.junit.Assert.*;
  *
  * @author Annemie
  */
-public class DerdeGraadVraagTest {
+public class LocatieVraagTest {
     
-    public DerdeGraadVraagTest() {
+    public LocatieVraagTest() {
     }
 
     /**
@@ -25,7 +25,7 @@ public class DerdeGraadVraagTest {
     @Test
     public void testGetKlimatogrammen() {
         System.out.println("getKlimatogrammen");
-        DerdeGraadVraag instance = new DerdeGraadVraag();
+        LocatieVraag instance = new LocatieVraag();
         Set<Klimatogram> expResult = null;
         Set<Klimatogram> result = instance.getKlimatogrammen();
         assertEquals(expResult, result);
@@ -39,7 +39,7 @@ public class DerdeGraadVraagTest {
     public void testSetKlimatogrammen() {
         System.out.println("setKlimatogrammen");
         HashSet<Klimatogram> klimatogrammen = null;
-        DerdeGraadVraag instance = new DerdeGraadVraag();
+        LocatieVraag instance = new LocatieVraag();
         instance.setKlimatogrammen(klimatogrammen);
         fail("The test case is a prototype.");
     }
@@ -51,7 +51,7 @@ public class DerdeGraadVraagTest {
     public void testVoegKlimatogramToe() {
         System.out.println("voegKlimatogramToe");
         Klimatogram klimatogram = null;
-        DerdeGraadVraag instance = new DerdeGraadVraag();
+        LocatieVraag instance = new LocatieVraag();
         instance.voegKlimatogramToe(klimatogram);
         fail("The test case is a prototype.");
     }
@@ -63,7 +63,7 @@ public class DerdeGraadVraagTest {
     public void testVerwijderKlimatogram() {
         System.out.println("verwijderKlimatogram");
         Klimatogram klimatogram = null;
-        DerdeGraadVraag instance = new DerdeGraadVraag();
+        LocatieVraag instance = new LocatieVraag();
         instance.verwijderKlimatogram(klimatogram);
         fail("The test case is a prototype.");
     }

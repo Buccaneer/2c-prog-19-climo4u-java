@@ -1,15 +1,23 @@
 package domein;
 
-public class DeterminatieVraag extends ToetsVraag {
+import javax.persistence.*;
 
-	private Klimatogram klimatogram;
+@Entity
+@Table(name = "ToetsVragen")
+public class DeterminatieVraag extends ToetsVraag
+{
 
-	public Klimatogram getKlimatogram() {
-		return this.klimatogram;
-	}
+    @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private Klimatogram klimatogram;
 
-	public void setKlimatogram(Klimatogram klimatogram) {
-		this.klimatogram = klimatogram;
-	}
+    public Klimatogram getKlimatogram()
+    {
+        return this.klimatogram;
+    }
+
+    public void setKlimatogram(Klimatogram klimatogram)
+    {
+        this.klimatogram = klimatogram;
+    }
 
 }

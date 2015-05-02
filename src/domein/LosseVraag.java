@@ -1,15 +1,18 @@
 package domein;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import javax.persistence.*;
 
-public class GraadEenVraag extends ToetsVraag {
+@Entity
+@Table(name = "ToetsVragen")
+public class LosseVraag extends ToetsVraag {
 
+    @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Klimatogram klimatogram;
+    
     private List<String> subvragenLijst;
 
-    public GraadEenVraag() {
+    public LosseVraag() {
         subvragenLijst = new ArrayList<>();
         subvragenLijst.addAll(Arrays.asList(new String[]{"Wat is de warmste maand?",
             "Wat is de temperatuur van de warmste maand in °C (Tw)?",
