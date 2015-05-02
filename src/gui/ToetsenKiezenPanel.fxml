@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<fx:root type="VBox" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+      <Label text="Toetsenbeheer">
+          <font>
+              <Font size="30.0"/> 
+          </font>
+      </Label>
+      <Label text="Toetsen"/>
+      <TableView fx:id="tblToetsen" editable="false">
+            <columns>
+                <TableColumn fx:id="colNaam" minWidth="-1.0" prefWidth="300.0" resizable="false" text="Naam" />
+                <TableColumn fx:id="colGraad" minWidth="-1.0" prefWidth="300.0" resizable="false" text="Graad" />
+            </columns>
+      </TableView>
+      <HBox>
+         <children>
+            <TextField fx:id="txfNaam" onAction="#toetsToevoegen" promptText="Naam"/>
+            <TextField fx:id="txfGraad" onAction="#toetsToevoegen" promptText="Graad"/>
+            <Button fx:id="btnToetsToevoegen" mnemonicParsing="false" onAction="#toetsToevoegen"/>
+         </children>
+      </HBox>
+      <Label text="Gegevens"/>
+      <TextField fx:id="txfTitel" onAction="#todo" promptText="Titel" HBox.hgrow="ALWAYS" />
+      <TextField fx:id="txfBeschrijving" onAction="#todo" promptText="Beschrijving" HBox.hgrow="ALWAYS" />
+      <TextField fx:id="txfStart" onAction="#todo" promptText="Startdatum en uur" HBox.hgrow="ALWAYS" />
+      <TextField fx:id="txfEinde" onAction="#todo" promptText="Einddatum en uur" HBox.hgrow="ALWAYS" />
+      <Label text="Klassen"/>
+      <TableView fx:id="tblKlassen" editable="false">
+            <columns>
+                <TableColumn fx:id="colKlas" minWidth="-1.0" prefWidth="300.0" resizable="false" text="Naam" />
+            </columns>
+      </TableView>
+      <HBox>
+         <children>
+            <TextField fx:id="txfKlas" onAction="#klasToevoegen" promptText="Naam" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnKlasToevoegen" mnemonicParsing="false" onAction="#klasToevoegen"/>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets left="15.0" />
+   </padding>
+</fx:root>

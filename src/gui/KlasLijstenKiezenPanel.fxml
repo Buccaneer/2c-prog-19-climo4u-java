@@ -12,7 +12,7 @@
    <children>
       <Label text="Klassenbeheer">
          <font>
-            <Font size="34.0" />
+            <Font size="30.0" />
          </font>
       </Label>
       <GridPane vgap="10.0">

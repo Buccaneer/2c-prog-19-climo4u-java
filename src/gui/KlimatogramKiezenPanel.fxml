@@ -14,7 +14,7 @@
       <Label layoutX="18.0" layoutY="171.0" text="Locaties" />
       <Label layoutX="16.0" layoutY="6.0" text="Klimatogrammenbeheer">
          <font>
-            <Font size="34.0" />
+            <Font size="30.0" />
          </font>
       </Label>
       <ComboBox fx:id="cboWerelddeel" layoutX="106.0" layoutY="79.0" prefHeight="25.0" prefWidth="200.0" />

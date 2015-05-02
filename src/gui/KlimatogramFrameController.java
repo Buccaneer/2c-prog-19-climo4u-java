@@ -1,8 +1,6 @@
 package gui;
 
-import controller.DeterminatieController;
-import controller.KlimatogramController;
-import controller.LeerlingController;
+import controller.*;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +18,7 @@ public class KlimatogramFrameController extends AnchorPane {
     private KlimatogramController kController;
     private DeterminatieController dController;
     private LeerlingController lController;
+    private ToetsController tController;
 
     @FXML
     private TabPane tabPane;
@@ -43,14 +42,17 @@ public class KlimatogramFrameController extends AnchorPane {
     private KlimatogramKiezenPanelController kkpc;
     private DeterminatieTabellenOverzichtPaneController dtopc;
     private KlasLijstenDetailPanelController kldpc;
-    private  KlasLijstenKiezenPanelController klkpc;
+    private KlasLijstenKiezenPanelController klkpc;
     private BoomPanelController bpc;
     private PropertyContainerPanelController pcpc;
+    private ToetsenKiezenPanelController tkpc;
+    private ToetsenDetailPanelController tdpc;
 
-    public KlimatogramFrameController(KlimatogramController kController, DeterminatieController dController, LeerlingController lController) {
+    public KlimatogramFrameController(KlimatogramController kController, DeterminatieController dController, LeerlingController lController, ToetsController tController) {
         this.kController = kController;
         this.dController = dController;
         this.lController= lController;
+        this.tController = tController;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("KlimatogramFrame.fxml"));
         loader.setRoot(this);
         loader.setController(this);
@@ -119,7 +121,15 @@ public class KlimatogramFrameController extends AnchorPane {
     }
 
     private void maakToetsenTab() {
-
+        tkpc = new ToetsenKiezenPanelController(tController, statusBar);
+        tdpc = new ToetsenDetailPanelController(tController, statusBar);
+        HBox content = new HBox();
+        VBox.setVgrow(tkpc, Priority.ALWAYS);
+        VBox.setVgrow(tdpc, Priority.ALWAYS);
+        HBox.setHgrow(tdpc, Priority.ALWAYS);
+        content.getChildren().add(tkpc);
+        content.getChildren().add(tdpc);
+        toetsenTab.setContent(content);
     }
 
 }
