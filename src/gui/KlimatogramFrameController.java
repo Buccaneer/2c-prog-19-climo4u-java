@@ -106,7 +106,7 @@ public class KlimatogramFrameController extends AnchorPane {
     private void maakKlassenlijstenTab() {
         klkpc = new KlasLijstenKiezenPanelController(lController, statusBar);
         kldpc = new KlasLijstenDetailPanelController(lController, statusBar);
-         HBox content = new HBox();
+        HBox content = new HBox();
         Pane pnlLinks = new Pane();
         VBox pnlRechts = new VBox();
         HBox.setHgrow(pnlRechts, Priority.ALWAYS);
