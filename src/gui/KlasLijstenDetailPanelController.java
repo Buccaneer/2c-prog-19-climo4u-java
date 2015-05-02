@@ -26,6 +26,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import javafx.util.converter.DefaultStringConverter;
 import org.controlsfx.control.StatusBar;
 
 /**
@@ -77,7 +78,7 @@ public class KlasLijstenDetailPanelController extends VBox
             @Override
             public TableCell<LeerlingDto, String> call(TableColumn<LeerlingDto, String> p)
             {
-                TextFieldTableCell<LeerlingDto, String> cell = new TextFieldTableCell();
+                TextFieldTableCell<LeerlingDto, String> cell = new TextFieldTableCell(new DefaultStringConverter());
                 cell.setAlignment(Pos.CENTER_LEFT);
                 cell.setPadding(new Insets(0, 0, 0, 5));
                 return cell;
@@ -101,7 +102,7 @@ public class KlasLijstenDetailPanelController extends VBox
             @Override
             public TableCell<LeerlingDto, String> call(TableColumn<LeerlingDto, String> p)
             {
-                TextFieldTableCell<LeerlingDto, String> cell = new TextFieldTableCell();
+                TextFieldTableCell<LeerlingDto, String> cell = new TextFieldTableCell(new DefaultStringConverter());
                 cell.setAlignment(Pos.CENTER_LEFT);
                 cell.setPadding(new Insets(0, 0, 0, 5));
                 return cell;
