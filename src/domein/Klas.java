@@ -24,14 +24,18 @@ public class Klas {
             return naam;
         }
     });
+    
+    private List<Toets> toetsen;
 
     public Klas(int id, String naam, int leerjaar) {
         this.id = id;
         this.naam = naam;
         this.leerjaar = leerjaar;
+        toetsen = new ArrayList<>();
     }
 
     public Klas() {
+        toetsen = new ArrayList<>();
     }
     
     
@@ -83,6 +87,14 @@ public class Klas {
     
     public Collection<Leerling> getLeerlingen() {
         return leerlingen;
+    }
+
+    public List<Toets> getToetsen() {
+        return toetsen;
+    }
+
+    public void voegToetsToe(Toets toets){
+        toetsen.add(toets);
     }
     
     public Graad getGraad() {
