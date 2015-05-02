@@ -1,45 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import controller.DeterminatieController;
 import controller.KlimatogramController;
 import controller.LeerlingController;
 import java.io.IOException;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.StatusBar;
 
-/**
- * FXML Controller class
- *
- * @author Annemie
- */
 public class KlimatogramFrameController extends AnchorPane {
 
     private KlimatogramController kController;
@@ -98,8 +73,9 @@ public class KlimatogramFrameController extends AnchorPane {
         this.kController.addObserver(kkpc);
         HBox content = new HBox();
         Pane pnlLinks = new Pane();
-        VBox pnlRechts = new VBox();
+        HBox pnlRechts = new HBox();
         HBox.setHgrow(pnlRechts, Priority.ALWAYS);
+        HBox.setHgrow(kdpc, Priority.ALWAYS);
         pnlLinks.getChildren().add(kkpc);
         content.getChildren().add(pnlLinks);
         pnlRechts.getChildren().add(kdpc);

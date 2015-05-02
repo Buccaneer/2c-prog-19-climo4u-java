@@ -42,7 +42,7 @@
             <TextField fx:id="txfEindPeriode" layoutX="671.0" layoutY="250.0" prefHeight="25.0" prefWidth="90.0" />
             <TextField fx:id="txfGemiddeldeTemperatuur" disable="true" editable="false" layoutX="555.0" layoutY="298.0" prefHeight="25.0" prefWidth="206.0" />
             <TextField fx:id="txfTotaleJaarneerslag" disable="true" editable="false" layoutX="555.0" layoutY="347.0" prefHeight="25.0" prefWidth="206.0" />
-            <Button fx:id="btnOpslaan" layoutX="651.0" layoutY="400.0" mnemonicParsing="false" onAction="#opslaan" text="Opslaan" visible="false" />
+            <Button fx:id="btnOpslaan" layoutX="622.0" layoutY="400.0" mnemonicParsing="false" onAction="#opslaan" text="Opslaan" visible="false" />
             <Button fx:id="btnWijzig" layoutX="626.0" layoutY="400.0" mnemonicParsing="false" onAction="#wijzig" text="Wijzig" visible="false" />
             <Button fx:id="btnAnnuleren" layoutX="690" layoutY="400.0" mnemonicParsing="false" onAction="#annuleren" text="Annuleren" visible="false" />
             <Label layoutX="32.0" layoutY="403.0" text="Voorbeeld klimatogram">

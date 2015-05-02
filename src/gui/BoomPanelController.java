@@ -1,27 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import controller.Observer;
 import dto.DeterminatieKnoopDto;
-import dto.DeterminatieTabelDto;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -30,11 +19,6 @@ import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-/**
- * FXML Controller class
- *
- * @author Jasper De Vrient
- */
 public class BoomPanelController extends ScrollPane implements NodeGeselecteerdListener, Observer {
 
     private List<NodeGeselecteerdListener> listeners = new ArrayList<>();
@@ -88,15 +72,7 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
         } else {
             this.setDisable(false);
             eersteKnoop = (DeterminatieKnoopDto) object;
-            //log(eersteKnoop);
             herteken();
-        }
-    }
-
-    private void log(DeterminatieKnoopDto k) {
-        if (k != null) {
-            log(k.getJa());
-            log(k.getNee());
         }
     }
 
@@ -174,7 +150,6 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
             driehoek.setFill(Color.BLACK);
             return driehoek;
         }
-
     }
 
     private void herteken() {
@@ -191,12 +166,10 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
             n.stelIn();
             controls.add(n);
         }
-
         for (Verbinding v : verbindingen)
             controls.addAll(v.maakVerbinding());
         content.setMinSize(x + BREEDTE + 50, y - HOOGTE + 50);
         content.setMaxSize(x + BREEDTE + 50, y - HOOGTE + 50);
-
     }
 
     private void maakNodePanelControllers(DeterminatieKnoopDto knoop, int x, Verbinding verbinding) {
@@ -226,5 +199,5 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
             maakNodePanelControllers(knoop.getNee(), x, neeVerbinding);
         }
     }
-
+    
 }

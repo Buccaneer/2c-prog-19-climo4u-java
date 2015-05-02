@@ -17,12 +17,16 @@ import dto.VergelijkingDto;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.util.Optional;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -227,7 +231,11 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
     public void omzetten() {
         if (dto != null) {
             if (dto.isBeslissingsKnoop()) {
-                dto.toResultaatBlad();
+                Optional<ButtonType> result = maakAlert("Knoop verwijderen", "Knoop verwijderen", "Bent u zeker dat u deze knoop wilt verwijderen? Alle kinderen van deze knoop verdwijnen dan.");
+                    if (result.get().getButtonData() == ButtonBar.ButtonData.YES) 
+                    {
+                        dto.toResultaatBlad();
+                    }
             } else {
                 dto.toBeslissingsKnoop();
             }
@@ -252,5 +260,17 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
             lblStatus.setText("Determinatatietabel voldoet zich niet aan de voorwaarden.");
         }
     }
-
+    
+    private Optional<ButtonType> maakAlert(String titel, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(titel);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        ButtonType buttonOk = new ButtonType("Verwijderen", ButtonBar.ButtonData.YES);
+        ButtonType buttonCancel = new ButtonType("Annuleren", ButtonBar.ButtonData.NO);
+        alert.getButtonTypes().setAll(buttonOk, buttonCancel);
+        Optional<ButtonType> result = alert.showAndWait();
+        return result;
+    }
+    
 }

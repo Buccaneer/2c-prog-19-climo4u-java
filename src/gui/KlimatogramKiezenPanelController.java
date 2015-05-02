@@ -75,6 +75,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
 
         cboWerelddeel.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             clearErrors();
+            clearLandenCombobox();
             if (newValue != null) {
                 controller.clearLijstenWerelddeel();
                 controller.selecteerContinent(newValue);
@@ -329,15 +330,20 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
         }
     }
     
-    public void clearErrors() {
+    private void clearErrors() {
         statusBar.setText("");
     }
 
-    public void clearSelectieLijst() {
+    private void clearLandenCombobox()
+    {
+        cboLand.getSelectionModel().clearSelection();
+    }
+    
+    private void clearSelectieLijst() {
         lstLocaties.getSelectionModel().clearSelection();
     }
 
-    public Optional<ButtonType> maakAlert(String titel, String header, String content) {
+    private Optional<ButtonType> maakAlert(String titel, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(titel);
         alert.setHeaderText(header);
@@ -349,7 +355,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
         return result;
     }
 
-    public void setTooltip(Button button, String tooltip) {
+    private void setTooltip(Button button, String tooltip) {
         button.setTooltip(new Tooltip(tooltip));
     }
 }
