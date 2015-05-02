@@ -94,8 +94,11 @@ public class DeterminatieTabel implements Valideerbaar, Serializable {
      */
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
 
-        if (beginKnoop.getId() == knoop.getId() && knoop.isResultaatBlad()) // Boom met 'gereset' worden?
+        if (beginKnoop.getId() == knoop.getId() && knoop.isResultaatBlad()) { // Boom met 'gereset' worden?
             beginKnoop = new BeslissingsKnoop();
+            ((BeslissingsKnoop)beginKnoop).wijzigAttributen(knoop);
+            
+        }
         
         beginKnoop.wijzigKnoop(knoop);
     }

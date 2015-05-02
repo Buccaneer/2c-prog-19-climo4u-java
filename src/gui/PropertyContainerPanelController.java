@@ -88,7 +88,7 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
     private void veranderNullWaarden() {
         if (dto.isBeslissingsKnoop()) {
             if (dto.getVergelijking() == null) {
-                dto.setVergelijking(new VergelijkingDto(new ParameterDto("", 0.0, true), VergelijkingsOperator.GELIJKAAN, new ParameterDto("", 0.0, true)));
+                dto.setVergelijking(new VergelijkingDto(new ParameterDto("Tw", false), VergelijkingsOperator.GELIJKAAN, new ParameterDto("", 0.0, true)));
             }
 
         } else if (dto.getVegetatieType() == null) {
@@ -238,8 +238,11 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
                     }
             } else {
                 dto.toBeslissingsKnoop();
+            
             }
+            veranderNullWaarden();
             controller.wijzigKnoop(dto);
+            
         }
     }
 
