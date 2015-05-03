@@ -116,7 +116,7 @@ public class ToetsTest {
     public void testVoegVraagToe() {
         DeterminatieVraag vraag = new DeterminatieVraag();
         toets.voegVraagToe(vraag);
-
+        Assert.assertEquals(1, toets.getVragen().size());
     }
 
     /**

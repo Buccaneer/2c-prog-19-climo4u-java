@@ -14,6 +14,19 @@ public class VraagDto {
     private String beschrijving;
     private int puntenTeVerdienen;
 
+    public VraagDto() {
+    }
+
+    public VraagDto(int type, List<KlimatogramDto> klimatogrammen, List<String> subvragen, String beschrijving, int puntenTeVerdienen) {
+        this.type = type;
+        this.klimatogrammen = klimatogrammen;
+        this.subvragen = subvragen;
+        this.beschrijving = beschrijving;
+        this.puntenTeVerdienen = puntenTeVerdienen;
+    }
+
+    
+
     public int getType() {
         return this.type;
     }

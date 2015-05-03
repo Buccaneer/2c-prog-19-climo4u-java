@@ -8,8 +8,8 @@ public class ToetsDto {
 	private int id;
         private String naam;
 	private String titel;
-	private Date aanvang;
-	private Date eind;
+	private GregorianCalendar aanvang;
+	private GregorianCalendar eind;
 	private int aantalPuntenTeBehalen;
 
 	public int getId() {
@@ -53,19 +53,19 @@ public class ToetsDto {
 		this.titel = titel;
 	}
 
-	public Date getAanvang() {
+	public GregorianCalendar getAanvang() {
 		return this.aanvang;
 	}
 
-	public void setAanvang(Date aanvang) {
+	public void setAanvang(GregorianCalendar aanvang) {
 		this.aanvang = aanvang;
 	}
 
-	public Date getEind() {
+	public GregorianCalendar getEind() {
 		return this.eind;
 	}
 
-	public void setEind(Date eind) {
+	public void setEind(GregorianCalendar eind) {
 		this.eind = eind;
 	}
 
