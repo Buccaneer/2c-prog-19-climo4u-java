@@ -5,67 +5,48 @@
  */
 package domein;
 
+import java.util.Arrays;
 import java.util.List;
+import junit.framework.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  *
  * @author Annemie
  */
 public class LosseVraagTest {
-    
-    public LosseVraagTest() {
+
+    private LosseVraag losseVraag;
+
+    @Before
+    public void init() {
+        this.losseVraag = new LosseVraag();
     }
 
-    /**
-     * Test of getKlimatogram method, of class GraadEenVraag.
-     */
-    @Test
-    public void testGetKlimatogram() {
-        System.out.println("getKlimatogram");
-        LosseVraag instance = new LosseVraag();
-        Klimatogram expResult = null;
-        Klimatogram result = instance.getKlimatogram();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setKlimatogram method, of class GraadEenVraag.
-     */
     @Test
     public void testSetKlimatogram() {
-        System.out.println("setKlimatogram");
-        Klimatogram klimatogram = null;
-        LosseVraag instance = new LosseVraag();
-        instance.setKlimatogram(klimatogram);
-        fail("The test case is a prototype.");
+        Klimatogram klimatogram = new Klimatogram("Deinze");
+        losseVraag.setKlimatogram(klimatogram);
+        Assert.assertEquals(klimatogram, losseVraag.getKlimatogram());
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void testSetNullKlimatogram(){
+        losseVraag.setKlimatogram(null);
     }
 
-    /**
-     * Test of getSubvragenLijst method, of class GraadEenVraag.
-     */
-    @Test
-    public void testGetSubvragenLijst() {
-        System.out.println("getSubvragenLijst");
-        LosseVraag instance = new LosseVraag();
-        List<String> expResult = null;
-        List<String> result = instance.getSubvragenLijst();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setSubvragenLijst method, of class GraadEenVraag.
-     */
     @Test
     public void testSetSubvragenLijst() {
-        System.out.println("setSubvragenLijst");
-        List<String> subvragenLijst = null;
-        LosseVraag instance = new LosseVraag();
-        instance.setSubvragenLijst(subvragenLijst);
-        fail("The test case is a prototype.");
+        List<String> vragen = Arrays.asList(new String[]{"Test1","Test2","Test3"});
+        losseVraag.setSubvragenLijst(vragen);
+        Assert.assertEquals(vragen, losseVraag.getSubvragenLijst());
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void testSetNullSubvragenLijst(){
+        losseVraag.setSubvragenLijst(null);
     }
 
     /**
@@ -73,23 +54,40 @@ public class LosseVraagTest {
      */
     @Test
     public void testVoegVraagToe() {
-        System.out.println("voegVraagToe");
-        String vraag = "";
-        LosseVraag instance = new LosseVraag();
-        instance.voegVraagToe(vraag);
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of verwijderVraag method, of class GraadEenVraag.
-     */
-    @Test
-    public void testVerwijderVraag() {
-        System.out.println("verwijderVraag");
-        String vraag = "";
-        LosseVraag instance = new LosseVraag();
-        instance.verwijderVraag(vraag);
-        fail("The test case is a prototype.");
+        losseVraag.voegVraagToe("Testvraag");
+        Assert.assertTrue(losseVraag.getSubvragenLijst().contains("Testvraag"));
     }
     
+    @Test(expected = IllegalArgumentException.class)
+    public void testVoegNullVraagToe(){
+        losseVraag.voegVraagToe(null);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testVoegLegeVraagToe(){
+        losseVraag.voegVraagToe("");
+    }
+
+    @Test
+    public void testVerwijderVraag() {
+        String vraag = losseVraag.getSubvragenLijst().get(1);
+        losseVraag.verwijderVraag(vraag);
+        Assert.assertFalse(losseVraag.getSubvragenLijst().contains(vraag));
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testVerwijderNullVraag(){
+        losseVraag.verwijderVraag(null);
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void testVerwijderLegeVraag(){
+        losseVraag.verwijderVraag("");
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void testVoegDubbeleVraagToe(){
+        String vraag = losseVraag.getSubvragenLijst().get(1);
+        losseVraag.voegVraagToe(vraag);
+    }
 }

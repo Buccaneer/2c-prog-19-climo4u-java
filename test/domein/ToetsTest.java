@@ -13,6 +13,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.omg.PortableInterceptor.LOCATION_FORWARD;
 
 /**
  *
@@ -75,7 +76,6 @@ public class ToetsTest {
         date.add(Calendar.YEAR, 1);
         toets.setStartDatumUur(date);
         Assert.assertEquals(date, toets.getStartDatumUur());
-
     }
 
     /**
@@ -124,15 +124,78 @@ public class ToetsTest {
      */
     @Test
     public void testVerwijderVraag() {
-
+        DeterminatieVraag vraag = new DeterminatieVraag();
+        toets.voegVraagToe(vraag);
+        Assert.assertEquals(1, toets.getVragen().size());
+        toets.verwijderVraag(vraag);
+        Assert.assertEquals(0, toets.getVragen().size());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testVoegNullVraagToe() {
+        toets.voegVraagToe(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testVerwijderNullVraag() {
+        DeterminatieVraag vraag = new DeterminatieVraag();
+        toets.voegVraagToe(vraag);
+        toets.verwijderVraag(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testVraagVerwijderenDieErNietInZit() {
+        DeterminatieVraag vraag = new DeterminatieVraag();
+        toets.voegVraagToe(vraag);
+        LocatieVraag vraag2 = new LocatieVraag();
+        toets.verwijderVraag(vraag2);
+    }
+    
+    @Test
+    public void testVoegKlasToe(){
+        Klas klas = new Klas();
+        toets.voegKlasToe(klas);
+        Assert.assertEquals(1, toets.getKlassen().size());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testVoegNullKlasToe(){
+        toets.voegKlasToe(null);
+    }
+    
+    @Test
+    public void testVerwijderKlas(){
+        Klas klas = new Klas();
+        toets.voegKlasToe(klas);
+        Assert.assertEquals(1, toets.getKlassen().size());
+        toets.verwijderKlas(klas);
+        Assert.assertEquals(0, toets.getKlassen().size());
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testVerwijderNullKlas(){
+        toets.verwijderKlas(null);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testVerwijderKlasDieErNietInZit(){
+        Klas klas = new Klas();
+        Klas klas2 = new Klas();
+        toets.voegKlasToe(klas);
+        toets.verwijderKlas(klas2);
+    }
+    
     /**
      * Test of berekenTotaleScore method, of class Toets.
      */
     @Test
     public void testBerekenTotaleScore() {
-
+        LocatieVraag vraag1 = new LocatieVraag();
+        vraag1.setTeBehalenPunten(5);
+        LocatieVraag vraag2 = new LocatieVraag();
+        vraag2.setTeBehalenPunten(10);
+        toets.voegVraagToe(vraag2);
+        toets.voegVraagToe(vraag1);
+        Assert.assertEquals(15, toets.berekenTotaleScore());
     }
-
 }
