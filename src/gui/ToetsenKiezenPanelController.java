@@ -5,6 +5,9 @@ import dto.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -20,31 +23,31 @@ public class ToetsenKiezenPanelController extends VBox
     @FXML
     TableView<ToetsDto> tblToetsen;
     
-    @FXML
+    @FXML //ToetsNaam
     TableColumn colNaam;
     
-    @FXML
+    @FXML //ToetsGraad
     TableColumn colGraad;
     
-    @FXML
+    @FXML //ToetsNaam
     TextField txfNaam;
     
-    @FXML
-    TextField txfGraad;
+    @FXML //ToetsGraad
+    ComboBox<GraadDto> cboGraad;
     
     @FXML
     Button btnToetsToevoegen;
     
-    @FXML
+    @FXML //ToetsTitel
     TextField txfTitel;
     
-    @FXML
+    @FXML //ToetsBeschrijving
     TextField txfBeschrijving;
     
-    @FXML
+    @FXML //ToetsStartDatum
     TextField txfStart;
     
-    @FXML
+    @FXML //ToetsEindDatum
     TextField txfEinde;
     
     @FXML
@@ -79,14 +82,110 @@ public class ToetsenKiezenPanelController extends VBox
                 //controller.selecteerToets(newValue);
             }
         });
+        cboGraad.setItems(controller.geefAlleGraden());
         btnToetsToevoegen.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
+        
+        
+        
+        
+        
         btnKlasToevoegen.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
+    }
+    
+    private class ToetsButtonCell extends TableCell<ToetsDto, Boolean>
+    {
+
+        final Button cellButton = new Button();
+
+        ToetsButtonCell()
+        {
+            cellButton.setGraphic(new ImageView(new Image("/content/images/xSmall.png")));
+            cellButton.getStyleClass().add("cancel");
+            cellButton.setPrefSize(25, 25);
+            cellButton.setOnAction(new EventHandler<ActionEvent>()
+            {
+                @Override
+                public void handle(ActionEvent t)
+                {
+                    ToetsDto dto = (ToetsDto) ToetsButtonCell.this.getTableView().getItems().get(ToetsButtonCell.this.getIndex());
+                    controller.verwijderToets(dto);
+                }
+            });
+        }
+
+        @Override
+        protected void updateItem(Boolean t, boolean empty)
+        {
+            super.updateItem(t, empty);
+            if (!empty)
+            {
+                setGraphic(cellButton);
+            }
+            else
+            {
+                setGraphic(null);
+            }
+        }
+    }
+    
+    private class KlasButtonCell extends TableCell<KlasDto, Boolean>
+    {
+
+        final Button cellButton = new Button();
+
+        KlasButtonCell()
+        {
+            cellButton.setGraphic(new ImageView(new Image("/content/images/xSmall.png")));
+            cellButton.getStyleClass().add("cancel");
+            cellButton.setPrefSize(25, 25);
+            cellButton.setOnAction(new EventHandler<ActionEvent>()
+            {
+                @Override
+                public void handle(ActionEvent t)
+                {
+                    KlasDto dto = (KlasDto) KlasButtonCell.this.getTableView().getItems().get(KlasButtonCell.this.getIndex());
+                    controller.verwijderKlas(dto);
+                }
+            });
+        }
+
+        @Override
+        protected void updateItem(Boolean t, boolean empty)
+        {
+            super.updateItem(t, empty);
+            if (!empty)
+            {
+                setGraphic(cellButton);
+            }
+            else
+            {
+                setGraphic(null);
+            }
+        }
     }
     
     @FXML
     private void toetsToevoegen()
     {
-        
+        clearErrors();
+        if (!(txfNaam.getText().isEmpty() || cboGraad.getSelectionModel().isEmpty()))
+        {
+            try
+            {
+                ToetsDto dto = new ToetsDto();
+                dto.setNaam(null);
+                controller.maakNieuweToets(dto);
+                txfNaam.setText("");
+            }
+            catch (IllegalArgumentException ex)
+            {
+                statusBar.setText(ex.getMessage());
+            }
+        }
+        else
+        {
+            statusBar.setText("Gelieve een naam in te vullen en een graad te selecteren.");
+        }
     }
     
     @FXML
@@ -99,6 +198,11 @@ public class ToetsenKiezenPanelController extends VBox
     private void todo()
     {
         
+    }
+    
+    private void clearErrors()
+    {
+        statusBar.setText("");
     }
     
 }

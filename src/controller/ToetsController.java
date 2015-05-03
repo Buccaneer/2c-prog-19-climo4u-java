@@ -65,6 +65,16 @@ public class ToetsController {
 		// TODO - implement ToetsController.geefVragen
 		throw new UnsupportedOperationException();
 	}
+        
+        public void voegKlasToe(KlasDto klas)
+        {
+            klassenVanToets.add(klas);
+        }
+        
+        public void verwijderKlas(KlasDto klas)
+        {
+            klassenVanToets.remove(klas);
+        }
 
 	/**
 	 * 
