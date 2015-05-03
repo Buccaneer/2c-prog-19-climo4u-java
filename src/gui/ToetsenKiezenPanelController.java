@@ -5,14 +5,15 @@ import dto.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 import org.controlsfx.control.StatusBar;
 
 public class ToetsenKiezenPanelController extends VBox
@@ -51,13 +52,13 @@ public class ToetsenKiezenPanelController extends VBox
     TextField txfEinde;
     
     @FXML
-    TableView tblKlassen;
+    TableView<KlasDto> tblKlassen;
     
     @FXML
     TableColumn colKlas;
     
     @FXML
-    TextField txfKlas;
+    ComboBox<KlasDto> cboKlas;
     
     @FXML
     Button btnKlasToevoegen;
@@ -82,12 +83,109 @@ public class ToetsenKiezenPanelController extends VBox
                 //controller.selecteerToets(newValue);
             }
         });
-        cboGraad.setItems(controller.geefAlleGraden());
+        //cboGraad.setItems(controller.geefAlleGraden());
+        tblToetsen.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>()
+        {
+
+            @Override
+            public Boolean call(TableView.ResizeFeatures p)
+            {
+                double width = tblToetsen.widthProperty().getValue();
+                double buttonWidth = 34;
+                int i = 0;
+                int columns = 3;
+                for (TableColumn c : tblToetsen.getColumns())
+                {
+                    if (i < columns)
+                    {
+                        if (i == columns - 1)
+                        {
+                            c.setMinWidth(buttonWidth);
+                            c.setMaxWidth(buttonWidth);
+                        }
+                        else
+                        {
+                            c.setMinWidth((width - buttonWidth) / (columns - 1) - 1);
+                            c.setMaxWidth((width - buttonWidth) / (columns - 1) - 1);
+                        }
+                    }
+                    i++;
+                }
+                return true;
+            }
+        });
         btnToetsToevoegen.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
         
+        txfTitel.setOnInputMethodTextChanged(new EventHandler<InputMethodEvent>()
+        {
+
+            @Override
+            public void handle(InputMethodEvent t)
+            {
+                //getToetsDto, wijzigToetsDto, geefToetsDtoAanController
+            }
+        });
         
+        txfBeschrijving.setOnInputMethodTextChanged(new EventHandler<InputMethodEvent>()
+        {
+
+            @Override
+            public void handle(InputMethodEvent t)
+            {
+                //getToetsDto, wijzigToetsDto, geefToetsDtoAanController
+            }
+        });
         
+        txfStart.setOnInputMethodTextChanged(new EventHandler<InputMethodEvent>()
+        {
+
+            @Override
+            public void handle(InputMethodEvent t)
+            {
+                //getToetsDto, wijzigToetsDto, geefToetsDtoAanController
+            }
+        });
         
+        txfEinde.setOnInputMethodTextChanged(new EventHandler<InputMethodEvent>()
+        {
+
+            @Override
+            public void handle(InputMethodEvent t)
+            {
+                //getToetsDto, wijzigToetsDto, geefToetsDtoAanController
+            }
+        });
+        
+        tblKlassen.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>()
+        {
+
+            @Override
+            public Boolean call(TableView.ResizeFeatures p)
+            {
+                double width = tblKlassen.widthProperty().getValue();
+                double buttonWidth = 34;
+                int i = 0;
+                int columns = 2;
+                for (TableColumn c : tblKlassen.getColumns())
+                {
+                    if (i < columns)
+                    {
+                        if (i == columns - 1)
+                        {
+                            c.setMinWidth(buttonWidth);
+                            c.setMaxWidth(buttonWidth);
+                        }
+                        else
+                        {
+                            c.setMinWidth((width - buttonWidth) / (columns - 1) - 1);
+                            c.setMaxWidth((width - buttonWidth) / (columns - 1) - 1);
+                        }
+                    }
+                    i++;
+                }
+                return true;
+            }
+        });
         
         btnKlasToevoegen.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
     }
@@ -191,13 +289,25 @@ public class ToetsenKiezenPanelController extends VBox
     @FXML
     private void klasToevoegen()
     {
-        
+        clearErrors();
+        if (!cboKlas.getSelectionModel().isEmpty())
+        {
+            try
+            {
+                KlasDto dto = cboKlas.getSelectionModel().getSelectedItem();
+                controller.voegKlasToe(dto);
+            }
+            catch (IllegalArgumentException ex)
+            {
+                statusBar.setText(ex.getMessage());
+            }
+        }
     }
     
     @FXML
     private void todo()
     {
-        
+        clearErrors();
     }
     
     private void clearErrors()

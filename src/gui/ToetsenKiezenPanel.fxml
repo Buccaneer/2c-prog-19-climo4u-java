@@ -15,39 +15,69 @@
               <Font size="30.0"/> 
           </font>
       </Label>
-      <Label text="Toetsen"/>
+      <Label text="Toetsen">
+          <padding>
+              <Insets bottom="5"/> 
+          </padding>
+      </Label>
       <TableView fx:id="tblToetsen" editable="false">
             <columns>
-                <TableColumn fx:id="colNaam" minWidth="-1.0" prefWidth="300.0" resizable="false" text="Naam" />
-                <TableColumn fx:id="colGraad" minWidth="-1.0" prefWidth="300.0" resizable="false" text="Graad" />
+                <TableColumn fx:id="colNaam" resizable="false" text="Naam" />
+                <TableColumn fx:id="colGraad" resizable="false" text="Graad" />
             </columns>
+            <placeholder>
+                <Label/>
+            </placeholder>
       </TableView>
-      <HBox>
+      <HBox HBox.hgrow="ALWAYS" >
          <children>
-            <TextField fx:id="txfNaam" onAction="#toetsToevoegen" promptText="Naam"/>
-            <TextField fx:id="txfGraad" onAction="#toetsToevoegen" promptText="Graad"/>
-            <Button fx:id="btnToetsToevoegen" mnemonicParsing="false" onAction="#toetsToevoegen"/>
+            <TextField fx:id="txfNaam" HBox.hgrow="ALWAYS" promptText="Naam"/>
+            <ComboBox fx:id="cboGraad" prefWidth="100"  promptText="Graad"/>
+            <Button fx:id="btnToetsToevoegen" prefWidth="25" prefHeight="25" mnemonicParsing="false" onAction="#toetsToevoegen" styleClass="ok"/>
          </children>
       </HBox>
-      <Label text="Gegevens"/>
-      <TextField fx:id="txfTitel" onAction="#todo" promptText="Titel" HBox.hgrow="ALWAYS" />
-      <TextField fx:id="txfBeschrijving" onAction="#todo" promptText="Beschrijving" HBox.hgrow="ALWAYS" />
-      <TextField fx:id="txfStart" onAction="#todo" promptText="Startdatum en uur" HBox.hgrow="ALWAYS" />
-      <TextField fx:id="txfEinde" onAction="#todo" promptText="Einddatum en uur" HBox.hgrow="ALWAYS" />
-      <Label text="Klassen"/>
+      <Label text="Gegevens">
+          <padding>
+              <Insets top="10" bottom="5"/> 
+          </padding>
+      </Label>
+      <TextField fx:id="txfTitel" onAction="#todo" promptText="Titel" HBox.hgrow="ALWAYS">
+          <VBox.margin>
+              <Insets bottom="5"/> 
+          </VBox.margin>
+      </TextField>
+      <TextField fx:id="txfBeschrijving" onAction="#todo" promptText="Beschrijving" HBox.hgrow="ALWAYS">
+          <VBox.margin>
+              <Insets bottom="5"/> 
+          </VBox.margin>
+      </TextField>
+      <TextField fx:id="txfStart" onAction="#todo" promptText="Startdatum en uur" HBox.hgrow="ALWAYS">
+          <VBox.margin>
+              <Insets bottom="5"/> 
+          </VBox.margin>
+      </TextField>
+      <TextField fx:id="txfEinde" onAction="#todo" promptText="Einddatum en uur" HBox.hgrow="ALWAYS"/>
+      <Label text="Klassen">
+          <padding>
+              <Insets top="10" bottom="5"/> 
+          </padding>
+      </Label>
       <TableView fx:id="tblKlassen" editable="false">
             <columns>
                 <TableColumn fx:id="colKlas" minWidth="-1.0" prefWidth="300.0" resizable="false" text="Naam" />
             </columns>
+            <placeholder>
+                <Label/>
+            </placeholder>
       </TableView>
       <HBox>
          <children>
-            <TextField fx:id="txfKlas" onAction="#klasToevoegen" promptText="Naam" HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnKlasToevoegen" mnemonicParsing="false" onAction="#klasToevoegen"/>
+            <ComboBox fx:id="cboKlas" promptText="Naam" prefWidth="260"/>
+            <Button fx:id="btnKlasToevoegen" prefWidth="25" prefHeight="25" mnemonicParsing="false" onAction="#klasToevoegen" styleClass="ok"/>
          </children>
       </HBox>
    </children>
    <padding>
-      <Insets left="15.0" />
+      <Insets left="15.0" bottom="20.0"/>
    </padding>
 </fx:root>
