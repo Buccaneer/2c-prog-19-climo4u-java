@@ -5,43 +5,39 @@
  */
 package domein;
 
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
+import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  *
  * @author Annemie
  */
 public class LocatieVraagTest {
+
+    private LocatieVraag vraag;
+
+    @Before
+    public void init(){
+        vraag=new LocatieVraag();
+    }
     
-    public LocatieVraagTest() {
-    }
-
-    /**
-     * Test of getKlimatogrammen method, of class DerdeGraadVraag.
-     */
-    @Test
-    public void testGetKlimatogrammen() {
-        System.out.println("getKlimatogrammen");
-        LocatieVraag instance = new LocatieVraag();
-        Set<Klimatogram> expResult = null;
-        Set<Klimatogram> result = instance.getKlimatogrammen();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setKlimatogrammen method, of class DerdeGraadVraag.
-     */
     @Test
     public void testSetKlimatogrammen() {
-        System.out.println("setKlimatogrammen");
-        HashSet<Klimatogram> klimatogrammen = null;
-        LocatieVraag instance = new LocatieVraag();
-        instance.setKlimatogrammen(klimatogrammen);
-        fail("The test case is a prototype.");
+        Klimatogram klim1 = new Klimatogram("Testeen");
+        Klimatogram klim2 = new Klimatogram("Testtwee");
+        Klimatogram klim3 = new Klimatogram("Testdrie");
+        HashSet<Klimatogram> set = new HashSet<>();
+        set.addAll(Arrays.asList(new Klimatogram[]{klim1, klim2, klim3}));
+        vraag.setKlimatogrammen(set);
+        Assert.assertEquals(3, vraag.getKlimatogrammen().size());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetNullKlimatogrammen() {
+        vraag.setKlimatogrammen(null);
     }
 
     /**
@@ -49,11 +45,18 @@ public class LocatieVraagTest {
      */
     @Test
     public void testVoegKlimatogramToe() {
-        System.out.println("voegKlimatogramToe");
-        Klimatogram klimatogram = null;
-        LocatieVraag instance = new LocatieVraag();
-        instance.voegKlimatogramToe(klimatogram);
-        fail("The test case is a prototype.");
+        Klimatogram klim1 = new Klimatogram("Testeen");
+        Klimatogram klim2 = new Klimatogram("Testtwee");
+        Klimatogram klim3 = new Klimatogram("Testdrie");
+        vraag.voegKlimatogramToe(klim3);
+        vraag.voegKlimatogramToe(klim2);
+        vraag.voegKlimatogramToe(klim1);
+        Assert.assertEquals(3, vraag.getKlimatogrammen().size());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testVoegNullKlimatogramToe() {
+        vraag.voegKlimatogramToe(null);
     }
 
     /**
@@ -61,11 +64,19 @@ public class LocatieVraagTest {
      */
     @Test
     public void testVerwijderKlimatogram() {
-        System.out.println("verwijderKlimatogram");
-        Klimatogram klimatogram = null;
-        LocatieVraag instance = new LocatieVraag();
-        instance.verwijderKlimatogram(klimatogram);
-        fail("The test case is a prototype.");
+        Klimatogram klim1 = new Klimatogram("Testeen");
+        Klimatogram klim2 = new Klimatogram("Testtwee");
+        Klimatogram klim3 = new Klimatogram("Testdrie");
+        vraag.voegKlimatogramToe(klim3);
+        vraag.voegKlimatogramToe(klim2);
+        vraag.voegKlimatogramToe(klim1);
+        Assert.assertEquals(3, vraag.getKlimatogrammen().size());
+        vraag.verwijderKlimatogram(klim1);
+        Assert.assertEquals(2, vraag.getKlimatogrammen().size());
     }
-    
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testVerwijderNullKlimatogram() {
+        vraag.verwijderKlimatogram(null);
+    }
 }

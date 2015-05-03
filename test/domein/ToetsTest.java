@@ -71,8 +71,8 @@ public class ToetsTest {
      */
     @Test
     public void testSetStartDatumUur() {
-        GregorianCalendar date = new GregorianCalendar(2015, 10, 10, 10, 0);
-        date.set(Calendar.YEAR, 0);
+        GregorianCalendar date = (GregorianCalendar) GregorianCalendar.getInstance();
+        date.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
         date.add(Calendar.YEAR, 1);
         toets.setStartDatumUur(date);
         Assert.assertEquals(date, toets.getStartDatumUur());
@@ -83,8 +83,8 @@ public class ToetsTest {
      */
     @Test
     public void testSetEindDatumUur() {
-        GregorianCalendar date = new GregorianCalendar(2015, 10, 10, 12, 0);
-        date.set(Calendar.YEAR, 0);
+        GregorianCalendar date = (GregorianCalendar) GregorianCalendar.getInstance();
+        date.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
         date.add(Calendar.YEAR, 1);
         toets.setEindDatumUur(date);
         Assert.assertEquals(date, toets.getEindDatumUur());
@@ -98,14 +98,14 @@ public class ToetsTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testEindDatumLigtVoorStartDatum() {
-        GregorianCalendar date = new GregorianCalendar(2015, 10, 10, 12, 0);
-        date.set(Calendar.YEAR, 0);
-        date.add(Calendar.YEAR, 1);
+        GregorianCalendar date = (GregorianCalendar) GregorianCalendar.getInstance();
+        date.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+        date.add(Calendar.YEAR, 5);
         toets.setStartDatumUur(date);
 
-        GregorianCalendar date2 = new GregorianCalendar(2015, 10, 10, 10, 0);
-        date.set(Calendar.YEAR, 0);
-        date.add(Calendar.YEAR, 1);
+        GregorianCalendar date2 = (GregorianCalendar) GregorianCalendar.getInstance();
+        date2.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+        date2.add(Calendar.YEAR, 1);
         toets.setEindDatumUur(date2);
     }
 
@@ -150,41 +150,41 @@ public class ToetsTest {
         LocatieVraag vraag2 = new LocatieVraag();
         toets.verwijderVraag(vraag2);
     }
-    
+
     @Test
-    public void testVoegKlasToe(){
+    public void testVoegKlasToe() {
         Klas klas = new Klas();
         toets.voegKlasToe(klas);
         Assert.assertEquals(1, toets.getKlassen().size());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testVoegNullKlasToe(){
+    public void testVoegNullKlasToe() {
         toets.voegKlasToe(null);
     }
-    
+
     @Test
-    public void testVerwijderKlas(){
+    public void testVerwijderKlas() {
         Klas klas = new Klas();
         toets.voegKlasToe(klas);
         Assert.assertEquals(1, toets.getKlassen().size());
         toets.verwijderKlas(klas);
         Assert.assertEquals(0, toets.getKlassen().size());
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
-    public void testVerwijderNullKlas(){
+    public void testVerwijderNullKlas() {
         toets.verwijderKlas(null);
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
-    public void testVerwijderKlasDieErNietInZit(){
+    public void testVerwijderKlasDieErNietInZit() {
         Klas klas = new Klas();
         Klas klas2 = new Klas();
         toets.voegKlasToe(klas);
         toets.verwijderKlas(klas2);
     }
-    
+
     /**
      * Test of berekenTotaleScore method, of class Toets.
      */

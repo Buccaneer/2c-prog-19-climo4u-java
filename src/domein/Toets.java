@@ -26,6 +26,11 @@ public class Toets {
     private GregorianCalendar startDatumUur;
     private GregorianCalendar eindDatumUur;
 
+    public Toets() {
+        vragen = new ArrayList<>();
+        klassen = new ArrayList<>();
+    }
+
     public int getId() {
         return id;
     }
@@ -55,10 +60,22 @@ public class Toets {
     }
 
     public void voegKlasToe(Klas klas) {
+        if (klas == null) {
+            throw new IllegalArgumentException();
+        }
+        if (klassen.contains(klas)) {
+            throw new IllegalArgumentException("Deze klas is al gekoppeld aan deze toets.");
+        }
         klassen.add(klas);
     }
 
     public void verwijderKlas(Klas klas) {
+        if (klas == null) {
+            throw new IllegalArgumentException();
+        }
+        if (!klassen.contains(klas)) {
+            throw new IllegalArgumentException("Deze klas bevint zich niet bij deze toets.");
+        }
         klassen.remove(klas);
     }
 
@@ -67,6 +84,8 @@ public class Toets {
     }
 
     public void setTitel(String titel) {
+        if(titel == null || titel.isEmpty())
+            throw new IllegalArgumentException("Gelieve een titel in te vullen.");
         this.titel = titel;
     }
 
@@ -83,6 +102,8 @@ public class Toets {
     }
 
     public void setStartDatumUur(GregorianCalendar startDatumUur) {
+        if(startDatumUur.before(GregorianCalendar.getInstance()))
+            throw new IllegalArgumentException("De startdatum/uur kan niet voor vandaag liggen");
         this.startDatumUur = startDatumUur;
     }
 
@@ -91,6 +112,8 @@ public class Toets {
     }
 
     public void setEindDatumUur(GregorianCalendar eindDatumUur) {
+        if(eindDatumUur.before(startDatumUur))
+            throw new IllegalArgumentException("De einddatum/uur kan niet voor de startdatum/uur liggen.");
         this.eindDatumUur = eindDatumUur;
     }
 
@@ -99,6 +122,12 @@ public class Toets {
      * @param vraag
      */
     public void voegVraagToe(ToetsVraag vraag) {
+        if (vraag == null) {
+            throw new IllegalArgumentException();
+        }
+        if (vragen.contains(vraag)) {
+            throw new IllegalArgumentException("Deze vraag behoort al tot de toets.");
+        }
         vragen.add(vraag);
     }
 
@@ -107,6 +136,12 @@ public class Toets {
      * @param vraag
      */
     public void verwijderVraag(ToetsVraag vraag) {
+        if (vraag == null) {
+            throw new IllegalArgumentException();
+        }
+        if (!vragen.contains(vraag)) {
+            throw new IllegalArgumentException("Deze vraag hoort niet bij deze toets.");
+        }
         vragen.remove(vraag);
     }
 

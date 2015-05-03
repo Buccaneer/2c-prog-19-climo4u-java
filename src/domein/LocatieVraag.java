@@ -5,23 +5,22 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "ToetsVragen")
-public class LocatieVraag extends ToetsVraag
-{
+public class LocatieVraag extends ToetsVraag {
 
-    private Set<Klimatogram> klimatogrammen;
+    private HashSet<Klimatogram> klimatogrammen;
 
-    public LocatieVraag()
-    {
+    public LocatieVraag() {
         klimatogrammen = new HashSet<>();
     }
 
-    public Set<Klimatogram> getKlimatogrammen()
-    {
+    public Set<Klimatogram> getKlimatogrammen() {
         return this.klimatogrammen;
     }
 
-    public void setKlimatogrammen(HashSet<Klimatogram> klimatogrammen)
-    {
+    public void setKlimatogrammen(HashSet<Klimatogram> klimatogrammen) {
+        if (klimatogrammen == null) {
+            throw new IllegalArgumentException();
+        }
         this.klimatogrammen = klimatogrammen;
     }
 
@@ -29,8 +28,10 @@ public class LocatieVraag extends ToetsVraag
      *
      * @param klimatogram
      */
-    public void voegKlimatogramToe(Klimatogram klimatogram)
-    {
+    public void voegKlimatogramToe(Klimatogram klimatogram) {
+        if (klimatogram == null) {
+            throw new IllegalArgumentException();
+        }
         klimatogrammen.add(klimatogram);
     }
 
@@ -38,8 +39,10 @@ public class LocatieVraag extends ToetsVraag
      *
      * @param klimatogram
      */
-    public void verwijderKlimatogram(Klimatogram klimatogram)
-    {
+    public void verwijderKlimatogram(Klimatogram klimatogram) {
+        if (klimatogram == null) {
+            throw new IllegalArgumentException();
+        }
         klimatogrammen.remove(klimatogram);
     }
 

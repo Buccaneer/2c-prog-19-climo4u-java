@@ -28,6 +28,8 @@ public class LosseVraag extends ToetsVraag {
     }
 
     public void setKlimatogram(Klimatogram klimatogram) {
+        if(klimatogram==null)
+            throw new IllegalArgumentException();
         this.klimatogram = klimatogram;
     }
 
@@ -36,6 +38,8 @@ public class LosseVraag extends ToetsVraag {
     }
 
     public void setSubvragenLijst(List<String> subvragenLijst) {
+        if(subvragenLijst == null)
+            throw new IllegalArgumentException();
         this.subvragenLijst = subvragenLijst;
     }
 
@@ -44,6 +48,10 @@ public class LosseVraag extends ToetsVraag {
      * @param vraag
      */
     public void voegVraagToe(String vraag) {
+        if(vraag == null || vraag.equals(""))
+            throw new IllegalArgumentException();
+        if(subvragenLijst.contains(vraag))
+            throw new IllegalArgumentException("Vraag is al toegevoegd.");
         subvragenLijst.add(vraag);
     }
 
@@ -52,6 +60,10 @@ public class LosseVraag extends ToetsVraag {
      * @param vraag
      */
     public void verwijderVraag(String vraag) {
+        if(vraag == null || vraag.equals(""))
+            throw new IllegalArgumentException();
+        if(!subvragenLijst.contains(vraag))
+            throw new IllegalArgumentException("Deze vraag behoort niet tot deze toets");
         subvragenLijst.remove(vraag);
     }
 
