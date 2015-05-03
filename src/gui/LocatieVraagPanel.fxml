@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ListView fx:id="lstKlimatogrammen" />
+      <HBox>
+         <children>
+            <ComboBox fx:id="cboKlimatogram" promptText="Selecteer klimatogram" />
+            <Button fx:id="btnToevoegen" mnemonicParsing="false" onAction="#toevoegen" text="Toevoegen/Wijzigen" />
+            <Button fx:id="verwijderen" mnemonicParsing="false" onAction="#btnVerwijderen" text="Verwijderen" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

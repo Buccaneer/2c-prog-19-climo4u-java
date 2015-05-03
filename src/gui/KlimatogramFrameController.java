@@ -129,6 +129,8 @@ public class KlimatogramFrameController extends AnchorPane {
         HBox.setHgrow(tdpc, Priority.ALWAYS);
         content.getChildren().add(tkpc);
         content.getChildren().add(tdpc);
+        content.getChildren().add(new VragenRepositoryController(tController));
+        content.getChildren().add(new ToetsVragenOverzichtController(tController));
         toetsenTab.setContent(content);
     }
 

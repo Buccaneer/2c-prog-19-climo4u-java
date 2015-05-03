@@ -6,10 +6,10 @@ import java.util.List;
 public class VraagDto {
 
     private int type;
-    public final int GRAADEEN = 0;
-    public final int DETERMINATIE = 1;
-    public final int GRAADDRIE = 2;
-    private List<Klimatogram> klimatogrammen;
+    public static final int GRAADEEN = 0;
+    public static final int DETERMINATIE = 1;
+    public static final int GRAADDRIE = 2;
+    private List<KlimatogramDto> klimatogrammen;
     private List<String> subvragen;
     private String beschrijving;
     private int puntenTeVerdienen;
@@ -22,11 +22,11 @@ public class VraagDto {
         this.type = type;
     }
 
-    public List<Klimatogram> getKlimatogrammen() {
+    public List<KlimatogramDto> getKlimatogrammen() {
         return this.klimatogrammen;
     }
 
-    public void setKlimatogrammen(List<Klimatogram> klimatogrammen) {
+    public void setKlimatogrammen(List<KlimatogramDto> klimatogrammen) {
         this.klimatogrammen = klimatogrammen;
     }
 

@@ -5,7 +5,6 @@
     <class>domein.Continent</class>
     <class>domein.Klimatogram</class>
     <class>domein.Land</class>
-    <class>domein.Maand</class>
     <class>domein.Graad</class>
     <class>domein.BeslissingsKnoop</class>
     <class>domein.DeterminatieKnoop</class>
@@ -28,11 +27,18 @@
     <class>domein.TemperatuurVierdeWarmsteMaandParameter</class>
     <class>domein.Klas</class>
     <class>domein.Leerling</class>
+    <class>domein.DeterminatieVraag</class>
+    <class>domein.LocatieVraag</class>
+    <class>domein.LosseVraag</class>
+    <class>domein.Maand</class>
+    <class>domein.Toets</class>
+    <class>domein.ToetsVraag</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost\SQLEXPRESS:1433;databaseName=Projecten2Groep19_db"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
       <property name="javax.persistence.jdbc.password" value=""/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>
