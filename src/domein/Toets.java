@@ -21,10 +21,46 @@ public class Toets
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private String naam;
     private String titel;
     private String beschrijving;
     private GregorianCalendar startDatumUur;
     private GregorianCalendar eindDatumUur;
+    
+    public Graad getGraad()
+    {
+        return graad;
+    }
+    
+    public void setGraad(Graad graad)
+    {
+        this.graad = graad;
+    }
+    
+    public String getNaam()
+    {
+        return naam;
+    }
+    
+    public void setNaam(String naam)
+    {
+        this.naam = naam;
+    }
+    
+    public List<Klas> getKlassen()
+    {
+        return klassen;
+    }
+    
+    public void voegKlasToe(Klas klas)
+    {
+        klassen.add(klas);
+    }
+    
+    public void verwijderKlas(Klas klas)
+    {
+        klassen.remove(klas);
+    }
 
     public String getTitel()
     {

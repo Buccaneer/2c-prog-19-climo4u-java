@@ -48,7 +48,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="4.0" left="2.0" right="2.0" top="4.0" />
+            <Insets left="2.0" right="2.0" top="10.0" />
          </VBox.margin>
       </Label>
       <Label prefHeight="120.0" prefWidth="250.0" text="Dit werkt enkel als uw determinatietabel volwaardig is, d.w.z. dat elk pad een waarde heeft gekregen." wrapText="true">

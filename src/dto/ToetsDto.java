@@ -6,6 +6,7 @@ public class ToetsDto {
 
 	private List<VraagDto> vragen;
 	private int id;
+        private String naam;
 	private String titel;
 	private Date aanvang;
 	private Date eind;
@@ -18,6 +19,31 @@ public class ToetsDto {
 	public void setId(int id) {
 		this.id = id;
 	}
+        
+        public List<VraagDto> getVragen()
+        {
+            return vragen;
+        }
+        
+        public void vroegVraagToe(VraagDto vraag)
+        {
+            vragen.add(vraag);
+        }
+        
+        public void verwijderVraag(VraagDto vraag)
+        {
+            vragen.remove(vraag);
+        }
+        
+        public String getNaam()
+        {
+            return naam;
+        }
+        
+        public void setNaam(String naam)
+        {
+            this.naam = naam;
+        }
 
 	public String getTitel() {
 		return this.titel;
