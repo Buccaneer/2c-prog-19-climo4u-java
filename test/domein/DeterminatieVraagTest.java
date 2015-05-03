@@ -5,6 +5,7 @@
  */
 package domein;
 
+import junit.framework.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -13,33 +14,17 @@ import static org.junit.Assert.*;
  * @author Annemie
  */
 public class DeterminatieVraagTest {
-    
-    public DeterminatieVraagTest() {
-    }
-
-    /**
-     * Test of getKlimatogram method, of class DeterminatieVraag.
-     */
-    @Test
-    public void testGetKlimatogram() {
-        System.out.println("getKlimatogram");
-        DeterminatieVraag instance = new DeterminatieVraag();
-        Klimatogram expResult = null;
-        Klimatogram result = instance.getKlimatogram();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setKlimatogram method, of class DeterminatieVraag.
-     */
     @Test
     public void testSetKlimatogram() {
-        System.out.println("setKlimatogram");
-        Klimatogram klimatogram = null;
-        DeterminatieVraag instance = new DeterminatieVraag();
-        instance.setKlimatogram(klimatogram);
-        fail("The test case is a prototype.");
+        Klimatogram klimatogram = new Klimatogram("Deinze");
+        DeterminatieVraag vraag = new DeterminatieVraag();
+        vraag.setKlimatogram(klimatogram);
+        Assert.assertEquals(klimatogram,vraag.getKlimatogram());
     }
     
+    @Test(expected=IllegalArgumentException.class)
+    public void testSetNullKlimatogram(){
+        new DeterminatieVraag().setKlimatogram(null);
+    }
 }
+

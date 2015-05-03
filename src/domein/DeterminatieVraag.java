@@ -17,6 +17,8 @@ public class DeterminatieVraag extends ToetsVraag
 
     public void setKlimatogram(Klimatogram klimatogram)
     {
+        if(klimatogram==null)
+            throw new IllegalArgumentException();
         this.klimatogram = klimatogram;
     }
 

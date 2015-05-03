@@ -6,26 +6,28 @@ import javax.persistence.*;
 @Entity()
 @Table(name = "Klassen")
 public class Klas {
-    
-    @JoinColumns({@JoinColumn(name="Nummer", referencedColumnName="Nummer", nullable = false), 
-                    @JoinColumn(name="Jaar",referencedColumnName = "Jaar",nullable = true)})
+
+    @JoinColumns({
+        @JoinColumn(name = "Nummer", referencedColumnName = "Nummer", nullable = false),
+        @JoinColumn(name = "Jaar", referencedColumnName = "Jaar", nullable = true)})
     @ManyToOne(optional = false)
-    
+
     private Graad graad;
-    
-    @OneToMany(mappedBy = 
-            "klas",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+
+    @OneToMany(mappedBy
+            = "klas", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Collection<Leerling> leerlingen = new TreeSet<>(new Comparator<Leerling>() {
         @Override
         public int compare(Leerling o1, Leerling o2) {
             int naam = o1.getNaam().compareTo(o2.getNaam());
-            if (naam == 0)
+            if (naam == 0) {
                 return o1.getVoornaam().compareTo(o2.getVoornaam());
+            }
             return naam;
         }
     });
-    
-    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Toets> toetsen;
 
     public Klas(int id, String naam, int leerjaar) {
@@ -38,39 +40,37 @@ public class Klas {
     public Klas() {
         toetsen = new ArrayList<>();
     }
-    
-    
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-  
+
     private String naam;
     private int leerjaar;
 
     public int getId() {
         return id;
     }
-    
-    
-    
+
     public String getNaam() {
         return this.naam;
     }
-    
+
     public void setNaam(String naam) {
-        if (naam == null)
+        if (naam == null) {
             throw new IllegalArgumentException();
+        }
         this.naam = naam;
     }
-    
+
     public int getLeerjaar() {
         return this.leerjaar;
     }
-    
+
     public void setLeerjaar(int leerjaar) {
-        if (leerjaar < 0)
+        if (leerjaar < 0) {
             throw new IllegalArgumentException();
+        }
         this.leerjaar = leerjaar;
     }
 
@@ -79,13 +79,19 @@ public class Klas {
      * @param leerling
      */
     public void voegLeerlingToe(Leerling leerling) {
+        if (leerling == null) {
+            throw new IllegalArgumentException();
+        }
         leerlingen.add(leerling);
     }
-    
+
     public void verwijderLeerling(Leerling leerling) {
+        if (leerling == null) {
+            throw new IllegalArgumentException();
+        }
         leerlingen.remove(leerling);
     }
-    
+
     public Collection<Leerling> getLeerlingen() {
         return leerlingen;
     }
@@ -94,10 +100,13 @@ public class Klas {
         return toetsen;
     }
 
-    public void voegToetsToe(Toets toets){
+    public void voegToetsToe(Toets toets) {
+        if (toets == null) {
+            throw new IllegalArgumentException();
+        }
         toetsen.add(toets);
     }
-    
+
     public Graad getGraad() {
         return this.graad;
     }
@@ -107,9 +116,10 @@ public class Klas {
      * @param graad
      */
     public void setGraad(Graad graad) {
-        if (graad == null)
+        if (graad == null) {
             throw new IllegalArgumentException();
+        }
         this.graad = graad;
     }
-    
+
 }
