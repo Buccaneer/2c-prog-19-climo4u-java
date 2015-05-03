@@ -38,14 +38,17 @@ public class ContinentDaoMockFactory {
     }
     
     
-    
+    public void setGraad(Graad g)  {
+        continenten.forEach((Continent c) -> c.voegGraadToe(g));
+    }
     public GenericDao<Continent, String> createMock() {
         MockitoAnnotations.initMocks(this);
         Continent c = continenten.get(0);
         Mockito.when(continentDao.getAll()).thenReturn(continenten);
         Mockito.when(continentDao.exists("Europa")).thenReturn(true);
         Mockito.when(continentDao.exists("Amerika")).thenReturn(false);
-        Mockito.when(continentDao.get("Europa")).thenReturn(continenten.get(0));
+        Mockito.when(continentDao.get("Europa")).thenReturn(c);
         return continentDao;
     }
+    
 }
