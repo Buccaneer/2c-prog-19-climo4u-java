@@ -129,11 +129,15 @@ public class ToetsController implements ListChangeListener<KlasDto> {
         });
         return klassenVanToets;
     }
-
+/**
+ * Altijd een observable list terug geven ook indien nog geen toets geselecteerd is. Gewoon opvullen en aanpassen.
+ * @return 
+ */
     public ObservableList<VraagDto> geefVragen() {
+        // altijd observable list terug geven
          if (geselecteerdeToets == null) {
             throw new IllegalArgumentException("Gelieve eerst een toets te selecteren.");
-        }
+        } 
          ObservableList vragenLijst = FXCollections.observableArrayList();
         geselecteerdeToets.getVragen().forEach((v)->{
             if(v instanceof LosseVraag){
@@ -181,7 +185,7 @@ public class ToetsController implements ListChangeListener<KlasDto> {
     public void voegVraagToe(VraagDto vraag) {
         if(vraag == null){
             throw new IllegalArgumentException("Gelieve eerst een type vraag te selecteren");
-        }
+        } // Factory implementeren
         if(vraag.isDeterminatieVraag()){
             DeterminatieVraag v = new DeterminatieVraag();
             v.setBeschrijving(vraag.getBeschrijving());
