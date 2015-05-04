@@ -153,6 +153,10 @@ public class Klimatogram implements Cloneable {
         return maanden;
     }
 
+    public Land getLand() {
+        return land;
+    }
+
     private int geefWaarde(Maand o1) {
         switch (o1.getNaam()) {
             case "Januari":

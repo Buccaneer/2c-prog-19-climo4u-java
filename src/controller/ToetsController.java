@@ -1,12 +1,26 @@
 package controller;
 
-import domein.*;
-import dto.*;
+import domein.DeterminatieVraag;
+import domein.Graad;
+import domein.Klas;
+import domein.Klimatogram;
+import domein.LocatieVraag;
+import domein.LosseVraag;
+import domein.Toets;
+import domein.ToetsVraag;
+import domein.VraagFactory;
+import dto.GraadDto;
+import dto.KlasDto;
+import dto.KlimatogramDto;
+import dto.ToetsDto;
+import dto.VraagDto;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -17,14 +31,16 @@ public class ToetsController implements ListChangeListener<KlasDto> {
 
     private Toets geselecteerdeToets;
     private Graad graad;
-    private ToetsVraag geselecteerdeVraag;
     private ObservableList<KlasDto> klassenVanToets = FXCollections.observableArrayList();
-private ObservableList<VraagDto>  vragenOL= FXCollections.observableArrayList();
+    private ObservableList<VraagDto> vragenOL = FXCollections.observableArrayList();
     private GenericDao<Toets, Integer> toetsrepository = new GenericDaoJpa<>(Toets.class);
-    private GenericDao<Continent, String> continentrepository = new GenericDaoJpa<>(Continent.class);
     private GenericDao<Graad, Integer> graadrepository = new GenericDaoJpa<>(Graad.class);
     private GenericDao<Klas, Integer> klassenRepository = new GenericDaoJpa<>(Klas.class);
     private GenericDao<Klimatogram, String> klimatogramRepository = new GenericDaoJpa<>(Klimatogram.class);
+
+    public ToetsController() {
+        klassenVanToets.addListener(this);
+    }
 
     void setToetsrepository(GenericDao<Toets, Integer> toetsrepository) {
         this.toetsrepository = toetsrepository;
@@ -34,20 +50,24 @@ private ObservableList<VraagDto>  vragenOL= FXCollections.observableArrayList();
         this.graadrepository = graadrepository;
     }
 
-    void setContinentrepository(GenericDao<Continent, String> continentrepository) {
-        this.continentrepository = continentrepository;
-    }
-
-    public ToetsController() {
-        klassenVanToets.addListener(this);
-    }
-
     /**
      *
      * @param toetsDto
      */
     public void maakNieuweToets(ToetsDto toetsDto) {
+        if (toetsDto == null) {
+            throw new IllegalArgumentException("Gelieve een toets te selecteren");
+        }
         geselecteerdeToets = new Toets();
+        geselecteerdeToets.setTitel(toetsDto.getTitel());
+        Optional<Graad> graad = graadrepository.getAll().stream().filter((Graad g) -> g.getGraad() == toetsDto.getGraad().getGraad()).findFirst();
+        if (!graad.isPresent()) {
+            throw new IllegalArgumentException("Graad is niet gevonden");
+        }
+        geselecteerdeToets.setGraad(graad.get());
+        vulKlassenVanToetsOp();
+
+        toetsrepository.insert(geselecteerdeToets);
     }
 
     /**
@@ -74,19 +94,16 @@ private ObservableList<VraagDto>  vragenOL= FXCollections.observableArrayList();
         geselecteerdeToets = toetsrepository.get(toets.getId());
         try {
             GenericDaoJpa.startTransaction();
-
-            geselecteerdeToets.setNaam(toets.getNaam());
-            // moet nog gebeuren -> geselecteerdeToets.setBeschrijving(toets);
-
+            geselecteerdeToets.setBeschrijving(toets.getBeschrijving());
             geselecteerdeToets.setEindDatumUur(toets.getEind());
             geselecteerdeToets.setStartDatumUur(toets.getAanvang());
-            // moet nog gebeuren -> geselecteerdeToets.setGraad(toets);
             geselecteerdeToets.setTitel(toets.getTitel());
 
             GenericDaoJpa.commitTransaction();
         } catch (IllegalArgumentException e) {
             throw e;
         }
+        vulKlassenVanToetsOp();
         geselecteerdeToets = null;
     }
 
@@ -98,8 +115,13 @@ private ObservableList<VraagDto>  vragenOL= FXCollections.observableArrayList();
         if (toets == null) {
             throw new IllegalArgumentException("Gelieve eerst een toets te selecteren.");
         }
-        
+
         geselecteerdeToets = toetsrepository.get(toets.getId());
+        if (geselecteerdeToets == null) {
+            throw new IllegalArgumentException("Toets bestaat niet");
+        }
+        graad = geselecteerdeToets.getGraad();
+        vulKlassenVanToetsOp();
         vulVragenOp();
     }
 
@@ -122,64 +144,64 @@ private ObservableList<VraagDto>  vragenOL= FXCollections.observableArrayList();
     }
 
     public ObservableList<KlasDto> geefKlassenVanToets() {
+
+        return klassenVanToets;
+    }
+
+    private void vulKlassenVanToetsOp() {
+        klassenVanToets.removeListener(this);
         if (geselecteerdeToets == null) {
             throw new IllegalArgumentException("Gelieve eerst een toets te selecteren.");
         }
-        
-        geselecteerdeToets.getKlassen().forEach((k)->{
-           klassenVanToets.add(new KlasDto(k.getId(),k.getNaam(),k.getLeerjaar()));
+        klassenVanToets.clear();
+        geselecteerdeToets.getKlassen().forEach((k) -> {
+            klassenVanToets.add(new KlasDto(k.getId(), k.getNaam(), k.getLeerjaar()));
         });
-        return klassenVanToets;
+        klassenVanToets.addListener(this);
     }
-/**
- * Altijd een observable list terug geven ook indien nog geen toets geselecteerd is. Gewoon opvullen en aanpassen.
- * @return 
- */
+
+    /**
+     * Altijd een observable list terug geven ook indien nog geen toets
+     * geselecteerd is. Gewoon opvullen en aanpassen.
+     *
+     * @return
+     */
     public ObservableList<VraagDto> geefVragen() {
         // altijd observable list terug geven
-      
+
         return vragenOL;
     }
 
-    private void vulVragenOp()
-    {
+    private void vulVragenOp() {
         vragenOL.clear();
-        geselecteerdeToets.getVragen().forEach((v)->{
-            if(v instanceof LosseVraag){
-                LosseVraag vraag = (LosseVraag)v;
+        geselecteerdeToets.getVragen().forEach((v) -> {
+            if (v instanceof LosseVraag) {
+                LosseVraag vraag = (LosseVraag) v;
                 KlimatogramDto dto = new KlimatogramDto();
                 dto.setLocatie(vraag.getKlimatogram().getLocatie());
                 List<KlimatogramDto> kLijst = new ArrayList<>(Arrays.asList(dto));
-                vragenOL.add(new VraagDto(VraagDto.GRAADEEN, kLijst, vraag.getSubvragenLijst(), v.getBeschrijving(), v.getTeBehalenPunten()));
+                vragenOL.add(new VraagDto(v.getId(), VraagDto.GRAADEEN, kLijst, vraag.getSubvragenLijst(), v.getBeschrijving(), v.getTeBehalenPunten()));
             }
-            if(v instanceof DeterminatieVraag){
-                DeterminatieVraag vraag = (DeterminatieVraag)v;
+            if (v instanceof DeterminatieVraag) {
+                DeterminatieVraag vraag = (DeterminatieVraag) v;
                 KlimatogramDto dto = new KlimatogramDto();
                 dto.setLocatie(vraag.getKlimatogram().getLocatie());
                 List<KlimatogramDto> kLijst = new ArrayList<>(Arrays.asList(dto));
-                vragenOL.add(new VraagDto(VraagDto.DETERMINATIE, kLijst, null, v.getBeschrijving(), v.getTeBehalenPunten()));
+                vragenOL.add(new VraagDto(v.getId(), VraagDto.DETERMINATIE, kLijst, null, v.getBeschrijving(), v.getTeBehalenPunten()));
             }
-            if(v instanceof LocatieVraag){
-                LocatieVraag vraag = (LocatieVraag)v;
+            if (v instanceof LocatieVraag) {
+                LocatieVraag vraag = (LocatieVraag) v;
                 Set<Klimatogram> klimatogrammen = vraag.getKlimatogrammen();
                 List<KlimatogramDto> kLijst = new ArrayList<>();
-                klimatogrammen.stream().forEach(kl->{
-                    KlimatogramDto dto  =new KlimatogramDto();
+                klimatogrammen.stream().forEach(kl -> {
+                    KlimatogramDto dto = new KlimatogramDto();
                     dto.setLocatie(kl.getLocatie());
                     kLijst.add(dto);
                 });
-                vragenOL.add(new VraagDto(VraagDto.DETERMINATIE, kLijst, null, v.getBeschrijving(), v.getTeBehalenPunten()));
+                vragenOL.add(new VraagDto(v.getId(), VraagDto.GRAADDRIE, kLijst, null, v.getBeschrijving(), v.getTeBehalenPunten()));
             }
-               
+
         });
-    }
-
-    public void voegKlasToe(KlasDto klas) {
-        klassenVanToets.add(klas);
-    }
-
-    public void verwijderKlas(KlasDto klas) {
-        klassenVanToets.remove(klas);
     }
 
     /**
@@ -187,39 +209,13 @@ private ObservableList<VraagDto>  vragenOL= FXCollections.observableArrayList();
      * @param vraag
      */
     public void voegVraagToe(VraagDto vraag) {
-        if(vraag == null){
+        if (vraag == null) {
             throw new IllegalArgumentException("Gelieve eerst een type vraag te selecteren");
-        } // Factory implementeren
-        if(vraag.isDeterminatieVraag()){
-            DeterminatieVraag v = new DeterminatieVraag();
-            v.setBeschrijving(vraag.getBeschrijving());
-            Klimatogram klim = klimatogramRepository.get(vraag.getKlimatogrammen().get(0).getLocatie());
-            v.setKlimatogram(klim);
-            v.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
-            geselecteerdeToets.voegVraagToe(v);
         }
-        if(vraag.isGraadDrieVraag()){
-            LocatieVraag v = new LocatieVraag();
-            v.setBeschrijving(vraag.getBeschrijving());
-            HashSet<Klimatogram> klim = new HashSet<>();
-            vraag.getKlimatogrammen().stream().forEach(kl->{
-                Klimatogram k = klimatogramRepository.get(kl.getLocatie());
-                klim.add(k);
-            });
-            v.setKlimatogrammen(klim);
-            v.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
-            geselecteerdeToets.voegVraagToe(v);
-        }
-         if(vraag.isGraadEenVraag()){
-           LosseVraag v = new LosseVraag();
-           v.setSubvragenLijst(vraag.getSubvragen());
-           v.setBeschrijving(vraag.getBeschrijving());
-           Klimatogram klim = klimatogramRepository.get(vraag.getKlimatogrammen().get(0).getLocatie());
-           v.setKlimatogram(klim);
-            v.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
-            geselecteerdeToets.voegVraagToe(v);
-        }
-       vulVragenOp();
+        GenericDaoJpa.startTransaction();
+        geselecteerdeToets.voegVraagToe(VraagFactory.maakVraag(vraag, klimatogramRepository));
+        GenericDaoJpa.commitTransaction();
+        vulVragenOp();
     }
 
     /**
@@ -227,11 +223,22 @@ private ObservableList<VraagDto>  vragenOL= FXCollections.observableArrayList();
      * @param vraag
      */
     public void verwijderVraag(VraagDto vraag) {
-        if(vraag == null){
+        if (geselecteerdeToets == null) {
+            throw new IllegalArgumentException("Gelieve eerst een toets te selecteren");
+        }
+        if (vraag == null) {
             throw new IllegalArgumentException("Gelieve eerst een vraag te selecteren.");
         }
-         vulVragenOp();
-        
+        ToetsVraag vr = geselecteerdeToets.getVragen().stream().filter((v) -> v.getId() == vraag.getId()).findFirst().get();
+        if (vr == null) {
+            throw new IllegalArgumentException("Vraag niet gevonden");
+        }
+
+        GenericDaoJpa.startTransaction();
+        geselecteerdeToets.verwijderVraag(vr);
+        GenericDaoJpa.commitTransaction();
+
+        vulVragenOp();
     }
 
     /**
@@ -239,10 +246,34 @@ private ObservableList<VraagDto>  vragenOL= FXCollections.observableArrayList();
      * @param vraag
      */
     public void wijzigVraag(VraagDto vraag) {
-        // TODO - implement ToetsController.wijzigVraag
-         vulVragenOp();
-        throw new UnsupportedOperationException();
-       
+        if (geselecteerdeToets == null) {
+            throw new IllegalArgumentException("Gelieve eerst een toets te selecteren");
+        }
+        ToetsVraag vr = geselecteerdeToets.getVragen().stream().filter((v) -> v.getId() == vraag.getId()).findFirst().get();
+        GenericDaoJpa.startTransaction();
+        if (vraag.isGraadEenVraag()) {
+            LosseVraag vrg = (LosseVraag) vr;
+            vrg.setBeschrijving(vraag.getBeschrijving());
+            vrg.setKlimatogram(klimatogramRepository.get(vraag.getKlimatogrammen().get(0).getLocatie()));
+            vrg.setSubvragenLijst(vraag.getSubvragen());
+            vrg.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
+        }
+        if (vraag.isDeterminatieVraag()) {
+            DeterminatieVraag vrg = (DeterminatieVraag) vr;
+            vrg.setBeschrijving(vraag.getBeschrijving());
+            vrg.setKlimatogram(klimatogramRepository.get(vraag.getKlimatogrammen().get(0).getLocatie()));
+            vrg.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
+        }
+        if (vraag.isGraadDrieVraag()) {
+            LocatieVraag vrg = (LocatieVraag) vr;
+            vrg.setBeschrijving(vraag.getBeschrijving());
+            HashSet<Klimatogram> klimatogrammen = new HashSet<>();
+            vraag.getKlimatogrammen().stream().forEach(k->klimatogrammen.add(klimatogramRepository.get(k.getLocatie())));
+            vrg.setKlimatogrammen(klimatogrammen);
+            vrg.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
+        }
+        GenericDaoJpa.commitTransaction();
+        vulVragenOp();
     }
 
     /**
@@ -256,17 +287,50 @@ private ObservableList<VraagDto>  vragenOL= FXCollections.observableArrayList();
      */
     @Override
     public void onChanged(Change<? extends KlasDto> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            GenericDaoJpa.startTransaction();
+            List<Klas> klassen = geselecteerdeToets.getKlassen();
+            klassen.clear();
+            List<Klas> klassenDieBestaan = klassenRepository.getAll();
+
+            klassenVanToets.stream().forEach((klas) -> {
+                klassen.add(klassenDieBestaan.stream().filter((Klas k) -> k.getLeerjaar() == klas.getLeerjaar() && klas.getNaam().equals(k.getNaam())).findFirst().get());
+            });
+
+            GenericDaoJpa.commitTransaction();
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex.getMessage());
+        }
     }
 
     public ObservableList<KlimatogramDto> geefKlimatogrammen() {
-        // TODO - implement ToetsController.geefKlimatogrammen
-        throw new UnsupportedOperationException();
+        List<Klimatogram> klimatogrammen = klimatogramRepository.getAll();
+        ObservableList<KlimatogramDto> klimatogram = FXCollections.observableArrayList();
+        List<Klimatogram> kl = klimatogrammen.stream().filter(klim -> klim.getLand().getContinent().getGraden().contains(graad)).collect(Collectors.toList());
+        kl.stream().forEach(k -> klimatogram.add(new KlimatogramDto(k.getLocatie())));
+        return klimatogram;
     }
 
     public ObservableList<ToetsDto> geefToetsen() {
-        // TODO - implement ToetsController.geefToetsen
-        throw new UnsupportedOperationException();
+        List<Toets> toetsen = toetsrepository.getAll();
+        ObservableList<ToetsDto> toets = FXCollections.observableArrayList();
+        toetsen.stream().forEach(t -> {
+            ToetsDto dto = new ToetsDto();
+            dto.setAanvang(t.getStartDatumUur());
+            dto.setEind(t.getEindDatumUur());
+            dto.setBeschrijving(t.getBeschrijving());
+            dto.setTitel(t.getTitel());
+            dto.setId(t.getId());
+            toets.add(dto);
+        });
+        return toets;
     }
 
+    public void verwijderKlas(KlasDto dto) {
+        klassenVanToets.remove(dto);
+    }
+
+    public void voegKlasToe(KlasDto dto) {
+        klassenVanToets.add(dto);
+    }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 public class VraagDto {
 
     private int type;
+    private int id;
     public static final int GRAADEEN = 0;
     public static final int DETERMINATIE = 1;
     public static final int GRAADDRIE = 2;
@@ -17,7 +18,8 @@ public class VraagDto {
     public VraagDto() {
     }
 
-    public VraagDto(int type, List<KlimatogramDto> klimatogrammen, List<String> subvragen, String beschrijving, int puntenTeVerdienen) {
+    public VraagDto(int id, int type, List<KlimatogramDto> klimatogrammen, List<String> subvragen, String beschrijving, int puntenTeVerdienen) {
+        this.id = id;
         this.type = type;
         this.klimatogrammen = klimatogrammen;
         this.subvragen = subvragen;
@@ -25,7 +27,13 @@ public class VraagDto {
         this.puntenTeVerdienen = puntenTeVerdienen;
     }
 
-    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getType() {
         return this.type;

@@ -271,7 +271,7 @@ public class ToetsenKiezenPanelController extends VBox
             try
             {
                 ToetsDto dto = new ToetsDto();
-                dto.setNaam(null);
+                dto.setTitel(null);
                 controller.maakNieuweToets(dto);
                 txfNaam.setText("");
             }

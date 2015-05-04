@@ -15,6 +15,14 @@ public abstract class ToetsVraag
     private int teBehalenPunten;
     private String beschrijving;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public int getTeBehalenPunten()
     {
         return this.teBehalenPunten;

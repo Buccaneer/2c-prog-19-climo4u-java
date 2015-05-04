@@ -108,4 +108,8 @@ public class Land implements Cloneable {
         return klimatogrammen;
     }
 
+    public Continent getContinent() {
+        return continent;
+    }
+
 }
