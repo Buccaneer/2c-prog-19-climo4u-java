@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.*?>
 
-<fx:root prefHeight="215.0" prefWidth="200.0" type="BorderPane" style="-fx-border-width: 1; -fx-border-style: solid; -fx-border-color: -fx-box-border;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="200.0" type="BorderPane" style="-fx-border-width: 1; -fx-border-style: solid; -fx-border-color: -fx-box-border;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <Pane fx:id="paneEigenschappen" prefHeight="312.0" prefWidth="581.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="paneEigenschappen" prefHeight="200.0" BorderPane.alignment="CENTER">
         <padding>
             <Insets bottom ="5.0"/>
         </padding>

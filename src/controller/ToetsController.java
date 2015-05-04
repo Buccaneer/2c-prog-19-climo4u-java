@@ -19,7 +19,7 @@ public class ToetsController implements ListChangeListener<KlasDto> {
     private Graad graad;
     private ToetsVraag geselecteerdeVraag;
     private ObservableList<KlasDto> klassenVanToets = FXCollections.observableArrayList();
-
+private ObservableList<VraagDto>  vragenOL= FXCollections.observableArrayList();
     private GenericDao<Toets, Integer> toetsrepository = new GenericDaoJpa<>(Toets.class);
     private GenericDao<Continent, String> continentrepository = new GenericDaoJpa<>(Continent.class);
     private GenericDao<Graad, Integer> graadrepository = new GenericDaoJpa<>(Graad.class);
@@ -98,7 +98,9 @@ public class ToetsController implements ListChangeListener<KlasDto> {
         if (toets == null) {
             throw new IllegalArgumentException("Gelieve eerst een toets te selecteren.");
         }
+        
         geselecteerdeToets = toetsrepository.get(toets.getId());
+        vulVragenOp();
     }
 
     public ObservableList<GraadDto> geefAlleGraden() {
@@ -135,39 +137,41 @@ public class ToetsController implements ListChangeListener<KlasDto> {
  */
     public ObservableList<VraagDto> geefVragen() {
         // altijd observable list terug geven
-         if (geselecteerdeToets == null) {
-            throw new IllegalArgumentException("Gelieve eerst een toets te selecteren.");
-        } 
-         ObservableList vragenLijst = FXCollections.observableArrayList();
+      
+        return vragenOL;
+    }
+
+    private void vulVragenOp()
+    {
+        vragenOL.clear();
         geselecteerdeToets.getVragen().forEach((v)->{
             if(v instanceof LosseVraag){
                 LosseVraag vraag = (LosseVraag)v;
                 KlimatogramDto dto = new KlimatogramDto();
                 dto.setLocatie(vraag.getKlimatogram().getLocatie());
                 List<KlimatogramDto> kLijst = new ArrayList<>(Arrays.asList(dto));
-                 vragenLijst.add(new VraagDto(VraagDto.GRAADEEN, kLijst, vraag.getSubvragenLijst(), v.getBeschrijving(), v.getTeBehalenPunten()));
+                vragenOL.add(new VraagDto(VraagDto.GRAADEEN, kLijst, vraag.getSubvragenLijst(), v.getBeschrijving(), v.getTeBehalenPunten()));
             }
             if(v instanceof DeterminatieVraag){
                 DeterminatieVraag vraag = (DeterminatieVraag)v;
                 KlimatogramDto dto = new KlimatogramDto();
                 dto.setLocatie(vraag.getKlimatogram().getLocatie());
                 List<KlimatogramDto> kLijst = new ArrayList<>(Arrays.asList(dto));
-                 vragenLijst.add(new VraagDto(VraagDto.DETERMINATIE, kLijst, null, v.getBeschrijving(), v.getTeBehalenPunten()));
+                vragenOL.add(new VraagDto(VraagDto.DETERMINATIE, kLijst, null, v.getBeschrijving(), v.getTeBehalenPunten()));
             }
             if(v instanceof LocatieVraag){
                 LocatieVraag vraag = (LocatieVraag)v;
                 Set<Klimatogram> klimatogrammen = vraag.getKlimatogrammen();
-               List<KlimatogramDto> kLijst = new ArrayList<>();
-               klimatogrammen.stream().forEach(kl->{
-                   KlimatogramDto dto  =new KlimatogramDto();
-                   dto.setLocatie(kl.getLocatie());
-                   kLijst.add(dto);
-               });
-                 vragenLijst.add(new VraagDto(VraagDto.DETERMINATIE, kLijst, null, v.getBeschrijving(), v.getTeBehalenPunten()));
+                List<KlimatogramDto> kLijst = new ArrayList<>();
+                klimatogrammen.stream().forEach(kl->{
+                    KlimatogramDto dto  =new KlimatogramDto();
+                    dto.setLocatie(kl.getLocatie());
+                    kLijst.add(dto);
+                });
+                vragenOL.add(new VraagDto(VraagDto.DETERMINATIE, kLijst, null, v.getBeschrijving(), v.getTeBehalenPunten()));
             }
                
         });
-        return vragenLijst;
     }
 
     public void voegKlasToe(KlasDto klas) {
@@ -215,7 +219,7 @@ public class ToetsController implements ListChangeListener<KlasDto> {
             v.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
             geselecteerdeToets.voegVraagToe(v);
         }
-       
+       vulVragenOp();
     }
 
     /**
@@ -226,6 +230,7 @@ public class ToetsController implements ListChangeListener<KlasDto> {
         if(vraag == null){
             throw new IllegalArgumentException("Gelieve eerst een vraag te selecteren.");
         }
+         vulVragenOp();
         
     }
 
@@ -235,7 +240,9 @@ public class ToetsController implements ListChangeListener<KlasDto> {
      */
     public void wijzigVraag(VraagDto vraag) {
         // TODO - implement ToetsController.wijzigVraag
+         vulVragenOp();
         throw new UnsupportedOperationException();
+       
     }
 
     /**
