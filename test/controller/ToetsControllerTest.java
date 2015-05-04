@@ -50,7 +50,7 @@ public class ToetsControllerTest {
         t.voegKlasToe(k);
   
         controller.setToetsrepository(trm);
-        controller.setContinentrepository(cdmf.createMock());
+        //controller.setContinentrepository(cdmf.createMock());
         controller.setGraadrepository(graden);
     }
 

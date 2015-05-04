@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -49,6 +51,23 @@ public class ToetsController implements ListChangeListener<KlasDto> {
     void setGraadrepository(GenericDao<Graad, Integer> graadrepository) {
         this.graadrepository = graadrepository;
     }
+    
+    public ToetsDto getGeselecteerdeToets()
+    {
+        if (geselecteerdeToets == null)
+            return null;
+        ToetsDto dto = new ToetsDto();
+        dto.setAanvang(geselecteerdeToets.getStartDatumUur());
+        dto.setBeschrijving(new SimpleStringProperty(geselecteerdeToets.getBeschrijving()));
+        dto.setEind(geselecteerdeToets.getEindDatumUur());
+        GraadDto graad = new GraadDto();
+        graad.setGraad(geselecteerdeToets.getGraad().getGraad());
+        graad.setJaar(geselecteerdeToets.getGraad().getJaar());
+        dto.setGraad(new SimpleObjectProperty(graad));
+        dto.setId(geselecteerdeToets.getId());
+        dto.setTitel(new SimpleStringProperty(geselecteerdeToets.getTitel()));
+        return dto;
+    }
 
     /**
      *
@@ -59,14 +78,14 @@ public class ToetsController implements ListChangeListener<KlasDto> {
             throw new IllegalArgumentException("Gelieve een toets te selecteren");
         }
         geselecteerdeToets = new Toets();
-        geselecteerdeToets.setTitel(toetsDto.getTitel());
-        Optional<Graad> graad = graadrepository.getAll().stream().filter((Graad g) -> g.getGraad() == toetsDto.getGraad().getGraad()).findFirst();
+        geselecteerdeToets.setTitel(toetsDto.getTitel().getValue());
+        Optional<Graad> graad = graadrepository.getAll().stream().filter((Graad g) -> g.getGraad() == toetsDto.getGraad().getValue().getGraad()).findFirst();
         if (!graad.isPresent()) {
             throw new IllegalArgumentException("Graad is niet gevonden");
         }
         geselecteerdeToets.setGraad(graad.get());
         vulKlassenVanToetsOp();
-
+        
         toetsrepository.insert(geselecteerdeToets);
     }
 
@@ -94,17 +113,18 @@ public class ToetsController implements ListChangeListener<KlasDto> {
         geselecteerdeToets = toetsrepository.get(toets.getId());
         try {
             GenericDaoJpa.startTransaction();
-            geselecteerdeToets.setBeschrijving(toets.getBeschrijving());
-            geselecteerdeToets.setEindDatumUur(toets.getEind());
+            geselecteerdeToets.setBeschrijving(toets.getBeschrijving().getValue());
             geselecteerdeToets.setStartDatumUur(toets.getAanvang());
-            geselecteerdeToets.setTitel(toets.getTitel());
-
+            geselecteerdeToets.setEindDatumUur(toets.getEind());
+            //ER BESTAAT MAAR 1 STRING VOOR NAAM EN TITEL IN DOMEIN?
+            //geselecteerdeToets.setTitel(toets.getTitel().getValue());
             GenericDaoJpa.commitTransaction();
         } catch (IllegalArgumentException e) {
             throw e;
         }
         vulKlassenVanToetsOp();
-        geselecteerdeToets = null;
+        //no just no
+        //geselecteerdeToets = null;
     }
 
     /**
@@ -318,9 +338,13 @@ public class ToetsController implements ListChangeListener<KlasDto> {
             ToetsDto dto = new ToetsDto();
             dto.setAanvang(t.getStartDatumUur());
             dto.setEind(t.getEindDatumUur());
-            dto.setBeschrijving(t.getBeschrijving());
-            dto.setTitel(t.getTitel());
+            dto.setBeschrijving(new SimpleStringProperty(t.getBeschrijving()));
+            dto.setTitel(new SimpleStringProperty(t.getTitel()));
             dto.setId(t.getId());
+            GraadDto graad = new GraadDto();
+            graad.setGraad(t.getGraad().getGraad());
+            graad.setJaar(t.getGraad().getJaar());
+            dto.setGraad(new SimpleObjectProperty(graad));
             toets.add(dto);
         });
         return toets;

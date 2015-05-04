@@ -1,16 +1,18 @@
 package dto;
 
 import java.util.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 
 public class ToetsDto {
 
     private List<VraagDto> vragen;
     private int id;
-    private String beschrijving;
-    private String titel;
+    private SimpleStringProperty beschrijving;
+    private SimpleStringProperty titel;
     private GregorianCalendar aanvang;
     private GregorianCalendar eind;
-    private GraadDto graad;
+    private ObservableValue<GraadDto> graad;
     private int aantalPuntenTeBehalen;
 
     public int getId() {
@@ -21,11 +23,11 @@ public class ToetsDto {
         this.id = id;
     }
 
-    public GraadDto getGraad() {
+    public ObservableValue<GraadDto> getGraad() {
         return graad;
     }
 
-    public void setGraad(GraadDto graad) {
+    public void setGraad(ObservableValue<GraadDto> graad) {
         this.graad = graad;
     }
     
@@ -43,19 +45,19 @@ public class ToetsDto {
         vragen.remove(vraag);
     }
 
-    public String getBeschrijving() {
+    public SimpleStringProperty getBeschrijving() {
         return beschrijving;
     }
 
-    public void setBeschrijving(String beschrijving) {
+    public void setBeschrijving(SimpleStringProperty beschrijving) {
         this.beschrijving = beschrijving;
     }
 
-    public String getTitel() {
+    public SimpleStringProperty getTitel() {
         return this.titel;
     }
 
-    public void setTitel(String titel) {
+    public void setTitel(SimpleStringProperty titel) {
         this.titel = titel;
     }
 

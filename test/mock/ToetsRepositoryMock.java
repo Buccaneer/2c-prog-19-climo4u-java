@@ -58,7 +58,7 @@ public class ToetsRepositoryMock implements GenericDao<Toets, Integer> {
         t.setEindDatumUur(new GregorianCalendar(2015,04,21,18,00));
         t.setTitel("TDD-Test");
         t.setBeschrijving("spatie");
-        t.setNaam("TDD-Test");
+        //t.setNaam("TDD-Test");
         
         trm.insert(t);
         
