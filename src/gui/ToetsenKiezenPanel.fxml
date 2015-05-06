@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
+<?import jfxtras.scene.control.*?>
 
 <fx:root type="VBox" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
@@ -20,10 +21,10 @@
                 <Insets bottom="5"/> 
             </padding>
         </Label>
-        <TableView fx:id="tblToetsen" editable="false">
+        <TableView fx:id="tblToetsen" editable="true">
             <columns>
-                <TableColumn fx:id="colNaam" resizable="false" text="Naam" />
-                <TableColumn fx:id="colGraad" resizable="false" text="Graad" />
+                <TableColumn fx:id="colNaam"  editable="true" resizable="false" text="Naam" />
+                <TableColumn fx:id="colGraad" editable="false"  resizable="false" text="Graad" />
             </columns>
             <placeholder>
                 <Label/>
@@ -37,31 +38,36 @@
             </children>
         </HBox>
         <VBox fx:id="vboxGegevens">
-            <Label text="Gegevens">
+            <Label text="Beschrijving">
                 <padding>
                     <Insets top="10" bottom="5"/> 
                 </padding>
             </Label>
-            <TextField fx:id="txfTitel" promptText="Titel" HBox.hgrow="ALWAYS">
-                <VBox.margin>
-                    <Insets bottom="5"/> 
-                </VBox.margin>
-            </TextField>
             <TextField fx:id="txfBeschrijving" promptText="Beschrijving" HBox.hgrow="ALWAYS">
                 <VBox.margin>
                     <Insets bottom="5"/> 
                 </VBox.margin>
             </TextField>
-            <DatePicker fx:id="datStart" promptText="Startdatum en uur" prefWidth="285">
+            <Label text="Begin">
+                <padding>
+                    <Insets bottom="5"/> 
+                </padding>
+            </Label>
+            <LocalDateTimeTextField fx:id="datStart" prefWidth="285">
                 <VBox.margin>
                     <Insets bottom="5"/> 
                 </VBox.margin>
-            </DatePicker>
-            <DatePicker fx:id="datEinde" promptText="Einddatum en uur" prefWidth="285">
+            </LocalDateTimeTextField>
+            <Label text="Einde">
+                <padding>
+                    <Insets bottom="5"/> 
+                </padding>
+            </Label>
+            <LocalDateTimeTextField fx:id="datEinde" prefWidth="285">
                 <VBox.margin>
                     <Insets bottom="5"/> 
                 </VBox.margin>
-            </DatePicker>
+            </LocalDateTimeTextField>
             <Button fx:id="btnWijzigToets" mnemonicParsing="false" onAction="#toetsWijzigen" text="Wijzig"/>
             <Label text="Klassen">
                 <padding>

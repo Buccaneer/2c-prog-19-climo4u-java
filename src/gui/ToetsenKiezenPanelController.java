@@ -6,8 +6,13 @@ import dto.KlasDto;
 import dto.ToetsDto;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -33,15 +38,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import javafx.util.converter.DefaultStringConverter;
+import jfxtras.scene.control.LocalDateTimePicker;
+import jfxtras.scene.control.LocalDateTimeTextField;
 import org.controlsfx.control.StatusBar;
 
 public class ToetsenKiezenPanelController extends VBox {
 
-    /**
-     * http://jfxtras.org/
-     *
-     * Voor date and time picker ??
-     */
     private ToetsController controller;
     private StatusBar statusBar;
 
@@ -66,17 +68,14 @@ public class ToetsenKiezenPanelController extends VBox {
     @FXML
     VBox vboxGegevens;
 
-    @FXML //ToetsTitel
-    TextField txfTitel;
-
     @FXML //ToetsBeschrijving
     TextField txfBeschrijving;
 
     @FXML //ToetsStartDatum
-    DatePicker datStart;
+    LocalDateTimeTextField datStart;
 
     @FXML //ToetsEindDatum
-    DatePicker datEinde;
+    LocalDateTimeTextField datEinde;
 
     @FXML
     Button btnWijzigToets;
@@ -105,27 +104,31 @@ public class ToetsenKiezenPanelController extends VBox {
         } catch (IOException ex) {
             Logger.getLogger(KlasLijstenKiezenPanelController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        datStart.dateTimeFormatterProperty().set(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT));
+        datEinde.dateTimeFormatterProperty().set(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT));
+        datEinde.setLocale(Locale.GERMAN);
+        datStart.setLocale(Locale.GERMAN);
         vboxGegevens.setDisable(true);
         tblToetsen.setItems(controller.geefToetsen());
         tblToetsen.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             vboxGegevens.setDisable(true);
             if (newValue != null) {
-                txfTitel.setText("");
                 txfBeschrijving.setText("");
-                datStart.setValue(null);
-                datEinde.setValue(null);
+                datStart.setLocalDateTime(null);
+                datEinde.setLocalDateTime(null);
                 controller.selecteerToets(newValue);
                 ToetsDto toets = controller.getGeselecteerdeToets();
                 vboxGegevens.setDisable(false);
                 if (toets.getBeschrijving() != null)
                     txfBeschrijving.setText(toets.getBeschrijving().getValue());
                 if (toets.getAanvang() != null) {
-                    LocalDate dt = LocalDate.of(toets.getAanvang().get(Calendar.YEAR), toets.getAanvang().get(Calendar.MONTH), toets.getAanvang().get(Calendar.DAY_OF_MONTH));
-                    datStart.setValue(dt);
+                    LocalDateTime dt = LocalDateTime.of(toets.getAanvang().get(Calendar.YEAR), toets.getAanvang().get(Calendar.MONTH), toets.getAanvang().get(Calendar.DAY_OF_MONTH), toets.getAanvang().get(Calendar.HOUR_OF_DAY), toets.getAanvang().get(Calendar.MINUTE));
+                    //dt.atZone(ZoneId.getAvailableZoneIds())
+                    datStart.setLocalDateTime(dt);
                 }
                 if (toets.getEind() != null) {
-                    LocalDate dt = LocalDate.of(toets.getEind().get(Calendar.YEAR), toets.getEind().get(Calendar.MONTH), toets.getEind().get(Calendar.DAY_OF_MONTH));
-                    datEinde.setValue(dt);
+                    LocalDateTime dt = LocalDateTime.of(toets.getEind().get(Calendar.YEAR), toets.getEind().get(Calendar.MONTH), toets.getEind().get(Calendar.DAY_OF_MONTH), toets.getAanvang().get(Calendar.HOUR_OF_DAY), toets.getAanvang().get(Calendar.MINUTE));
+                    datEinde.setLocalDateTime(dt);
                 }
                 tblKlassen.setItems(controller.geefKlassenVanToets());
             }
@@ -214,12 +217,31 @@ public class ToetsenKiezenPanelController extends VBox {
                 return cell;
             }
         });
+        TableColumn verwijderKlasCol = new TableColumn<>("");
+        tblKlassen.getColumns().add(verwijderKlasCol);
+        verwijderKlasCol.setPrefWidth(35);
+        verwijderKlasCol.setSortable(false);
+        verwijderKlasCol.setResizable(false);
+        verwijderKlasCol.setEditable(false);
+        verwijderKlasCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<KlasDto, Boolean>, ObservableValue<Boolean>>() {
+            @Override
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<KlasDto, Boolean> p) {
+                return new SimpleBooleanProperty(p.getValue() != null);
+            }
+        });
+        verwijderKlasCol.setCellFactory(new Callback<TableColumn<KlasDto, Boolean>, TableCell<KlasDto, Boolean>>() {
+            @Override
+            public TableCell<KlasDto, Boolean> call(TableColumn<KlasDto, Boolean> p) {
+                return new KlasButtonCell();
+            }
+
+        });
         tblKlassen.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>() {
 
             @Override
             public Boolean call(TableView.ResizeFeatures p) {
                 double width = tblKlassen.widthProperty().getValue();
-                double buttonWidth = 34;
+                double buttonWidth = 45;
                 int i = 0;
                 int columns = 2;
                 for (TableColumn c : tblKlassen.getColumns()) {
@@ -228,8 +250,8 @@ public class ToetsenKiezenPanelController extends VBox {
                             c.setMinWidth(buttonWidth);
                             c.setMaxWidth(buttonWidth);
                         } else {
-                            c.setMinWidth((width - buttonWidth) / (columns - 1) - 1);
-                            c.setMaxWidth((width - buttonWidth) / (columns - 1) - 1);
+                            c.setMinWidth((width - buttonWidth) / (columns - 1) - 2);
+                            c.setMaxWidth((width - buttonWidth) / (columns - 1) - 2);
                         }
                     i++;
                 }
@@ -281,7 +303,6 @@ public class ToetsenKiezenPanelController extends VBox {
                 public void handle(ActionEvent t) {
                     KlasDto dto = (KlasDto) KlasButtonCell.this.getTableView().getItems().get(KlasButtonCell.this.getIndex());
                     controller.verwijderKlas(dto);
-                    refreshKlassen();
                 }
             });
         }
@@ -317,15 +338,15 @@ public class ToetsenKiezenPanelController extends VBox {
     @FXML
     private void toetsWijzigen() {
         clearErrors();
-        if (!(txfTitel.getText().isEmpty() || txfBeschrijving.getText().isEmpty() || datStart.getEditor().getText().isEmpty() || datEinde.getEditor().getText().isEmpty()))
+        if (!(txfBeschrijving.getText().isEmpty() || datStart.getLocalDateTime() == null || datEinde.getLocalDateTime() == null))
             try {
                 ToetsDto dto = new ToetsDto();
                 //ER BESTAAT MAAR 1 STRING VOOR NAAM EN TITEL IN DOMEIN?
                 //dto.setTitel(new SimpleStringProperty(txfTitel.getText()));
                 dto.setId(controller.getGeselecteerdeToets().getId());
                 dto.setBeschrijving(new SimpleStringProperty(txfBeschrijving.getText()));
-                dto.setAanvang(new GregorianCalendar(datStart.getValue().getYear(), datStart.getValue().getMonthValue(), datStart.getValue().getDayOfMonth()));
-                dto.setEind(new GregorianCalendar(datEinde.getValue().getYear(), datEinde.getValue().getMonthValue(), datEinde.getValue().getDayOfMonth()));
+                dto.setAanvang(new GregorianCalendar(datStart.getLocalDateTime().getYear(), datStart.getLocalDateTime().getMonthValue(), datStart.getLocalDateTime().getDayOfMonth(), datStart.getLocalDateTime().getHour(), datStart.getLocalDateTime().getMinute()));
+                dto.setEind(new GregorianCalendar(datEinde.getLocalDateTime().getYear(), datEinde.getLocalDateTime().getMonthValue(), datEinde.getLocalDateTime().getDayOfMonth(), datEinde.getLocalDateTime().getHour(), datEinde.getLocalDateTime().getMinute()));
                 controller.wijzigToets(dto);
                 statusBar.setText("De wijzigingen werden opgeslaan.");
             } catch (IllegalArgumentException ex) {
@@ -351,11 +372,6 @@ public class ToetsenKiezenPanelController extends VBox {
     private void refreshToetsen() {
         tblToetsen.getItems().clear();
         tblToetsen.setItems(controller.geefToetsen());
-    }
-
-    private void refreshKlassen() {
-//        tblKlassen.getItems().clear();
-//        tblKlassen.setItems(controller.geefKlassenVanToets());
     }
 
     private void clearErrors() {
