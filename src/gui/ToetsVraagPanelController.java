@@ -3,14 +3,18 @@ package gui;
 import controller.ToetsController;
 import dto.VraagDto;
 import java.io.IOException;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 
 /**
  *
@@ -46,6 +50,7 @@ public class ToetsVraagPanelController extends BorderPane {
     private void laadBasisAttributen(VraagDto dto1) {
         txaBeschrijving.setText(dto1.getBeschrijving());
         txtPunten.setText(String.format("%d", dto1.getPuntenTeVerdienen()));
+        txtPunten.addEventFilter(KeyEvent.KEY_TYPED, numFilter());
     }
 
     public static void laadFxmlBestand(String naam, Object root, Object controller) throws RuntimeException {
@@ -61,6 +66,17 @@ public class ToetsVraagPanelController extends BorderPane {
         }
     }
 
+    public static EventHandler<KeyEvent> numFilter() {
+
+        EventHandler<KeyEvent> aux = new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent keyEvent) {
+                if (!"0123456789".contains(keyEvent.getCharacter()))
+                    keyEvent.consume();
+            }
+        };
+        return aux;
+    }
+
     private void laadKind() {
         laadFxmlBestand(vraag.getFxmlBestand(), vraag, vraag);
 
@@ -68,10 +84,11 @@ public class ToetsVraagPanelController extends BorderPane {
         vraag.laden(dto);
 
         content.getChildren().clear();
-
-        content.getChildren().add((Node) vraag);
+        Node node = (Node) vraag;
+        content.getChildren().add(node);
+        HBox.setHgrow(node, Priority.ALWAYS);
     }
-
+    
     public void opslaan() {
         opslaanBasisAttributen();
         vraag.opslaan(dto);

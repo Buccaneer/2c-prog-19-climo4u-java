@@ -3,6 +3,8 @@ package gui;
 import controller.ToetsController;
 import dto.KlimatogramDto;
 import dto.VraagDto;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -29,8 +31,12 @@ public class SubVragenController extends VBox implements IToetsVraag {
     @FXML
     private TextField txtVraag;
 
+    private final String TOEVOEGENTEKST = "Toevoegen";
+    private final String WIJZIGENTEKST = "Wijzigen";
+
     private ObservableList<String> items = FXCollections.observableArrayList();
     private ToetsController controller;
+    private String geselecteerdeVraag = null;
 
     @Override
     public String getFxmlBestand() {
@@ -51,6 +57,19 @@ public class SubVragenController extends VBox implements IToetsVraag {
         }
         items.addAll(vraag.getSubvragen().toArray(new String[]{}));
         lstVragen.setItems(items);
+
+        lstVragen.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                geselecteerdeVraag = newValue;
+                txtVraag.setText(newValue);
+                btnToevoegen.setText(WIJZIGENTEKST);
+            }
+
+        });
+
+        btnToevoegen.setText(TOEVOEGENTEKST);
     }
 
     @Override
@@ -62,8 +81,15 @@ public class SubVragenController extends VBox implements IToetsVraag {
     }
 
     public void toevoegen() {
-        items.add(txtVraag.getText());
-        txtVraag.selectAll();
+        if (geselecteerdeVraag == null)
+            items.add(txtVraag.getText());
+        else {
+            int i = items.indexOf(geselecteerdeVraag);
+            items.set(i, txtVraag.getText());
+        }
+
+        geselecteerdeVraag = null;
+        btnToevoegen.setText(TOEVOEGENTEKST);
     }
 
     public void verwijderen() {
