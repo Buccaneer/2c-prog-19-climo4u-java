@@ -7,6 +7,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
@@ -23,7 +25,7 @@ public class ToetsVragenOverzichtController extends ScrollPane implements ListCh
     public ToetsVragenOverzichtController(ToetsController controller) {
         this.controller = controller;
         this.vragen = controller.geefVragen();
-
+        vragen.addListener(this);
         ToetsVraagPanelController.laadFxmlBestand("ToetsVragenOverzicht.fxml", this, this);
     }
 
@@ -54,8 +56,12 @@ public class ToetsVragenOverzichtController extends ScrollPane implements ListCh
                 throw new RuntimeException("Niet ondersteunde vraag.");
         }
 
-        if (toetsvraag != null)
-            nodes.add(new ToetsVraagPanelController(controller, toetsvraag, vraag));
+        if (toetsvraag != null) {
+            ToetsVraagPanelController tvp = new ToetsVraagPanelController(controller, toetsvraag, vraag);
+
+            HBox.setHgrow(tvp, Priority.ALWAYS);
+            nodes.add(tvp);
+        }
     }
 
     @Override

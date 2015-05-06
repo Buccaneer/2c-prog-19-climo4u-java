@@ -1,6 +1,5 @@
 package dto;
 
-import domein.*;
 import java.util.List;
 
 public class VraagDto {
@@ -76,15 +75,15 @@ public class VraagDto {
     }
 
     public boolean isGraadEenVraag() {
-        return type == 1;
+        return type == GRAADEEN;
     }
 
     public boolean isDeterminatieVraag() {
-        return type == 2;
+        return type == DETERMINATIE;
     }
 
     public boolean isGraadDrieVraag() {
-        return type == 3;
+        return type == GRAADDRIE;
     }
 
 }

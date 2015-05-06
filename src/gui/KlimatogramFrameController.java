@@ -1,6 +1,9 @@
 package gui;
 
-import controller.*;
+import controller.DeterminatieController;
+import controller.KlimatogramController;
+import controller.LeerlingController;
+import controller.ToetsController;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,7 +54,7 @@ public class KlimatogramFrameController extends AnchorPane {
     public KlimatogramFrameController(KlimatogramController kController, DeterminatieController dController, LeerlingController lController, ToetsController tController) {
         this.kController = kController;
         this.dController = dController;
-        this.lController= lController;
+        this.lController = lController;
         this.tController = tController;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("KlimatogramFrame.fxml"));
         loader.setRoot(this);
@@ -129,8 +132,12 @@ public class KlimatogramFrameController extends AnchorPane {
         HBox.setHgrow(tdpc, Priority.ALWAYS);
         content.getChildren().add(tkpc);
         VBox vbox = new VBox();
+        VBox.setVgrow(vbox, Priority.ALWAYS);
+        HBox.setHgrow(vbox, Priority.ALWAYS);
+        ToetsVragenOverzichtController tvoc = new ToetsVragenOverzichtController(tController);
+        HBox.setHgrow(tvoc, Priority.ALWAYS);
         vbox.getChildren().add(new VragenRepositoryController(tController));
-        vbox.getChildren().add(new ToetsVragenOverzichtController(tController));
+        vbox.getChildren().add(tvoc);
         content.getChildren().add(vbox);
         toetsenTab.setContent(content);
     }

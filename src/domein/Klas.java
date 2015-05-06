@@ -1,7 +1,22 @@
 package domein;
 
-import java.util.*;
-import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.TreeSet;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity()
 @Table(name = "Klassen")
@@ -20,14 +35,13 @@ public class Klas {
         @Override
         public int compare(Leerling o1, Leerling o2) {
             int naam = o1.getNaam().compareTo(o2.getNaam());
-            if (naam == 0) {
+            if (naam == 0)
                 return o1.getVoornaam().compareTo(o2.getVoornaam());
-            }
             return naam;
         }
     });
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, mappedBy = "klassen")
     private List<Toets> toetsen;
 
     public Klas(int id, String naam, int leerjaar) {
@@ -57,9 +71,8 @@ public class Klas {
     }
 
     public void setNaam(String naam) {
-        if (naam == null) {
+        if (naam == null)
             throw new IllegalArgumentException();
-        }
         this.naam = naam;
     }
 
@@ -68,9 +81,8 @@ public class Klas {
     }
 
     public void setLeerjaar(int leerjaar) {
-        if (leerjaar < 0) {
+        if (leerjaar < 0)
             throw new IllegalArgumentException();
-        }
         this.leerjaar = leerjaar;
     }
 
@@ -79,16 +91,14 @@ public class Klas {
      * @param leerling
      */
     public void voegLeerlingToe(Leerling leerling) {
-        if (leerling == null) {
+        if (leerling == null)
             throw new IllegalArgumentException();
-        }
         leerlingen.add(leerling);
     }
 
     public void verwijderLeerling(Leerling leerling) {
-        if (leerling == null) {
+        if (leerling == null)
             throw new IllegalArgumentException();
-        }
         leerlingen.remove(leerling);
     }
 
@@ -101,10 +111,13 @@ public class Klas {
     }
 
     public void voegToetsToe(Toets toets) {
-        if (toets == null) {
+        if (toets == null)
             throw new IllegalArgumentException();
-        }
         toetsen.add(toets);
+    }
+
+    public boolean verwijderToets(Toets o) {
+        return toetsen.remove(o);
     }
 
     public Graad getGraad() {
@@ -116,9 +129,8 @@ public class Klas {
      * @param graad
      */
     public void setGraad(Graad graad) {
-        if (graad == null) {
+        if (graad == null)
             throw new IllegalArgumentException();
-        }
         this.graad = graad;
     }
 

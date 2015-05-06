@@ -21,8 +21,10 @@ public class VraagFactory {
             DeterminatieVraag v = new DeterminatieVraag();
             v.setId(new Random().nextInt());
             v.setBeschrijving(vraag.getBeschrijving());
-            Klimatogram klim = klimatogramRepository.get(vraag.getKlimatogrammen().get(0).getLocatie());
-            v.setKlimatogram(klim);
+            if (vraag.getKlimatogrammen().size() > 0) {
+                Klimatogram klim = klimatogramRepository.get(vraag.getKlimatogrammen().get(0).getLocatie());
+                v.setKlimatogram(klim);
+            }
             v.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
             return v;
         }
@@ -44,8 +46,10 @@ public class VraagFactory {
             v.setId(new Random().nextInt());
             v.setSubvragenLijst(vraag.getSubvragen());
             v.setBeschrijving(vraag.getBeschrijving());
-            Klimatogram klim = klimatogramRepository.get(vraag.getKlimatogrammen().get(0).getLocatie());
-            v.setKlimatogram(klim);
+            if (vraag.getKlimatogrammen().size() > 0) {
+                Klimatogram klim = klimatogramRepository.get(vraag.getKlimatogrammen().get(0).getLocatie());
+                v.setKlimatogram(klim);
+            }
             v.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
             return v;
         }

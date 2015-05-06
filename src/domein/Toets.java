@@ -1,19 +1,32 @@
 package domein;
 
-import java.util.*;
-import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "Toetsen")
 public class Toets {
 
-    @ManyToMany(mappedBy = "toetsen")
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Klas> klassen;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<ToetsVraag> vragen;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Graad graad;
 
     @Id
@@ -53,22 +66,19 @@ public class Toets {
     }
 
     public void voegKlasToe(Klas klas) {
-        if (klas == null) {
+        if (klas == null)
             throw new IllegalArgumentException();
-        }
-        if (klassen.contains(klas)) {
+        if (klassen.contains(klas))
             throw new IllegalArgumentException("Deze klas is al gekoppeld aan deze toets.");
-        }
         klassen.add(klas);
+        klas.voegToetsToe(this);
     }
 
     public void verwijderKlas(Klas klas) {
-        if (klas == null) {
+        if (klas == null)
             throw new IllegalArgumentException();
-        }
-        if (!klassen.contains(klas)) {
+        if (!klassen.contains(klas))
             throw new IllegalArgumentException("Deze klas bevint zich niet bij deze toets.");
-        }
         klassen.remove(klas);
     }
 
@@ -77,7 +87,7 @@ public class Toets {
     }
 
     public void setTitel(String titel) {
-        if(titel == null || titel.isEmpty())
+        if (titel == null || titel.isEmpty())
             throw new IllegalArgumentException("Gelieve een titel in te vullen.");
         this.titel = titel;
     }
@@ -115,12 +125,10 @@ public class Toets {
      * @param vraag
      */
     public void voegVraagToe(ToetsVraag vraag) {
-        if (vraag == null) {
+        if (vraag == null)
             throw new IllegalArgumentException();
-        }
-        if (vragen.contains(vraag)) {
+        if (vragen.contains(vraag))
             throw new IllegalArgumentException("Deze vraag behoort al tot de toets.");
-        }
         vragen.add(vraag);
     }
 
@@ -129,12 +137,10 @@ public class Toets {
      * @param vraag
      */
     public void verwijderVraag(ToetsVraag vraag) {
-        if (vraag == null) {
+        if (vraag == null)
             throw new IllegalArgumentException();
-        }
-        if (!vragen.contains(vraag)) {
+        if (!vragen.contains(vraag))
             throw new IllegalArgumentException("Deze vraag hoort niet bij deze toets.");
-        }
         vragen.remove(vraag);
     }
 

@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -19,18 +18,23 @@ import javafx.scene.layout.VBox;
  */
 public class SubVragenController extends VBox implements IToetsVraag {
 
-    @FXML private Button btnToevoegen;
-    @FXML private Button btnVerwijderen;
-    @FXML private ComboBox<KlimatogramDto> cboKlimatogram;
-    @FXML private ListView<String> lstVragen;
-    @FXML private TextField txtVraag;
-    
+    @FXML
+    private Button btnToevoegen;
+    @FXML
+    private Button btnVerwijderen;
+    @FXML
+    private ComboBox<KlimatogramDto> cboKlimatogram;
+    @FXML
+    private ListView<String> lstVragen;
+    @FXML
+    private TextField txtVraag;
+
     private ObservableList<String> items = FXCollections.observableArrayList();
     private ToetsController controller;
-    
+
     @Override
     public String getFxmlBestand() {
-       return "SubVragenPanel.fxml";
+        return "SubVragenPanel.fxml";
     }
 
     @Override
@@ -40,12 +44,13 @@ public class SubVragenController extends VBox implements IToetsVraag {
 
     @Override
     public void laden(VraagDto vraag) {
-            cboKlimatogram.setItems(controller.geefKlimatogrammen());
+        cboKlimatogram.setItems(controller.geefKlimatogrammen());
         if (vraag.getKlimatogrammen().size() > 0) {
             KlimatogramDto first = vraag.getKlimatogrammen().get(0);
             cboKlimatogram.getSelectionModel().select(first);
         }
-        items.addAll(vraag.getSubvragen().toArray(new String[] {}));
+        items.addAll(vraag.getSubvragen().toArray(new String[]{}));
+        lstVragen.setItems(items);
     }
 
     @Override
@@ -56,12 +61,11 @@ public class SubVragenController extends VBox implements IToetsVraag {
         vraag.getSubvragen().addAll(items);
     }
 
-    
     public void toevoegen() {
-      items.add(txtVraag.getText());
-      txtVraag.selectAll();
+        items.add(txtVraag.getText());
+        txtVraag.selectAll();
     }
-    
+
     public void verwijderen() {
         if (!lstVragen.getSelectionModel().isEmpty()) {
             int index = lstVragen.getSelectionModel().getSelectedIndex();

@@ -52,7 +52,7 @@ public class LocatieOefeningController extends VBox implements IToetsVraag {
         items.clear();
 
         items.addAll(vraag.getKlimatogrammen());
-        
+
         lstKlimatogrammen.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<KlimatogramDto>() {
 
             @Override
@@ -61,35 +61,34 @@ public class LocatieOefeningController extends VBox implements IToetsVraag {
                 cboKlimatogram.getSelectionModel().select(newValue);
                 btnToevoegen.setText(WIJZIGENTEKST);
             }
-        
+
         });
-        
+
         btnToevoegen.setText(TOEVOEGENTEKST);
     }
 
     @Override
     public void opslaan(VraagDto vraag) {
-       vraag.getKlimatogrammen().clear();
-       vraag.getKlimatogrammen().addAll(items);
+        vraag.getKlimatogrammen().clear();
+        vraag.getKlimatogrammen().addAll(items);
     }
 
     public void toevoegen() {
-        if (geselecteerdeKlimatogram == null) {
+        if (geselecteerdeKlimatogram == null)
             items.add(cboKlimatogram.getSelectionModel().getSelectedItem());
-        } else {
+        else {
             int i = items.indexOf(geselecteerdeKlimatogram);
             items.set(i, cboKlimatogram.getSelectionModel().getSelectedItem());
         }
-        
+
         geselecteerdeKlimatogram = null;
         btnToevoegen.setText(TOEVOEGENTEKST);
     }
 
     public void verwijderen() {
-        if (geselecteerdeKlimatogram != null) {
+        if (geselecteerdeKlimatogram != null)
             items.remove(geselecteerdeKlimatogram);
-        }
-              
+
         geselecteerdeKlimatogram = null;
         btnToevoegen.setText(TOEVOEGENTEKST);
     }
