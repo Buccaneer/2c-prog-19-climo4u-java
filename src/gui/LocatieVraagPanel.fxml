@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -9,12 +10,24 @@
 
 <fx:root type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ListView fx:id="lstKlimatogrammen" />
+      <ListView fx:id="lstKlimatogrammen" prefHeight="200.0">
+         <VBox.margin>
+            <Insets bottom="5.0" />
+         </VBox.margin></ListView>
       <HBox>
          <children>
-            <ComboBox fx:id="cboKlimatogram" promptText="Selecteer klimatogram" />
-            <Button fx:id="btnToevoegen" mnemonicParsing="false" onAction="#toevoegen" text="Toevoegen/Wijzigen" />
-            <Button fx:id="btnVerwijderen" mnemonicParsing="false" onAction="#verwijderen" text="Verwijderen" />
+            <ComboBox fx:id="cboKlimatogram" promptText="Selecteer klimatogram">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin></ComboBox>
+            <Button fx:id="btnToevoegen" mnemonicParsing="false" onAction="#toevoegen" text="Toevoegen/Wijzigen">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin></Button>
+            <Button fx:id="btnVerwijderen" mnemonicParsing="false" onAction="#verwijderen" text="Verwijderen">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin></Button>
          </children>
       </HBox>
    </children>
