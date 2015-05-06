@@ -159,6 +159,24 @@ public class ToetsController implements ListChangeListener<KlasDto> {
 
         return klassenVanToets;
     }
+    
+    public ObservableList<KlasDto> geefKlassenNietVanToets()
+    {
+        ObservableList<KlasDto> klasLijst = FXCollections.observableArrayList();
+        if (geselecteerdeToets == null)
+            return klasLijst;
+        klassenRepository.getAll().forEach((k) -> {
+            boolean nietToevoegen = false;
+            for (Klas s : geselecteerdeToets.getKlassen())
+            {
+                if (k.getId() == s.getId())
+                    nietToevoegen = true;
+            }
+            if (!nietToevoegen)
+                klasLijst.add(new KlasDto(k.getId(), k.getNaam(), k.getLeerjaar()));
+        });
+        return klasLijst;
+    }
 
     private void vulKlassenVanToetsOp() {
         klassenVanToets.removeListener(this);

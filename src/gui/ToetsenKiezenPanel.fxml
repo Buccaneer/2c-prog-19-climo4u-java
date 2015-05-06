@@ -9,21 +9,16 @@
 <?import javafx.geometry.*?>
 <?import jfxtras.scene.control.*?>
 
-<fx:root type="VBox" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="VBox" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Label text="Toetsenbeheer">
             <font>
                 <Font size="30.0"/> 
             </font>
         </Label>
-        <Label text="Toetsen">
-            <padding>
-                <Insets bottom="5"/> 
-            </padding>
-        </Label>
         <TableView fx:id="tblToetsen" editable="true">
             <columns>
-                <TableColumn fx:id="colNaam"  editable="true" resizable="false" text="Naam" />
+                <TableColumn fx:id="colNaam"  editable="true" resizable="false" text="Toets" />
                 <TableColumn fx:id="colGraad" editable="false"  resizable="false" text="Graad" />
             </columns>
             <placeholder>
@@ -43,7 +38,7 @@
                     <Insets top="10" bottom="5"/> 
                 </padding>
             </Label>
-            <TextField fx:id="txfBeschrijving" promptText="Beschrijving" HBox.hgrow="ALWAYS">
+            <TextField fx:id="txfBeschrijving" promptText="Beschrijving">
                 <VBox.margin>
                     <Insets bottom="5"/> 
                 </VBox.margin>
@@ -53,7 +48,7 @@
                     <Insets bottom="5"/> 
                 </padding>
             </Label>
-            <LocalDateTimeTextField fx:id="datStart" prefWidth="285">
+            <LocalDateTimeTextField fx:id="datStart">
                 <VBox.margin>
                     <Insets bottom="5"/> 
                 </VBox.margin>
@@ -63,7 +58,7 @@
                     <Insets bottom="5"/> 
                 </padding>
             </Label>
-            <LocalDateTimeTextField fx:id="datEinde" prefWidth="285">
+            <LocalDateTimeTextField fx:id="datEinde">
                 <VBox.margin>
                     <Insets bottom="5"/> 
                 </VBox.margin>
@@ -76,7 +71,7 @@
             </Label>
             <TableView fx:id="tblKlassen" editable="false">
                 <columns>
-                    <TableColumn fx:id="colKlas" minWidth="-1.0" prefWidth="300.0" resizable="false" text="Naam" />
+                    <TableColumn fx:id="colKlas" minWidth="-1.0" prefWidth="300.0" resizable="false" text="Klas" />
                 </columns>
                 <placeholder>
                     <Label/>
@@ -84,13 +79,13 @@
             </TableView>
             <HBox>
                 <children>
-                    <ComboBox fx:id="cboKlas" promptText="Naam" prefWidth="260"/>
+                    <ComboBox fx:id="cboKlas" promptText="Klas" prefWidth="340"/>
                     <Button fx:id="btnKlasToevoegen" prefWidth="25" prefHeight="25" mnemonicParsing="false" onAction="#klasToevoegen" styleClass="ok"/>
                 </children>
             </HBox>
         </VBox>
     </children>
     <padding>
-        <Insets left="15.0" bottom="20.0"/>
+        <Insets left="15.0" bottom="20.0" right="20.0" />
     </padding>
 </fx:root>

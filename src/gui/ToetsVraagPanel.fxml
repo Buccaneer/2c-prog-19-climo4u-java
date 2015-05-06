@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root style="-fx-border-color: black; -fx-border-width: 2,0; -fx-spacing: 10;" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root style="-fx-border-color: -fx-box-border; -fx-border-width: 1.0; -fx-spacing: 10;" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <HBox style="-fx-background-color: #ccc;" BorderPane.alignment="CENTER">
          <children>

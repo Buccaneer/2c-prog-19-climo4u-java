@@ -5,9 +5,7 @@ import dto.GraadDto;
 import dto.KlasDto;
 import dto.ToetsDto;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Calendar;
@@ -27,7 +25,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -38,11 +35,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import javafx.util.converter.DefaultStringConverter;
-import jfxtras.scene.control.LocalDateTimePicker;
 import jfxtras.scene.control.LocalDateTimeTextField;
 import org.controlsfx.control.StatusBar;
 
-public class ToetsenKiezenPanelController extends VBox {
+public class ToetsenKiezenPanelController extends VBox
+{
 
     private ToetsController controller;
     private StatusBar statusBar;
@@ -92,16 +89,20 @@ public class ToetsenKiezenPanelController extends VBox {
     @FXML
     Button btnKlasToevoegen;
 
-    public ToetsenKiezenPanelController(ToetsController controller, StatusBar statusBar) {
+    public ToetsenKiezenPanelController(ToetsController controller, StatusBar statusBar)
+    {
         this.controller = controller;
         this.statusBar = statusBar;
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ToetsenKiezenPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
-        try {
+        try
+        {
             loader.load();
-        } catch (IOException ex) {
+        }
+        catch (IOException ex)
+        {
             Logger.getLogger(KlasLijstenKiezenPanelController.class.getName()).log(Level.SEVERE, null, ex);
         }
         datStart.dateTimeFormatterProperty().set(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT));
@@ -110,9 +111,11 @@ public class ToetsenKiezenPanelController extends VBox {
         datStart.setLocale(Locale.GERMAN);
         vboxGegevens.setDisable(true);
         tblToetsen.setItems(controller.geefToetsen());
-        tblToetsen.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+        tblToetsen.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) ->
+        {
             vboxGegevens.setDisable(true);
-            if (newValue != null) {
+            if (newValue != null)
+            {
                 txfBeschrijving.setText("");
                 datStart.setLocalDateTime(null);
                 datEinde.setLocalDateTime(null);
@@ -120,84 +123,106 @@ public class ToetsenKiezenPanelController extends VBox {
                 ToetsDto toets = controller.getGeselecteerdeToets();
                 vboxGegevens.setDisable(false);
                 if (toets.getBeschrijving() != null)
+                {
                     txfBeschrijving.setText(toets.getBeschrijving().getValue());
-                if (toets.getAanvang() != null) {
+                }
+                if (toets.getAanvang() != null)
+                {
                     LocalDateTime dt = LocalDateTime.of(toets.getAanvang().get(Calendar.YEAR), toets.getAanvang().get(Calendar.MONTH), toets.getAanvang().get(Calendar.DAY_OF_MONTH), toets.getAanvang().get(Calendar.HOUR_OF_DAY), toets.getAanvang().get(Calendar.MINUTE));
                     //dt.atZone(ZoneId.getAvailableZoneIds())
                     datStart.setLocalDateTime(dt);
                 }
-                if (toets.getEind() != null) {
+                if (toets.getEind() != null)
+                {
                     LocalDateTime dt = LocalDateTime.of(toets.getEind().get(Calendar.YEAR), toets.getEind().get(Calendar.MONTH), toets.getEind().get(Calendar.DAY_OF_MONTH), toets.getAanvang().get(Calendar.HOUR_OF_DAY), toets.getAanvang().get(Calendar.MINUTE));
                     datEinde.setLocalDateTime(dt);
                 }
                 tblKlassen.setItems(controller.geefKlassenVanToets());
+                refreshKlassen();
             }
         });
         TableColumn verwijderToetsCol = new TableColumn<>("");
         tblToetsen.getColumns().add(verwijderToetsCol);
-        verwijderToetsCol.setPrefWidth(35);
         verwijderToetsCol.setSortable(false);
         verwijderToetsCol.setResizable(false);
         verwijderToetsCol.setEditable(false);
-        verwijderToetsCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ToetsDto, Boolean>, ObservableValue<Boolean>>() {
+        verwijderToetsCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ToetsDto, Boolean>, ObservableValue<Boolean>>()
+        {
             @Override
-            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<ToetsDto, Boolean> p) {
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<ToetsDto, Boolean> p)
+            {
                 return new SimpleBooleanProperty(p.getValue() != null);
             }
         });
-        verwijderToetsCol.setCellFactory(new Callback<TableColumn<ToetsDto, Boolean>, TableCell<ToetsDto, Boolean>>() {
+        verwijderToetsCol.setCellFactory(new Callback<TableColumn<ToetsDto, Boolean>, TableCell<ToetsDto, Boolean>>()
+        {
             @Override
-            public TableCell<ToetsDto, Boolean> call(TableColumn<ToetsDto, Boolean> p) {
+            public TableCell<ToetsDto, Boolean> call(TableColumn<ToetsDto, Boolean> p)
+            {
                 return new ToetsButtonCell();
             }
 
         });
-        tblToetsen.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>() {
+        tblToetsen.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>()
+        {
 
             @Override
-            public Boolean call(TableView.ResizeFeatures p) {
+            public Boolean call(TableView.ResizeFeatures p)
+            {
                 double width = tblToetsen.widthProperty().getValue();
                 double buttonWidth = 45;
                 int i = 0;
                 int columns = 3;
-                for (TableColumn c : tblToetsen.getColumns()) {
+                for (TableColumn c : tblToetsen.getColumns())
+                {
                     if (i < columns)
-                        if (i == columns - 1) {
+                    {
+                        if (i == columns - 1 || i == columns - 2)
+                        {
                             c.setMinWidth(buttonWidth);
                             c.setMaxWidth(buttonWidth);
-                        } else {
-                            c.setMinWidth((width - buttonWidth) / (columns - 1) - 1);
-                            c.setMaxWidth((width - buttonWidth) / (columns - 1) - 1);
                         }
+                        else
+                        {
+                            c.setMinWidth(width - 92);
+                            c.setMaxWidth(width - 92);
+                        }
+                    }
                     i++;
                 }
                 return true;
             }
         });
         colNaam.setCellValueFactory(cellData -> cellData.getValue().getTitel());
-        colNaam.setCellFactory(new Callback<TableColumn<ToetsDto, String>, TableCell<ToetsDto, String>>() {
+        colNaam.setCellFactory(new Callback<TableColumn<ToetsDto, String>, TableCell<ToetsDto, String>>()
+        {
 
             @Override
-            public TableCell<ToetsDto, String> call(TableColumn<ToetsDto, String> p) {
+            public TableCell<ToetsDto, String> call(TableColumn<ToetsDto, String> p)
+            {
                 TextFieldTableCell<ToetsDto, String> cell = new TextFieldTableCell(new DefaultStringConverter());
                 cell.setAlignment(Pos.CENTER_LEFT);
                 cell.setPadding(new Insets(0, 0, 0, 5));
                 return cell;
             }
         });
-        colNaam.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ToetsDto, String>>() {
+        colNaam.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ToetsDto, String>>()
+        {
             @Override
-            public void handle(TableColumn.CellEditEvent<ToetsDto, String> event) {
+            public void handle(TableColumn.CellEditEvent<ToetsDto, String> event)
+            {
                 ToetsDto dto = (ToetsDto) event.getTableView().getItems().get(event.getTablePosition().getRow());
                 dto.setTitel(new SimpleStringProperty(event.getNewValue()));
                 controller.wijzigToets(dto);
             }
         });
         colGraad.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGraad().getValue().getGraad() + ""));
-        colGraad.setCellFactory(new Callback<TableColumn<ToetsDto, String>, TableCell<ToetsDto, String>>() {
+        colGraad.setCellFactory(new Callback<TableColumn<ToetsDto, String>, TableCell<ToetsDto, String>>()
+        {
 
             @Override
-            public TableCell<ToetsDto, String> call(TableColumn<ToetsDto, String> p) {
+            public TableCell<ToetsDto, String> call(TableColumn<ToetsDto, String> p)
+            {
                 TextFieldTableCell<ToetsDto, String> cell = new TextFieldTableCell(new DefaultStringConverter());
                 cell.setAlignment(Pos.CENTER_LEFT);
                 cell.setPadding(new Insets(0, 0, 0, 5));
@@ -207,10 +232,12 @@ public class ToetsenKiezenPanelController extends VBox {
         cboGraad.setItems(controller.geefAlleGraden());
         btnToetsToevoegen.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
         colKlas.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNaam()));
-        colKlas.setCellFactory(new Callback<TableColumn<KlasDto, String>, TableCell<KlasDto, String>>() {
+        colKlas.setCellFactory(new Callback<TableColumn<KlasDto, String>, TableCell<KlasDto, String>>()
+        {
 
             @Override
-            public TableCell<KlasDto, String> call(TableColumn<KlasDto, String> p) {
+            public TableCell<KlasDto, String> call(TableColumn<KlasDto, String> p)
+            {
                 TextFieldTableCell<KlasDto, String> cell = new TextFieldTableCell<KlasDto, String>(new DefaultStringConverter());
                 cell.setAlignment(Pos.BASELINE_LEFT);
                 cell.setPadding(new Insets(0, 0, 0, 5));
@@ -219,60 +246,74 @@ public class ToetsenKiezenPanelController extends VBox {
         });
         TableColumn verwijderKlasCol = new TableColumn<>("");
         tblKlassen.getColumns().add(verwijderKlasCol);
-        verwijderKlasCol.setPrefWidth(35);
         verwijderKlasCol.setSortable(false);
         verwijderKlasCol.setResizable(false);
         verwijderKlasCol.setEditable(false);
-        verwijderKlasCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<KlasDto, Boolean>, ObservableValue<Boolean>>() {
+        verwijderKlasCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<KlasDto, Boolean>, ObservableValue<Boolean>>()
+        {
             @Override
-            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<KlasDto, Boolean> p) {
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<KlasDto, Boolean> p)
+            {
                 return new SimpleBooleanProperty(p.getValue() != null);
             }
         });
-        verwijderKlasCol.setCellFactory(new Callback<TableColumn<KlasDto, Boolean>, TableCell<KlasDto, Boolean>>() {
+        verwijderKlasCol.setCellFactory(new Callback<TableColumn<KlasDto, Boolean>, TableCell<KlasDto, Boolean>>()
+        {
             @Override
-            public TableCell<KlasDto, Boolean> call(TableColumn<KlasDto, Boolean> p) {
+            public TableCell<KlasDto, Boolean> call(TableColumn<KlasDto, Boolean> p)
+            {
                 return new KlasButtonCell();
             }
 
         });
-        tblKlassen.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>() {
+        tblKlassen.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>()
+        {
 
             @Override
-            public Boolean call(TableView.ResizeFeatures p) {
+            public Boolean call(TableView.ResizeFeatures p)
+            {
                 double width = tblKlassen.widthProperty().getValue();
                 double buttonWidth = 45;
                 int i = 0;
                 int columns = 2;
-                for (TableColumn c : tblKlassen.getColumns()) {
+                for (TableColumn c : tblKlassen.getColumns())
+                {
                     if (i < columns)
-                        if (i == columns - 1) {
+                    {
+                        if (i == columns - 1)
+                        {
                             c.setMinWidth(buttonWidth);
                             c.setMaxWidth(buttonWidth);
-                        } else {
+                        }
+                        else
+                        {
                             c.setMinWidth((width - buttonWidth) / (columns - 1) - 2);
                             c.setMaxWidth((width - buttonWidth) / (columns - 1) - 2);
                         }
+                    }
                     i++;
                 }
                 return true;
             }
         });
-        cboKlas.setItems(controller.geefAlleKlassen());
         btnKlasToevoegen.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
     }
 
-    private class ToetsButtonCell extends TableCell<ToetsDto, Boolean> {
+    private class ToetsButtonCell extends TableCell<ToetsDto, Boolean>
+    {
 
         final Button cellButton = new Button();
 
-        ToetsButtonCell() {
+        ToetsButtonCell()
+        {
             cellButton.setGraphic(new ImageView(new Image("/content/images/xSmall.png")));
             cellButton.getStyleClass().add("cancel");
             cellButton.setPrefSize(25, 25);
-            cellButton.setOnAction(new EventHandler<ActionEvent>() {
+            cellButton.setOnAction(new EventHandler<ActionEvent>()
+            {
                 @Override
-                public void handle(ActionEvent t) {
+                public void handle(ActionEvent t)
+                {
                     ToetsDto dto = (ToetsDto) ToetsButtonCell.this.getTableView().getItems().get(ToetsButtonCell.this.getIndex());
                     controller.verwijderToets(dto);
                     refreshToetsen();
@@ -281,26 +322,35 @@ public class ToetsenKiezenPanelController extends VBox {
         }
 
         @Override
-        protected void updateItem(Boolean t, boolean empty) {
+        protected void updateItem(Boolean t, boolean empty)
+        {
             super.updateItem(t, empty);
             if (!empty)
+            {
                 setGraphic(cellButton);
+            }
             else
+            {
                 setGraphic(null);
+            }
         }
     }
 
-    private class KlasButtonCell extends TableCell<KlasDto, Boolean> {
+    private class KlasButtonCell extends TableCell<KlasDto, Boolean>
+    {
 
         final Button cellButton = new Button();
 
-        KlasButtonCell() {
+        KlasButtonCell()
+        {
             cellButton.setGraphic(new ImageView(new Image("/content/images/xSmall.png")));
             cellButton.getStyleClass().add("cancel");
             cellButton.setPrefSize(25, 25);
-            cellButton.setOnAction(new EventHandler<ActionEvent>() {
+            cellButton.setOnAction(new EventHandler<ActionEvent>()
+            {
                 @Override
-                public void handle(ActionEvent t) {
+                public void handle(ActionEvent t)
+                {
                     KlasDto dto = (KlasDto) KlasButtonCell.this.getTableView().getItems().get(KlasButtonCell.this.getIndex());
                     controller.verwijderKlas(dto);
                 }
@@ -308,73 +358,106 @@ public class ToetsenKiezenPanelController extends VBox {
         }
 
         @Override
-        protected void updateItem(Boolean t, boolean empty) {
+        protected void updateItem(Boolean t, boolean empty)
+        {
             super.updateItem(t, empty);
             if (!empty)
+            {
                 setGraphic(cellButton);
+            }
             else
+            {
                 setGraphic(null);
+            }
         }
     }
 
     @FXML
-    private void toetsToevoegen() {
+    private void toetsToevoegen()
+    {
         clearErrors();
         if (!(txfNaam.getText().isEmpty() || cboGraad.getSelectionModel().isEmpty()))
-            try {
+        {
+            try
+            {
                 ToetsDto dto = new ToetsDto();
                 dto.setTitel(new SimpleStringProperty(txfNaam.getText()));
                 dto.setGraad(new SimpleObjectProperty(cboGraad.getValue()));
                 controller.maakNieuweToets(dto);
                 txfNaam.setText("");
                 refreshToetsen();
-            } catch (IllegalArgumentException ex) {
+            }
+            catch (IllegalArgumentException ex)
+            {
                 statusBar.setText(ex.getMessage());
             }
+        }
         else
+        {
             statusBar.setText("Gelieve een naam in te vullen en een graad te selecteren.");
+        }
     }
 
     @FXML
-    private void toetsWijzigen() {
+    private void toetsWijzigen()
+    {
         clearErrors();
         if (!(txfBeschrijving.getText().isEmpty() || datStart.getLocalDateTime() == null || datEinde.getLocalDateTime() == null))
-            try {
+        {
+            try
+            {
                 ToetsDto dto = new ToetsDto();
-                //ER BESTAAT MAAR 1 STRING VOOR NAAM EN TITEL IN DOMEIN?
-                //dto.setTitel(new SimpleStringProperty(txfTitel.getText()));
                 dto.setId(controller.getGeselecteerdeToets().getId());
                 dto.setBeschrijving(new SimpleStringProperty(txfBeschrijving.getText()));
                 dto.setAanvang(new GregorianCalendar(datStart.getLocalDateTime().getYear(), datStart.getLocalDateTime().getMonthValue(), datStart.getLocalDateTime().getDayOfMonth(), datStart.getLocalDateTime().getHour(), datStart.getLocalDateTime().getMinute()));
                 dto.setEind(new GregorianCalendar(datEinde.getLocalDateTime().getYear(), datEinde.getLocalDateTime().getMonthValue(), datEinde.getLocalDateTime().getDayOfMonth(), datEinde.getLocalDateTime().getHour(), datEinde.getLocalDateTime().getMinute()));
                 controller.wijzigToets(dto);
                 statusBar.setText("De wijzigingen werden opgeslaan.");
-            } catch (IllegalArgumentException ex) {
+            }
+            catch (IllegalArgumentException ex)
+            {
                 statusBar.setText(ex.getMessage());
             }
+        }
         else
+        {
             statusBar.setText("Gelieve alle gegevens correct in te vullen.");
+        }
     }
 
     @FXML
-    private void klasToevoegen() {
+    private void klasToevoegen()
+    {
         clearErrors();
         if (!cboKlas.getSelectionModel().isEmpty())
-            try {
+        {
+            try
+            {
                 KlasDto dto = cboKlas.getSelectionModel().getSelectedItem();
                 controller.voegKlasToe(dto);
-
-            } catch (IllegalArgumentException ex) {
+                refreshKlassen();
+            }
+            catch (IllegalArgumentException ex)
+            {
                 statusBar.setText(ex.getMessage());
             }
+        }
     }
 
-    private void refreshToetsen() {
+    private void refreshKlassen()
+    {
+        cboKlas.getItems().clear();
+        cboKlas.setItems(controller.geefKlassenNietVanToets());
+    }
+
+    private void refreshToetsen()
+    {
         tblToetsen.getItems().clear();
         tblToetsen.setItems(controller.geefToetsen());
     }
 
-    private void clearErrors() {
+    private void clearErrors()
+    {
         statusBar.setText("");
     }
 
