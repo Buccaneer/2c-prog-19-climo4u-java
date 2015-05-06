@@ -6,16 +6,12 @@ import dto.KlasDto;
 import dto.ToetsDto;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
+import java.time.format.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import java.util.logging.*;
+import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,15 +19,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import javafx.util.converter.DefaultStringConverter;
@@ -93,7 +83,6 @@ public class ToetsenKiezenPanelController extends VBox
     {
         this.controller = controller;
         this.statusBar = statusBar;
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ToetsenKiezenPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
@@ -129,7 +118,6 @@ public class ToetsenKiezenPanelController extends VBox
                 if (toets.getAanvang() != null)
                 {
                     LocalDateTime dt = LocalDateTime.of(toets.getAanvang().get(Calendar.YEAR), toets.getAanvang().get(Calendar.MONTH), toets.getAanvang().get(Calendar.DAY_OF_MONTH), toets.getAanvang().get(Calendar.HOUR_OF_DAY), toets.getAanvang().get(Calendar.MINUTE));
-                    //dt.atZone(ZoneId.getAvailableZoneIds())
                     datStart.setLocalDateTime(dt);
                 }
                 if (toets.getEind() != null)
@@ -316,6 +304,7 @@ public class ToetsenKiezenPanelController extends VBox
                 {
                     ToetsDto dto = (ToetsDto) ToetsButtonCell.this.getTableView().getItems().get(ToetsButtonCell.this.getIndex());
                     controller.verwijderToets(dto);
+                    tblToetsen.getSelectionModel().select(null);
                     refreshToetsen();
                 }
             });
@@ -459,6 +448,11 @@ public class ToetsenKiezenPanelController extends VBox
     private void clearErrors()
     {
         statusBar.setText("");
+    }
+    
+    public ReadOnlyObjectProperty<ToetsDto> getGeselecteerdeToetsProperty()
+    {
+        return tblToetsen.getSelectionModel().selectedItemProperty();
     }
 
 }

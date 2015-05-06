@@ -41,16 +41,6 @@ public class KlimatogramFrameController extends AnchorPane {
     @FXML
     private StatusBar statusBar;
 
-    private KlimatogramDetailPanelController kdpc;
-    private KlimatogramKiezenPanelController kkpc;
-    private DeterminatieTabellenOverzichtPaneController dtopc;
-    private KlasLijstenDetailPanelController kldpc;
-    private KlasLijstenKiezenPanelController klkpc;
-    private BoomPanelController bpc;
-    private PropertyContainerPanelController pcpc;
-    private ToetsenKiezenPanelController tkpc;
-    private ToetsenDetailPanelController tdpc;
-
     public KlimatogramFrameController(KlimatogramController kController, DeterminatieController dController, LeerlingController lController, ToetsController tController) {
         this.kController = kController;
         this.dController = dController;
@@ -72,8 +62,8 @@ public class KlimatogramFrameController extends AnchorPane {
     }
 
     private void maakKlimatogrammenTab() {
-        kdpc = new KlimatogramDetailPanelController(this.kController, statusBar);
-        kkpc = new KlimatogramKiezenPanelController(this.kController, statusBar);
+        KlimatogramDetailPanelController kdpc = new KlimatogramDetailPanelController(this.kController, statusBar);
+        KlimatogramKiezenPanelController kkpc = new KlimatogramKiezenPanelController(this.kController, statusBar);
         this.kController.addObserver(kdpc);
         this.kController.addObserver(kkpc);
         HBox content = new HBox();
@@ -89,9 +79,9 @@ public class KlimatogramFrameController extends AnchorPane {
     }
 
     private void maakDeterminerenTab() {
-        dtopc = new DeterminatieTabellenOverzichtPaneController(this.dController);
-        bpc = new BoomPanelController();
-        pcpc = new PropertyContainerPanelController(this.dController);
+        DeterminatieTabellenOverzichtPaneController dtopc = new DeterminatieTabellenOverzichtPaneController(this.dController);
+        BoomPanelController bpc = new BoomPanelController();
+        PropertyContainerPanelController pcpc = new PropertyContainerPanelController(this.dController);
         this.dController.addObserver(bpc);
         this.dController.addObserver(pcpc);
         bpc.addListener(pcpc);
@@ -109,8 +99,8 @@ public class KlimatogramFrameController extends AnchorPane {
     }
 
     private void maakKlassenlijstenTab() {
-        klkpc = new KlasLijstenKiezenPanelController(lController, statusBar);
-        kldpc = new KlasLijstenDetailPanelController(lController, statusBar);
+        KlasLijstenKiezenPanelController klkpc = new KlasLijstenKiezenPanelController(lController, statusBar);
+        KlasLijstenDetailPanelController kldpc = new KlasLijstenDetailPanelController(lController, statusBar);
         HBox content = new HBox();
         Pane pnlLinks = new Pane();
         VBox pnlRechts = new VBox();
@@ -124,21 +114,20 @@ public class KlimatogramFrameController extends AnchorPane {
     }
 
     private void maakToetsenTab() {
-        tkpc = new ToetsenKiezenPanelController(tController, statusBar);
-        tdpc = new ToetsenDetailPanelController(tController, statusBar);
+        ToetsenKiezenPanelController tkpc = new ToetsenKiezenPanelController(tController, statusBar);
         HBox content = new HBox();
         VBox.setVgrow(tkpc, Priority.ALWAYS);
-        VBox.setVgrow(tdpc, Priority.ALWAYS);
-        HBox.setHgrow(tdpc, Priority.ALWAYS);
-        content.getChildren().add(tkpc);
-        VBox vbox = new VBox();
-        VBox.setVgrow(vbox, Priority.ALWAYS);
-        HBox.setHgrow(vbox, Priority.ALWAYS);
+        ToetsenDetailPanelController pnlRechts = new ToetsenDetailPanelController();
+        VBox.setVgrow(pnlRechts, Priority.ALWAYS);
+        HBox.setHgrow(pnlRechts, Priority.ALWAYS);
         ToetsVragenOverzichtController tvoc = new ToetsVragenOverzichtController(tController);
+        tkpc.getGeselecteerdeToetsProperty().addListener(pnlRechts);
+        pnlRechts.setDisable(true);
         HBox.setHgrow(tvoc, Priority.ALWAYS);
-        vbox.getChildren().add(new VragenRepositoryController(tController));
-        vbox.getChildren().add(tvoc);
-        content.getChildren().add(vbox);
+        content.getChildren().add(tkpc);
+        pnlRechts.getChildren().add(new VragenRepositoryController(tController));
+        pnlRechts.getChildren().add(tvoc);
+        content.getChildren().add(pnlRechts);
         toetsenTab.setContent(content);
     }
 
