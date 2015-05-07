@@ -15,6 +15,9 @@
                 <TableColumn fx:id="colVoornaam" minWidth="-1.0" prefWidth="300.0" resizable="false" text="Voornaam" />
                 <TableColumn fx:id="colKlas" minWidth="-1.0" prefWidth="300.0" resizable="false" text="Klas" />
             </columns>
+            <placeholder>
+                <Label/>
+            </placeholder>
         </TableView>
       <HBox>
          <children>

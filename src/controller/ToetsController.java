@@ -16,6 +16,7 @@ import dto.ToetsDto;
 import dto.VraagDto;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +40,15 @@ public class ToetsController implements ListChangeListener<KlasDto> {
     private GenericDao<Graad, Integer> graadrepository = new GenericDaoJpa<>(Graad.class);
     private GenericDao<Klas, Integer> klassenRepository = new GenericDaoJpa<>(Klas.class);
     private GenericDao<Klimatogram, String> klimatogramRepository = new GenericDaoJpa<>(Klimatogram.class);
+    
+    private Comparator<KlasDto> klasComparator = new Comparator<KlasDto>() {
+        @Override
+        public int compare(KlasDto o1, KlasDto o2) {
+            if (o1.getLeerjaar() != o2.getLeerjaar())
+                return o1.getLeerjaar() - o2.getLeerjaar();
+            return o1.getNaam().compareTo(o2.getNaam());
+        }
+    };
 
     public ToetsController() {
         klassenVanToets.addListener(this);
@@ -156,7 +166,7 @@ public class ToetsController implements ListChangeListener<KlasDto> {
     }
 
     public ObservableList<KlasDto> geefKlassenVanToets() {
-
+        klassenVanToets.sort(klasComparator);
         return klassenVanToets;
     }
     
@@ -186,6 +196,7 @@ public class ToetsController implements ListChangeListener<KlasDto> {
         geselecteerdeToets.getKlassen().forEach((k) -> {
             klassenVanToets.add(new KlasDto(k.getId(), k.getNaam(), k.getLeerjaar()));
         });
+        klassenVanToets.sort(klasComparator);
         klassenVanToets.addListener(this);
     }
 
@@ -326,7 +337,6 @@ public class ToetsController implements ListChangeListener<KlasDto> {
 
                 geselecteerdeToets.voegKlasToe(oK.get());
             });
-
             GenericDaoJpa.commitTransaction();
             c.next();
             System.out.println(c.wasRemoved());
@@ -371,5 +381,6 @@ public class ToetsController implements ListChangeListener<KlasDto> {
 
     public void voegKlasToe(KlasDto dto) {
         klassenVanToets.add(dto);
+        klassenVanToets.sort(klasComparator);
     }
 }

@@ -20,7 +20,29 @@ public class LeerlingController {
     private Graad geselecteerdeGraad;
     private Klas geselecteerdeKlas;
     private Leerling geselecteerdeLeerling;
+    
+    private Comparator<KlasDto> klasComparator = new Comparator<KlasDto>() {
+        @Override
+        public int compare(KlasDto o1, KlasDto o2) {
+            if (o1.getLeerjaar() != o2.getLeerjaar())
+                return o1.getLeerjaar() - o2.getLeerjaar();
+            return o1.getNaam().compareTo(o2.getNaam());
+        }
+    };
+    
+    private Comparator<LeerlingDto> leerlingComparator = new Comparator<LeerlingDto>() {
 
+        @Override
+        public int compare(LeerlingDto o1, LeerlingDto o2)
+        {
+            int naam = o1.getNaam().getValue().compareTo(o2.getNaam().getValue());
+            if (naam == 0)
+                return o1.getVoornaam().getValue().compareTo(o2.getVoornaam().getValue());
+            return naam;
+        }
+        
+    };
+    
     GenericDao<Graad, String> getGradenRepository() {
         return gradenRepository;
     }
@@ -79,6 +101,7 @@ public class LeerlingController {
         klassen.clear();
         getAlleKlassen();
         geselecteerdeGraad.getKlassen().forEach((Klas kl) -> klassen.add(new KlasDto(kl.getId(), kl.getNaam(), kl.getLeerjaar())));
+        klassen.sort(klasComparator);
     }
 
     /**
@@ -119,6 +142,7 @@ public class LeerlingController {
         geselecteerdeLeerling = null;
         leerlingen.clear();
         geselecteerdeGraad.getKlassen().forEach((Klas k) -> klassen.add(new KlasDto(k.getId(), k.getNaam(), k.getLeerjaar())));
+        klassen.sort(klasComparator);
     }
 
     /**
@@ -147,6 +171,7 @@ public class LeerlingController {
         leerlingen.clear();
 
         geselecteerdeKlas.getLeerlingen().forEach((Leerling l) -> leerlingen.add(new LeerlingDto(l.getId(), l.getNaam(), l.getVoornaam(), new KlasDto(l.getKlas().getId(), l.getKlas().getNaam(), l.getKlas().getLeerjaar()))));
+        leerlingen.sort(leerlingComparator);
     }
 
     /**
@@ -209,6 +234,7 @@ public class LeerlingController {
         GenericDaoJpa.commitTransaction();
         klassen.clear();
         geselecteerdeGraad.getKlassen().forEach((Klas kl) -> klassen.add(new KlasDto(kl.getId(), kl.getNaam(), kl.getLeerjaar())));
+        klassen.sort(klasComparator);
     }
 
     public ObservableList<GraadDto> getGraden() {
@@ -223,10 +249,12 @@ public class LeerlingController {
     }
 
     public ObservableList<LeerlingDto> getLeerlingen() {
+        leerlingen.sort(leerlingComparator);
         return this.leerlingen;
     }
 
     public ObservableList<KlasDto> getKlassen() {
+        klassen.sort(klasComparator);
         return this.klassen;
     }
 
@@ -276,6 +304,7 @@ public class LeerlingController {
 
         klassen.clear();
         geselecteerdeGraad.getKlassen().forEach((Klas kl) -> klassen.add(new KlasDto(kl.getId(), kl.getNaam(), kl.getLeerjaar())));
+        klassen.sort(klasComparator);
         geselecteerdeKlas = null;
     }
 

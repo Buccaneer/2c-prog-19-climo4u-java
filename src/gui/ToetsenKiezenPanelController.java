@@ -117,6 +117,8 @@ public class ToetsenKiezenPanelController extends VBox
             if (newValue != null)
             {
                 txfBeschrijving.setText("");
+                datStart.setTooltip(null);
+                datEinde.setTooltip(null);
                 datStart.setLocalDateTime(null);
                 datEinde.setLocalDateTime(null);
                 controller.selecteerToets(newValue);
@@ -230,7 +232,7 @@ public class ToetsenKiezenPanelController extends VBox
         });
         cboGraad.setItems(controller.geefAlleGraden());
         btnToetsToevoegen.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
-        colKlas.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNaam()));
+        colKlas.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLeerjaar() + " " + cellData.getValue().getNaam()));
         colKlas.setCellFactory(new Callback<TableColumn<KlasDto, String>, TableCell<KlasDto, String>>()
         {
 
@@ -295,7 +297,9 @@ public class ToetsenKiezenPanelController extends VBox
                 return true;
             }
         });
-        cboKlas.setSkin(new CustomComboBoxListViewSkin(cboKlas));
+        cboKlas.setVisibleRowCount(20);
+        //Laten staan aub, is om ooit (na examens) eens naar te kijken... ooit.
+        //cboKlas.setSkin(new CustomComboBoxListViewSkin(cboKlas));
         btnKlasToevoegen.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
     }
 
@@ -354,6 +358,7 @@ public class ToetsenKiezenPanelController extends VBox
                 {
                     KlasDto dto = (KlasDto) KlasButtonCell.this.getTableView().getItems().get(KlasButtonCell.this.getIndex());
                     controller.verwijderKlas(dto);
+                    refreshKlassen();
                 }
             });
         }
@@ -403,7 +408,7 @@ public class ToetsenKiezenPanelController extends VBox
     private void toetsWijzigen()
     {
         clearErrors();
-        if (!(txfBeschrijving.getText().isEmpty() || datStart.getLocalDateTime() == null || datEinde.getLocalDateTime() == null))
+        if (!(txfBeschrijving.getText() == null || datStart.getLocalDateTime() == null || datEinde.getLocalDateTime() == null))
         {
             try
             {
@@ -451,18 +456,24 @@ public class ToetsenKiezenPanelController extends VBox
         cboKlas.setItems(controller.geefKlassenNietVanToets());
     }
 
+    //Laten staan aub, is om ooit (na examens) eens naar te kijken... ooit.
+    /*
     private class CustomComboBoxListViewSkin<T> extends ComboBoxListViewSkin<T>
     {
+        
+        //private PopupControl popcon;
 
         CustomComboBoxListViewSkin(final ComboBox<T> comboBox)
         {
             super(comboBox);
         }
-
+        
         @Override
         protected PopupControl getPopup()
         {
-            popup = new PopupControl()
+            //if (popcon != null)
+            //    return popcon;
+            PopupControl popcon = new PopupControl()
             {
 
                 @Override
@@ -470,12 +481,6 @@ public class ToetsenKiezenPanelController extends VBox
                 {
                     return getSkinnable();
                 }
-
-                /*@Override
-                public void show()
-                {
-
-                }*/
                 
                 {
                     
@@ -500,11 +505,11 @@ public class ToetsenKiezenPanelController extends VBox
                     });
                 }
             };
-            popup.getStyleClass().add(COMBO_BOX_STYLE_CLASS);
-            popup.setAutoHide(true);
-            popup.setAutoFix(true);
-            popup.setHideOnEscape(true);
-            popup.setOnAutoHide(new EventHandler<Event>()
+            popcon.getStyleClass().add(COMBO_BOX_STYLE_CLASS);
+            popcon.setAutoHide(true);
+            popcon.setAutoFix(false);
+            popcon.setHideOnEscape(true);
+            popcon.setOnAutoHide(new EventHandler<Event>()
             {
                 @Override
                 public void handle(Event e)
@@ -512,7 +517,7 @@ public class ToetsenKiezenPanelController extends VBox
                     getBehavior().onAutoHide();
                 }
             });
-            popup.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+            popcon.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
             {
                 @Override
                 public void handle(MouseEvent t)
@@ -531,7 +536,7 @@ public class ToetsenKiezenPanelController extends VBox
             getSkinnable().layoutXProperty().addListener(layoutPosListener);
             getSkinnable().layoutYProperty().addListener(layoutPosListener);
             getSkinnable().widthProperty().addListener(layoutPosListener);
-            return popup;
+            return popcon;
         }
         @Override
         public void show()
@@ -551,14 +556,14 @@ public class ToetsenKiezenPanelController extends VBox
             }
             positionAndShowPopup();
         }
-
+        
         private void positionAndShowPopup()
         {
             if (getPopup().getSkin() == null)
             {
                 getSkinnable().getScene().getRoot().impl_processCSS(true);
             }
-
+            
             Point2D p = getPrefPopupPosition();
             getPopup().getScene().setNodeOrientation(getSkinnable().getEffectiveNodeOrientation());
             getPopup().show(getSkinnable().getScene().getWindow(), p.getX(), p.getY());
@@ -606,7 +611,8 @@ public class ToetsenKiezenPanelController extends VBox
             }
         }
 
-    }
+    }*/
+    // ^^^ Laten staan aub, is om ooit (na examens) eens naar te kijken... ooit.
 
     private void refreshToetsen()
     {

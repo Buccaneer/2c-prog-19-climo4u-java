@@ -56,3 +56,9 @@ and open the template in the editor.
 .chart-bar{
     -fx-bar-fill:blue;
 }
+
+.combo-box .list-view .list-cell{
+
+-fx-cell-size: 30;
+
+}
