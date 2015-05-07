@@ -1,5 +1,6 @@
 package gui;
 
+import com.sun.javafx.scene.control.skin.ComboBoxListViewSkin;
 import controller.ToetsController;
 import dto.GraadDto;
 import dto.KlasDto;
@@ -11,17 +12,27 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.logging.*;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
+import javafx.css.Styleable;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import javafx.util.converter.DefaultStringConverter;
@@ -284,6 +295,7 @@ public class ToetsenKiezenPanelController extends VBox
                 return true;
             }
         });
+        cboKlas.setSkin(new CustomComboBoxListViewSkin(cboKlas));
         btnKlasToevoegen.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
     }
 
@@ -439,6 +451,163 @@ public class ToetsenKiezenPanelController extends VBox
         cboKlas.setItems(controller.geefKlassenNietVanToets());
     }
 
+    private class CustomComboBoxListViewSkin<T> extends ComboBoxListViewSkin<T>
+    {
+
+        CustomComboBoxListViewSkin(final ComboBox<T> comboBox)
+        {
+            super(comboBox);
+        }
+
+        @Override
+        protected PopupControl getPopup()
+        {
+            popup = new PopupControl()
+            {
+
+                @Override
+                public Styleable getStyleableParent()
+                {
+                    return getSkinnable();
+                }
+
+                /*@Override
+                public void show()
+                {
+
+                }*/
+                
+                {
+                    
+                    setSkin(new Skin<Skinnable>()
+                    {
+                        @Override
+                        public Skinnable getSkinnable()
+                        {
+                            return getSkinnable();
+                        }
+
+                        @Override
+                        public Node getNode()
+                        {
+                            return getPopupContent();
+                        }
+
+                        @Override
+                        public void dispose()
+                        {
+                        }
+                    });
+                }
+            };
+            popup.getStyleClass().add(COMBO_BOX_STYLE_CLASS);
+            popup.setAutoHide(true);
+            popup.setAutoFix(true);
+            popup.setHideOnEscape(true);
+            popup.setOnAutoHide(new EventHandler<Event>()
+            {
+                @Override
+                public void handle(Event e)
+                {
+                    getBehavior().onAutoHide();
+                }
+            });
+            popup.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+            {
+                @Override
+                public void handle(MouseEvent t)
+                {
+                    getBehavior().onAutoHide();
+                }
+            });
+            InvalidationListener layoutPosListener = new InvalidationListener()
+            {
+                @Override
+                public void invalidated(Observable o)
+                {
+                    reconfigurePopup();
+                }
+            };
+            getSkinnable().layoutXProperty().addListener(layoutPosListener);
+            getSkinnable().layoutYProperty().addListener(layoutPosListener);
+            getSkinnable().widthProperty().addListener(layoutPosListener);
+            return popup;
+        }
+        @Override
+        public void show()
+        {
+            if (getSkinnable() == null)
+            {
+                throw new IllegalStateException("ComboBox is null");
+            }
+            Node content = getPopupContent();
+            if (content == null)
+            {
+                throw new IllegalStateException("Popup node is null");
+            }
+            if (getPopup().isShowing())
+            {
+                return;
+            }
+            positionAndShowPopup();
+        }
+
+        private void positionAndShowPopup()
+        {
+            if (getPopup().getSkin() == null)
+            {
+                getSkinnable().getScene().getRoot().impl_processCSS(true);
+            }
+
+            Point2D p = getPrefPopupPosition();
+            getPopup().getScene().setNodeOrientation(getSkinnable().getEffectiveNodeOrientation());
+            getPopup().show(getSkinnable().getScene().getWindow(), p.getX(), p.getY());
+        }
+
+        private Point2D getPrefPopupPosition()
+        {
+            double dx = 0;
+            dx += (getSkinnable().getEffectiveNodeOrientation() == NodeOrientation.RIGHT_TO_LEFT) ? -1 : 1;
+            return com.sun.javafx.Utils.pointRelativeTo(getSkinnable(), getPopupContent(), HPos.CENTER, VPos.TOP, dx, 0, false);
+        }
+
+        void reconfigurePopup()
+        {
+            if (!getPopup().isShowing())
+            {
+                return;
+            }
+            Point2D p = getPrefPopupPosition();
+            reconfigurePopup(p.getX(), p.getY(), getPopupContent().prefWidth(1), getPopupContent().prefHeight(1));
+        }
+
+        void reconfigurePopup(double x, double y, double minWidth, double minHeight)
+        {
+            if (!getPopup().isShowing())
+            {
+                return;
+            }
+
+            if (x > -1)
+            {
+                getPopup().setX(x);
+            }
+            if (y > -1)
+            {
+                getPopup().setY(y);
+            }
+            if (minWidth > -1)
+            {
+                getPopup().setMinWidth(minWidth);
+            }
+            if (minHeight > -1)
+            {
+                getPopup().setMinHeight(minHeight);
+            }
+        }
+
+    }
+
     private void refreshToetsen()
     {
         tblToetsen.getItems().clear();
@@ -449,7 +618,7 @@ public class ToetsenKiezenPanelController extends VBox
     {
         statusBar.setText("");
     }
-    
+
     public ReadOnlyObjectProperty<ToetsDto> getGeselecteerdeToetsProperty()
     {
         return tblToetsen.getSelectionModel().selectedItemProperty();
