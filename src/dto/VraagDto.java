@@ -1,5 +1,7 @@
 package dto;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class VraagDto {
@@ -15,6 +17,14 @@ public class VraagDto {
     private int puntenTeVerdienen;
 
     public VraagDto() {
+        subvragen = new ArrayList<>();
+        subvragen.addAll(Arrays.asList(new String[]{"Wat is de warmste maand?",
+            "Wat is de temperatuur van de warmste maand in °C (Tw)?",
+            "Wat is de koudste maand?",
+            "Wat is de temperatuur van de koudste maand in °C (Tk)?",
+            "Hoeveel droge maanden zijn er (D)?",
+            "Hoeveelheid mm neerslag in de zomer?",
+            "Hoeveelheid mm neerslag in de winter?"}));
     }
 
     public VraagDto(int id, int type, List<KlimatogramDto> klimatogrammen, List<String> subvragen, String beschrijving, int puntenTeVerdienen) {

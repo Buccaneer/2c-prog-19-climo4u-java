@@ -1,8 +1,15 @@
 package mock;
 
-import domein.*;
-import java.util.*;
-import org.mockito.*;
+import domein.Continent;
+import domein.Graad;
+import domein.Klimatogram;
+import domein.Land;
+import domein.Maand;
+import java.util.ArrayList;
+import java.util.List;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import persistentie.GenericDao;
 
 /**
@@ -10,15 +17,16 @@ import persistentie.GenericDao;
  * @author Jasper De Vrient
  */
 public class ContinentDaoMockFactory {
+
     @Mock
     private GenericDao<Continent, String> continentDao;
     private List<Continent> continenten;
-    
+
     public ContinentDaoMockFactory() {
         continenten = new ArrayList<>();
         Continent c = new Continent("Europa");
         Land l = new Land("België");
-        Klimatogram  k = new Klimatogram("Ukkel");
+        Klimatogram k = new Klimatogram("Ukkel");
         for (Maand m : k.getMaanden()) {
             m.setNeerslag(15);
             m.setTemperatuur(-5);
@@ -28,6 +36,7 @@ public class ContinentDaoMockFactory {
         k.setLatitude(-4);
         k.setLongitude(4);
         k.setStation("11995");
+
         l.voegKlimatogramToe(k);
         c.voegLandToe(l);
         continenten.add(c);
@@ -36,11 +45,11 @@ public class ContinentDaoMockFactory {
     public List<Continent> getContinenten() {
         return continenten;
     }
-    
-    
-    public void setGraad(Graad g)  {
+
+    public void setGraad(Graad g) {
         continenten.forEach((Continent c) -> c.voegGraadToe(g));
     }
+
     public GenericDao<Continent, String> createMock() {
         MockitoAnnotations.initMocks(this);
         Continent c = continenten.get(0);
@@ -50,5 +59,5 @@ public class ContinentDaoMockFactory {
         Mockito.when(continentDao.get("Europa")).thenReturn(c);
         return continentDao;
     }
-    
+
 }

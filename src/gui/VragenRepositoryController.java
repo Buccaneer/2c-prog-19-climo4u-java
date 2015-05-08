@@ -3,7 +3,6 @@ package gui;
 import controller.ToetsController;
 import dto.KlimatogramDto;
 import dto.VraagDto;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,7 +31,7 @@ public class VragenRepositoryController extends HBox {
         VraagDto v = new VraagDto();
         v.setType(type);
         v.setBeschrijving("");
-        v.setSubvragen(new ArrayList<String>());
+        // v.setSubvragen(new ArrayList<String>());
         v.setKlimatogrammen(new ArrayList<KlimatogramDto>());
         return v;
     }
