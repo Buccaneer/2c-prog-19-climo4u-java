@@ -90,25 +90,6 @@ public class ToetsTest {
         Assert.assertEquals(date, toets.getEindDatumUur());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testStartDatumLigtVoorVandaag() {
-        GregorianCalendar date = new GregorianCalendar(2015, 3, 10);
-        toets.setStartDatumUur(date);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testEindDatumLigtVoorStartDatum() {
-        GregorianCalendar date = (GregorianCalendar) GregorianCalendar.getInstance();
-        date.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
-        date.add(Calendar.YEAR, 5);
-        toets.setStartDatumUur(date);
-
-        GregorianCalendar date2 = (GregorianCalendar) GregorianCalendar.getInstance();
-        date2.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
-        date2.add(Calendar.YEAR, 1);
-        toets.setEindDatumUur(date2);
-    }
-
     /**
      * Test of voegVraagToe method, of class Toets.
      */
