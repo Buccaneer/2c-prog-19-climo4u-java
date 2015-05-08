@@ -69,7 +69,12 @@
                     dd/mm/jj uu:mm
                 </promptText>
             </LocalDateTimeTextField>
-            <Button fx:id="btnWijzigToets" mnemonicParsing="false" onAction="#toetsWijzigen" text="Wijzig"/>
+            <HBox HBox.hgrow="ALWAYS" spacing="5" >
+                <children>
+                    <Button fx:id="btnWijzigToets" mnemonicParsing="false" onAction="#toetsWijzigen" text="Wijzig"/>
+                    <Button fx:id="btnAfdrukken" mnemonicParsing="false" onAction="#afdrukken" text="Afdrukken"/>
+                </children>
+            </HBox>
             <Label text="Klassen">
                 <padding>
                     <Insets top="10" bottom="5"/> 

@@ -13,6 +13,7 @@ public class ToetsDto {
     private GregorianCalendar aanvang;
     private GregorianCalendar eind;
     private ObservableValue<GraadDto> graad;
+    private DeterminatieKnoopDto determinatietabel;
     private int aantalPuntenTeBehalen;
 
     public int getId() {
@@ -30,13 +31,23 @@ public class ToetsDto {
     public void setGraad(ObservableValue<GraadDto> graad) {
         this.graad = graad;
     }
-    
-    
 
     public List<VraagDto> getVragen() {
         return vragen;
     }
 
+    public DeterminatieKnoopDto getDeterminatietabel() {
+        return determinatietabel;
+    }
+
+    public void setVragen(List<VraagDto> vragen) {
+        this.vragen = vragen;
+    }
+
+    public void setDeterminatietabel(DeterminatieKnoopDto determinatietabel) {
+        this.determinatietabel = determinatietabel;
+    }
+    
     public void vroegVraagToe(VraagDto vraag) {
         vragen.add(vraag);
     }

@@ -29,7 +29,7 @@ public abstract class ToetsVraag
     }
 
     public void setTeBehalenPunten(int teBehalenPunten)
-    {
+    {   
         this.teBehalenPunten = teBehalenPunten;
     }
 
