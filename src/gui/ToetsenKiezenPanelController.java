@@ -125,7 +125,7 @@ public class ToetsenKiezenPanelController extends VBox {
                     datStart.setLocalDateTime(dt);
                 }
                 if (toets.getEind() != null) {
-                    LocalDateTime dt = LocalDateTime.of(toets.getEind().get(Calendar.YEAR), toets.getEind().get(Calendar.MONTH), toets.getEind().get(Calendar.DAY_OF_MONTH), toets.getAanvang().get(Calendar.HOUR_OF_DAY), toets.getAanvang().get(Calendar.MINUTE));
+                    LocalDateTime dt = LocalDateTime.of(toets.getEind().get(Calendar.YEAR), toets.getEind().get(Calendar.MONTH), toets.getEind().get(Calendar.DAY_OF_MONTH), toets.getEind().get(Calendar.HOUR_OF_DAY), toets.getEind().get(Calendar.MINUTE));
                     datEinde.setLocalDateTime(dt);
                 }
                 tblKlassen.setItems(controller.geefKlassenVanToets());
