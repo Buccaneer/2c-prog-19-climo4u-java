@@ -231,7 +231,7 @@ public class PrintKlasse {
 
         if (!(toets.getAanvang() == null && toets.getEind() == null)) {
             PDFont fontTijdstip = PDType1Font.HELVETICA_OBLIQUE;
-            String tijdstip = String.format("Start: %d/%d/%d - %d:%d, Eind: %d/%d/%d - %d:%d", toets.getEind().get(Calendar.DAY_OF_MONTH), (toets.getEind().get(Calendar.MONTH) + 1), toets.getEind().get(Calendar.YEAR), toets.getEind().get(Calendar.HOUR_OF_DAY), toets.getEind().get(Calendar.MINUTE), toets.getEind().get(Calendar.DAY_OF_MONTH), (toets.getEind().get(Calendar.MONTH) + 1), toets.getEind().get(Calendar.YEAR), toets.getEind().get(Calendar.HOUR_OF_DAY), toets.getEind().get(Calendar.MINUTE));
+            String tijdstip = String.format("Start: %d/%d/%d - %d:%d, Eind: %d/%d/%d - %d:%d", toets.getAanvang().get(Calendar.DAY_OF_MONTH), (toets.getAanvang().get(Calendar.MONTH) + 1), toets.getAanvang().get(Calendar.YEAR), toets.getAanvang().get(Calendar.HOUR_OF_DAY), toets.getAanvang().get(Calendar.MINUTE), toets.getEind().get(Calendar.DAY_OF_MONTH), (toets.getEind().get(Calendar.MONTH) + 1), toets.getEind().get(Calendar.YEAR), toets.getEind().get(Calendar.HOUR_OF_DAY), toets.getEind().get(Calendar.MINUTE));
 
             contentStream.beginText();
             contentStream.setFont(fontTijdstip, FONTSIZE);
