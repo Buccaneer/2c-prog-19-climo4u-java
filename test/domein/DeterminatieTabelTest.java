@@ -51,7 +51,9 @@ public class DeterminatieTabelTest {
     @Test
     public void omzettenBeginKnoopResetDeBoom() {
         DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
+        dto.toBeslissingsKnoop();
         dto.setId(1);
+        DeterminatieKnoopTest.veranderNullWaarden(dto);
         dto.setBeslissingsKnoop(false);
         DeterminatieKnoopTest.veranderNullWaarden(dto);
         BeslissingsKnoop knoop = new BeslissingsKnoop(1);
@@ -65,11 +67,6 @@ public class DeterminatieTabelTest {
         BeslissingsKnoop beginKnoop = (BeslissingsKnoop) tabel.getBeginKnoop();
         assertTrue(beginKnoop.getJuistKnoop() instanceof ResultaatBlad);
         assertTrue(beginKnoop.getFoutKnoop() instanceof ResultaatBlad);
-    }
-
-    @Test
-    public void wijzigResultaatBladWerkt() {
-        //zie DeterminatieKnoopTest
     }
 
     /**

@@ -163,8 +163,10 @@ public class DeterminatieKnoopTest {
             if (dto.getVergelijking() == null)
                 dto.setVergelijking(new VergelijkingDto(new ParameterDto("Tw", false), VergelijkingsOperator.GELIJKAAN, new ParameterDto("", 0.0, true)));
 
-        } else if (dto.getVegetatieType() == null)
+        } else if (dto.getVegetatieType() == null) {
             dto.setVegetatieType(new VegetatieTypeDto());
+            dto.setKlimaattype("");
+        }
     }
 
     @Test(expected = IllegalArgumentException.class)
