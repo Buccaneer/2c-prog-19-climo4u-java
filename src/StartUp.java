@@ -4,14 +4,10 @@ import controller.DeterminatieController;
 import controller.KlimatogramController;
 import controller.LeerlingController;
 import controller.ToetsController;
-import domein.Continent;
 import gui.KlimatogramFrameController;
-import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import persistentie.GenericDao;
-import persistentie.GenericDaoJpa;
 
 /**
  *
@@ -26,10 +22,10 @@ public class StartUp extends Application{
         stage.setTitle("Klimatogrammen");
 
         // The stage will not get smaller than its preferred (initial) size.
-        /*stage.setOnShown(e -> {
+        stage.setOnShown(e -> {
             stage.setMinWidth(stage.getWidth());
             stage.setMinHeight(stage.getHeight());
-        });*/
+        });
         
         //stage.setResizable(false);
         
