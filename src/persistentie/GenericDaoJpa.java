@@ -11,6 +11,7 @@ public class GenericDaoJpa<T, K> implements GenericDao<T, K> {
     protected static final EntityManager em
             = emf.createEntityManager();
     private final Class<T> type;
+    private static boolean ignoreTransactions = false;
 
     public static void closePersistency() {
         em.close();
@@ -19,15 +20,22 @@ public class GenericDaoJpa<T, K> implements GenericDao<T, K> {
     }
 
     public static void startTransaction() {
+        if (!ignoreTransactions)
         em.getTransaction().begin();
     }
 
     public static void commitTransaction() {
+        if (!ignoreTransactions)
         em.getTransaction().commit();
     }
 
     public static void rollbackTransaction() {
+        if (!ignoreTransactions)
         em.getTransaction().rollback();
+    }
+
+    public static void setIgnoreTransactions(boolean ignoreTransactions) {
+        GenericDaoJpa.ignoreTransactions = ignoreTransactions;
     }
 
     public GenericDaoJpa(Class<T> type) {
