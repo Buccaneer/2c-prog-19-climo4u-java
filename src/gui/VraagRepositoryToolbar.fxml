@@ -26,4 +26,7 @@
          </HBox.margin>
       </Button>
    </children>
+   <padding>
+      <Insets bottom="15.0" />
+   </padding>
 </fx:root>
