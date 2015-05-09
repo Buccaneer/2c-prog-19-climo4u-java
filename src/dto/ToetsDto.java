@@ -16,6 +16,17 @@ public class ToetsDto {
     private DeterminatieKnoopDto determinatietabel;
     private int aantalPuntenTeBehalen;
 
+    public ToetsDto() {
+    }
+
+    public ToetsDto(int id) {
+        this.id = id;
+    }
+
+    public int getAantalPuntenTeBehalen() {
+        return aantalPuntenTeBehalen;
+    }
+
     public int getId() {
         return this.id;
     }
@@ -47,7 +58,7 @@ public class ToetsDto {
     public void setDeterminatietabel(DeterminatieKnoopDto determinatietabel) {
         this.determinatietabel = determinatietabel;
     }
-    
+
     public void vroegVraagToe(VraagDto vraag) {
         vragen.add(vraag);
     }

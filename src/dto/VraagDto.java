@@ -26,6 +26,10 @@ public class VraagDto {
             "Hoeveelheid mm neerslag in de zomer?",
             "Hoeveelheid mm neerslag in de winter?"}));
     }
+    
+    public VraagDto(int id){
+        this.id = id;
+    }
 
     public VraagDto(int id, int type, List<KlimatogramDto> klimatogrammen, List<String> subvragen, String beschrijving, int puntenTeVerdienen) {
         this.id = id;

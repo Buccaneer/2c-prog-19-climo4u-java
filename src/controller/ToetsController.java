@@ -49,8 +49,9 @@ public class ToetsController implements ListChangeListener<KlasDto> {
     private Comparator<KlasDto> klasComparator = new Comparator<KlasDto>() {
         @Override
         public int compare(KlasDto o1, KlasDto o2) {
-            if (o1.getLeerjaar() != o2.getLeerjaar())
+            if (o1.getLeerjaar() != o2.getLeerjaar()) {
                 return o1.getLeerjaar() - o2.getLeerjaar();
+            }
             return o1.getNaam().compareTo(o2.getNaam());
         }
     };
@@ -71,9 +72,20 @@ public class ToetsController implements ListChangeListener<KlasDto> {
         this.graadrepository = graadrepository;
     }
 
+    Toets getGeselecteerdeToetsVoorTesten() {
+        return geselecteerdeToets;
+    }
+
+    void setGeselecteerdeToets(Toets t) {
+        geselecteerdeToets = t;
+        vulKlassenVanToetsOp();
+        vulVragenOp();
+    }
+
     public ToetsDto getGeselecteerdeToets() {
-        if (geselecteerdeToets == null)
+        if (geselecteerdeToets == null) {
             return null;
+        }
         ToetsDto dto = new ToetsDto();
         dto.setAanvang(geselecteerdeToets.getStartDatumUur());
         dto.setBeschrijving(new SimpleStringProperty(geselecteerdeToets.getBeschrijving()));
@@ -92,13 +104,15 @@ public class ToetsController implements ListChangeListener<KlasDto> {
      * @param toetsDto
      */
     public void maakNieuweToets(ToetsDto toetsDto) {
-        if (toetsDto == null)
+        if (toetsDto == null) {
             throw new IllegalArgumentException("Gelieve een toets te selecteren");
+        }
         geselecteerdeToets = new Toets();
         geselecteerdeToets.setTitel(toetsDto.getTitel().getValue());
         Optional<Graad> graad = graadrepository.getAll().stream().filter((Graad g) -> g.getGraad() == toetsDto.getGraad().getValue().getGraad()).findFirst();
-        if (!graad.isPresent())
+        if (!graad.isPresent()) {
             throw new IllegalArgumentException("Graad is niet gevonden");
+        }
         geselecteerdeToets.setGraad(graad.get());
         vulKlassenVanToetsOp();
 
@@ -110,9 +124,13 @@ public class ToetsController implements ListChangeListener<KlasDto> {
      * @param toets
      */
     public void verwijderToets(ToetsDto toets) {
-        if (toets == null)
+        if (toets == null) {
             throw new IllegalArgumentException("Gelieve eerst een toets te selecteren.");
+        }
         geselecteerdeToets = toetsrepository.get(toets.getId());
+        if (geselecteerdeToets == null) {
+            throw new IllegalArgumentException("Toets bestaat niet");
+        }
         toetsrepository.delete(geselecteerdeToets);
         geselecteerdeToets = null;
     }
@@ -122,8 +140,12 @@ public class ToetsController implements ListChangeListener<KlasDto> {
      * @param toets
      */
     public void wijzigToets(ToetsDto toets) {
-        if (toets == null)
+        if (geselecteerdeToets == null) {
             throw new IllegalArgumentException("Gelieve eerst een toets te selecteren.");
+        }
+        if (toets == null) {
+            throw new IllegalArgumentException("Gelieve eerst een toets te selecteren.");
+        }
         geselecteerdeToets = toetsrepository.get(toets.getId());
         try {
             GenericDaoJpa.startTransaction();
@@ -146,12 +168,14 @@ public class ToetsController implements ListChangeListener<KlasDto> {
      * @param toets
      */
     public void selecteerToets(ToetsDto toets) {
-        if (toets == null)
+        if (toets == null) {
             throw new IllegalArgumentException("Gelieve eerst een toets te selecteren.");
+        }
 
         geselecteerdeToets = toetsrepository.get(toets.getId());
-        if (geselecteerdeToets == null)
+        if (geselecteerdeToets == null) {
             throw new IllegalArgumentException("Toets bestaat niet");
+        }
         graad = geselecteerdeToets.getGraad();
         vulKlassenVanToetsOp();
         vulVragenOp();
@@ -160,8 +184,9 @@ public class ToetsController implements ListChangeListener<KlasDto> {
     public ObservableList<GraadDto> geefAlleGraden() {
         ObservableList<GraadDto> graadLijst = FXCollections.observableArrayList();
         graadrepository.getAll().forEach((Graad g) -> {
-            if (!(g.getJaar() == 2))
+            if (!(g.getJaar() == 2)) {
                 graadLijst.add(new GraadDto(g.getNummer(), 0, null));
+            }
         });
         return graadLijst;
     }
@@ -181,23 +206,28 @@ public class ToetsController implements ListChangeListener<KlasDto> {
 
     public ObservableList<KlasDto> geefKlassenNietVanToets() {
         ObservableList<KlasDto> klasLijst = FXCollections.observableArrayList();
-        if (geselecteerdeToets == null)
+        if (geselecteerdeToets == null) {
             return klasLijst;
+        }
         klassenRepository.getAll().forEach((k) -> {
             boolean nietToevoegen = false;
-            for (Klas s : geselecteerdeToets.getKlassen())
-                if (k.getId() == s.getId())
+            for (Klas s : geselecteerdeToets.getKlassen()) {
+                if (k.getId() == s.getId()) {
                     nietToevoegen = true;
-            if (!nietToevoegen)
+                }
+            }
+            if (!nietToevoegen) {
                 klasLijst.add(new KlasDto(k.getId(), k.getNaam(), k.getLeerjaar()));
+            }
         });
         return klasLijst;
     }
 
     private void vulKlassenVanToetsOp() {
         klassenVanToets.removeListener(this);
-        if (geselecteerdeToets == null)
+        if (geselecteerdeToets == null) {
             throw new IllegalArgumentException("Gelieve eerst een toets te selecteren.");
+        }
         klassenVanToets.clear();
         geselecteerdeToets.getKlassen().forEach((k) -> {
             klassenVanToets.add(new KlasDto(k.getId(), k.getNaam(), k.getLeerjaar()));
@@ -224,16 +254,18 @@ public class ToetsController implements ListChangeListener<KlasDto> {
             if (v instanceof LosseVraag) {
                 LosseVraag vraag = (LosseVraag) v;
                 KlimatogramDto dto = new KlimatogramDto();
-                if (vraag.getKlimatogram() != null)
+                if (vraag.getKlimatogram() != null) {
                     dto.setLocatie(vraag.getKlimatogram().getLocatie());
+                }
                 List<KlimatogramDto> kLijst = new ArrayList<>(Arrays.asList(dto));
                 vragenOL.add(new VraagDto(v.getId(), VraagDto.GRAADEEN, kLijst, vraag.getSubvragenLijst(), v.getBeschrijving(), v.getTeBehalenPunten()));
             }
             if (v instanceof DeterminatieVraag) {
                 DeterminatieVraag vraag = (DeterminatieVraag) v;
                 KlimatogramDto dto = new KlimatogramDto();
-                if (vraag.getKlimatogram() != null)
+                if (vraag.getKlimatogram() != null) {
                     dto.setLocatie(vraag.getKlimatogram().getLocatie());
+                }
                 List<KlimatogramDto> kLijst = new ArrayList<>(Arrays.asList(dto));
                 vragenOL.add(new VraagDto(v.getId(), VraagDto.DETERMINATIE, kLijst, null, v.getBeschrijving(), v.getTeBehalenPunten()));
             }
@@ -258,8 +290,12 @@ public class ToetsController implements ListChangeListener<KlasDto> {
      * @param vraag
      */
     public void voegVraagToe(VraagDto vraag) {
-        if (vraag == null)
+        if (geselecteerdeToets == null) {
+            throw new IllegalArgumentException("Gelieve eerst een toets te selecteren.");
+        }
+        if (vraag == null) {
             throw new IllegalArgumentException("Gelieve eerst een type vraag te selecteren");
+        }
         GenericDaoJpa.startTransaction();
         geselecteerdeToets.voegVraagToe(VraagFactory.maakVraag(vraag, klimatogramRepository));
         GenericDaoJpa.commitTransaction();
@@ -271,13 +307,16 @@ public class ToetsController implements ListChangeListener<KlasDto> {
      * @param vraag
      */
     public void verwijderVraag(VraagDto vraag) {
-        if (geselecteerdeToets == null)
+        if (geselecteerdeToets == null) {
             throw new IllegalArgumentException("Gelieve eerst een toets te selecteren");
-        if (vraag == null)
+        }
+        if (vraag == null) {
             throw new IllegalArgumentException("Gelieve eerst een vraag te selecteren.");
+        }
         ToetsVraag vr = geselecteerdeToets.getVragen().stream().filter((v) -> v.getId() == vraag.getId()).findFirst().get();
-        if (vr == null)
+        if (vr == null) {
             throw new IllegalArgumentException("Vraag niet gevonden");
+        }
 
         GenericDaoJpa.startTransaction();
         geselecteerdeToets.verwijderVraag(vr);
@@ -291,8 +330,9 @@ public class ToetsController implements ListChangeListener<KlasDto> {
      * @param vraag
      */
     public void wijzigVraag(VraagDto vraag) {
-        if (geselecteerdeToets == null)
+        if (geselecteerdeToets == null) {
             throw new IllegalArgumentException("Gelieve eerst een toets te selecteren");
+        }
         ToetsVraag vr = geselecteerdeToets.getVragen().stream().filter((v) -> v.getId() == vraag.getId()).findFirst().get();
         GenericDaoJpa.startTransaction();
         if (vraag.isGraadEenVraag()) {
@@ -339,9 +379,11 @@ public class ToetsController implements ListChangeListener<KlasDto> {
             klassenDieBestaan.stream().forEach((Klas klas) -> klas.verwijderToets(geselecteerdeToets));
             geselecteerdeToets.getKlassen().clear();
             klassenVanToets.stream().forEach((klas) -> {
-                Optional<Klas> oK = klassenDieBestaan.stream().filter((Klas k) -> k.getLeerjaar() == klas.getLeerjaar() && klas.getNaam().equals(k.getNaam())).findFirst();
 
-                geselecteerdeToets.voegKlasToe(oK.get());
+                Optional<Klas> oK = klassenDieBestaan.stream().filter((Klas k) -> k.getLeerjaar() == klas.getLeerjaar() && klas.getNaam().equals(k.getNaam())).findFirst();
+                if (oK.isPresent()) {
+                    geselecteerdeToets.voegKlasToe(oK.get());
+                }
             });
             GenericDaoJpa.commitTransaction();
             c.next();
@@ -381,17 +423,24 @@ public class ToetsController implements ListChangeListener<KlasDto> {
     }
 
     public void verwijderKlas(KlasDto dto) {
+        if (dto == null) {
+            throw new IllegalArgumentException("Gelieve een klas te selecteren");
+        }
         klassenVanToets.remove(dto);
     }
 
     public void voegKlasToe(KlasDto dto) {
+        if (dto == null) {
+            throw new IllegalArgumentException("Gelieve een klas te selecteren");
+        }
         klassenVanToets.add(dto);
         klassenVanToets.sort(klasComparator);
     }
 
     public ToetsDto getPrintDto() {
-        if (geselecteerdeToets == null)
+        if (geselecteerdeToets == null) {
             throw new IllegalArgumentException("Gelieve eerst een toets te selecteren");
+        }
         try {
             geselecteerdeToets.valideer();
         } catch (IllegalArgumentException ex) {
@@ -400,8 +449,9 @@ public class ToetsController implements ListChangeListener<KlasDto> {
 
         ToetsDto dto = new ToetsDto();
         dto.setTitel(new SimpleStringProperty(geselecteerdeToets.getTitel()));
-        if (geselecteerdeToets.getBeschrijving() != null)
+        if (geselecteerdeToets.getBeschrijving() != null) {
             dto.setBeschrijving(new SimpleStringProperty(geselecteerdeToets.getBeschrijving()));
+        }
         if (geselecteerdeToets.getStartDatumUur() != null && geselecteerdeToets.getEindDatumUur() != null) {
             dto.setAanvang(geselecteerdeToets.getStartDatumUur());
             dto.setEind(geselecteerdeToets.getEindDatumUur());

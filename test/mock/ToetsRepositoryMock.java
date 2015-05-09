@@ -1,5 +1,6 @@
 package mock;
 
+import domein.LosseVraag;
 import domein.Toets;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -30,38 +31,37 @@ public class ToetsRepositoryMock implements GenericDao<Toets, Integer> {
 
     @Override
     public void delete(Toets item) {
-        items.remove(item);
+        items.remove(item.getId());
     }
 
     @Override
     public Toets get(Integer id) {
-      return items.get(id);
+        return items.get(id);
     }
 
     @Override
     public boolean exists(Integer id) {
-      return items.containsKey(id);
+        return items.containsKey(id);
     }
 
     @Override
     public void update(Toets item) {
-       items.put(item.getId(), item);
+        items.put(item.getId(), item);
     }
 
-    
     public static ToetsRepositoryMock creerMetEenToetsErin() {
-        
+
         ToetsRepositoryMock trm = new ToetsRepositoryMock();
-        
+
         Toets t = new Toets();
-        t.setStartDatumUur(new GregorianCalendar(2015, 04, 21,16,00));
-        t.setEindDatumUur(new GregorianCalendar(2015,04,21,18,00));
+        t.setStartDatumUur(new GregorianCalendar(2015, 04, 21, 16, 00));
+        t.setEindDatumUur(new GregorianCalendar(2015, 04, 21, 18, 00));
         t.setTitel("TDD-Test");
         t.setBeschrijving("spatie");
         //t.setNaam("TDD-Test");
         
         trm.insert(t);
-        
+
         return trm;
     }
 }
