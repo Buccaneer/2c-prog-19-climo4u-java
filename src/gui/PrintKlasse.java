@@ -423,8 +423,8 @@ public class PrintKlasse {
 
         lines = new ArrayList<>();
 
-        lines.add(i + "." + (subvragen.size()) + ". Wat is het klimaattype?");
-        lines.add(i + "." + (subvragen.size() + 1) + ". Wat is het vegetatietype?");
+        lines.add(i + "." + (subvragen.size()+1) + ". Wat is het klimaattype?");
+        lines.add(i + "." + (subvragen.size() + 2) + ". Wat is het vegetatietype?");
 
         for (String line : lines) {
             if (positieHoogte < MARGE + LEADING) {
