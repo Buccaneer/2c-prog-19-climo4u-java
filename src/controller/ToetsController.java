@@ -333,30 +333,43 @@ public class ToetsController implements ListChangeListener<KlasDto> {
         if (geselecteerdeToets == null) {
             throw new IllegalArgumentException("Gelieve eerst een toets te selecteren");
         }
-        ToetsVraag vr = geselecteerdeToets.getVragen().stream().filter((v) -> v.getId() == vraag.getId()).findFirst().get();
-        GenericDaoJpa.startTransaction();
-        if (vraag.isGraadEenVraag()) {
-            LosseVraag vrg = (LosseVraag) vr;
-            vrg.setBeschrijving(vraag.getBeschrijving());
-            vrg.setKlimatogram(klimatogramRepository.get(vraag.getKlimatogrammen().get(0).getLocatie()));
-            vrg.setSubvragenLijst(vraag.getSubvragen());
-            vrg.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
+        try {
+            ToetsVraag vr = geselecteerdeToets.getVragen().stream().filter((v) -> v.getId() == vraag.getId()).findFirst().get();
+            GenericDaoJpa.startTransaction();
+            if (vraag.isGraadEenVraag()) {
+                LosseVraag vrg = (LosseVraag) vr;
+                vrg.setBeschrijving(vraag.getBeschrijving());
+                if (vraag.getKlimatogrammen().size() > 0 && vraag.getKlimatogrammen().get(0) != null && vraag.getKlimatogrammen().get(0).getLocatie() != null) {
+                    Object o = klimatogramRepository.get(vraag.getKlimatogrammen().get(0).getLocatie());
+                    if (o != null) {
+                        vrg.setKlimatogram((Klimatogram) o);
+                    }
+                }
+                vrg.setSubvragenLijst(vraag.getSubvragen());
+                vrg.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
+            }
+            if (vraag.isDeterminatieVraag()) {
+                DeterminatieVraag vrg = (DeterminatieVraag) vr;
+                vrg.setBeschrijving(vraag.getBeschrijving());
+                if (vraag.getKlimatogrammen().size() > 0 && vraag.getKlimatogrammen().get(0) != null && vraag.getKlimatogrammen().get(0).getLocatie() != null) {
+                    Object o = klimatogramRepository.get(vraag.getKlimatogrammen().get(0).getLocatie());
+                    if (o != null) {
+                        vrg.setKlimatogram((Klimatogram) o);
+                    }
+                }
+                vrg.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
+            }
+            if (vraag.isGraadDrieVraag()) {
+                LocatieVraag vrg = (LocatieVraag) vr;
+                vrg.setBeschrijving(vraag.getBeschrijving());
+                HashSet<Klimatogram> klimatogrammen = new HashSet<>();
+                vraag.getKlimatogrammen().stream().forEach(k -> klimatogrammen.add(klimatogramRepository.get(k.getLocatie())));
+                vrg.setKlimatogrammen(klimatogrammen);
+                vrg.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
+            }
+            GenericDaoJpa.commitTransaction();
+        } catch (Exception e) {
         }
-        if (vraag.isDeterminatieVraag()) {
-            DeterminatieVraag vrg = (DeterminatieVraag) vr;
-            vrg.setBeschrijving(vraag.getBeschrijving());
-            vrg.setKlimatogram(klimatogramRepository.get(vraag.getKlimatogrammen().get(0).getLocatie()));
-            vrg.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
-        }
-        if (vraag.isGraadDrieVraag()) {
-            LocatieVraag vrg = (LocatieVraag) vr;
-            vrg.setBeschrijving(vraag.getBeschrijving());
-            HashSet<Klimatogram> klimatogrammen = new HashSet<>();
-            vraag.getKlimatogrammen().stream().forEach(k -> klimatogrammen.add(klimatogramRepository.get(k.getLocatie())));
-            vrg.setKlimatogrammen(klimatogrammen);
-            vrg.setTeBehalenPunten(vraag.getPuntenTeVerdienen());
-        }
-        GenericDaoJpa.commitTransaction();
         vulVragenOp();
     }
 
