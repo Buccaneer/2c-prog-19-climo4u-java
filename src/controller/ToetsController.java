@@ -534,6 +534,7 @@ public class ToetsController implements ListChangeListener<KlasDto> {
         }
         dto.setVragen(vragen);
         dto.setDeterminatietabel(geselecteerdeToets.getGraad().getActieveTabel().maakDtoAan());
+        dto.setAantalPuntenTeBehalen(geselecteerdeToets.berekenTotaleScore());
         return dto;
     }
 }

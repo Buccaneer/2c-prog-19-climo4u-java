@@ -53,13 +53,15 @@ public class LocatieOefeningController extends VBox implements IToetsVraag {
 
         items.addAll(vraag.getKlimatogrammen());
 
-        lstKlimatogrammen.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<KlimatogramDto>() {
+        lstKlimatogrammen.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 
             @Override
-            public void changed(ObservableValue<? extends KlimatogramDto> observable, KlimatogramDto oldValue, KlimatogramDto newValue) {
-                geselecteerdeKlimatogram = newValue;
-                cboKlimatogram.getSelectionModel().select(newValue);
-                btnToevoegen.setText(WIJZIGENTEKST);
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (newValue.intValue() >= 0) {
+                    geselecteerdeKlimatogram = items.get(newValue.intValue());
+                    cboKlimatogram.getSelectionModel().select(geselecteerdeKlimatogram);
+                    btnToevoegen.setText(WIJZIGENTEKST);
+                }
             }
 
         });
@@ -74,9 +76,9 @@ public class LocatieOefeningController extends VBox implements IToetsVraag {
     }
 
     public void toevoegen() {
-        if (geselecteerdeKlimatogram == null)
+        if (geselecteerdeKlimatogram == null) {
             items.add(cboKlimatogram.getSelectionModel().getSelectedItem());
-        else {
+        } else {
             int i = items.indexOf(geselecteerdeKlimatogram);
             items.set(i, cboKlimatogram.getSelectionModel().getSelectedItem());
         }
@@ -86,11 +88,13 @@ public class LocatieOefeningController extends VBox implements IToetsVraag {
     }
 
     public void verwijderen() {
-        if (geselecteerdeKlimatogram != null)
+        if (geselecteerdeKlimatogram != null) {
             items.remove(geselecteerdeKlimatogram);
+        }
 
         geselecteerdeKlimatogram = null;
         btnToevoegen.setText(TOEVOEGENTEKST);
+        lstKlimatogrammen.getSelectionModel().clearSelection();
     }
 
 }

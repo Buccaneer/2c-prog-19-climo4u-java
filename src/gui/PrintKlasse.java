@@ -29,13 +29,16 @@ import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
 
 /**
  * <b>OPMERKING:</b>
- * Deze klasse is een werkende printklasse.
- * Door tijdsgebrek hebben we ons niet bezig gehouden met alles mooi in klassen op te delen,
- * alles staat in deze klasse en we zijn er ons van bewust dat er heel veel herhalende code is.
- * Toch hebben we deze laten staan omdat printen een mooie meerwaarde biedt aan het project.
+ * Deze klasse is een werkende printklasse. Door tijdsgebrek hebben we ons niet
+ * bezig gehouden met alles mooi in klassen op te delen, alles staat in deze
+ * klasse en we zijn er ons van bewust dat er heel veel herhalende code is. Toch
+ * hebben we deze laten staan omdat printen een mooie meerwaarde biedt aan het
+ * project.
+ *
  * @author Gebruiker
  */
 public class PrintKlasse {
+
     static final int MARGE = 60;
     static final float HOOGTE = 841.8898f;
     static final float BREEDTE = 595.27563f;
@@ -107,7 +110,7 @@ public class PrintKlasse {
                         } else {
                             height = (int) (stage.getHeight() * 0.75);
                         }
-                        contentStream.drawXObject(image, 0, HOOGTE-height, width, height);
+                        contentStream.drawXObject(image, 0, HOOGTE - height, width, height);
                         contentStream.close();
                     }
 
@@ -117,7 +120,7 @@ public class PrintKlasse {
                         PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
                         PDJpeg image = new PDJpeg(document, PrintKlasse.class.getResourceAsStream("/content/images/worldmap.jpg"));
-                        AffineTransform at = new AffineTransform(BREEDTE - 2 * MARGE, 0, 0, HOOGTE - 2 * MARGE, MARGE+(BREEDTE-2*MARGE), MARGE);
+                        AffineTransform at = new AffineTransform(BREEDTE - 2 * MARGE, 0, 0, HOOGTE - 2 * MARGE, MARGE + (BREEDTE - 2 * MARGE), MARGE);
                         at.rotate(Math.toRadians(90));
                         contentStream.drawXObject(image, at);
                         contentStream.close();
@@ -237,6 +240,59 @@ public class PrintKlasse {
             contentStream.moveTextPositionByAmount(x, positieHoogte);
             contentStream.drawString(tijdstip);
             contentStream.endText();
+        }
+
+        PDFont fontVoorblad = PDType1Font.HELVETICA;
+
+        int vraagNummer = 1;
+        List<String> vragen = new ArrayList<>();
+        for (VraagDto v : toets.getVragen()) {
+            vragen.add("Vraag " + vraagNummer + ":                   /" + v.getPuntenTeVerdienen());
+            vraagNummer++;
+        }
+        vragen.add("Totaal:                   /" + toets.getAantalPuntenTeBehalen());
+
+        for (String vraag : vragen) {
+            lines = new ArrayList<>();
+            lastSpace = -1;
+            while (vraag.length() > 0) {
+                int spaceIndex = vraag.indexOf(' ', lastSpace + 1);
+                if (spaceIndex < 0) {
+                    lines.add(vraag);
+                    vraag = "";
+                } else {
+                    String subString = vraag.substring(0, spaceIndex);
+                    float size = FONTSIZE * fontVoorblad.getStringWidth(subString) / 1000;
+                    if (size > (BREEDTE - 2 * MARGE)) {
+                        if (lastSpace < 0) {
+                            lastSpace = spaceIndex;
+                        }
+                        subString = vraag.substring(0, lastSpace);
+                        lines.add(subString);
+                        vraag = vraag.substring(lastSpace).trim();
+                        lastSpace = -1;
+                    } else {
+                        lastSpace = spaceIndex;
+                    }
+                }
+            }
+
+            for (String line : lines) {
+                if (positieHoogte < MARGE + LEADING) {
+                    contentStream.close();
+                    page = new PDPage(PDPage.PAGE_SIZE_A4);
+                    document.addPage(page);
+                    contentStream = new PDPageContentStream(document, page);
+                    positieHoogte = HOOGTE - MARGE;
+                }
+                contentStream.beginText();
+                contentStream.setFont(fontVoorblad, FONTSIZE);
+                float x = MARGE;
+                positieHoogte -= LEADING;
+                contentStream.moveTextPositionByAmount(x, positieHoogte);
+                contentStream.drawString(line);
+                contentStream.endText();
+            }
         }
 
         contentStream.close();
@@ -370,7 +426,7 @@ public class PrintKlasse {
 
         maakTabelMetGegevens(stream, klimatogram);
 
-        List<String> subvragen = vraag.getSubvragen();
+        List<String> subvragen = new ArrayList<>(vraag.getSubvragen());
         for (int j = 0; j < subvragen.size(); j++) {
             String vr = i + "." + (j + 1) + ". " + subvragen.get(j);
             subvragen.set(j, vr);
@@ -423,7 +479,7 @@ public class PrintKlasse {
 
         lines = new ArrayList<>();
 
-        lines.add(i + "." + (subvragen.size()+1) + ". Wat is het klimaattype?");
+        lines.add(i + "." + (subvragen.size() + 1) + ". Wat is het klimaattype?");
         lines.add(i + "." + (subvragen.size() + 2) + ". Wat is het vegetatietype?");
 
         for (String line : lines) {

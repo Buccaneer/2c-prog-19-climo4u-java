@@ -23,6 +23,10 @@ public class ToetsDto {
         this.id = id;
     }
 
+    public void setAantalPuntenTeBehalen(int aantalPuntenTeBehalen) {
+        this.aantalPuntenTeBehalen = aantalPuntenTeBehalen;
+    }
+
     public int getAantalPuntenTeBehalen() {
         return aantalPuntenTeBehalen;
     }
