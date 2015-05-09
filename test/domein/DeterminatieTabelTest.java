@@ -1,9 +1,10 @@
 package domein;
 
 import dto.DeterminatieKnoopDto;
-import dto.VergelijkingDto;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class DeterminatieTabelTest {
 
@@ -48,15 +49,15 @@ public class DeterminatieTabelTest {
     }
 
     @Test
-    public void omzettenBeginKnoopResetDeBoom() {        
+    public void omzettenBeginKnoopResetDeBoom() {
         DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
         dto.setId(1);
         dto.setBeslissingsKnoop(false);
-        
+        DeterminatieKnoopTest.veranderNullWaarden(dto);
         BeslissingsKnoop knoop = new BeslissingsKnoop(1);
         knoop.setJuistKnoop(new BeslissingsKnoop(2));
         knoop.setFoutKnoop(new BeslissingsKnoop(3));
-        
+
         DeterminatieTabel tabel = new DeterminatieTabel();
         tabel.setBeginKnoop(knoop);
         tabel.wijzigKnoop(dto);
@@ -86,7 +87,7 @@ public class DeterminatieTabelTest {
 
         DeterminatieKnoopDto dto = r.maakDtoAan();
         dto.toBeslissingsKnoop();
-
+        DeterminatieKnoopTest.veranderNullWaarden(dto);
         t.wijzigKnoop(dto);
 
         assertNotSame(r, knoop.getJuistKnoop());
@@ -102,7 +103,7 @@ public class DeterminatieTabelTest {
     }
 
     @Test(expected = DomeinException.class)
-    public void validerenVanFoutieveGegevensGooitException() { //eigenlijk ontbrekende gegevens, niet foutieve? 
+    public void validerenVanFoutieveGegevensGooitException() { //eigenlijk ontbrekende gegevens, niet foutieve?
         DeterminatieTabel tabel = new DeterminatieTabel();
         tabel.valideer();
     }

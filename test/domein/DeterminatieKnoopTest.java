@@ -1,9 +1,17 @@
 package domein;
 
-import dto.*;
-import jdk.nashorn.internal.runtime.regexp.joni.ast.ConsAltNode;
+import dto.DeterminatieKnoopDto;
+import dto.ParameterDto;
+import dto.VegetatieTypeDto;
+import dto.VergelijkingDto;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class DeterminatieKnoopTest {
 
@@ -29,10 +37,10 @@ public class DeterminatieKnoopTest {
         DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
         dto.setId(2);
         dto.setBeslissingsKnoop(false);
-     
+
         BeslissingsKnoop juistKnoop = new BeslissingsKnoop(2);
         ResultaatBlad foutBlad = new ResultaatBlad(3);
-        
+
         BeslissingsKnoop knoop = new BeslissingsKnoop();
         knoop.setJuistKnoop(juistKnoop);
         knoop.setFoutKnoop(foutBlad);
@@ -51,13 +59,13 @@ public class DeterminatieKnoopTest {
         BeslissingsKnoop k = new BeslissingsKnoop(2);
         BeslissingsKnoop k1 = new BeslissingsKnoop();
         k.setJuistKnoop(k1);
-        
+
         DeterminatieKnoopDto dto = k1.maakDtoAan();
-        
+
         dto.toResultaatBlad();
-        
+
         k.wijzigKnoop(dto);
-        
+
         assertNotSame(k1, k.getJuistKnoop());
     }
 
@@ -134,18 +142,29 @@ public class DeterminatieKnoopTest {
 
     @Test
     public void omzettenResultaatBladInBeslissingsKnoopWerkt() {
-        DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
-        dto.setId(2);
-        dto.setBeslissingsKnoop(true);
-     
+
         ResultaatBlad juistBlad = new ResultaatBlad(2);
         ResultaatBlad foutBlad = new ResultaatBlad(3);
-        
+
         BeslissingsKnoop knoop = new BeslissingsKnoop();
+        DeterminatieKnoopDto dto = knoop.maakDtoAan();
+        dto = dto.getJa();
+        dto.setId(2);
+        dto.toBeslissingsKnoop();
+        veranderNullWaarden(dto);
         knoop.setJuistKnoop(juistBlad);
         knoop.setFoutKnoop(foutBlad);
         knoop.wijzigKnoop(dto);
         assertTrue(knoop.getJuistKnoop() instanceof BeslissingsKnoop);
+    }
+
+    public static void veranderNullWaarden(DeterminatieKnoopDto dto) {
+        if (dto.isBeslissingsKnoop()) {
+            if (dto.getVergelijking() == null)
+                dto.setVergelijking(new VergelijkingDto(new ParameterDto("Tw", false), VergelijkingsOperator.GELIJKAAN, new ParameterDto("", 0.0, true)));
+
+        } else if (dto.getVegetatieType() == null)
+            dto.setVegetatieType(new VegetatieTypeDto());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -166,24 +185,24 @@ public class DeterminatieKnoopTest {
         eq.setLinkerParameter(ParameterFactory.maakConstanteParameter(0));
         eq.setRechterParameter(ParameterFactory.maakConstanteParameter(0));
         eq.setOperator(VergelijkingsOperator.GELIJKAAN);
-        
+
         VegetatieType veggie = new VegetatieType();
         veggie.setFoto("trololo.gif");
         veggie.setNaam("Naaldbos zonder blaadjes");
-        
+
         ResultaatBlad juistBlad = new ResultaatBlad();
         juistBlad.setKlimaatType("Droog maar toch een beetje nat");
         juistBlad.setVegetatieType(veggie);
-        
+
         ResultaatBlad foutBlad = new ResultaatBlad();
         foutBlad.setKlimaatType("Nat maar toch een beetje droog");
         foutBlad.setVegetatieType(veggie);
-        
+
         BeslissingsKnoop knoop = new BeslissingsKnoop();
         knoop.setVergelijking(eq);
         knoop.setFoutKnoop(foutBlad);
         knoop.setJuistKnoop(juistBlad);
-        
+
         knoop.valideer();
     }
 
@@ -236,24 +255,24 @@ public class DeterminatieKnoopTest {
     @Test
     public void maakDtoAanVoorResultaatBladIsGeldig() {
         int id = 5;
-        
+
         VegetatieType veggie = new VegetatieType();
         String foto = "trololo.gif";
         veggie.setFoto(foto);
         String naam = "Naaldbos zonder blaadjes";
         veggie.setNaam(naam);
-        
+
         ResultaatBlad blad = new ResultaatBlad(id);
         String klimaat = "Droog maar toch een beetje nat";
         blad.setKlimaatType(klimaat);
         blad.setVegetatieType(veggie);
-        
+
         DeterminatieKnoopDto dto = blad.maakDtoAan();
         assertEquals(dto.getId(), id);
         assertNull(dto.getJa());
         assertEquals(dto.getKlimaattype(), klimaat);
         assertNull(dto.getNee());
-      //  fail("dto.getOuder() ??? ");
+        //  fail("dto.getOuder() ??? ");
         assertEquals(dto.getVegetatieType().getNaam(), naam);
         assertEquals(dto.getVegetatieType().getFoto(), foto);
         assertNull(dto.getVergelijking());
