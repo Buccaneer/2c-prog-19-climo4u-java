@@ -7,6 +7,7 @@ import controller.ToetsController;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -118,6 +119,7 @@ public class KlimatogramFrameController extends AnchorPane {
         HBox content = new HBox();
         VBox.setVgrow(tkpc, Priority.ALWAYS);
         ToetsenDetailPanelController pnlRechts = new ToetsenDetailPanelController();
+        pnlRechts.setPadding(new Insets(15, 15, 15, 15));
         VBox.setVgrow(pnlRechts, Priority.ALWAYS);
         HBox.setHgrow(pnlRechts, Priority.ALWAYS);
         ToetsVragenOverzichtController tvoc = new ToetsVragenOverzichtController(tController);
