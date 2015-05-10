@@ -64,22 +64,23 @@ public class PrintKlasse {
 
                 PDDocument document = new PDDocument();
                 try {
+                    //eerst het voorblad maken
                     maakVoorblad(document, toets);
+                    //Alle vragen overlopen en ze afprinten. Elke vraag wordt op een nieuwe pagina gezet
+                    //dus de hoogte waar de print moet beginnen wordt gereset
                     for (int i = 0; i < toets.getVragen().size(); i++) {
                         VraagDto vraag = toets.getVragen().get(i);
+                        positieHoogte = HOOGTE - MARGE;
                         if (vraag.isGraadEenVraag()) {
                             heeftDeterminatietabel = true;
-                            positieHoogte = HOOGTE - MARGE;
                             maakGraadEenVraag(i + 1, document, vraag);
                         }
                         if (vraag.isDeterminatieVraag()) {
                             heeftDeterminatietabel = true;
-                            positieHoogte = HOOGTE - MARGE;
                             maakGraadTweeVraag(i + 1, document, vraag);
                         }
                         if (vraag.isGraadDrieVraag()) {
                             heeftKaart = true;
-                            positieHoogte = HOOGTE - MARGE;
                             maakGraadDrieVraag(i + 1, document, vraag);
                         }
                     }
@@ -167,12 +168,17 @@ public class PrintKlasse {
     }
 
     private static void maakVoorblad(PDDocument document, ToetsDto toets) throws IOException {
+        //nieuwe pagina maken, toevogen aan document en nieuwe contentstream
         PDPage page = new PDPage(PDPage.PAGE_SIZE_A4);
         document.addPage(page);
         PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
+        //font en titel instellen
         PDFont fontTitel = PDType1Font.HELVETICA_OBLIQUE;
         String titel = toets.getTitel().get();
+        
+        //algoritme dat berekent of de zin op de breedte van de pagina kan.
+        //indien het er niet op kan wordt het in de volgende index van de arraylist gezet
         List<String> lines = new ArrayList<>();
         int lastSpace = -1;
         while (titel.length() > 0) {
@@ -197,6 +203,7 @@ public class PrintKlasse {
             }
         }
 
+        //lijnen printen en elke keer naar beneden gaa voor de volgende lijn
         for (String line : lines) {
             contentStream.beginText();
             contentStream.setFont(fontTitel, FONTSIZETITEL);
@@ -207,8 +214,10 @@ public class PrintKlasse {
             contentStream.endText();
         }
 
+        //extra marge
         positieHoogte -= 5;
 
+        //idem titel, beschrijving opvragen, opdelen in lijnen, lijnen printen...
         if (!(toets.getBeschrijving() == null || toets.getBeschrijving().get().isEmpty())) {
             PDFont fontBeschrijving = PDType1Font.HELVETICA_OBLIQUE;
             String beschrijving = toets.getBeschrijving().get();
@@ -247,6 +256,7 @@ public class PrintKlasse {
             }
         }
 
+        //idem titel, datum opvragen en printen
         if (!(toets.getAanvang() == null && toets.getEind() == null)) {
             PDFont fontTijdstip = PDType1Font.HELVETICA_OBLIQUE;
             String tijdstip = String.format("Start: %d/%d/%d - %d:%d, Eind: %d/%d/%d - %d:%d", toets.getAanvang().get(Calendar.DAY_OF_MONTH), (toets.getAanvang().get(Calendar.MONTH) + 1), toets.getAanvang().get(Calendar.YEAR), toets.getAanvang().get(Calendar.HOUR_OF_DAY), toets.getAanvang().get(Calendar.MINUTE), toets.getEind().get(Calendar.DAY_OF_MONTH), (toets.getEind().get(Calendar.MONTH) + 1), toets.getEind().get(Calendar.YEAR), toets.getEind().get(Calendar.HOUR_OF_DAY), toets.getEind().get(Calendar.MINUTE));
@@ -260,8 +270,9 @@ public class PrintKlasse {
             contentStream.endText();
         }
 
+        
+        //zorgt ervoor dat er een overzicht komt van alle vragen en op hoeveel punten ze staan, eveneens een totaal
         PDFont fontVoorblad = PDType1Font.HELVETICA;
-
         int vraagNummer = 1;
         List<String> vragen = new ArrayList<>();
         for (VraagDto v : toets.getVragen()) {
@@ -313,6 +324,7 @@ public class PrintKlasse {
             }
         }
 
+        //voorblad is klaar
         contentStream.close();
     }
 
@@ -321,6 +333,7 @@ public class PrintKlasse {
         document.addPage(pagina);
         PDPageContentStream stream = new PDPageContentStream(document, pagina);
 
+        //vraag opdelen in lijnen en afdrukken
         PDFont fontVraag = PDType1Font.HELVETICA;
         String vraagBeschrijving = i + ". " + vraag.getBeschrijving() + " (op " + vraag.getPuntenTeVerdienen() + " punten)";
         List<String> lines = new ArrayList<>();
@@ -357,6 +370,7 @@ public class PrintKlasse {
         }
         positieHoogte -= LEADING / 2;
 
+        //klimatogramgegevens boven de klimatogram plaatsen
         KlimatogramDto klimatogram = vraag.getKlimatogrammen().get(0);
         String locatieLand = klimatogram.getLocatie();
         lines = new ArrayList<>();
@@ -426,6 +440,7 @@ public class PrintKlasse {
             stream.endText();
         }
 
+        //snapshot nemen van de klimatogram en afdrukken
         Stage stage = new Stage();
         StackPane pnl = new KlimatogramGrafiek().createChart(klimatogram);
         pnl.setPadding(new Insets(0, 50, 0, 0));
@@ -442,14 +457,17 @@ public class PrintKlasse {
         positieHoogte -= image.getHeight();
         stream.drawXObject(image, MARGE, positieHoogte, BREEDTE - 2 * MARGE, 250);
 
+        //tabel met neerslag en temperaturen onder de klimatogram zetten
         maakTabelMetGegevens(stream, klimatogram);
 
+        //nummering voor de vragen over de klimatogram
         List<String> subvragen = new ArrayList<>(vraag.getSubvragen());
         for (int j = 0; j < subvragen.size(); j++) {
             String vr = i + "." + (j + 1) + ". " + subvragen.get(j);
             subvragen.set(j, vr);
         }
 
+        //vragen printen en elke keer een lijn eronder voorzien voor het antwoord
         for (String subVraag : subvragen) {
             lines = new ArrayList<>();
             lastSpace = -1;
@@ -495,6 +513,7 @@ public class PrintKlasse {
             }
         }
 
+        //altijd bijzetten dat er moet gedetermineerd worden
         lines = new ArrayList<>();
 
         lines.add(i + "." + (subvragen.size() + 1) + ". Wat is het klimaattype?");
@@ -518,11 +537,12 @@ public class PrintKlasse {
             stream.endText();
             stream.drawLine(MARGE, positieHoogte, BREEDTE - MARGE, positieHoogte);
         }
+        
         stream.close();
-
     }
 
     private static void maakGraadTweeVraag(int i, PDDocument document, VraagDto vraag) throws IOException {
+        //idem vraag graad een behalve de vraagjes over klimatogram
         PDPage pagina = new PDPage(PDPage.PAGE_SIZE_A4);
         document.addPage(pagina);
         PDPageContentStream stream = new PDPageContentStream(document, pagina);
@@ -670,6 +690,7 @@ public class PrintKlasse {
     }
 
     private static void maakGraadDrieVraag(int i, PDDocument document, VraagDto vraag) throws IOException {
+        //idem graad een maar ook zonder subvragen, bij elke klimatogram wordt er nu Klimatogram x gezet ipv de locatie
         PDPage pagina = new PDPage(PDPage.PAGE_SIZE_A4);
         document.addPage(pagina);
         PDPageContentStream stream = new PDPageContentStream(document, pagina);
@@ -810,6 +831,7 @@ public class PrintKlasse {
     }
 
     private static void maakTabelMetGegevens(PDPageContentStream contentStream, KlimatogramDto klimatogram) throws IOException {
+        //array maken en opvullen met gegevens
         Object[][] content
                 = {{"", "Jan", "Feb", "Maa", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"},
                 {"T(°C)", "", "", "", "", "", "", "", "", "", "", "", ""},
@@ -824,6 +846,8 @@ public class PrintKlasse {
                 }
             }
         }
+        
+        //rijen, kolommen, hoogte, breedte etc instellen
         int rows = content.length;
         int cols = content[0].length;
         float rowHeight = 20f;
@@ -832,18 +856,21 @@ public class PrintKlasse {
         float colWidth = tableWidth / (float) cols;
         float cellMargin = 5f;
 
+        //verticale lijnen drukken
         float nexty = positieHoogte;
         for (int i = 0; i <= rows; i++) {
             contentStream.drawLine(MARGE, nexty, MARGE + tableWidth, nexty);
             nexty -= rowHeight;
         }
 
+        //horizontale lijnen drukken
         float nextx = MARGE;
         for (int i = 0; i <= cols; i++) {
             contentStream.drawLine(nextx, positieHoogte, nextx, positieHoogte - tableHeight);
             nextx += colWidth;
         }
 
+        //data in de tabel zetten
         float textx = MARGE + cellMargin;
         float texty = positieHoogte - 15;
         for (int i = 0; i < content.length; i++) {
