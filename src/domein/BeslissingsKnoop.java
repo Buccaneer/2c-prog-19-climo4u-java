@@ -13,8 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "determinatieknopen")
-public class BeslissingsKnoop extends DeterminatieKnoop
-{
+public class BeslissingsKnoop extends DeterminatieKnoop {
 
     @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "JaKnoop_DeterminatieKnoopId")
@@ -26,16 +25,14 @@ public class BeslissingsKnoop extends DeterminatieKnoop
     @JoinColumn(name = "Vergelijking_VergelijkingId")
     private Vergelijking vergelijking;
 
-    public BeslissingsKnoop()
-    {
+    public BeslissingsKnoop() {
         super();
         juistKnoop = new ResultaatBlad();
         foutKnoop = new ResultaatBlad();
         vergelijking = new Vergelijking();
     }
 
-    public BeslissingsKnoop(int id)
-    {
+    public BeslissingsKnoop(int id) {
         super(id);
         juistKnoop = new ResultaatBlad();
         foutKnoop = new ResultaatBlad();
@@ -43,52 +40,34 @@ public class BeslissingsKnoop extends DeterminatieKnoop
     }
 
     @Override
-    public void wijzigKnoop(DeterminatieKnoopDto knoop)
-    {
-        try
-        {
-            if (knoop.getId() == getId())
-            {
+    public void wijzigKnoop(DeterminatieKnoopDto knoop) {
+        try {
+            if (knoop.getId() == getId()) {
                 wijzigAttributen(knoop);
-            }
-            else
-            {
+            } else {
                 int juistOmzetten = moetOmzetten(juistKnoop, knoop);
                 int foutOmzetten = moetOmzetten(foutKnoop, knoop);
-                if (juistOmzetten != 0)
-                {
-                    if (juistOmzetten == -1)
-                    {
+                if (juistOmzetten != 0) {
+                    if (juistOmzetten == -1) {
                         juistKnoop = new BeslissingsKnoop();
                         ((BeslissingsKnoop) juistKnoop).wijzigAttributen(knoop);
-                    }
-                    else
-                    {
+                    } else {
                         juistKnoop = new ResultaatBlad();
                     }
-                }
-                else if (foutOmzetten != 0)
-                {
-                    if (foutOmzetten == - 1)
-                    {
+                } else if (foutOmzetten != 0) {
+                    if (foutOmzetten == - 1) {
                         foutKnoop = new BeslissingsKnoop();
                         ((BeslissingsKnoop) foutKnoop).wijzigAttributen(knoop);
-                    }
-                    else
-                    {
+                    } else {
                         foutKnoop = new ResultaatBlad();
                     }
                 }
-                if (juistOmzetten == foutOmzetten && juistOmzetten == 0)
-                {
+                if (juistOmzetten == foutOmzetten && juistOmzetten == 0) {
                     juistKnoop.wijzigKnoop(knoop);
                     foutKnoop.wijzigKnoop(knoop);
                 }
             }
-        }
-        catch (IllegalArgumentException iae)
-        {
-// Todo: nested exceptions...
+        } catch (IllegalArgumentException iae) {
             throw new IllegalArgumentException(iae);
         }
     }
@@ -98,39 +77,32 @@ public class BeslissingsKnoop extends DeterminatieKnoop
      *
      * @param knoop
      */
-    void wijzigAttributen(DeterminatieKnoopDto knoop)
-    {
+    void wijzigAttributen(DeterminatieKnoopDto knoop) {
         VergelijkingDto vergelijkingDto = knoop.getVergelijking();
         vergelijking.setOperator(vergelijkingDto.getOperator());
         boolean linksGevonden = false;
         boolean rechtsGevonden = false;
-        for (Parameter par : ParameterFactory.geefParameters())
-        {
-            if (par.getNaam().equals(knoop.getVergelijking().getLinks().getNaam()))
-            {
+        for (Parameter par : ParameterFactory.geefParameters()) {
+            if (par.getNaam().equals(knoop.getVergelijking().getLinks().getNaam())) {
                 linksGevonden = true;
                 vergelijking.setLinkerParameter(par);
             }
-            if (par.getNaam().equals(knoop.getVergelijking().getRechts().getNaam()))
-            {
+            if (par.getNaam().equals(knoop.getVergelijking().getRechts().getNaam())) {
                 rechtsGevonden = true;
                 vergelijking.setRechterParameter(par);
             }
         }
-        if (!linksGevonden)
-        {
+        if (!linksGevonden) {
             vergelijking.setLinkerParameter(ParameterFactory.maakConstanteParameter(knoop.getVergelijking().getLinks().getWaarde()));
         }
-        if (!rechtsGevonden)
-        {
+        if (!rechtsGevonden) {
             vergelijking.setRechterParameter(ParameterFactory.maakConstanteParameter(knoop.getVergelijking().getRechts().getWaarde()));
         }
 
     }
 
     @Override
-    public DeterminatieKnoopDto maakDtoAan()
-    {
+    public DeterminatieKnoopDto maakDtoAan() {
         DeterminatieKnoopDto dto = new DeterminatieKnoopDto();
         dto.setId(getId());
         dto.setVergelijking(new VergelijkingDto(new ParameterDto(vergelijking.getLinkerParameter().getNaam(), vergelijking.getLinkerParameter().getWaarde(), vergelijking.getLinkerParameter() instanceof ConstanteParameter), vergelijking.getOperator(), new ParameterDto(vergelijking.getRechterParameter().getNaam(), vergelijking.getRechterParameter().getWaarde(), vergelijking.getRechterParameter() instanceof ConstanteParameter)));
@@ -154,17 +126,13 @@ public class BeslissingsKnoop extends DeterminatieKnoop
      * </li><li>0: niet</li>
      * <li>1: BeslissingsKnoop --> ResultaatBlad</li></ul>
      */
-    public int moetOmzetten(DeterminatieKnoop kind, DeterminatieKnoopDto knoop)
-    {
-        if (kind.getId() == knoop.getId())
-        {
-            if (knoop.isResultaatBlad() && kind instanceof BeslissingsKnoop)
-            {
+    public int moetOmzetten(DeterminatieKnoop kind, DeterminatieKnoopDto knoop) {
+        if (kind.getId() == knoop.getId()) {
+            if (knoop.isResultaatBlad() && kind instanceof BeslissingsKnoop) {
                 return 1;
             }
 
-            if (knoop.isBeslissingsKnoop() && kind instanceof ResultaatBlad)
-            {
+            if (knoop.isBeslissingsKnoop() && kind instanceof ResultaatBlad) {
                 return -1;
             }
 
@@ -178,45 +146,36 @@ public class BeslissingsKnoop extends DeterminatieKnoop
      * velden die niet null mogen zijn
      */
     @Override
-    public void valideer()
-    {
-        if (vergelijking == null || vergelijking.getLinkerParameter() == null || vergelijking.getRechterParameter() == null || vergelijking.getLinkerParameter().getNaam() == null || vergelijking.getLinkerParameter().getNaam().isEmpty() || vergelijking.getRechterParameter().getNaam() == null || vergelijking.getRechterParameter().getNaam().isEmpty() || vergelijking.getOperator() == null)
-        {
+    public void valideer() {
+        if (vergelijking == null || vergelijking.getLinkerParameter() == null || vergelijking.getRechterParameter() == null || vergelijking.getLinkerParameter().getNaam() == null || vergelijking.getLinkerParameter().getNaam().isEmpty() || vergelijking.getRechterParameter().getNaam() == null || vergelijking.getRechterParameter().getNaam().isEmpty() || vergelijking.getOperator() == null) {
             throw new IllegalArgumentException("Knoop " + getId() + " moet correct ingevuld zijn");
         }
         juistKnoop.valideer();
         foutKnoop.valideer();
     }
 
-    public DeterminatieKnoop getJuistKnoop()
-    {
+    public DeterminatieKnoop getJuistKnoop() {
         return juistKnoop;
     }
 
-    public void setJuistKnoop(DeterminatieKnoop juistKnoop)
-    {
+    public void setJuistKnoop(DeterminatieKnoop juistKnoop) {
         this.juistKnoop = juistKnoop;
     }
 
-    public DeterminatieKnoop getFoutKnoop()
-    {
+    public DeterminatieKnoop getFoutKnoop() {
         return foutKnoop;
     }
 
-    public void setFoutKnoop(DeterminatieKnoop foutKnoop)
-    {
+    public void setFoutKnoop(DeterminatieKnoop foutKnoop) {
         this.foutKnoop = foutKnoop;
     }
 
-    public Vergelijking getVergelijking()
-    {
+    public Vergelijking getVergelijking() {
         return vergelijking;
     }
 
-    public void setVergelijking(Vergelijking vergelijking)
-    {
-        if (vergelijking == null)
-        {
+    public void setVergelijking(Vergelijking vergelijking) {
+        if (vergelijking == null) {
             throw new IllegalArgumentException("Vergelijking mag niet null zijn");
         }
         this.vergelijking = vergelijking;

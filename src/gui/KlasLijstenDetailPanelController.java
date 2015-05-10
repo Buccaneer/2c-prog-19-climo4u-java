@@ -154,7 +154,6 @@ public class KlasLijstenDetailPanelController extends VBox
         });
 
         colKlas.setCellValueFactory(cellData -> cellData.getValue().getKlas());
-        //colKlas.setCellFactory(ComboBoxTableCell.forTableColumn(controller.getAlleKlassen()));
         colKlas.setCellFactory(new Callback<TableColumn<LeerlingDto, KlasDto>, TableCell<LeerlingDto, KlasDto>>()
         {
 

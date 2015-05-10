@@ -31,7 +31,6 @@ public class VragenRepositoryController extends HBox {
         VraagDto v = new VraagDto();
         v.setType(type);
         v.setBeschrijving("");
-        // v.setSubvragen(new ArrayList<String>());
         v.setKlimatogrammen(new ArrayList<KlimatogramDto>());
         return v;
     }

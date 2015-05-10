@@ -60,6 +60,7 @@ public class ToetsController implements ListChangeListener<KlasDto> {
         klassenVanToets.addListener(this);
     }
 
+    //--- Methodes voor de testen ---
     void setToetsrepository(GenericDao<Toets, Integer> toetsrepository) {
         this.toetsrepository = toetsrepository;
     }
@@ -82,6 +83,8 @@ public class ToetsController implements ListChangeListener<KlasDto> {
         vulVragenOp();
     }
 
+    //--- Einde methodes voor de testen ---
+    
     public ToetsDto getGeselecteerdeToets() {
         if (geselecteerdeToets == null) {
             return null;
@@ -152,15 +155,11 @@ public class ToetsController implements ListChangeListener<KlasDto> {
             geselecteerdeToets.setBeschrijving(toets.getBeschrijving().getValue());
             geselecteerdeToets.setStartDatumUur(toets.getAanvang());
             geselecteerdeToets.setEindDatumUur(toets.getEind());
-            //ER BESTAAT MAAR 1 STRING VOOR NAAM EN TITEL IN DOMEIN?
-            //geselecteerdeToets.setTitel(toets.getTitel().getValue());
             GenericDaoJpa.commitTransaction();
         } catch (IllegalArgumentException e) {
             throw e;
         }
         vulKlassenVanToetsOp();
-        //no just no
-        //geselecteerdeToets = null;
     }
 
     /**
@@ -243,8 +242,6 @@ public class ToetsController implements ListChangeListener<KlasDto> {
      * @return
      */
     public ObservableList<VraagDto> geefVragen() {
-        // altijd observable list terug geven
-
         return vragenOL;
     }
 
@@ -380,7 +377,6 @@ public class ToetsController implements ListChangeListener<KlasDto> {
      * schrijven totdat of totop de lijst weer gevuld is en dan dien je jezelf
      * weer te abboneren�
      *
-     * @param object
      */
     @Override
     public void onChanged(Change<? extends KlasDto> c) {
@@ -402,9 +398,7 @@ public class ToetsController implements ListChangeListener<KlasDto> {
             c.next();
         } catch (Exception ex) {
             c.reset();
-
             throw new IllegalArgumentException(ex.getMessage());
-
         }
     }
 

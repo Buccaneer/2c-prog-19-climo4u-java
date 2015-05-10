@@ -19,21 +19,12 @@ public class DeterminatieController implements Subject {
     private List<Observer> observers = new ArrayList<>();
 
     public ObservableList<GraadDto> getGraden() {
-        //TODO: graaddto nog niet gemaakt?
         graden.clear();
         List<Graad> graad = graadRepository.getAll();
         graad.stream().forEach(g -> graden.add(new GraadDto(g.getNummer(), g.getJaar(), new DeterminatieTabelDto(g.getActieveTabel().getId(), g.getActieveTabel().getNaam()))));
         return graden;
     }
 
-//    /**
-//     *
-//     * @param graad
-//     */
-//    public void selecteerGraad(GraadDto graad) {
-//        // TODO - implement DeterminatieController.selecteerGraad
-//        throw new UnsupportedOperationException();
-//    }
     public ObservableList<DeterminatieTabelDto> getDeterminatieTabellen() {
         determinatietabellen.clear();
         List<DeterminatieTabel> tabellen = determinatieTabelRepository.getAll();
@@ -74,14 +65,16 @@ public class DeterminatieController implements Subject {
      * @param tabel
      */
     public void verwijderDeterminatieTabel(DeterminatieTabelDto tabel) {
-        if (tabel == null)
+        if (tabel == null) {
             throw new IllegalArgumentException("U moet eerst een determinatietabel selecteren");
+        }
         DeterminatieTabel t = determinatieTabelRepository.get(tabel.getId());
         try {
             List<Graad> graden = graadRepository.getAll();
 
-            if (graden.stream().anyMatch(g -> g.getActieveTabel() == t))
+            if (graden.stream().anyMatch(g -> g.getActieveTabel() == t)) {
                 throw new Exception();
+            }
 
             determinatieKnoopRepository.delete(t.getBeginKnoop());
             determinatieTabelRepository.delete(t);
@@ -96,22 +89,19 @@ public class DeterminatieController implements Subject {
         }
     }
 
-   
-
-    
-    
     /**
      *
      * @param tabel
      */
     public void selecteerDeterminatieTabel(DeterminatieTabelDto tabel) {
-        if (tabel == null)
+        if (tabel == null) {
             throw new IllegalArgumentException();
-        //remove try catch after testing
+        }
 
         geselecteerdeDeterminatieTabel = determinatieTabelRepository.get(tabel.getId());
-        if (geselecteerdeDeterminatieTabel == null)
+        if (geselecteerdeDeterminatieTabel == null) {
             throw new IllegalArgumentException("Determinatietabel bestaat niet.");
+        }
         notifyObservers("", geselecteerdeDeterminatieTabel.getBeginKnoop().maakDtoAan());
 
     }
@@ -122,8 +112,9 @@ public class DeterminatieController implements Subject {
      * @param tabel
      */
     public void wijzigDeterminatieTabel(DeterminatieTabelDto tabel) {
-        if (tabel == null)
+        if (tabel == null) {
             throw new IllegalArgumentException("U moet eerst een determinatietabel selecteren");
+        }
     }
 
     /**
@@ -133,20 +124,23 @@ public class DeterminatieController implements Subject {
      */
     public void koppelGraadMetDeterminatieTabel(GraadDto graad, DeterminatieTabelDto tabel) {
 
-        if (graad == null)
+        if (graad == null) {
             throw new IllegalArgumentException("U moet eerst een graad selecteren");
-        if (tabel == null)
+        }
+        if (tabel == null) {
             throw new IllegalArgumentException("U moet eerst een determinatietabel selecteren");
-        //TODO: dto maken
-        List<   Graad> gr = graadRepository.getAll();
+        }
+        List<Graad> gr = graadRepository.getAll();
         DeterminatieTabel tab = determinatieTabelRepository.get(tabel.getId());
-        if (tab == null)
+        if (tab == null) {
             throw new IllegalArgumentException("De determinatietabel bestaat niet.");
+        }
         tab.valideer();
 
         Graad g = gr.stream().filter(gg -> gg.getJaar() == graad.getJaar() && gg.getNummer() == graad.getGraad()).findFirst().get();
-        if (g == null)
+        if (g == null) {
             throw new IllegalArgumentException("De graad bestaat niet.");
+        }
         GenericDaoJpa.startTransaction();
 
         g.setActieveTabel(tab);
@@ -154,20 +148,8 @@ public class DeterminatieController implements Subject {
         GenericDaoJpa.commitTransaction();
 
         getGraden();
-
-        // gr.setActieveTabel(tab);
     }
 
-//    /**
-//     * Wijzigt de meegegeven knoop in een beslissingsknoop en voegt twee 
-//     * nieuwe resultaatknopen als kinderen toe.
-//     * 
-//     * @param ouder
-//     */
-//    public void voegKnoopToe(DeterminatieKnoopDto ouder)
-//    {
-//        throw new UnsupportedOperationException();
-//    }
     /**
      * Wijzigt de meegegeven knoop. Meerdere Gevallen:
      * <ol>
@@ -216,25 +198,6 @@ public class DeterminatieController implements Subject {
         }
     }
 
-//    /**
-//     * Probeert de meegegeven knoop te verwijderen. Heeft 3 mogelijke gevallen.
-//     * <p>
-//     * 1. Indien het een blad is worden de knoop en zijn broer (of zus?) verwijderd en
-//     * wordt de ouder een blad.</p>
-//     * <p>
-//     * 2. Indien het een tussenknoop is worden de kinderen verwijderd en wordt
-//     * de tussenknoop een blad.</p>
-//     * <p>
-//     * 3. Indien het de beginknoop is wordt de tabel verwijderd en wordt opnieuw
-//     * begonnen op dezelfde manier als bij een nieuwe tabel.
-//     *</p>
-//     * @param knoop
-//     */
-//    public void verwijderKnoop(DeterminatieKnoopDto knoop)
-//    {
-//       
-//        throw new UnsupportedOperationException();
-//    }
     /**
      * Valideert of de determinatietabel in orde is. Indien dit niet het geval
      * is wordt er een exception gegooid.
@@ -263,21 +226,20 @@ public class DeterminatieController implements Subject {
     }
 
     // --- Methodes voor de testen ---
-     void setDeterminatieTabelRepository(GenericDao<DeterminatieTabel, Integer> determinatieTabelRepository) {
+    void setDeterminatieTabelRepository(GenericDao<DeterminatieTabel, Integer> determinatieTabelRepository) {
         this.determinatieTabelRepository = determinatieTabelRepository;
     }
 
-     DeterminatieTabel getGeselecteerdeDeterminatieTabel() {
+    DeterminatieTabel getGeselecteerdeDeterminatieTabel() {
         return geselecteerdeDeterminatieTabel;
     }
-       void setGraadRepository(GenericDao<Graad, String> graadRepository) {
+
+    void setGraadRepository(GenericDao<Graad, String> graadRepository) {
         this.graadRepository = graadRepository;
     }
 
-     void setDeterminatieKnoopRepository(GenericDao<DeterminatieKnoop, String> determinatieKnoopRepository) {
+    void setDeterminatieKnoopRepository(GenericDao<DeterminatieKnoop, String> determinatieKnoopRepository) {
         this.determinatieKnoopRepository = determinatieKnoopRepository;
     }
-
-       
-       
+    //--- Einde methodes voor de testen ---
 }

@@ -37,7 +37,6 @@ public class DeterminatieControllerTest {
         assertEquals(g.getGraad(), graden[0].getGraad());
     }
 
-   
     @Test
     public void geefDeterminatieTabellenWerkt() {
         String naam = "TestNaam";
@@ -148,7 +147,7 @@ public class DeterminatieControllerTest {
         graadjpa.insert("", new Graad());
 
         DeterminatieTabel dt = new DeterminatieTabel();
-dt.setBeginKnoop(new ResultaatBlad());
+        dt.setBeginKnoop(new ResultaatBlad());
         dt.setId(12);
         DeterminatieTabelDto dto = new DeterminatieTabelDto(12, "");
         jpa.insert(12, dt);

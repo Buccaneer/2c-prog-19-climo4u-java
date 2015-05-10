@@ -39,7 +39,7 @@ import org.controlsfx.control.StatusBar;
  *
  * @author Jan
  */
-public class KlasLijstenKiezenPanelController extends VBox implements Observer {
+public class KlasLijstenKiezenPanelController extends VBox {
 
     @FXML
     private ComboBox<GraadDto> cboGraad;
@@ -82,11 +82,6 @@ public class KlasLijstenKiezenPanelController extends VBox implements Observer {
         btnToevoegen.setGraphic(new ImageView(new Image("/content/images/plus.png")));
         btnVerwijderen.setGraphic(new ImageView(new Image("/content/images/min.png")));
         btnWijzigen.setGraphic(new ImageView(new Image("/content/images/edit.png")));
-    }
-
-    @Override
-    public void update(String actie, Object object) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @FXML

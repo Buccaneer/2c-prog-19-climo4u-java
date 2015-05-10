@@ -85,19 +85,6 @@ public class KlimatogramControllerTest {
         Mockito.verify(repo).get("Europa");
     }
 
-    /*
-   
-     public void naSelecterenVanLandWordEenLijstVanKlimatogrammenTerugGegeven() {
-     List<ContinentDto> continenten = controller.getContinenten();
-     controller.selecteerContinent(continenten.get(0));
-     controller.selecteerLand(controller.getLanden().get(0));
-        
-     Collection<Klimatogram> control = factory.getContinenten().get(0).getLanden().stream().findFirst().get().getKlimatogrammen();
-     List<KlimatogramDto> landen = controller.get();
-        
-     // Test nog niet nodig UC 2.
-     }
-     */
     @Test
     public void voegKlimatogramToeVoegtKlimatogramToe() //UC1, NV8
     {

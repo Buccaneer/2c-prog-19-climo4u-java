@@ -110,8 +110,6 @@ public class Toets implements Valideerbaar {
     }
 
     public void setStartDatumUur(GregorianCalendar startDatumUur) {
-        //if(startDatumUur.before(GregorianCalendar.getInstance()))
-        //    throw new IllegalArgumentException("De startdatum/uur kan niet voor vandaag liggen");
         this.startDatumUur = startDatumUur;
     }
 
@@ -120,8 +118,6 @@ public class Toets implements Valideerbaar {
     }
 
     public void setEindDatumUur(GregorianCalendar eindDatumUur) {
-        //if(eindDatumUur.before(startDatumUur))
-        //    throw new IllegalArgumentException("De einddatum/uur kan niet voor de startdatum/uur liggen.");
         this.eindDatumUur = eindDatumUur;
     }
 

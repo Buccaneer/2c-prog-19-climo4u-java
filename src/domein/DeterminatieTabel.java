@@ -17,16 +17,16 @@ import javax.persistence.Table;
 @Table(name = "determinatietabellen")
 public class DeterminatieTabel implements Valideerbaar, Serializable {
 
-    @JoinColumn(name="BeginKnoop_DeterminatieKnoopId")
-    @OneToOne(optional = true,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "BeginKnoop_DeterminatieKnoopId")
+    @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private DeterminatieKnoop beginKnoop;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="DeterminatieTabelId")
+    @Column(name = "DeterminatieTabelId")
     private int id;
     @Column(length = 128)
     private String naam;
-    
+
     public String getNaam() {
         return this.naam;
     }
@@ -39,20 +39,18 @@ public class DeterminatieTabel implements Valideerbaar, Serializable {
         this.id = id;
     }
 
-    
-    
     public int getId() {
         return id;
     }
-    
+
     public void setBeginKnoop(DeterminatieKnoop beginKnoop) {
         this.beginKnoop = beginKnoop;
     }
-    
+
     public DeterminatieKnoop getBeginKnoop() {
         return beginKnoop;
     }
-    
+
     public DeterminatieKnoopDto maakDtoAan() {
         return beginKnoop.maakDtoAan();
     }
@@ -94,12 +92,11 @@ public class DeterminatieTabel implements Valideerbaar, Serializable {
      */
     public void wijzigKnoop(DeterminatieKnoopDto knoop) {
 
-        if (beginKnoop.getId() == knoop.getId() && knoop.isResultaatBlad()) { // Boom met 'gereset' worden?
+        if (beginKnoop.getId() == knoop.getId() && knoop.isResultaatBlad()) { // Boom mpet 'gereset' worden?
             beginKnoop = new BeslissingsKnoop();
-            ((BeslissingsKnoop)beginKnoop).wijzigAttributen(knoop);
-            
+            ((BeslissingsKnoop) beginKnoop).wijzigAttributen(knoop);
         }
-        
+
         beginKnoop.wijzigKnoop(knoop);
     }
 
@@ -111,9 +108,10 @@ public class DeterminatieTabel implements Valideerbaar, Serializable {
      * is wordt er een exception gegooid.
      */
     @Override
-    public void valideer()throws IllegalArgumentException{
-        if (this.naam == null)
+    public void valideer() throws IllegalArgumentException {
+        if (this.naam == null) {
             throw new DomeinException();
+        }
         beginKnoop.valideer();
     }
 

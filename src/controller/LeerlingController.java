@@ -20,36 +20,29 @@ public class LeerlingController {
     private Graad geselecteerdeGraad;
     private Klas geselecteerdeKlas;
     private Leerling geselecteerdeLeerling;
-    
+
     private Comparator<KlasDto> klasComparator = new Comparator<KlasDto>() {
         @Override
         public int compare(KlasDto o1, KlasDto o2) {
-            if (o1.getLeerjaar() != o2.getLeerjaar())
+            if (o1.getLeerjaar() != o2.getLeerjaar()) {
                 return o1.getLeerjaar() - o2.getLeerjaar();
+            }
             return o1.getNaam().compareTo(o2.getNaam());
         }
     };
-    
+
     private Comparator<LeerlingDto> leerlingComparator = new Comparator<LeerlingDto>() {
 
         @Override
-        public int compare(LeerlingDto o1, LeerlingDto o2)
-        {
+        public int compare(LeerlingDto o1, LeerlingDto o2) {
             int naam = o1.getNaam().getValue().compareTo(o2.getNaam().getValue());
-            if (naam == 0)
+            if (naam == 0) {
                 return o1.getVoornaam().getValue().compareTo(o2.getVoornaam().getValue());
+            }
             return naam;
         }
-        
-    };
-    
-    GenericDao<Graad, String> getGradenRepository() {
-        return gradenRepository;
-    }
 
-    void setGradenRepository(GenericDao<Graad, String> gradenRepository) {
-        this.gradenRepository = gradenRepository;
-    }
+    };
 
     /**
      *
@@ -133,7 +126,7 @@ public class LeerlingController {
         if (graad == null) {
             throw new IllegalArgumentException("Graad mag niet null zijn.");
         }
-        Graad t = gradenRepository.getAll().stream().filter((g) ->  g.getNummer() == graad.getGraad()).findFirst().get();
+        Graad t = gradenRepository.getAll().stream().filter((g) -> g.getNummer() == graad.getGraad()).findFirst().get();
         if (t == null) {
             throw new IllegalArgumentException("De geselecteerde graad bestaat niet.");
         }
@@ -209,8 +202,7 @@ public class LeerlingController {
 
         }
 
-        GenericDaoJpa
-                .commitTransaction();
+        GenericDaoJpa.commitTransaction();
 
     }
 
@@ -242,7 +234,7 @@ public class LeerlingController {
 
         gradenRepository.getAll().forEach((Graad g) -> {
             if (!(g.getJaar() == 2)) {
-                graden.add(new GraadDto(g.getNummer(),0, null));
+                graden.add(new GraadDto(g.getNummer(), 0, null));
             }
         });
         return this.graden;
@@ -285,7 +277,6 @@ public class LeerlingController {
         }
         geselecteerdeKlas.verwijderLeerling(geselecteerdeLeerling);
         leerlingRepository.delete(geselecteerdeLeerling);
-        //updateLeerlingen();
 
         geselecteerdeLeerling = null;
         updateLeerlingen();
@@ -308,7 +299,15 @@ public class LeerlingController {
         geselecteerdeKlas = null;
     }
 
-    // METHODES NODIG IN DE TESTEN
+    //--- Methodes voor de testen ---
+    GenericDao<Graad, String> getGradenRepository() {
+        return gradenRepository;
+    }
+
+    void setGradenRepository(GenericDao<Graad, String> gradenRepository) {
+        this.gradenRepository = gradenRepository;
+    }
+
     void setGeselecteerdeKlas(Klas klas) {
         this.geselecteerdeKlas = klas;
     }
@@ -328,5 +327,5 @@ public class LeerlingController {
     Klas getGeselecteerdeKlas() {
         return geselecteerdeKlas;
     }
-
+    //--- Einde methodes voor de testen ---
 }

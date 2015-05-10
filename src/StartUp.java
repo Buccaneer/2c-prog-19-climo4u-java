@@ -26,9 +26,7 @@ public class StartUp extends Application{
             stage.setMinWidth(stage.getWidth());
             stage.setMinHeight(stage.getHeight());
         });
-        
-        //stage.setResizable(false);
-        
+                
         stage.show();
         
         scene.getStylesheets().add("/gui/styles.css");

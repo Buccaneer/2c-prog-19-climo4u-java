@@ -35,8 +35,12 @@ public class Parameter implements Valideerbaar {
         this.naam = naam;
     }
 
-    public double getWaarde() {return 0.0;}
-    public void setWaarde(double waarde) {}
+    public double getWaarde() {
+        return 0.0;
+    }
+
+    public void setWaarde(double waarde) {
+    }
 
     @Override
     public void valideer() {

@@ -6,19 +6,14 @@
 package gui;
 
 import controller.DeterminatieController;
-import controller.Observer;
-import controller.Subject;
 import dto.DeterminatieTabelDto;
 import dto.GraadDto;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;

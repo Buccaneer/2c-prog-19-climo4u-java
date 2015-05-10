@@ -124,8 +124,6 @@ public class Klimatogram implements Cloneable {
     }
 
     public void setStation(String station) {
-        //if (station == null)
-        //    throw new IllegalArgumentException("Het station van een klimatogram mag niet null zijn.");
         if (station != null) {
             station = station.trim();
             if (station.isEmpty()) {

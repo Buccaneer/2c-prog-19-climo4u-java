@@ -15,7 +15,6 @@ import dto.ParameterDto;
 import dto.VegetatieTypeDto;
 import dto.VergelijkingDto;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
 import java.util.Optional;
 import javafx.application.Platform;

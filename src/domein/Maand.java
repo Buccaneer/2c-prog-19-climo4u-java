@@ -13,16 +13,16 @@ public class Maand implements Cloneable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int maandId;
-    
-    @Column(name="Naam", length = 15, nullable = false)
+
+    @Column(name = "Naam", length = 15, nullable = false)
     private String naam;
-    @Column(name="Neerslag", nullable =false)
+    @Column(name = "Neerslag", nullable = false)
     private int neerslag;
-    @Column(name="Temperatuur", nullable= false)
+    @Column(name = "Temperatuur", nullable = false)
     private double temperatuur;
-   
-    @JoinColumn(name="Klimatogram"
-            + "_Locatie",nullable = false)
+
+    @JoinColumn(name = "Klimatogram"
+            + "_Locatie", nullable = false)
     @ManyToOne(optional = false)
     private Klimatogram klimatogram;
 
@@ -38,14 +38,13 @@ public class Maand implements Cloneable {
         n.temperatuur = temperatuur;
         return n;
     }
-    
-    
 
     public void setNaam(int maand) {
-        if (maand < 1 || maand > 12)
+        if (maand < 1 || maand > 12) {
             throw new IllegalArgumentException("Het nummer van een maand moet tussen 1 en 12 liggen.");
-        String m = Month.of(maand).getDisplayName(TextStyle.FULL, new Locale("nl","NL"));
-        naam = m.substring(0,1).toUpperCase() + m.substring(1);
+        }
+        String m = Month.of(maand).getDisplayName(TextStyle.FULL, new Locale("nl", "NL"));
+        naam = m.substring(0, 1).toUpperCase() + m.substring(1);
     }
 
     public int getNeerslag() {
@@ -53,7 +52,9 @@ public class Maand implements Cloneable {
     }
 
     public void setNeerslag(int neerslag) {
-        if (neerslag < 0) throw new IllegalArgumentException("Neerslag kan niet negatief zijn.");
+        if (neerslag < 0) {
+            throw new IllegalArgumentException("Neerslag kan niet negatief zijn.");
+        }
         this.neerslag = neerslag;
     }
 
@@ -62,12 +63,14 @@ public class Maand implements Cloneable {
     }
 
     public void setTemperatuur(double temperatuur) {
-        if (temperatuur <= -273.15) throw new IllegalArgumentException("Temperatuur hoger dan -273.15 °C zijn.");
+        if (temperatuur <= -273.15) {
+            throw new IllegalArgumentException("Temperatuur hoger dan -273.15 °C zijn.");
+        }
         this.temperatuur = temperatuur;
     }
 
     void setKlimatogram(Klimatogram aThis) {
-      klimatogram = aThis;
+        klimatogram = aThis;
     }
 
 }

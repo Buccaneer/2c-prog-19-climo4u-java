@@ -14,18 +14,6 @@ import dto.ParameterDto;
 public enum ParametersRechts {
 
     TEMPERATUURWARSMSTEMAAND("Tw"), TEMPERATUURKOUDSTEMAAND("Tk"), CONSTANTEWAARDE("Constante waarde"),
-    
-    /*
-    parameters.add(new ParameterTemperatuurWarmsteMaand("Tw"));
-        parameters.add(new ParameterTemperatuurKoudsteMaand("Tk"));
-        parameters.add(new ParameterNeerslagZomer("Nz"));
-        parameters.add(new ParameterNeerslagWinter("Nw"));
-        parameters.add(new ParameterAantalDrogeMaanden("D"));
-        parameters.add(new ParameterGemiddeldeTemperatuurJaar("Tj"));
-        parameters.add(new ParameterTotaleNeerslagJaar("Nj"));
-        parameters.add(new TemperatuurVierdeWarmsteMaand("T 4de Warmste Maand"));
-    */
-    
     NEERSLAGZOMER("Nz"), NEERSLAGWINTER("Nw"), AANTALDROGEMAANDEN("D"), GEMIDDELDETEMPERATUURJAAR("Tj"),
     TOTALENEERSLAGJAAR("Nj"), TEMPARATUURVIERDEWARMSTEMAAND("T 4de Warmste Maand")
 ;
