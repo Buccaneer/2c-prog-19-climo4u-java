@@ -84,36 +84,52 @@ public class PrintKlasse {
                         }
                     }
 
-                    if (heeftDeterminatietabel) {
-                        PrintBoomPanel boom = new PrintBoomPanel();
-                        Pane pane = boom.teken(toets.getDeterminatietabel());
-                        pane.setStyle("-fx-background-color:rgba(0,0,0,0)");
-                        Scene scene = new Scene(pane);
-                        stage.setScene(scene);
-                        PDPage page = new PDPage(PDPage.PAGE_SIZE_A4);
-                        document.addPage(page);
-                        PDPageContentStream contentStream = new PDPageContentStream(document, page);
-                        stage.show();
-                        WritableImage wim2 = new WritableImage((int) stage.getWidth(), (int) stage.getHeight());
-                        scene.snapshot(wim2);
-                        stage.close();
-                        BufferedImage img2 = SwingFXUtils.fromFXImage(wim2, null);
-                        PDXObjectImage image = new PDJpeg(document, img2);
-                        int width, height;
-                        if (stage.getWidth() > (595 * 1.33333)) {
-                            width = 595;
-                        } else {
-                            width = (int) (stage.getWidth() * 0.75);
-                        }
-                        if (stage.getHeight() > (840 * 1.33333)) {
-                            height = 841;
-                        } else {
-                            height = (int) (stage.getHeight() * 0.75);
-                        }
-                        contentStream.drawXObject(image, 0, HOOGTE - height, width, height);
-                        contentStream.close();
-                    }
+                    /*
+                        Dit stuk code print de determinatietabel af, maar omdat JavaFX nog geen goede functie
+                        heeft om af te printen moeten we met Snapshots werken om een afbeelding van de
+                        determinatietabel te krijgen. Indien de tabel te groot is voor het scherm
+                        gaat de snapshot een afbeelding maken en is het stuk dat niet op het scherm staat 
+                        afgeknipt. Om deze reden hebben we ervoor gekozen om de determinatietabel niet te
+                        laten afprinten. Indien de tabel klein is of het scherm een grote resolutie heeft
+                        zal de functie wel werken.
+                    */
+//                    if (heeftDeterminatietabel) {
+//                        PrintBoomPanel boom = new PrintBoomPanel();
+//                        Pane pane = boom.teken(toets.getDeterminatietabel());
+//                        pane.setStyle("-fx-background-color:rgba(0,0,0,0)");
+//                        Scene scene = new Scene(pane);
+//                        stage.setScene(scene);
+//                        PDPage page = new PDPage(PDPage.PAGE_SIZE_A4);
+//                        document.addPage(page);
+//                        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+//                        stage.show();
+//                        WritableImage wim2 = new WritableImage((int) stage.getWidth(), (int) stage.getHeight());
+//                        scene.snapshot(wim2);
+//                        stage.close();
+//                        BufferedImage img2 = SwingFXUtils.fromFXImage(wim2, null);
+//                        PDXObjectImage image = new PDJpeg(document, img2);
+//                        int width, height;
+//                        if (stage.getWidth() > (595 * 1.33333)) {
+//                            width = 595;
+//                        } else {
+//                            width = (int) (stage.getWidth() * 0.75);
+//                        }
+//                        if (stage.getHeight() > (840 * 1.33333)) {
+//                            height = 841;
+//                        } else {
+//                            height = (int) (stage.getHeight() * 0.75);
+//                        }
+//                        contentStream.drawXObject(image, 0, HOOGTE - height, width, height);
+//                        contentStream.close();
+//                    }
 
+                    /*
+                        Dit stuk code print de kaart af waar leerlingen van de derde graad de
+                        klimatogrammen moeten op aanduiden. Omdat de berekeningen te complex
+                        zouden worden, hebben we geen coordinaten op de kaart laten tekenen
+                        waar de leerlingen uit kunnen kiezen. De leerkracht kan dit handmatig
+                        doen en dan kopieen maken van de kaart.
+                    */
                     if (heeftKaart) {
                         PDPage page = new PDPage(PDPage.PAGE_SIZE_A4);
                         document.addPage(page);
@@ -125,13 +141,15 @@ public class PrintKlasse {
                         contentStream.drawXObject(image, at);
                         contentStream.close();
                     }
+                    
+                    //Dialoog om op te slaan
                     FileChooser fileChooser = new FileChooser();
 
-                    //Set extension filter
+                    //Enkel opslaan als pdf
                     FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF bestanden (*.pdf)", "*.pdf");
                     fileChooser.getExtensionFilters().add(extFilter);
 
-                    //Show save file dialog
+                    //Dialoog tonen
                     File file = fileChooser.showSaveDialog(stage);
 
                     if (file != null) {
@@ -432,7 +450,7 @@ public class PrintKlasse {
             subvragen.set(j, vr);
         }
 
-        for (String subVraag : vraag.getSubvragen()) {
+        for (String subVraag : subvragen) {
             lines = new ArrayList<>();
             lastSpace = -1;
             while (subVraag.length() > 0) {
