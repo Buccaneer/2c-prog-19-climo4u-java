@@ -250,10 +250,10 @@ public class KlimatogramDetailPanelController extends ScrollPane implements Obse
             double latitudeUren = Double.parseDouble(txfLatitudeUren.getText());
             double latitudeMin = Double.parseDouble(txfLatitudeMinuten.getText());
             double latitudeSec = Double.parseDouble(txfLatitudeSeconden.getText());
-            String oostWest = cboLong.getSelectionModel().getSelectedItem().toString();
+            String noordZuid = cboLat.getSelectionModel().getSelectedItem().toString();
 
             double latitude = latitudeUren + latitudeMin / 60 + latitudeSec / 3600;
-            if (oostWest.equals("O")) {
+            if (noordZuid.equals("Z")) {
                 latitude *= -1;
             }
             klimatogram.setLatitude(latitude);
@@ -266,9 +266,9 @@ public class KlimatogramDetailPanelController extends ScrollPane implements Obse
             double longitudeUren = Double.parseDouble(txfLongitudeUren.getText());
             double longitudeMin = Double.parseDouble(txfLongitudeMinuten.getText());
             double longitudeSec = Double.parseDouble(txfLongitudeSeconden.getText());
-            String noordZuid = cboLong.getSelectionModel().getSelectedItem().toString();
+            String oostWest = cboLong.getSelectionModel().getSelectedItem().toString();
             double longitude = longitudeUren + longitudeMin / 60 + longitudeSec / 3600;
-            if (noordZuid.equals("Z")) {
+            if (oostWest.equals("W")) {
                 longitude *= -1;
             }
             klimatogram.setLongitude(longitude);

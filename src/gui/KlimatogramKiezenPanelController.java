@@ -37,7 +37,7 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
     @FXML
     private ComboBox<LandDto> cboLand;
     @FXML
-    private Button btnLandOk, btnLandCancel, btnWerelddeelOk, btnWerelddeelCancel, btnKlimatogramToevoegen, btnKlimatogramWijzigen, btnKlimatogramVerwijderen, btnTerug;
+    private Button btnLandOk, btnLandCancel, btnWerelddeelOk, btnWerelddeelCancel, btnKlimatogramToevoegen, btnKlimatogramWijzigen, btnKlimatogramVerwijderen;
     @FXML
     private ListView<KlimatogramDto> lstLocaties;
     @FXML
@@ -104,7 +104,6 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
         setTooltip(btnLandCancel, "Land verwijderen");
         setTooltip(btnWerelddeelOk, "Werelddeel toevoegen");
         setTooltip(btnWerelddeelCancel, "Werelddeel verwijderen");
-        setTooltip(btnTerug, "Terug naar het hoofdmenu");
         checkBoxen[0] = chkEerste;
         checkBoxen[1] = chkTweede;
         checkBoxen[2] = chkDerde;
