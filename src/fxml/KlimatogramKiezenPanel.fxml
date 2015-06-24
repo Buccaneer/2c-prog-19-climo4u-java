@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root maxWidth="400.0" minHeight="400.0" prefWidth="400.0" type="Pane" AnchorPane.bottomAnchor="25.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxWidth="400.0" minHeight="400.0" prefWidth="400.0" type="Pane" AnchorPane.bottomAnchor="25.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/styles.css">
    <children>
       <Label fx:id="lblWerelddeel" layoutX="16.0" layoutY="17.0" text="Werelddeel" />
       <Label layoutX="16.0" layoutY="64.0" text="Land" />

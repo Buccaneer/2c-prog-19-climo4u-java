@@ -78,6 +78,8 @@ public class KlimatogramKiezenPanelController extends Pane implements Observer {
                 controller.clearLijstenWerelddeel();
                 controller.selecteerContinent(newValue);
                 clearSelectieLijst();
+                int aantal = cboLand.getItems().size();
+                cboLand.setVisibleRowCount(aantal < 8 ? aantal : 8);
             }
         });
         cboLand.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
