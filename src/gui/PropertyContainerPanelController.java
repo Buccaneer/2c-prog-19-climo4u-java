@@ -60,7 +60,7 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
 
     public PropertyContainerPanelController(DeterminatieController controller) {
         this.controller = controller;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("PropertyContainerPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PropertyContainerPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try {
@@ -68,7 +68,7 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
         } catch (IOException ex) {
             throw new RuntimeException(ex.getMessage());
         }
-        btnOmzetten.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
+        btnOmzetten.setGraphic(new ImageView(new Image("/img/plus_small.png")));
     }
 
     private void toonProperties() {
@@ -168,9 +168,9 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
         toonProperties();
 
         if (dto.isBeslissingsKnoop()) {
-            btnOmzetten.setGraphic(new ImageView(new Image("/content/images/min_small.png")));
+            btnOmzetten.setGraphic(new ImageView(new Image("/img/min_small.png")));
         } else {
-            btnOmzetten.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
+            btnOmzetten.setGraphic(new ImageView(new Image("/img/plus_small.png")));
         }
         vulItemsIn();
     }

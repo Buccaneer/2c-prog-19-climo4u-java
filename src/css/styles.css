@@ -1,0 +1,19 @@
+
+
+.chart-plot-background { 
+    -fx-background-color: transparent; 
+}
+
+.default-color0.chart-series-line { 
+    -fx-stroke: red; 
+}
+
+.chart-bar{
+    -fx-bar-fill:blue;
+}
+
+.combo-box .list-view .list-cell{
+
+-fx-cell-size: 30;
+
+}

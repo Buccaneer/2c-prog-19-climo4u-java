@@ -24,7 +24,7 @@ public class VragenRepositoryController extends HBox {
 
     public VragenRepositoryController(ToetsController controller) {
         this.controller = controller;
-        ToetsVraagPanelController.laadFxmlBestand("VraagRepositoryToolbar.fxml", this, this);
+        ToetsVraagPanelController.laadFxmlBestand("/fxml/VraagRepositoryToolbar.fxml", this, this);
     }
 
     private VraagDto maakVraagDto(int type) {

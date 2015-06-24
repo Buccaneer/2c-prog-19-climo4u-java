@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root prefHeight="495.0" prefWidth="300.0" spacing="5.0" type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="Beschikbare determinatietabellen:">
+         <VBox.margin>
+            <Insets bottom="-5.0" left="2.0" />
+         </VBox.margin>
+      </Label>
+      <ListView fx:id="lstDeterminatieTabellen" maxWidth="250.0" prefHeight="200.0">
+         <VBox.margin>
+            <Insets bottom="4.0" left="2.0" right="0.0" top="4.0" />
+         </VBox.margin></ListView>
+      <TextField fx:id="txtNaam" maxWidth="250.0" onAction="#naamWijzigen" promptText="Naam">
+         <VBox.margin>
+            <Insets bottom="4.0" left="2.0" right="0.0" top="4.0" />
+         </VBox.margin></TextField>
+      <HBox prefHeight="31.0" prefWidth="335.0">
+         <children>
+            <Button fx:id="btnToevoegen" mnemonicParsing="false" onAction="#voegDeterminatieTabelToe" text="Toevoegen">
+               <HBox.margin>
+                  <Insets right="8.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnVerwijderen" mnemonicParsing="false" onAction="#verwijderDeterminatieTabel" text="Verwijderen">
+               <HBox.margin>
+                  <Insets right="8.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <Label text="Graad koppelen met Determinatietabel">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <VBox.margin>
+            <Insets left="2.0" right="2.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+      <Label prefHeight="120.0" prefWidth="250.0" text="Dit werkt enkel als uw determinatietabel volwaardig is, d.w.z. dat elk pad een waarde heeft gekregen." wrapText="true">
+        <padding>
+            <Insets left="2.0" />
+        </padding>
+      </Label>
+      <ComboBox fx:id="cboGraden" prefHeight="25.0" prefWidth="250.0" promptText="Selecteer graad">
+         <VBox.margin>
+            <Insets bottom="4.0" left="2.0" right="2.0" top="4.0" />
+         </VBox.margin></ComboBox>
+      <ComboBox fx:id="cboDeterminatieTabellen" prefHeight="25.0" prefWidth="250.0" promptText="Selecteer determinatietabel">
+         <VBox.margin>
+            <Insets bottom="4.0" left="2.0" right="2.0" top="4.0" />
+         </VBox.margin></ComboBox>
+      <Button fx:id="btnKoppelen" mnemonicParsing="false" onAction="#koppelen" text="Koppelen">
+         <VBox.margin>
+            <Insets bottom="4.0" left="2.0" right="2.0" top="4.0" />
+         </VBox.margin></Button>
+   </children>
+   <padding>
+      <Insets left="15.0" />
+   </padding>
+</fx:root>

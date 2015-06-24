@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,7 +28,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import javafx.util.converter.DefaultStringConverter;
-import org.controlsfx.control.StatusBar;
 
 /**
  * FXML Controller class
@@ -49,15 +49,15 @@ public class KlasLijstenDetailPanelController extends VBox
     private Button btnToevoegen;
     @FXML
     private TextField txfNaam, txfVoornaam;
-    private StatusBar statusBar;
+    private Label statusBar;
     private LeerlingController controller;
 
-    public KlasLijstenDetailPanelController(LeerlingController controller, StatusBar statusBar)
+    public KlasLijstenDetailPanelController(LeerlingController controller, Label statusBar)
     {
         this.controller = controller;
         this.statusBar = statusBar;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("KlasLijstenDetailPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/KlasLijstenDetailPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try
@@ -217,7 +217,7 @@ public class KlasLijstenDetailPanelController extends VBox
 
         ButtonCell()
         {
-            cellButton.setGraphic(new ImageView(new Image("/content/images/xSmall.png")));
+            cellButton.setGraphic(new ImageView(new Image("/img/xSmall.png")));
             cellButton.getStyleClass().add("cancel");
             cellButton.setPrefSize(25, 25);
             //Action when the button is pressed

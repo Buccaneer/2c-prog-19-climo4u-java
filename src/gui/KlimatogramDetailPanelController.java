@@ -17,6 +17,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,6 +27,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -35,7 +39,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import org.controlsfx.control.StatusBar;
+import util.FadeInUpTransition;
 
 /**
  * FXML Controller class
@@ -64,11 +68,12 @@ public class KlimatogramDetailPanelController extends ScrollPane implements Obse
     private Pane pnlKlimatogram;
     private KlimatogramController controller;
     private KlimatogramDto klimatogram;
-    private StatusBar statusBar;
+    private Label statusBar;
     private Image imgFout;
+    private ImageView imgLoad;
 
-    public KlimatogramDetailPanelController(KlimatogramController controller, StatusBar statusBar) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("KlimatogramDetailPanel.fxml"));
+    public KlimatogramDetailPanelController(KlimatogramController controller, Label statusBar, ImageView imgLoad) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/KlimatogramDetailPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try {
@@ -79,6 +84,7 @@ public class KlimatogramDetailPanelController extends ScrollPane implements Obse
 
         this.controller = controller;
         this.statusBar = statusBar;
+        this.imgLoad = imgLoad;
 
         cboLat.setItems(FXCollections.observableArrayList(Arrays.asList(new String[]{"N", "Z"})));
         cboLong.setItems(FXCollections.observableArrayList(Arrays.asList(new String[]{"O", "W"})));
@@ -122,7 +128,7 @@ public class KlimatogramDetailPanelController extends ScrollPane implements Obse
                     }
                 }
         );
-        imgFout = new Image("/content/images/x.png");
+        imgFout = new Image("/img/x.png");
     }
 
     @Override
@@ -235,7 +241,7 @@ public class KlimatogramDetailPanelController extends ScrollPane implements Obse
         }
     }
 
-    private void zetWaardenInDto() throws NumberFormatException {
+       private void zetWaardenInDto() throws NumberFormatException {
         boolean exceptie = false;
 
         klimatogram.setStation(txfStation.getText());
@@ -288,6 +294,7 @@ public class KlimatogramDetailPanelController extends ScrollPane implements Obse
             throw new NumberFormatException();
         }
     }
+
 
     @FXML
     public void wijzig(ActionEvent event) {

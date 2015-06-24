@@ -50,7 +50,7 @@ public class DeterminatieTabellenOverzichtPaneController extends VBox {
 
     public DeterminatieTabellenOverzichtPaneController(DeterminatieController determinatie) {
         this.controller = determinatie;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("DeterminatieTabellenOverzichtPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/DeterminatieTabellenOverzichtPane.fxml"));
         loader.setRoot(null);
         loader.setRoot(this);
         loader.setController(this);

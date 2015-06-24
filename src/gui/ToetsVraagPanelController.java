@@ -42,7 +42,7 @@ public class ToetsVraagPanelController extends BorderPane {
         this.vraag = vraag;
         this.dto = dto;
 
-        laadFxmlBestand("ToetsVraagPanel.fxml", this, this);
+        laadFxmlBestand("/fxml/ToetsVraagPanel.fxml", this, this);
         laadKind();
         laadBasisAttributen(dto);
     }

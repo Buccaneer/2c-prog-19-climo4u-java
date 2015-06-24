@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root id="AnchorPane" prefHeight="306.0" prefWidth="493.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane layoutX="74.0" layoutY="14.0" prefHeight="327.0" prefWidth="518.0" style="-fx-background-color: #2b579a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fx:id="imgLoading" fitHeight="16.0" fitWidth="179.0" layoutX="157.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/294.GIF" />
+               </image>
+            </ImageView>
+            <Text fx:id="lblWelcome" fill="WHITE" layoutX="45.0" layoutY="96.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welkom op" wrappingWidth="289.2421875">
+               <font>
+                  <Font name="Segoe UI" size="48.0" />
+               </font>
+            </Text>
+            <Text fx:id="lblClimo" fill="WHITE" layoutX="130.0" layoutY="127.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Climo4U">
+               <font>
+                  <Font name="Segoe UI" size="18.0" />
+               </font>
+            </Text>
+            <Label fx:id="lblClose" layoutX="474.0" layoutY="5.0" text="X" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="16.0" />
+               </font>
+            </Label>
+            <Text fx:id="lblGeduld" fill="WHITE" layoutX="39.0" layoutY="233.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Databank in gereedheid brengen. Even geduld a.u.b.">
+               <font>
+                  <Font name="Segoe UI" size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </children>
+</fx:root>

@@ -26,7 +26,7 @@ public class ToetsVragenOverzichtController extends ScrollPane implements ListCh
         this.controller = controller;
         this.vragen = controller.geefVragen();
         vragen.addListener(this);
-        ToetsVraagPanelController.laadFxmlBestand("ToetsVragenOverzicht.fxml", this, this);
+        ToetsVraagPanelController.laadFxmlBestand("/fxml/ToetsVragenOverzicht.fxml", this, this);
     }
 
     private void herteken() {

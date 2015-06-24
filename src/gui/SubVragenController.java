@@ -40,7 +40,7 @@ public class SubVragenController extends VBox implements IToetsVraag {
 
     @Override
     public String getFxmlBestand() {
-        return "SubVragenPanel.fxml";
+        return "/fxml/SubVragenPanel.fxml";
     }
 
     @Override

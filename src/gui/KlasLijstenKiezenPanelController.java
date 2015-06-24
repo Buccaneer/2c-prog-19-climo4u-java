@@ -32,7 +32,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
-import org.controlsfx.control.StatusBar;
 
 /**
  * FXML Controller class
@@ -48,13 +47,13 @@ public class KlasLijstenKiezenPanelController extends VBox {
     @FXML
     private Button btnToevoegen, btnWijzigen, btnVerwijderen;
     private LeerlingController controller;
-    private StatusBar statusBar;
+    private Label statusBar;
 
-    public KlasLijstenKiezenPanelController(LeerlingController controller, StatusBar statusBar) {
+    public KlasLijstenKiezenPanelController(LeerlingController controller, Label statusBar) {
         this.controller = controller;
         this.statusBar = statusBar;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("KlasLijstenKiezenPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/KlasLijstenKiezenPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try {
@@ -69,19 +68,23 @@ public class KlasLijstenKiezenPanelController extends VBox {
             if (newValue != null) {
                 clearErrors();
                 lstKlas.getItems().clear();
-                controller.selecteerGraad(newValue);
+                Platform.runLater(() -> {
+                    controller.selecteerGraad(newValue);
+                });
             }
         });
         lstKlas.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue != null) {
                 clearErrors();
-                controller.selecteerKlas(newValue);
+                Platform.runLater(() -> {
+                    controller.selecteerKlas(newValue);
+                });
             }
         });
 
-        btnToevoegen.setGraphic(new ImageView(new Image("/content/images/plus.png")));
-        btnVerwijderen.setGraphic(new ImageView(new Image("/content/images/min.png")));
-        btnWijzigen.setGraphic(new ImageView(new Image("/content/images/edit.png")));
+        btnToevoegen.setGraphic(new ImageView(new Image("/img/plus.png")));
+        btnVerwijderen.setGraphic(new ImageView(new Image("/img/min.png")));
+        btnWijzigen.setGraphic(new ImageView(new Image("/img/edit.png")));
     }
 
     @FXML
@@ -231,7 +234,7 @@ public class KlasLijstenKiezenPanelController extends VBox {
         try {
             clearErrors();
             controller.verwijderKlas();
-            
+
         } catch (IllegalArgumentException ex) {
             statusBar.setText(ex.getMessage());
         }

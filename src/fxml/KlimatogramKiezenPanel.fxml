@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root maxWidth="400.0" minHeight="400.0" prefWidth="400.0" type="Pane" AnchorPane.bottomAnchor="25.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="lblWerelddeel" layoutX="16.0" layoutY="17.0" text="Werelddeel" />
+      <Label layoutX="16.0" layoutY="64.0" text="Land" />
+      <Label layoutX="16.0" layoutY="106.0" text="Locaties" />
+      <ComboBox fx:id="cboWerelddeel" layoutX="104.0" layoutY="14.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button id="+" fx:id="btnWerelddeelOk" layoutX="324.0" layoutY="13.0" mnemonicParsing="false" onAction="#werelddeelOk" prefHeight="25.0" prefWidth="25.0" styleClass="ok" />
+      <Button id="-" fx:id="btnWerelddeelCancel" layoutX="360.0" layoutY="13.0" mnemonicParsing="false" onAction="#werelddeelCancel" prefHeight="25.0" prefWidth="25.0" styleClass="cancel" />
+      <ComboBox fx:id="cboLand" layoutX="104.0" layoutY="60.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button id="+" fx:id="btnLandOk" layoutX="324.0" layoutY="60.0" mnemonicParsing="false" onAction="#landOk" prefHeight="25.0" prefWidth="25.0" styleClass="ok" />
+      <Button id="-" fx:id="btnLandCancel" layoutX="359.0" layoutY="60.0" mnemonicParsing="false" onAction="#landCancel" prefHeight="25.0" prefWidth="25.0" styleClass="cancel" />
+      <ListView fx:id="lstLocaties" layoutX="106.0" layoutY="106.0" prefHeight="232.0" prefWidth="200.0" />
+      <Button fx:id="btnKlimatogramToevoegen" layoutX="105.0" layoutY="389.0" mnemonicParsing="false" onAction="#voegKlimatogramToe" prefHeight="50.0" prefWidth="50.0" styleClass="ok" />
+      <Button fx:id="btnKlimatogramWijzigen" layoutX="180.0" layoutY="389.0" mnemonicParsing="false" onAction="#wijzigKlimatogram" prefHeight="50.0" prefWidth="50.0" />
+      <Button fx:id="btnKlimatogramVerwijderen" layoutX="254.0" layoutY="389.0" mnemonicParsing="false" onAction="#verwijderKlimatogram" prefHeight="50.0" prefWidth="53.0" styleClass="cancel" />
+      <TextField fx:id="txfWerelddeel" layoutX="104.0" layoutY="14.0" prefHeight="25.0" prefWidth="200.0" visible="false" />
+      <TextField fx:id="txfLand" layoutX="104.0" layoutY="60.0" prefHeight="25.0" prefWidth="200.0" visible="false" />
+      <CheckBox fx:id="chkEerste" layoutX="105.0" layoutY="17.0" mnemonicParsing="false" text="Eerste" visible="false" />
+      <CheckBox fx:id="chkTweede" layoutX="172.0" layoutY="17.0" mnemonicParsing="false" text="Tweede" visible="false" />
+      <CheckBox fx:id="chkDerde" layoutX="250.0" layoutY="17.0" mnemonicParsing="false" text="Derde" visible="false" />
+   </children>
+</fx:root>

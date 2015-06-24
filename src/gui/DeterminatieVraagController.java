@@ -20,7 +20,7 @@ public class DeterminatieVraagController extends AnchorPane implements IToetsVra
 
     @Override
     public String getFxmlBestand() {
-        return "DeterminatieVraagPanel.fxml";
+        return "/fxml/DeterminatieVraagPanel.fxml";
     }
 
     @Override

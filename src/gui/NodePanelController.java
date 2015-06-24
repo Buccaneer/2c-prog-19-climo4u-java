@@ -45,7 +45,7 @@ public class NodePanelController extends StackPane {
     }
 
     public void load() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("NodePanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/NodePanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try {

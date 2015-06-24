@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<fx:root prefHeight="615.0" prefWidth="1031.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Button fx:id="resize" layoutX="1018.0" layoutY="602.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseDragged="#resize" prefHeight="10.0" prefWidth="10.0" styleClass="decoration-button-resize" stylesheets="@../css/winDec.css" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="2.0" />
+        <AnchorPane layoutX="1.0" layoutY="1.0" prefHeight="613.0" prefWidth="136.0" style="-fx-background-color: #2b579a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <ListView fx:id="listMenu" layoutX="-3.0" layoutY="78.0" onMouseClicked="#aksiKlikListMenu" prefHeight="535.0" prefWidth="136.0" stylesheets="@../css/listView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0" />
+                <Button fx:id="btnLogout" layoutX="22.0" layoutY="19.0" mnemonicParsing="false" onAction="#logout" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttonCircle.css">
+                    <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../img/arrowLeft.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </children>
+        </AnchorPane>
+        <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" layoutX="274.0" layoutY="99.0" prefHeight="485.0" prefWidth="894.0" style="-fx-background-color: white;" stylesheets="@../css/Metro-UI.css" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="137.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="99.0">
+            <content>
+                <AnchorPane fx:id="paneData" style="-fx-background-color: white;" />
+            </content>
+        </ScrollPane>
+        <Label id="TitleLabel" fx:id="title" alignment="CENTER" layoutX="2.0" onMouseClicked="#titleClicked" onMouseDragged="#drag" onMousePressed="#dragPressed" prefHeight="38.0" text="Climo4U" textFill="#a1a1a1" AnchorPane.leftAnchor="137.0" AnchorPane.rightAnchor="136.0">
+            <font>
+                <Font name="Segoe UI Semibold" size="14.0" />
+            </font>
+        </Label>
+        <HBox layoutX="894.0" layoutY="1.0" stylesheets="@../css/winDec.css" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Button fx:id="fullscreen" mnemonicParsing="false" onAction="#fullscreen" pickOnBounds="true" prefHeight="30.0" prefWidth="34.0" style="" styleClass="decoration-button-fullscreen" text="" AnchorPane.rightAnchor="102.0" AnchorPane.topAnchor="0.0" />
+                <Button fx:id="minimize" mnemonicParsing="false" onAction="#minimize" pickOnBounds="true" prefHeight="30.0" prefWidth="34.0" style="" styleClass="decoration-button-minimize" text="" AnchorPane.rightAnchor="68.0" AnchorPane.topAnchor="0.0" />
+                <Button fx:id="maximize" mnemonicParsing="false" onAction="#maximize" pickOnBounds="true" prefHeight="30.0" prefWidth="34.0" styleClass="decoration-button-maximize" text="" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="0.0" />
+                <Button fx:id="close" mnemonicParsing="false" onAction="#close" pickOnBounds="true" prefHeight="30.0" prefWidth="34.0" styleClass="decoration-button-close" text="" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <rotationAxis>
+                        <Point3D />
+                    </rotationAxis>
+                </Button>
+            </children>
+        </HBox>
+      <Label fx:id="statusBar" layoutX="137.0" layoutY="593.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="142.0" AnchorPane.rightAnchor="20.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_LEFT" layoutX="137.0" layoutY="32.0" prefHeight="68.0" prefWidth="894.0" spacing="10.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="137.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Text fx:id="titel" fill="#2b579a" layoutX="65.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Klimatogrammenbeheer">
+               <font>
+                  <Font name="Segoe UI Semilight" size="48.0" />
+               </font>
+            </Text>
+            <ImageView fx:id="imgLoad" fitHeight="33.0" fitWidth="40.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../img/301.GIF" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+    </children>
+</fx:root>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root id="AnchorPane" prefHeight="32.0" styleClass="mainFxmlClass" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ComboBox fx:id="cboKlimatogram" prefWidth="150.0" promptText="Selecteer klimatogram" />
+   </children>
+</fx:root>

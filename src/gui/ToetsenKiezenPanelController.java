@@ -26,12 +26,11 @@ import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import javafx.util.converter.DefaultStringConverter;
 import jfxtras.scene.control.LocalDateTimeTextField;
-import org.controlsfx.control.StatusBar;
 
 public class ToetsenKiezenPanelController extends VBox {
 
     private ToetsController controller;
-    private StatusBar statusBar;
+    private Label statusBar;
 
     @FXML
     TableView<ToetsDto> tblToetsen;
@@ -78,10 +77,10 @@ public class ToetsenKiezenPanelController extends VBox {
     @FXML
     Button btnKlasToevoegen, btnAfdrukken;
 
-    public ToetsenKiezenPanelController(ToetsController controller, StatusBar statusBar) {
+    public ToetsenKiezenPanelController(ToetsController controller, Label statusBar) {
         this.controller = controller;
         this.statusBar = statusBar;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("ToetsenKiezenPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ToetsenKiezenPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try {
@@ -193,7 +192,7 @@ public class ToetsenKiezenPanelController extends VBox {
             }
         });
         cboGraad.setItems(controller.geefAlleGraden());
-        btnToetsToevoegen.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
+        btnToetsToevoegen.setGraphic(new ImageView(new Image("/img/plus_small.png")));
         colKlas.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLeerjaar() + " " + cellData.getValue().getNaam()));
         colKlas.setCellFactory(new Callback<TableColumn<KlasDto, String>, TableCell<KlasDto, String>>() {
 
@@ -249,7 +248,7 @@ public class ToetsenKiezenPanelController extends VBox {
         cboKlas.setVisibleRowCount(20);
         //Laten staan aub, is om ooit (na examens) eens naar te kijken... ooit.
         //cboKlas.setSkin(new CustomComboBoxListViewSkin(cboKlas));
-        btnKlasToevoegen.setGraphic(new ImageView(new Image("/content/images/plus_small.png")));
+        btnKlasToevoegen.setGraphic(new ImageView(new Image("/img/plus_small.png")));
     }
 
     private class ToetsButtonCell extends TableCell<ToetsDto, Boolean> {
@@ -257,7 +256,7 @@ public class ToetsenKiezenPanelController extends VBox {
         final Button cellButton = new Button();
 
         ToetsButtonCell() {
-            cellButton.setGraphic(new ImageView(new Image("/content/images/xSmall.png")));
+            cellButton.setGraphic(new ImageView(new Image("/img/xSmall.png")));
             cellButton.getStyleClass().add("cancel");
             cellButton.setPrefSize(25, 25);
             cellButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -287,7 +286,7 @@ public class ToetsenKiezenPanelController extends VBox {
         final Button cellButton = new Button();
 
         KlasButtonCell() {
-            cellButton.setGraphic(new ImageView(new Image("/content/images/xSmall.png")));
+            cellButton.setGraphic(new ImageView(new Image("/img/xSmall.png")));
             cellButton.getStyleClass().add("cancel");
             cellButton.setPrefSize(25, 25);
             cellButton.setOnAction(new EventHandler<ActionEvent>() {

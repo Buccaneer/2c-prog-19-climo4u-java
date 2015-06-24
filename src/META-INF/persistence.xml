@@ -34,10 +34,10 @@
     <class>domein.Toets</class>
     <class>domein.ToetsVraag</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost\SQLEXPRESS:1433;databaseName=Projecten2Groep19_db"/>
-      <property name="javax.persistence.jdbc.user" value="sa"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://iqxj8e0wgd.database.windows.net:1433;database=Projecten2Groep19_db;user=groep19@iqxj8e0wgd;password={Klimatogrammen19};encrypt=true;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"/>
+      <property name="javax.persistence.jdbc.user" value="groep19"/>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-      <property name="javax.persistence.jdbc.password" value=""/>
+      <property name="javax.persistence.jdbc.password" value="Klimatogrammen19"/>
     </properties>
   </persistence-unit>
 </persistence>

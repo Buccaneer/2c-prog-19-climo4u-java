@@ -37,7 +37,7 @@ public class BoomPanelController extends ScrollPane implements NodeGeselecteerdL
     private Pane content;
 
     public BoomPanelController() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("BoomPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/BoomPanel.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);

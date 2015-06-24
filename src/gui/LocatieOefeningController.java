@@ -37,7 +37,7 @@ public class LocatieOefeningController extends VBox implements IToetsVraag {
 
     @Override
     public String getFxmlBestand() {
-        return "LocatieVraagPanel.fxml";
+        return "/fxml/LocatieVraagPanel.fxml";
     }
 
     @Override
