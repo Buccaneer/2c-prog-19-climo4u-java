@@ -1,5 +1,6 @@
 package gui;
 
+import com.sun.javafx.scene.control.skin.ComboBoxListViewSkin;
 import controller.ToetsController;
 import dto.GraadDto;
 import dto.KlasDto;
@@ -18,7 +19,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.*;
@@ -27,7 +30,8 @@ import javafx.util.Callback;
 import javafx.util.converter.DefaultStringConverter;
 import jfxtras.scene.control.LocalDateTimeTextField;
 
-public class ToetsenKiezenPanelController extends VBox {
+public class ToetsenKiezenPanelController extends VBox
+{
 
     private ToetsController controller;
     private Label statusBar;
@@ -77,15 +81,19 @@ public class ToetsenKiezenPanelController extends VBox {
     @FXML
     Button btnKlasToevoegen, btnAfdrukken;
 
-    public ToetsenKiezenPanelController(ToetsController controller, Label statusBar) {
+    public ToetsenKiezenPanelController(ToetsController controller, Label statusBar)
+    {
         this.controller = controller;
         this.statusBar = statusBar;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ToetsenKiezenPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
-        try {
+        try
+        {
             loader.load();
-        } catch (IOException ex) {
+        }
+        catch (IOException ex)
+        {
             Logger.getLogger(KlasLijstenKiezenPanelController.class.getName()).log(Level.SEVERE, null, ex);
         }
         datStart.dateTimeFormatterProperty().set(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT));
@@ -94,9 +102,11 @@ public class ToetsenKiezenPanelController extends VBox {
         datStart.setLocale(Locale.GERMAN);
         vboxGegevens.setDisable(true);
         tblToetsen.setItems(controller.geefToetsen());
-        tblToetsen.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+        tblToetsen.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) ->
+        {
             vboxGegevens.setDisable(true);
-            if (newValue != null) {
+            if (newValue != null)
+            {
                 txfBeschrijving.setText("");
                 datStart.setTooltip(null);
                 datEinde.setTooltip(null);
@@ -105,14 +115,17 @@ public class ToetsenKiezenPanelController extends VBox {
                 controller.selecteerToets(newValue);
                 ToetsDto toets = controller.getGeselecteerdeToets();
                 vboxGegevens.setDisable(false);
-                if (toets.getBeschrijving() != null) {
+                if (toets.getBeschrijving() != null)
+                {
                     txfBeschrijving.setText(toets.getBeschrijving().getValue());
                 }
-                if (toets.getAanvang() != null) {
+                if (toets.getAanvang() != null)
+                {
                     LocalDateTime dt = LocalDateTime.of(toets.getAanvang().get(Calendar.YEAR), toets.getAanvang().get(Calendar.MONTH), toets.getAanvang().get(Calendar.DAY_OF_MONTH), toets.getAanvang().get(Calendar.HOUR_OF_DAY), toets.getAanvang().get(Calendar.MINUTE));
                     datStart.setLocalDateTime(dt);
                 }
-                if (toets.getEind() != null) {
+                if (toets.getEind() != null)
+                {
                     LocalDateTime dt = LocalDateTime.of(toets.getEind().get(Calendar.YEAR), toets.getEind().get(Calendar.MONTH), toets.getEind().get(Calendar.DAY_OF_MONTH), toets.getEind().get(Calendar.HOUR_OF_DAY), toets.getEind().get(Calendar.MINUTE));
                     datEinde.setLocalDateTime(dt);
                 }
@@ -125,33 +138,44 @@ public class ToetsenKiezenPanelController extends VBox {
         verwijderToetsCol.setSortable(false);
         verwijderToetsCol.setResizable(false);
         verwijderToetsCol.setEditable(false);
-        verwijderToetsCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ToetsDto, Boolean>, ObservableValue<Boolean>>() {
+        verwijderToetsCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ToetsDto, Boolean>, ObservableValue<Boolean>>()
+        {
             @Override
-            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<ToetsDto, Boolean> p) {
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<ToetsDto, Boolean> p)
+            {
                 return new SimpleBooleanProperty(p.getValue() != null);
             }
         });
-        verwijderToetsCol.setCellFactory(new Callback<TableColumn<ToetsDto, Boolean>, TableCell<ToetsDto, Boolean>>() {
+        verwijderToetsCol.setCellFactory(new Callback<TableColumn<ToetsDto, Boolean>, TableCell<ToetsDto, Boolean>>()
+        {
             @Override
-            public TableCell<ToetsDto, Boolean> call(TableColumn<ToetsDto, Boolean> p) {
+            public TableCell<ToetsDto, Boolean> call(TableColumn<ToetsDto, Boolean> p)
+            {
                 return new ToetsButtonCell();
             }
 
         });
-        tblToetsen.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>() {
+        tblToetsen.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>()
+        {
 
             @Override
-            public Boolean call(TableView.ResizeFeatures p) {
+            public Boolean call(TableView.ResizeFeatures p)
+            {
                 double width = tblToetsen.widthProperty().getValue();
                 double buttonWidth = 45;
                 int i = 0;
                 int columns = 3;
-                for (TableColumn c : tblToetsen.getColumns()) {
-                    if (i < columns) {
-                        if (i == columns - 1 || i == columns - 2) {
+                for (TableColumn c : tblToetsen.getColumns())
+                {
+                    if (i < columns)
+                    {
+                        if (i == columns - 1 || i == columns - 2)
+                        {
                             c.setMinWidth(buttonWidth);
                             c.setMaxWidth(buttonWidth);
-                        } else {
+                        }
+                        else
+                        {
                             c.setMinWidth(width - 92);
                             c.setMaxWidth(width - 92);
                         }
@@ -162,29 +186,35 @@ public class ToetsenKiezenPanelController extends VBox {
             }
         });
         colNaam.setCellValueFactory(cellData -> cellData.getValue().getTitel());
-        colNaam.setCellFactory(new Callback<TableColumn<ToetsDto, String>, TableCell<ToetsDto, String>>() {
+        colNaam.setCellFactory(new Callback<TableColumn<ToetsDto, String>, TableCell<ToetsDto, String>>()
+        {
 
             @Override
-            public TableCell<ToetsDto, String> call(TableColumn<ToetsDto, String> p) {
+            public TableCell<ToetsDto, String> call(TableColumn<ToetsDto, String> p)
+            {
                 TextFieldTableCell<ToetsDto, String> cell = new TextFieldTableCell(new DefaultStringConverter());
                 cell.setAlignment(Pos.CENTER_LEFT);
                 cell.setPadding(new Insets(0, 0, 0, 5));
                 return cell;
             }
         });
-        colNaam.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ToetsDto, String>>() {
+        colNaam.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ToetsDto, String>>()
+        {
             @Override
-            public void handle(TableColumn.CellEditEvent<ToetsDto, String> event) {
+            public void handle(TableColumn.CellEditEvent<ToetsDto, String> event)
+            {
                 ToetsDto dto = (ToetsDto) event.getTableView().getItems().get(event.getTablePosition().getRow());
                 dto.setTitel(new SimpleStringProperty(event.getNewValue()));
                 controller.wijzigToets(dto);
             }
         });
         colGraad.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGraad().getValue().getGraad() + ""));
-        colGraad.setCellFactory(new Callback<TableColumn<ToetsDto, String>, TableCell<ToetsDto, String>>() {
+        colGraad.setCellFactory(new Callback<TableColumn<ToetsDto, String>, TableCell<ToetsDto, String>>()
+        {
 
             @Override
-            public TableCell<ToetsDto, String> call(TableColumn<ToetsDto, String> p) {
+            public TableCell<ToetsDto, String> call(TableColumn<ToetsDto, String> p)
+            {
                 TextFieldTableCell<ToetsDto, String> cell = new TextFieldTableCell(new DefaultStringConverter());
                 cell.setAlignment(Pos.CENTER_LEFT);
                 cell.setPadding(new Insets(0, 0, 0, 5));
@@ -194,10 +224,12 @@ public class ToetsenKiezenPanelController extends VBox {
         cboGraad.setItems(controller.geefAlleGraden());
         btnToetsToevoegen.setGraphic(new ImageView(new Image("/img/plus_small.png")));
         colKlas.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLeerjaar() + " " + cellData.getValue().getNaam()));
-        colKlas.setCellFactory(new Callback<TableColumn<KlasDto, String>, TableCell<KlasDto, String>>() {
+        colKlas.setCellFactory(new Callback<TableColumn<KlasDto, String>, TableCell<KlasDto, String>>()
+        {
 
             @Override
-            public TableCell<KlasDto, String> call(TableColumn<KlasDto, String> p) {
+            public TableCell<KlasDto, String> call(TableColumn<KlasDto, String> p)
+            {
                 TextFieldTableCell<KlasDto, String> cell = new TextFieldTableCell<KlasDto, String>(new DefaultStringConverter());
                 cell.setAlignment(Pos.BASELINE_LEFT);
                 cell.setPadding(new Insets(0, 0, 0, 5));
@@ -209,33 +241,44 @@ public class ToetsenKiezenPanelController extends VBox {
         verwijderKlasCol.setSortable(false);
         verwijderKlasCol.setResizable(false);
         verwijderKlasCol.setEditable(false);
-        verwijderKlasCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<KlasDto, Boolean>, ObservableValue<Boolean>>() {
+        verwijderKlasCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<KlasDto, Boolean>, ObservableValue<Boolean>>()
+        {
             @Override
-            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<KlasDto, Boolean> p) {
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<KlasDto, Boolean> p)
+            {
                 return new SimpleBooleanProperty(p.getValue() != null);
             }
         });
-        verwijderKlasCol.setCellFactory(new Callback<TableColumn<KlasDto, Boolean>, TableCell<KlasDto, Boolean>>() {
+        verwijderKlasCol.setCellFactory(new Callback<TableColumn<KlasDto, Boolean>, TableCell<KlasDto, Boolean>>()
+        {
             @Override
-            public TableCell<KlasDto, Boolean> call(TableColumn<KlasDto, Boolean> p) {
+            public TableCell<KlasDto, Boolean> call(TableColumn<KlasDto, Boolean> p)
+            {
                 return new KlasButtonCell();
             }
 
         });
-        tblKlassen.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>() {
+        tblKlassen.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>()
+        {
 
             @Override
-            public Boolean call(TableView.ResizeFeatures p) {
+            public Boolean call(TableView.ResizeFeatures p)
+            {
                 double width = tblKlassen.widthProperty().getValue();
                 double buttonWidth = 45;
                 int i = 0;
                 int columns = 2;
-                for (TableColumn c : tblKlassen.getColumns()) {
-                    if (i < columns) {
-                        if (i == columns - 1) {
+                for (TableColumn c : tblKlassen.getColumns())
+                {
+                    if (i < columns)
+                    {
+                        if (i == columns - 1)
+                        {
                             c.setMinWidth(buttonWidth);
                             c.setMaxWidth(buttonWidth);
-                        } else {
+                        }
+                        else
+                        {
                             c.setMinWidth((width - buttonWidth) / (columns - 1) - 2);
                             c.setMaxWidth((width - buttonWidth) / (columns - 1) - 2);
                         }
@@ -245,23 +288,26 @@ public class ToetsenKiezenPanelController extends VBox {
                 return true;
             }
         });
-        cboKlas.setVisibleRowCount(20);
-        //Laten staan aub, is om ooit (na examens) eens naar te kijken... ooit.
-        //cboKlas.setSkin(new CustomComboBoxListViewSkin(cboKlas));
+        cboKlas.setVisibleRowCount(10);
+        cboKlas.setSkin(new CustomComboBoxListViewSkin(cboKlas));
         btnKlasToevoegen.setGraphic(new ImageView(new Image("/img/plus_small.png")));
     }
 
-    private class ToetsButtonCell extends TableCell<ToetsDto, Boolean> {
+    private class ToetsButtonCell extends TableCell<ToetsDto, Boolean>
+    {
 
         final Button cellButton = new Button();
 
-        ToetsButtonCell() {
+        ToetsButtonCell()
+        {
             cellButton.setGraphic(new ImageView(new Image("/img/xSmall.png")));
             cellButton.getStyleClass().add("cancel");
             cellButton.setPrefSize(25, 25);
-            cellButton.setOnAction(new EventHandler<ActionEvent>() {
+            cellButton.setOnAction(new EventHandler<ActionEvent>()
+            {
                 @Override
-                public void handle(ActionEvent t) {
+                public void handle(ActionEvent t)
+                {
                     ToetsDto dto = (ToetsDto) ToetsButtonCell.this.getTableView().getItems().get(ToetsButtonCell.this.getIndex());
                     controller.verwijderToets(dto);
                     tblToetsen.getSelectionModel().select(null);
@@ -271,27 +317,35 @@ public class ToetsenKiezenPanelController extends VBox {
         }
 
         @Override
-        protected void updateItem(Boolean t, boolean empty) {
+        protected void updateItem(Boolean t, boolean empty)
+        {
             super.updateItem(t, empty);
-            if (!empty) {
+            if (!empty)
+            {
                 setGraphic(cellButton);
-            } else {
+            }
+            else
+            {
                 setGraphic(null);
             }
         }
     }
 
-    private class KlasButtonCell extends TableCell<KlasDto, Boolean> {
+    private class KlasButtonCell extends TableCell<KlasDto, Boolean>
+    {
 
         final Button cellButton = new Button();
 
-        KlasButtonCell() {
+        KlasButtonCell()
+        {
             cellButton.setGraphic(new ImageView(new Image("/img/xSmall.png")));
             cellButton.getStyleClass().add("cancel");
             cellButton.setPrefSize(25, 25);
-            cellButton.setOnAction(new EventHandler<ActionEvent>() {
+            cellButton.setOnAction(new EventHandler<ActionEvent>()
+            {
                 @Override
-                public void handle(ActionEvent t) {
+                public void handle(ActionEvent t)
+                {
                     KlasDto dto = (KlasDto) KlasButtonCell.this.getTableView().getItems().get(KlasButtonCell.this.getIndex());
                     controller.verwijderKlas(dto);
                     refreshKlassen();
@@ -300,40 +354,54 @@ public class ToetsenKiezenPanelController extends VBox {
         }
 
         @Override
-        protected void updateItem(Boolean t, boolean empty) {
+        protected void updateItem(Boolean t, boolean empty)
+        {
             super.updateItem(t, empty);
-            if (!empty) {
+            if (!empty)
+            {
                 setGraphic(cellButton);
-            } else {
+            }
+            else
+            {
                 setGraphic(null);
             }
         }
     }
 
     @FXML
-    private void toetsToevoegen() {
+    private void toetsToevoegen()
+    {
         clearErrors();
-        if (!(txfNaam.getText().isEmpty() || cboGraad.getSelectionModel().isEmpty())) {
-            try {
+        if (!(txfNaam.getText().isEmpty() || cboGraad.getSelectionModel().isEmpty()))
+        {
+            try
+            {
                 ToetsDto dto = new ToetsDto();
                 dto.setTitel(new SimpleStringProperty(txfNaam.getText()));
                 dto.setGraad(new SimpleObjectProperty(cboGraad.getValue()));
                 controller.maakNieuweToets(dto);
                 txfNaam.setText("");
                 refreshToetsen();
-            } catch (IllegalArgumentException ex) {
+            }
+            catch (IllegalArgumentException ex)
+            {
                 statusBar.setText(ex.getMessage());
             }
-        } else {
+        }
+        else
+        {
             statusBar.setText("Gelieve een naam in te vullen en een graad te selecteren.");
         }
     }
 
     @FXML
-    private void toetsWijzigen() {
+    private void toetsWijzigen()
+    {
         clearErrors();
-        if (!(txfBeschrijving.getText() == null || datStart.getLocalDateTime() == null || datEinde.getLocalDateTime() == null)) {
-            try {
+        if (!(txfBeschrijving.getText() == null || datStart.getLocalDateTime() == null || datEinde.getLocalDateTime() == null))
+        {
+            try
+            {
                 ToetsDto dto = new ToetsDto();
                 dto.setId(controller.getGeselecteerdeToets().getId());
                 dto.setBeschrijving(new SimpleStringProperty(txfBeschrijving.getText()));
@@ -341,213 +409,131 @@ public class ToetsenKiezenPanelController extends VBox {
                 dto.setEind(new GregorianCalendar(datEinde.getLocalDateTime().getYear(), datEinde.getLocalDateTime().getMonthValue(), datEinde.getLocalDateTime().getDayOfMonth(), datEinde.getLocalDateTime().getHour(), datEinde.getLocalDateTime().getMinute()));
                 controller.wijzigToets(dto);
                 statusBar.setText("De wijzigingen werden opgeslaan.");
-            } catch (IllegalArgumentException ex) {
+            }
+            catch (IllegalArgumentException ex)
+            {
                 statusBar.setText(ex.getMessage());
             }
-        } else {
+        }
+        else
+        {
             statusBar.setText("Gelieve alle gegevens correct in te vullen.");
         }
     }
 
     @FXML
-    private void afdrukken() {
+    private void afdrukken()
+    {
         clearErrors();
-        try {
+        try
+        {
             ToetsDto dto = controller.getPrintDto();
             PrintKlasse.printDto(dto);
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
             statusBar.setText(ex.getMessage());
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
 
         }
     }
 
     @FXML
-    private void klasToevoegen() {
+    private void klasToevoegen()
+    {
         clearErrors();
-        if (!cboKlas.getSelectionModel().isEmpty()) {
-            try {
+        if (!cboKlas.getSelectionModel().isEmpty())
+        {
+            try
+            {
                 KlasDto dto = cboKlas.getSelectionModel().getSelectedItem();
                 controller.voegKlasToe(dto);
                 refreshKlassen();
-            } catch (IllegalArgumentException ex) {
+            }
+            catch (IllegalArgumentException ex)
+            {
                 statusBar.setText(ex.getMessage());
             }
         }
     }
 
-    private void refreshKlassen() {
+    private void refreshKlassen()
+    {
         cboKlas.getItems().clear();
         cboKlas.setItems(controller.geefKlassenNietVanToets());
     }
 
-    //Laten staan aub, is om ooit (na examens) eens naar te kijken... ooit.
-    /*
-     private class CustomComboBoxListViewSkin<T> extends ComboBoxListViewSkin<T>
-     {
+    private class CustomComboBoxListViewSkin<T> extends ComboBoxListViewSkin<T>
+    {
         
-     //private PopupControl popcon;
+        private final ComboBox<T> comboBox;
 
-     CustomComboBoxListViewSkin(final ComboBox<T> comboBox)
-     {
-     super(comboBox);
-     }
-        
-     @Override
-     protected PopupControl getPopup()
-     {
-     //if (popcon != null)
-     //    return popcon;
-     PopupControl popcon = new PopupControl()
-     {
+        CustomComboBoxListViewSkin(final ComboBox<T> comboBox)
+        {
+            super(comboBox);
+            this.comboBox = comboBox;
+        }
 
-     @Override
-     public Styleable getStyleableParent()
-     {
-     return getSkinnable();
-     }
-                
-     {
-                    
-     setSkin(new Skin<Skinnable>()
-     {
-     @Override
-     public Skinnable getSkinnable()
-     {
-     return getSkinnable();
-     }
+        @Override
+        public void show()
+        {
+            if (getSkinnable() == null)
+            {
+                throw new IllegalStateException("ComboBox is null");
+            }
+            Node content = getPopupContent();
+            if (content == null)
+            {
+                throw new IllegalStateException("Popup node is null");
+            }
+            if (getPopup().isShowing())
+            {
+                return;
+            }
+            positionAndShowPopup();
+        }
 
-     @Override
-     public Node getNode()
-     {
-     return getPopupContent();
-     }
-
-     @Override
-     public void dispose()
-     {
-     }
-     });
-     }
-     };
-     popcon.getStyleClass().add(COMBO_BOX_STYLE_CLASS);
-     popcon.setAutoHide(true);
-     popcon.setAutoFix(false);
-     popcon.setHideOnEscape(true);
-     popcon.setOnAutoHide(new EventHandler<Event>()
-     {
-     @Override
-     public void handle(Event e)
-     {
-     getBehavior().onAutoHide();
-     }
-     });
-     popcon.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
-     {
-     @Override
-     public void handle(MouseEvent t)
-     {
-     getBehavior().onAutoHide();
-     }
-     });
-     InvalidationListener layoutPosListener = new InvalidationListener()
-     {
-     @Override
-     public void invalidated(Observable o)
-     {
-     reconfigurePopup();
-     }
-     };
-     getSkinnable().layoutXProperty().addListener(layoutPosListener);
-     getSkinnable().layoutYProperty().addListener(layoutPosListener);
-     getSkinnable().widthProperty().addListener(layoutPosListener);
-     return popcon;
-     }
-     @Override
-     public void show()
-     {
-     if (getSkinnable() == null)
-     {
-     throw new IllegalStateException("ComboBox is null");
-     }
-     Node content = getPopupContent();
-     if (content == null)
-     {
-     throw new IllegalStateException("Popup node is null");
-     }
-     if (getPopup().isShowing())
-     {
-     return;
-     }
-     positionAndShowPopup();
-     }
-        
-     private void positionAndShowPopup()
-     {
-     if (getPopup().getSkin() == null)
-     {
-     getSkinnable().getScene().getRoot().impl_processCSS(true);
-     }
+        private void positionAndShowPopup()
+        {
+            if (getPopup().getSkin() == null)
+            {
+                getSkinnable().getScene().getRoot().impl_processCSS(true);
+            }
+            Point2D p = getPrefPopupPosition();
+            getPopup().getScene().setNodeOrientation(getSkinnable().getEffectiveNodeOrientation());
             
-     Point2D p = getPrefPopupPosition();
-     getPopup().getScene().setNodeOrientation(getSkinnable().getEffectiveNodeOrientation());
-     getPopup().show(getSkinnable().getScene().getWindow(), p.getX(), p.getY());
-     }
+            getPopup().show(getSkinnable().getScene().getWindow(), p.getX(), p.getY());
+            getPopup().sizeToScene();
+            getPopup().hide();
+            getPopup().show(getSkinnable().getScene().getWindow(), p.getX(), p.getY());
+        }
+        
+        private Point2D getPrefPopupPosition()
+        {
+            double x = comboBox.getLayoutBounds().getMinX();
+            int maxVisibleRows = comboBox.getVisibleRowCount();
+            int items = comboBox.getItems().size();
+            int rows = maxVisibleRows > items ? items : maxVisibleRows; 
+            double y = comboBox.getLayoutBounds().getMinY() - 30 * rows - 3;
+            return comboBox.localToScene(x, y);
+        }
+    }
 
-     private Point2D getPrefPopupPosition()
-     {
-     double dx = 0;
-     dx += (getSkinnable().getEffectiveNodeOrientation() == NodeOrientation.RIGHT_TO_LEFT) ? -1 : 1;
-     return com.sun.javafx.Utils.pointRelativeTo(getSkinnable(), getPopupContent(), HPos.CENTER, VPos.TOP, dx, 0, false);
-     }
-
-     void reconfigurePopup()
-     {
-     if (!getPopup().isShowing())
-     {
-     return;
-     }
-     Point2D p = getPrefPopupPosition();
-     reconfigurePopup(p.getX(), p.getY(), getPopupContent().prefWidth(1), getPopupContent().prefHeight(1));
-     }
-
-     void reconfigurePopup(double x, double y, double minWidth, double minHeight)
-     {
-     if (!getPopup().isShowing())
-     {
-     return;
-     }
-
-     if (x > -1)
-     {
-     getPopup().setX(x);
-     }
-     if (y > -1)
-     {
-     getPopup().setY(y);
-     }
-     if (minWidth > -1)
-     {
-     getPopup().setMinWidth(minWidth);
-     }
-     if (minHeight > -1)
-     {
-     getPopup().setMinHeight(minHeight);
-     }
-     }
-
-     }*/
-    // ^^^ Laten staan aub, is om ooit (na examens) eens naar te kijken... ooit.
-    private void refreshToetsen() {
+    private void refreshToetsen()
+    {
         tblToetsen.getItems().clear();
         tblToetsen.setItems(controller.geefToetsen());
     }
 
-    private void clearErrors() {
+    private void clearErrors()
+    {
         statusBar.setText("");
     }
 
-    public ReadOnlyObjectProperty<ToetsDto> getGeselecteerdeToetsProperty() {
+    public ReadOnlyObjectProperty<ToetsDto> getGeselecteerdeToetsProperty()
+    {
         return tblToetsen.getSelectionModel().selectedItemProperty();
     }
 

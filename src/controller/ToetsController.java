@@ -219,6 +219,7 @@ public class ToetsController implements ListChangeListener<KlasDto> {
                 klasLijst.add(new KlasDto(k.getId(), k.getNaam(), k.getLeerjaar()));
             }
         });
+        klasLijst.sort(klasComparator);
         return klasLijst;
     }
 
