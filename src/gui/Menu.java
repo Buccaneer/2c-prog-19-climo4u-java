@@ -73,6 +73,7 @@ public class Menu extends AnchorPane {
     private Label statusBar;
     @FXML
     private ImageView imgLoad;
+    private HBox determinerenTab, klimatogramTab, toetsenTab, klaslijstenTab;
 
     public Menu(KlimatogramController klimatogramController, DeterminatieController determinatieController, LeerlingController leerlingController, ToetsController toetsController) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Menu.fxml"));
@@ -134,13 +135,13 @@ public class Menu extends AnchorPane {
     private void maximize() {
         stage = (Stage) maximize.getScene().getWindow();
         if (stage.isMaximized()) {
-         //   if (w == rec2.getWidth() && h == rec2.getHeight()) {
-                stage.setMaximized(false);
-                stage.setHeight(800);
-                stage.setWidth(1280);
-                stage.centerOnScreen();
-                maximize.getStyleClass().remove("decoration-button-restore");
-                resize.setVisible(true);
+            //   if (w == rec2.getWidth() && h == rec2.getHeight()) {
+            stage.setMaximized(false);
+            stage.setHeight(800);
+            stage.setWidth(1280);
+            stage.centerOnScreen();
+            maximize.getStyleClass().remove("decoration-button-restore");
+            resize.setVisible(true);
 //            } else {
 //                stage.setMaximized(false);
 //                maximize.getStyleClass().remove("decoration-button-restore");
@@ -160,12 +161,12 @@ public class Menu extends AnchorPane {
         stage = (Stage) maximize.getScene().getWindow();
         if (stage.isMaximized()) {
 //            if (w == rec2.getWidth() && h == rec2.getHeight()) {
-                stage.setMaximized(false);
-                stage.setHeight(800);
-                stage.setWidth(1280);
-                stage.centerOnScreen();
-                maximize.getStyleClass().remove("decoration-button-restore");
-                resize.setVisible(true);
+            stage.setMaximized(false);
+            stage.setHeight(800);
+            stage.setWidth(1280);
+            stage.centerOnScreen();
+            maximize.getStyleClass().remove("decoration-button-restore");
+            resize.setVisible(true);
 //            } else {
 //                stage.setMaximized(false);
 //                maximize.getStyleClass().remove("decoration-button-restore");
@@ -234,7 +235,7 @@ public class Menu extends AnchorPane {
     }
 
     @FXML
-    private void aksiKlikListMenu(MouseEvent event) {
+    private void actieMenu(MouseEvent event) {
         switch (listMenu.getSelectionModel().getSelectedIndex()) {
             case 0: {
                 maakKlimatogramTab();
@@ -253,6 +254,9 @@ public class Menu extends AnchorPane {
             }
             break;
         }
+        Platform.runLater(() -> {
+            new FadeInUpTransition(paneData).play();
+        });
     }
 
     @FXML
@@ -270,27 +274,25 @@ public class Menu extends AnchorPane {
     }
 
     private void maakKlimatogramTab() {
-        KlimatogramDetailPanelController kdpc = new KlimatogramDetailPanelController(this.kController, statusBar, imgLoad);
-        KlimatogramKiezenPanelController kkpc = new KlimatogramKiezenPanelController(this.kController, statusBar, imgLoad);
-        this.kController.addObserver(kdpc);
-        this.kController.addObserver(kkpc);
-        HBox content = new HBox();
-        Pane pnlLinks = new Pane();
-        HBox pnlRechts = new HBox();
-        HBox.setHgrow(pnlRechts, Priority.ALWAYS);
-        HBox.setHgrow(kdpc, Priority.ALWAYS);
-        pnlLinks.getChildren().add(kkpc);
-        content.getChildren().add(pnlLinks);
-        pnlRechts.getChildren().add(kdpc);
-        content.getChildren().add(pnlRechts);
-        setAnchor(content);
+        if (klimatogramTab == null) {
+            KlimatogramDetailPanelController kdpc = new KlimatogramDetailPanelController(this.kController, statusBar, imgLoad);
+            KlimatogramKiezenPanelController kkpc = new KlimatogramKiezenPanelController(this.kController, statusBar, imgLoad);
+            this.kController.addObserver(kdpc);
+            this.kController.addObserver(kkpc);
+            klimatogramTab = new HBox();
+            Pane pnlLinks = new Pane();
+            HBox pnlRechts = new HBox();
+            HBox.setHgrow(pnlRechts, Priority.ALWAYS);
+            HBox.setHgrow(kdpc, Priority.ALWAYS);
+            pnlLinks.getChildren().add(kkpc);
+            klimatogramTab.getChildren().add(pnlLinks);
+            pnlRechts.getChildren().add(kdpc);
+            klimatogramTab.getChildren().add(pnlRechts);
+            setAnchor(klimatogramTab);
+        }
         paneData.getChildren().clear();
         titel.setText("Klimatogrammenbeheer");
-        paneData.getChildren().add(content);
-        
-        Platform.runLater(() -> {
-            new FadeInUpTransition(paneData).play();
-        });
+        paneData.getChildren().add(klimatogramTab);
     }
 
     private void setAnchor(HBox content) {
@@ -301,77 +303,71 @@ public class Menu extends AnchorPane {
     }
 
     private void maakDeterminerenTab() {
-        DeterminatieTabellenOverzichtPaneController dtopc = new DeterminatieTabellenOverzichtPaneController(this.dController);
-        BoomPanelController bpc = new BoomPanelController();
-        PropertyContainerPanelController pcpc = new PropertyContainerPanelController(this.dController);
-        this.dController.addObserver(bpc);
-        this.dController.addObserver(pcpc);
-        bpc.addListener(pcpc);
-        HBox content = new HBox();
-        Pane pnlLinks = new Pane();
-        VBox pnlRechts = new VBox();
-        HBox.setHgrow(pnlRechts, Priority.ALWAYS);
-        VBox.setVgrow(bpc, Priority.ALWAYS);
-        pnlLinks.getChildren().add(dtopc);
-        content.getChildren().add(pnlLinks);
-        pnlRechts.getChildren().add(bpc);
-        pnlRechts.getChildren().add(pcpc);
-        content.getChildren().add(pnlRechts);
-        setAnchor(content);
+        if (determinerenTab == null) {
+            DeterminatieTabellenOverzichtPaneController dtopc = new DeterminatieTabellenOverzichtPaneController(this.dController);
+            BoomPanelController bpc = new BoomPanelController();
+            PropertyContainerPanelController pcpc = new PropertyContainerPanelController(this.dController);
+            this.dController.addObserver(bpc);
+            this.dController.addObserver(pcpc);
+            bpc.addListener(pcpc);
+            determinerenTab = new HBox();
+            Pane pnlLinks = new Pane();
+            VBox pnlRechts = new VBox();
+            HBox.setHgrow(pnlRechts, Priority.ALWAYS);
+            VBox.setVgrow(bpc, Priority.ALWAYS);
+            pnlLinks.getChildren().add(dtopc);
+            determinerenTab.getChildren().add(pnlLinks);
+            pnlRechts.getChildren().add(bpc);
+            pnlRechts.getChildren().add(pcpc);
+            determinerenTab.getChildren().add(pnlRechts);
+            setAnchor(determinerenTab);
+        }
         paneData.getChildren().clear();
         titel.setText("Determinatiebeheer");
-        paneData.getChildren().add(content);
-        
-        Platform.runLater(() -> {
-            new FadeInUpTransition(paneData).play();
-        });
+        paneData.getChildren().add(determinerenTab);
     }
 
     private void maakKlassenlijstenTab() {
-        KlasLijstenKiezenPanelController klkpc = new KlasLijstenKiezenPanelController(lController, statusBar);
-        KlasLijstenDetailPanelController kldpc = new KlasLijstenDetailPanelController(lController, statusBar);
-        HBox content = new HBox();
-        Pane pnlLinks = new Pane();
-        VBox pnlRechts = new VBox();
-        HBox.setHgrow(pnlRechts, Priority.ALWAYS);
-        VBox.setVgrow(kldpc, Priority.ALWAYS);
-        pnlLinks.getChildren().add(klkpc);
-        content.getChildren().add(pnlLinks);
-        pnlRechts.getChildren().add(kldpc);
-        content.getChildren().add(pnlRechts);
-        setAnchor(content);
+        if (klaslijstenTab == null) {
+            KlasLijstenKiezenPanelController klkpc = new KlasLijstenKiezenPanelController(lController, statusBar);
+            KlasLijstenDetailPanelController kldpc = new KlasLijstenDetailPanelController(lController, statusBar);
+            klaslijstenTab = new HBox();
+            Pane pnlLinks = new Pane();
+            VBox pnlRechts = new VBox();
+            HBox.setHgrow(pnlRechts, Priority.ALWAYS);
+            VBox.setVgrow(kldpc, Priority.ALWAYS);
+            pnlLinks.getChildren().add(klkpc);
+            klaslijstenTab.getChildren().add(pnlLinks);
+            pnlRechts.getChildren().add(kldpc);
+            klaslijstenTab.getChildren().add(pnlRechts);
+            setAnchor(klaslijstenTab);
+        }
         paneData.getChildren().clear();
         titel.setText("Klaslijstenbeheer");
-        paneData.getChildren().add(content);
-        
-        Platform.runLater(() -> {
-            new FadeInUpTransition(paneData).play();
-        });
+        paneData.getChildren().add(klaslijstenTab);
     }
 
     private void maakToetsenTab() {
-        ToetsenKiezenPanelController tkpc = new ToetsenKiezenPanelController(tController, statusBar);
-        HBox content = new HBox();
-        VBox.setVgrow(tkpc, Priority.ALWAYS);
-        ToetsenDetailPanelController pnlRechts = new ToetsenDetailPanelController();
-        pnlRechts.setPadding(new Insets(15, 15, 15, 15));
-        VBox.setVgrow(pnlRechts, Priority.ALWAYS);
-        HBox.setHgrow(pnlRechts, Priority.ALWAYS);
-        ToetsVragenOverzichtController tvoc = new ToetsVragenOverzichtController(tController);
-        tkpc.getGeselecteerdeToetsProperty().addListener(pnlRechts);
-        pnlRechts.setDisable(true);
-        HBox.setHgrow(tvoc, Priority.ALWAYS);
-        content.getChildren().add(tkpc);
-        pnlRechts.getChildren().add(new VragenRepositoryController(tController));
-        pnlRechts.getChildren().add(tvoc);
-        content.getChildren().add(pnlRechts);
-        setAnchor(content);
+        if (toetsenTab == null) {
+            ToetsenKiezenPanelController tkpc = new ToetsenKiezenPanelController(tController, statusBar);
+            toetsenTab = new HBox();
+            VBox.setVgrow(tkpc, Priority.ALWAYS);
+            ToetsenDetailPanelController pnlRechts = new ToetsenDetailPanelController();
+            pnlRechts.setPadding(new Insets(15, 15, 15, 15));
+            VBox.setVgrow(pnlRechts, Priority.ALWAYS);
+            HBox.setHgrow(pnlRechts, Priority.ALWAYS);
+            ToetsVragenOverzichtController tvoc = new ToetsVragenOverzichtController(tController);
+            tkpc.getGeselecteerdeToetsProperty().addListener(pnlRechts);
+            pnlRechts.setDisable(true);
+            HBox.setHgrow(tvoc, Priority.ALWAYS);
+            toetsenTab.getChildren().add(tkpc);
+            pnlRechts.getChildren().add(new VragenRepositoryController(tController));
+            pnlRechts.getChildren().add(tvoc);
+            toetsenTab.getChildren().add(pnlRechts);
+            setAnchor(toetsenTab);
+        }
         paneData.getChildren().clear();
         titel.setText("Toetsenbeheer");
-        paneData.getChildren().add(content);
-        
-        Platform.runLater(() -> {
-            new FadeInUpTransition(paneData).play();
-        });
+        paneData.getChildren().add(toetsenTab);
     }
 }
