@@ -185,6 +185,8 @@ public class KlasLijstenDetailPanelController extends VBox
             public Boolean call(TableView.ResizeFeatures p)
             {
                 double width = tblKlaslijsten.widthProperty().getValue();
+                
+                
                 double buttonWidth = 34;
                 int i = 0;
                 for (TableColumn c : tblKlaslijsten.getColumns())

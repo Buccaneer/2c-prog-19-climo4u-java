@@ -15,10 +15,10 @@ import javax.persistence.Table;
 @Table(name = "vergelijkingen")
 public class Vergelijking implements Valideerbaar {
 
-    @OneToOne(optional = true, fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+    @OneToOne(optional = true, fetch = FetchType.EAGER,cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JoinColumn(name = "RechterParameter_ParameterId")
     private Parameter rechterParameter;
-    @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JoinColumn(name = "LinkerParameter_ParameterId")
     private Parameter linkerParameter;
     private VergelijkingsOperator operator;

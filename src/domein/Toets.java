@@ -23,7 +23,7 @@ public class Toets implements Valideerbaar {
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Klas> klassen;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ToetsVraag> vragen;
 
     @OneToOne(cascade = CascadeType.PERSIST)

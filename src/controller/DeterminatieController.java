@@ -107,17 +107,6 @@ public class DeterminatieController implements Subject {
     }
 
     /**
-     * Voert de wijzigingen die gebeurd zijn aan determinatietabel door naar db.
-     *
-     * @param tabel
-     */
-    public void wijzigDeterminatieTabel(DeterminatieTabelDto tabel) {
-        if (tabel == null) {
-            throw new IllegalArgumentException("U moet eerst een determinatietabel selecteren");
-        }
-    }
-
-    /**
      *
      * @param graad
      * @param tabel

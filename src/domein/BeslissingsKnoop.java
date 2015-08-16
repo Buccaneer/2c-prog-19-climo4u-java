@@ -15,13 +15,13 @@ import javax.persistence.Table;
 @Table(name = "determinatieknopen")
 public class BeslissingsKnoop extends DeterminatieKnoop {
 
-    @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "JaKnoop_DeterminatieKnoopId")
     private DeterminatieKnoop juistKnoop;
-    @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "NeeKnoop_DeterminatieKnoopId")
     private DeterminatieKnoop foutKnoop;
-    @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "Vergelijking_VergelijkingId")
     private Vergelijking vergelijking;
 
