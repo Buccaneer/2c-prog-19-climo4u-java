@@ -5,6 +5,10 @@
  */
 package gui;
 
+import gui.klassenlijst.*;
+import gui.klimatogram.*;
+import gui.determinatie.*;
+import gui.toets.*;
 import controller.DeterminatieController;
 import controller.KlimatogramController;
 import controller.LeerlingController;

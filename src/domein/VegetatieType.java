@@ -1,6 +1,6 @@
 package domein;
 
-import gui.Fotos;
+import gui.determinatie.Fotos;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
