@@ -1,9 +1,8 @@
-package gui.determinatie;
+package gui.toets;
 
 import controller.ToetsController;
 import dto.KlimatogramDto;
 import dto.VraagDto;
-import gui.toets.IToetsVraag;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
@@ -21,7 +20,7 @@ public class DeterminatieVraagController extends AnchorPane implements IToetsVra
 
     @Override
     public String getFxmlBestand() {
-        return "/fxml/determinatie/DeterminatieVraagPanel.fxml";
+        return "/fxml/toets/DeterminatieVraagPanel.fxml";
     }
 
     @Override

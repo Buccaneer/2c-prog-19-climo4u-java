@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root type="ScrollPane" pannable="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="ScrollPane" style="-fx-border-width: 1; -fx-border-style: solid; -fx-border-color: -fx-box-border; -fx-background: white;" pannable="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <VBox fx:id="content" spacing="10.0">
          <padding>

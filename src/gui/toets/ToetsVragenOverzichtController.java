@@ -2,7 +2,6 @@ package gui.toets;
 
 import controller.ToetsController;
 import dto.VraagDto;
-import gui.determinatie.DeterminatieVraagController;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

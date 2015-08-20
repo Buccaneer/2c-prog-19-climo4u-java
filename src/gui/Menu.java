@@ -335,19 +335,9 @@ public class Menu extends AnchorPane {
         if (klaslijstenTab == null) {
             KlasLijstenKiezenPanelController klkpc = new KlasLijstenKiezenPanelController(lController, statusBar);
             KlasLijstenDetailPanelController kldpc = new KlasLijstenDetailPanelController(lController, statusBar);
-     
-            Pane pnlLinks = new Pane();
-            VBox pnlRechts = new VBox();
-            
-
-            HBox.setHgrow(pnlRechts, Priority.ALWAYS);
+            HBox.setHgrow(kldpc, Priority.ALWAYS);
             VBox.setVgrow(kldpc, Priority.ALWAYS);
-            
-            pnlLinks.getChildren().add(klkpc);
-        
-            pnlRechts.getChildren().add(kldpc);
-        
-                   klaslijstenTab = new HBox(pnlLinks,pnlRechts);
+            klaslijstenTab = new HBox(klkpc,kldpc);
             setAnchor(klaslijstenTab);
         }
         paneData.getChildren().clear();

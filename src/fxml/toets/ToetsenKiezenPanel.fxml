@@ -22,9 +22,13 @@
         </TableView>
         <HBox HBox.hgrow="ALWAYS" >
             <children>
-                <TextField fx:id="txfNaam" HBox.hgrow="ALWAYS" promptText="Naam"/>
-                <ComboBox fx:id="cboGraad" prefWidth="100"  promptText="Graad"/>
-                <Button fx:id="btnToetsToevoegen" prefWidth="25" prefHeight="25" mnemonicParsing="false" onAction="#toetsToevoegen" styleClass="ok"/>
+                <TextField fx:id="txfNaam" minWidth="274" HBox.hgrow="ALWAYS" promptText="Naam"/>
+                <ComboBox fx:id="cboGraad" minWidth="45" maxWidth="45" promptText="Graad"/>
+                <Button fx:id="btnToetsToevoegen" prefWidth="25" prefHeight="25" mnemonicParsing="false" onAction="#toetsToevoegen" styleClass="ok">
+                    <HBox.margin>
+                        <Insets top="1.0" left="5.0" right="16.0"/>
+                    </HBox.margin>
+                </Button>
             </children>
         </HBox>
         <VBox fx:id="vboxGegevens">
@@ -86,7 +90,11 @@
             <HBox>
                 <children>
                     <ComboBox fx:id="cboKlas" promptText="Klas" prefWidth="340"/>
-                    <Button fx:id="btnKlasToevoegen" prefWidth="25" prefHeight="25" mnemonicParsing="false" onAction="#klasToevoegen" styleClass="ok"/>
+                    <Button fx:id="btnKlasToevoegen" minWidth="25" minHeight="25" mnemonicParsing="false" onAction="#klasToevoegen" styleClass="ok">
+                        <HBox.margin>
+                            <Insets top="1.0" left="5.0" right="16.0"/>
+                        </HBox.margin>
+                    </Button>
                 </children>
             </HBox>
         </VBox>

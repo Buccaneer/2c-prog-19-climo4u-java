@@ -13,14 +13,22 @@
    <top>
       <HBox style="-fx-background-color: #ccc;" BorderPane.alignment="CENTER">
          <children>
-            <TextArea fx:id="txaBeschrijving" prefHeight="0.0" promptText="Beschrijving" style="-fx-background-color: transparent; -fx-border-width: 0;">
+            <TextArea fx:id="txaBeschrijving" prefHeight="40.0" promptText="Beschrijving" style="-fx-background-color: transparent; -fx-border-width: 0;">
                <HBox.margin>
                   <Insets />
-               </HBox.margin></TextArea>
-            <TextField fx:id="txtPunten" prefHeight="33.0" prefWidth="120.0" promptText="Puntent te verdienen" style="-fx-alignment: center-right; -fx-border-width: 0;" HBox.hgrow="ALWAYS">
+               </HBox.margin>
+               <padding>
+                   <Insets bottom="1.0"/>
+               </padding>
+            </TextArea>
+            <TextField fx:id="txtPunten" prefHeight="40.0" prefWidth="80.0" promptText="Punten" style="-fx-border-width: 0;" HBox.hgrow="ALWAYS">
                <HBox.margin>
-                  <Insets left="5.0" />
-               </HBox.margin></TextField>
+                  <Insets left="5.0" top="1.0"/>
+               </HBox.margin>
+               <padding>
+                   <Insets left="5.0" right="7.0"/>
+               </padding>
+            </TextField>
          </children>
          <BorderPane.margin>
             <Insets />

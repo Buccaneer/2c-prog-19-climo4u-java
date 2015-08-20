@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.*?>
 
-<fx:root prefHeight="200.0" type="BorderPane" style="-fx-border-width: 1; -fx-border-style: solid; -fx-border-color: -fx-box-border;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="198.0" type="BorderPane" style="-fx-border-width: 1; -fx-border-style: solid; -fx-border-color: -fx-box-border; -fx-background: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <Pane fx:id="paneEigenschappen" prefHeight="200.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="paneEigenschappen" prefHeight="160.0" BorderPane.alignment="CENTER">
         <padding>
             <Insets bottom ="5.0"/>
         </padding>
@@ -24,7 +24,8 @@
             <Button fx:id="btnOmzetten" prefHeight="25.0" prefWidth="25.0" mnemonicParsing="false" onAction="#omzetten">
                <HBox.margin>
                   <Insets left = "16.0" right="12.0" bottom="16.0"/>
-               </HBox.margin></Button>
+               </HBox.margin>
+            </Button>
             <Button fx:id="btnOpslaan" prefHeight="25.0" mnemonicParsing="false" onAction="#opslaan" text="Opslaan" />
          </children>
       </HBox>

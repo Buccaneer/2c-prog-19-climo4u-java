@@ -1,7 +1,5 @@
 package gui.determinatie;
 
-import gui.determinatie.DeterminatieKnoopProperty;
-import gui.determinatie.ConstanteWaardeProperty;
 import controller.DeterminatieController;
 import controller.Observer;
 import domein.ParametersLinks;
@@ -165,9 +163,9 @@ public class PropertyContainerPanelController extends BorderPane implements Prop
         toonProperties();
 
         if (dto.isBeslissingsKnoop()) {
-            btnOmzetten.setGraphic(new ImageView(new Image("../img/min_small.png")));
+            btnOmzetten.setGraphic(new ImageView(new Image("/img/min_small.png")));
         } else {
-            btnOmzetten.setGraphic(new ImageView(new Image("../img/plus_small.png")));
+            btnOmzetten.setGraphic(new ImageView(new Image("/img/plus_small.png")));
         }
         vulItemsIn();
     }
